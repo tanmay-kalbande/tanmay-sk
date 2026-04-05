@@ -139,24 +139,18 @@ export default function LandingPage() {
             {/* ── Right Column ── */}
             <div className="hero-right">
               <div className="profile-showcase">
-                <div className="showcase-portrait">
-                  <img
-                    src={assetUrls.landingPortrait}
-                    alt="Tanmay Kalbande portrait"
-                    className="portrait-img"
-                  />
-                  <div className="portrait-overlay">
-                    <p className="portrait-overlay-kicker">Now Building</p>
-                    <p className="portrait-overlay-text">
-                      Data projects, dashboards &amp; AI tools that feel useful
-                      on day one.
-                    </p>
-                  </div>
+                <div className="showcase-header">
+                  <p className="showcase-kicker">Now Building</p>
+                  <p className="showcase-text">
+                    Data projects, dashboards &amp; AI tools that feel useful
+                    on day one.
+                  </p>
                 </div>
 
                 <div className="showcase-stats">
                   {landingStats.map((stat) => (
                     <div key={stat.label} className="mini-stat">
+                      <i className={`${stat.icon} mini-stat-icon`} />
                       <span className="mini-stat-value">{stat.value}</span>
                       <span className="mini-stat-label">{stat.label}</span>
                     </div>

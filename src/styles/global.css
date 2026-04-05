@@ -480,48 +480,30 @@ html[data-app-page="landing"][data-theme="dark"] .profile-showcase:hover {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-.showcase-portrait {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
+/* ── Showcase Header (replaces portrait) ── */
+.showcase-header {
+  padding: clamp(1.25rem, 2.5vw, 2rem);
 }
 
-.portrait-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  transition: transform 0.4s ease;
-}
-
-.profile-showcase:hover .portrait-img {
-  transform: scale(1.03);
-}
-
-.portrait-overlay {
-  position: absolute;
-  inset: auto 0 0 0;
-  padding: 1.25rem 1.25rem 1rem;
-  background: linear-gradient(to top, var(--portrait-overlay-to) 0%, var(--portrait-overlay-from) 100%);
-  pointer-events: none;
-}
-
-.portrait-overlay-kicker {
-  margin: 0 0 0.2rem;
-  font-size: 0.7rem;
+.showcase-kicker {
+  margin: 0 0 0.4rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: #3b82f6;
+}
+
+html[data-app-page="landing"][data-theme="dark"] .showcase-kicker {
   color: #60a5fa;
 }
 
-.portrait-overlay-text {
+.showcase-text {
   margin: 0;
-  font-size: 0.85rem;
-  line-height: 1.4;
+  font-size: clamp(0.92rem, 1.1vw, 1.05rem);
+  line-height: 1.55;
   font-weight: 500;
-  color: #f9fafb;
+  color: var(--text-muted);
 }
 
 /* ── Stats Row ── */
@@ -535,13 +517,19 @@ html[data-app-page="landing"][data-theme="dark"] .profile-showcase:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.2rem;
-  padding: clamp(0.6rem, 1.2vh, 1rem) 0.5rem;
+  gap: 0.35rem;
+  padding: clamp(0.8rem, 1.5vh, 1.25rem) 0.5rem;
   text-align: center;
 }
 
 .mini-stat + .mini-stat {
   border-left: 1px solid var(--stat-border);
+}
+
+.mini-stat-icon {
+  font-size: 1.1rem;
+  color: var(--text-subtle);
+  margin-bottom: 0.1rem;
 }
 
 .mini-stat-value {
@@ -1150,10 +1138,6 @@ html[data-app-page="landing"][data-theme="dark"] .profile-showcase:hover {
 
   .hero-right {
     order: -1;
-  }
-
-  .showcase-portrait {
-    aspect-ratio: 16 / 7;
   }
 
   .landing-card {
