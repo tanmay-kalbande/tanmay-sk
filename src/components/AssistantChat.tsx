@@ -393,13 +393,30 @@ function findEmbeddedAnswerStart(line: string): number {
 function scrubInstructionLeak(raw: string): string {
   let text = raw;
 
-  // Strip Gemma's draft/reasoning output: "* Draft 2 (Too filler): ..."
-  const draftMarker = text.search(/^\*\s*(?:Draft \d|Rule \d|Constraint|Scope|Tone|Style|Response should|Let'?s try)/im);
+  // Strip Gemma's draft/reasoning output and internal monologue
+  const draftMarker = text.search(/^\*\s*(?:Draft \d|Rule|The user|I should|Constraint|Scope|Tone|Style|Response should|Let'?s try|Goal:)/im);
   if (draftMarker > 0) {
     const beforeDrafts = text.slice(0, draftMarker).trim();
     if (beforeDrafts.length >= 15) {
       text = beforeDrafts;
     }
+  }
+
+  const finalQuoteMatch = text.match(/"([^"]+)"\s*$/);
+  if (finalQuoteMatch && finalQuoteMatch[1].length > 10) {
+    if (text.includes('*')) {
+       return finalQuoteMatch[1].trim();
+    }
+  }
+
+  if (/^\s*\*/.test(text)) {
+      const quotes = text.match(/"([^"]+)"/g);
+      if (quotes && quotes.length > 0) {
+          const lastQuote = quotes[quotes.length - 1].replace(/"/g, '').trim();
+          if (lastQuote.length > 15) {
+              return lastQuote;
+          }
+      }
   }
 
   const lines = text.split(/\r?\n/);

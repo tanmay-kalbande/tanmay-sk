@@ -272,15 +272,39 @@ function cleanText(raw: string): string {
   text = text.replace(/<reflection>[\s\S]*?<\/reflection>/gi, "");
   text = text.replace(/<internal>[\s\S]*?<\/internal>/gi, "");
 
-  // Strip Gemma's draft/reasoning output: "* Draft 2 (Too filler): ..."
-  // and rule-checking lines: "* Rule 1: No filler"
-  // Keep only the text before the first draft/rule marker.
-  const draftMarker = text.search(/^\*\s*(?:Draft \d|Rule \d|Constraint|Scope|Tone|Style|Response should|Let'?s try)/im);
+  // Strip Gemma's draft/reasoning output and internal monologue
+  // It outputs things like:
+  // * Rules: Punchy...
+  // * The user is initiating...
+  // * I should introduce...
+  // "Correct. I'm here to..."
+  const draftMarker = text.search(/^\*\s*(?:Draft \d|Rule|The user|I should|Constraint|Scope|Tone|Style|Response should|Let'?s try|Goal:)/im);
   if (draftMarker > 0) {
     const beforeDrafts = text.slice(0, draftMarker).trim();
     if (beforeDrafts.length >= 15) {
       text = beforeDrafts;
     }
+  }
+
+  // Sometimes Gemma 4 puts the final answer in quotes at the end after all the reasoning
+  const finalQuoteMatch = text.match(/"([^"]+)"\s*$/);
+  if (finalQuoteMatch && finalQuoteMatch[1].length > 10) {
+    // If the entire text ends with a quoted string and has bullet points earlier,
+    // it's almost certainly Gemma outputting its final drafted answer in quotes.
+    if (text.includes('*')) {
+       return finalQuoteMatch[1].trim();
+    }
+  }
+
+  // If the text starts with bullet points (reasoning) but has a quoted string later
+  if (/^\s*\*/.test(text)) {
+      const quotes = text.match(/"([^"]+)"/g);
+      if (quotes && quotes.length > 0) {
+          const lastQuote = quotes[quotes.length - 1].replace(/"/g, '').trim();
+          if (lastQuote.length > 15) {
+              return lastQuote;
+          }
+      }
   }
 
   if (/^\*\s/.test(text.trimStart())) {
