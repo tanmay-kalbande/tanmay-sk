@@ -1,0 +1,57 @@
+/* ── Patch: wide-screen assistant page ──────────────────────────────────
+   Add this to global.css (or import after it).
+   Prevents the chat panel from getting squished on 1440px+ monitors.
+   ──────────────────────────────────────────────────────────────────── */
+
+/* Centre the chat and cap its width on large displays */
+.assistant-main-centered {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+/* On very wide screens, give the chat a comfortable max width */
+@media (min-width: 1024px) {
+  .assistant-main-centered {
+    padding: 1.5rem 2rem;
+  }
+}
+
+/* Brand in topbar centre */
+.asst-topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text, #1a1a1a);
+  opacity: 0.7;
+}
+
+.asst-topbar-brand__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: brandPulse 2s ease-in-out infinite;
+}
+
+@keyframes brandPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.2; }
+}
+
+/* ── Patch: LandingPage chat panel not squished on big screens ──────────
+   The lv5-chat container also needs a sensible max width.
+   ──────────────────────────────────────────────────────────────────── */
+
+@media (min-width: 1200px) {
+  .lv5-chat {
+    max-width: 860px;
+    width: 100%;
+  }
+}

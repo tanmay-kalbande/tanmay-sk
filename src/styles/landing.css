@@ -1,0 +1,735 @@
+/* =====================================================================
+   LANDING V5
+   ===================================================================== */
+
+html[data-app-page="landing-v5"] body {
+  background: #f5f5f3;
+  overflow: hidden;
+  margin: 0;
+}
+
+html[data-app-page="landing-v5"][data-theme="dark"] body {
+  background: #111110;
+}
+
+html[data-app-page="landing-v5"] {
+  --lp-bg:          #f5f5f3;
+  --lp-surface:     #ffffff;
+  --lp-border:      rgba(0, 0, 0, 0.09);
+  --lp-text:        #1a1a1a;
+  --lp-text-muted:  #666;
+  --lp-text-subtle: #aaa;
+}
+
+html[data-app-page="landing-v5"][data-theme="dark"] {
+  --lp-bg:          #111110;
+  --lp-surface:     #1c1c1b;
+  --lp-border:      rgba(255, 255, 255, 0.08);
+  --lp-text:        #f0f0ee;
+  --lp-text-muted:  #999;
+  --lp-text-subtle: #555;
+}
+
+/* ── Shell ─────────────────────────────────────────────────────── */
+
+.lv5-shell {
+  --bg:         #f5f5f3;
+  --surface:    #ffffff;
+  --ink:        #1a1a1a;
+  --ink-2:      #666666;
+  --ink-3:      #bbbbbb;
+  --accent:     #c8451a;
+  --gold:       #ffd700;
+  --border:     rgba(0,0,0,0.09);
+  --border-s:   rgba(0,0,0,0.04);
+  --f-display:  'Cormorant Garamond', Georgia, serif;
+  --f-mono:     'Roboto Mono', 'Courier New', monospace;
+  --grid-line:  rgba(0,0,0,0.035);
+
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--f-mono);
+  overflow: hidden;
+  position: relative;
+}
+
+html[data-theme="dark"] .lv5-shell {
+  --bg:         #0e0e10;
+  --surface:    #1c1c1b;
+  --ink:        #f0ede8;
+  --ink-2:      #999999;
+  --ink-3:      #444444;
+  --accent:     #e05a35;
+  --border:     rgba(255,255,255,0.08);
+  --border-s:   rgba(255,255,255,0.03);
+  --grid-line:  rgba(255,255,255,0.025);
+}
+
+/* ── Background (from lp-root) ──────────────────────────────────── */
+
+.lp-bg-wrapper {
+  position: fixed; inset: 0;
+  overflow: hidden; pointer-events: none; z-index: 0;
+}
+
+.lp-grain {
+  position: absolute; inset: 0; opacity: 0.055;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+.lp-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 30%, black 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, transparent 30%, black 70%, transparent 100%);
+}
+
+.lp-grid-original {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 80%);
+}
+
+.lp-orb {
+  position: absolute; border-radius: 50%;
+  filter: blur(100px); pointer-events: none; z-index: 0;
+}
+
+.lp-orb-a {
+  width: 55vw; height: 55vw;
+  background: radial-gradient(circle, rgba(180,140,100,0.10) 0%, transparent 70%);
+  top: -15vw; right: -10vw;
+  animation: orbDrift 22s ease-in-out infinite alternate;
+}
+
+.lp-orb-b {
+  width: 45vw; height: 45vw;
+  background: radial-gradient(circle, rgba(80,100,160,0.08) 0%, transparent 70%);
+  bottom: -10vw; left: -8vw;
+  animation: orbDrift 28s ease-in-out infinite alternate-reverse;
+}
+
+.lp-orb-c {
+  width: 30vw; height: 30vw;
+  background: radial-gradient(circle, rgba(100,180,140,0.06) 0%, transparent 70%);
+  top: 40%; left: 40%;
+  animation: orbDrift 18s ease-in-out infinite alternate;
+}
+
+@keyframes orbDrift {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(3vw, 4vh) scale(1.08); }
+}
+
+/* ── Nav ────────────────────────────────────────────────────────── */
+
+.lv5-nav {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  justify-content: space-between;
+  padding: 1rem clamp(1.25rem, 5vw, 4rem);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.lv5-nav__brand { display: flex; align-items: center; gap: 0.6rem; }
+.lv5-nav__initials { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink); }
+.lv5-nav__sep { color: var(--ink-3); }
+.lv5-nav__descriptor { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.22em; color: var(--ink-2); }
+
+.lv5-nav__links { display: flex; align-items: center; gap: 0.3rem; }
+
+.lv5-nav__link {
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.lv5-nav__link:hover { color: var(--ink); border-color: var(--border); }
+
+.lv5-nav__cta {
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--surface);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 0.4rem 0.9rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.lv5-nav__cta:hover { background: var(--accent); border-color: var(--accent); }
+.lv5-nav__cta.is-open { background: transparent; color: var(--ink); }
+.lv5-nav__cta.is-open:hover { background: var(--border-s); border-color: var(--border); }
+
+.lv5-nav__theme {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.lv5-nav__theme:hover { color: var(--ink); border-color: var(--ink-2); }
+
+/* ── Main ─────────────────────────────────────────────────────────
+   HOME: centred with padding
+   CHAT: full stretch, no padding — but constrained width on desktop
+   ─────────────────────────────────────────────────────────────── */
+
+.lv5-main {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  justify-content: center;
+  padding: clamp(1rem, 3vh, 3rem) clamp(1.5rem, 5vw, 4rem);
+  overflow: hidden;
+}
+
+/* Chat mode: remove padding, stretch to fill */
+.lv5-main--chat {
+  padding: 0;
+  align-items: stretch;
+}
+
+/* ── Content wrapper ─────────────────────────────────────────────── */
+
+.lv5-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Chat mode: constrain width on desktop, stretch height */
+.lv5-content--chat {
+  align-items: stretch;
+  max-width: 860px;
+  margin: 0 auto;
+  /* The framer motion div inside must also stretch */
+}
+
+/* Framer wraps content in a div — make it stretch too */
+.lv5-content--chat > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+}
+
+/* ── Hero ────────────────────────────────────────────────────────── */
+
+.lv5-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 860px;
+}
+
+/* ── Name masthead ────────────────────────────────────────────── */
+
+.lv5-nameblock { width: 100%; margin-bottom: clamp(0.65rem, 1.3vh, 1.1rem); }
+
+.lv5-name {
+  margin: 0;
+  line-height: 0.88;
+  font-family: var(--f-display);
+  font-weight: 700;
+}
+
+.lv5-name__first {
+  display: block;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--ink-2);
+  letter-spacing: -0.01em;
+}
+
+.lv5-name__last {
+  display: block;
+  font-size: clamp(3rem, 9.5vw, 8.5rem);
+  font-style: normal;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.025em;
+}
+
+.lv5-nameblock__rule {
+  margin-top: clamp(0.35rem, 0.8vh, 0.6rem);
+  height: 1px;
+  width: 100%;
+  background: var(--border);
+  position: relative;
+}
+
+.lv5-nameblock__rule::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0;
+  width: clamp(2rem, 5vw, 4rem);
+  height: 2px;
+  background: var(--accent);
+  transform: translateY(-0.5px);
+}
+
+/* ── Identity row ─────────────────────────────────────────────── */
+
+.lv5-identity {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: clamp(0.62rem, 1.1vw, 0.76rem);
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+  margin-bottom: clamp(0.6rem, 1.2vh, 1rem);
+}
+
+.lv5-sep { color: var(--ink-3); }
+
+.lv5-open { display: inline-flex; align-items: center; gap: 0.4rem; }
+
+.lv5-open__dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  animation: lv5-blink 2.2s ease-in-out infinite;
+}
+
+@keyframes lv5-blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+/* ── Tagline ──────────────────────────────────────────────────── */
+
+.lv5-tagline {
+  font-size: clamp(0.82rem, 1.3vw, 1rem);
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin: 0 0 clamp(1rem, 2vh, 1.6rem);
+  max-width: 480px;
+}
+
+.lv5-tagline em { font-style: italic; color: var(--ink); }
+
+/* ── CTAs ─────────────────────────────────────────────────────── */
+
+.lv5-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: clamp(1.1rem, 2.2vh, 1.8rem);
+}
+
+.lv5-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--f-mono);
+  font-size: 0.63rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.68rem 1.4rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.18s;
+  border: 1px solid transparent;
+}
+
+.lv5-btn--fill    { background: var(--ink);  color: var(--surface); border-color: var(--ink); }
+.lv5-btn--fill:hover    { background: var(--accent); border-color: var(--accent); transform: translateY(-1px); }
+.lv5-btn--outline { background: transparent; color: var(--ink); border-color: var(--ink); }
+.lv5-btn--outline:hover { background: var(--ink); color: var(--surface); transform: translateY(-1px); }
+.lv5-btn--ghost   { background: transparent; color: var(--ink-2); border-color: var(--border); }
+.lv5-btn--ghost:hover   { color: var(--ink); border-color: var(--ink-2); }
+
+/* ── Stats bar ────────────────────────────────────────────────── */
+
+.lv5-statsbar {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: clamp(0.85rem, 1.8vh, 1.4rem);
+  width: 100%;
+  overflow: hidden;
+}
+
+.lv5-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.12rem;
+  padding: clamp(0.55rem, 1.2vh, 0.85rem) clamp(0.75rem, 1.8vw, 1.4rem);
+  flex-shrink: 0;
+}
+
+.lv5-stat--chips { flex-direction: row; align-items: center; flex-wrap: wrap; gap: 0.35rem; flex: 1; }
+
+.lv5-stat__n {
+  font-size: clamp(0.9rem, 1.5vw, 1.2rem);
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  line-height: 1;
+  min-width: 2.5ch;
+}
+
+.lv5-stat__l {
+  font-size: 0.53rem;
+  letter-spacing: 0.18em;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
+.lv5-vr { width: 1px; background: var(--border); flex-shrink: 0; }
+
+/* ── Spark strip — one clean elegant thing ────────────────────── */
+
+.lv5-spark-strip {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  margin-bottom: clamp(0.85rem, 1.8vh, 1.4rem);
+  padding: 0.6rem clamp(0.75rem, 1.5vw, 1.2rem);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--border-s);
+  overflow: hidden;
+}
+
+.lv5-spark-strip__left {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.lv5-spark-strip__dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: #22c55e;
+  flex-shrink: 0;
+  animation: lv5-blink 2.2s ease-in-out infinite;
+}
+
+.lv5-spark-strip__live {
+  font-size: 0.46rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--ink-3);
+}
+
+.lv5-spark-strip__chart {
+  flex: 0 0 clamp(80px, 15vw, 130px);
+  height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.lv5-spark-strip__stats {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  margin-left: auto;
+}
+
+.lv5-spark-strip__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex-shrink: 0;
+}
+
+.lv5-spark-strip__val {
+  font-family: var(--f-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.lv5-spark-strip__key {
+  font-size: 0.46rem;
+  letter-spacing: 0.16em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+
+.lv5-spark-strip__divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Chips ────────────────────────────────────────────────────── */
+
+.lv5-chip {
+  font-size: 0.53rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--ink-2);
+  background: transparent;
+  white-space: nowrap;
+}
+
+.lv5-chip--dim { opacity: 0.4; border-style: dashed; }
+
+/* ── Socials ──────────────────────────────────────────────────── */
+
+.lv5-socials { display: flex; align-items: center; gap: 0.5rem; }
+
+.lv5-social {
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.82rem;
+  color: var(--ink-2);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.lv5-social:hover { color: var(--gold); border-color: var(--gold); }
+
+/* ── Chat panel ─────────────────────────────────────────────────
+   Fills 100% of the stretched content area.
+   On desktop this is constrained to 860px by .lv5-content--chat.
+   ─────────────────────────────────────────────────────────────── */
+
+.lv5-chat {
+  width: 100%;
+  height: 100%;
+  flex: 1 1 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Footer ───────────────────────────────────────────────────── */
+
+.lv5-footer {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border);
+  padding: 0.65rem clamp(1.25rem, 5vw, 4rem);
+  position: relative;
+  z-index: 2;
+}
+
+.lv5-footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+.lv5-footer__status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  opacity: 0.7;
+}
+
+.lv5-footer__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+  animation: footerPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes footerPulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(34, 197, 94, 0.5); }
+  50%      { opacity: 0.5; box-shadow: 0 0 2px rgba(34, 197, 94, 0.2); }
+}
+
+.lv5-footer__copy {
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+  opacity: 0.5;
+}
+
+.lv5-footer__socials {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.lv5-footer__social {
+  color: var(--ink-3);
+  font-size: 0.7rem;
+  transition: color 0.2s, transform 0.2s;
+  text-decoration: none;
+}
+
+.lv5-footer__social:hover {
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* ── Utility ──────────────────────────────────────────────────── */
+
+@media (max-width: 680px) { .lv5-hide-sm { display: none !important; } }
+
+/* ── Mobile overrides ─────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .lv5-main {
+    align-items: flex-start;
+    overflow-y: auto;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .lv5-main--chat {
+    padding: 0;
+    overflow: hidden;
+    align-items: stretch;
+  }
+
+  .lv5-content--chat {
+    height: 100%;
+    max-width: 100%;
+  }
+
+  .lv5-chat {
+    border-left: none;
+    border-right: none;
+    border-top: 1px solid var(--border);
+  }
+
+  .lv5-name__first { font-size: clamp(2.2rem, 11vw, 3.5rem); }
+  .lv5-name__last  { font-size: clamp(2.5rem, 13vw, 4.5rem); }
+
+  .lv5-statsbar { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .lv5-cta { flex-direction: column; align-items: stretch; }
+  .lv5-btn { justify-content: center; }
+  .lv5-spark-strip { gap: 0.75rem; }
+}
+
+@media (max-width: 480px) {
+  .lv5-name__first { font-size: clamp(2rem, 13vw, 2.8rem); }
+  .lv5-name__last  { font-size: clamp(2.2rem, 15vw, 3.5rem); }
+  .lv5-nav    { padding: 0.85rem 1rem; }
+  .lv5-main   { padding: 1rem; }
+  .lv5-footer { padding: 0.75rem 1rem; }
+}
+
+@media (min-width: 1200px) {
+  .lv5-chat { max-width: 860px; width: 100%; }
+}
+
+/* ── Chat font size fix ────────────────────────────────────────────
+   The modal variant inside landing was inheriting a large base size.
+   Force correct sizes regardless of context.
+   ──────────────────────────────────────────────────────────────── */
+
+.chat__ta {
+  font-size: 0.84rem !important;
+  line-height: 1.55;
+}
+
+/* Prevent iOS zoom — keep ≥16px only on actual mobile */
+@media (max-width: 600px) {
+  .chat__ta { font-size: 16px !important; }
+}
+
+/* The qt--modal must always fill its container */
+.lv5-chat .qt--modal {
+  height: 100%;
+  min-height: 0;
+}
+
+.lv5-stat--role .lv5-stat__n {
+  font-size: clamp(0.72rem, 1vw, 0.85rem);
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 8rem;
+}
+
+.lv5-stat--role .lv5-stat__l {
+  white-space: nowrap;
+}
+
+@media (max-width: 540px) {
+  .lv5-statsbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .lv5-statsbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lv5-stat {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+  }
+}
+
+@media (max-height: 640px) and (min-width: 769px) {
+  .lv5-main {
+    overflow-y: auto;
+    align-items: flex-start;
+    padding-top: 1.25rem;
+  }
+}
+
+.lv5-nav__cta.is-open {
+  border-color: var(--ink-2);
+}
+
+@media (max-width: 360px) {
+  .lv5-name__first { font-size: 1.9rem; }
+  .lv5-name__last  { font-size: 2.1rem; }
+}

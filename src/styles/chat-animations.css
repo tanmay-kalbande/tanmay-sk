@@ -1,0 +1,820 @@
+/* ==========================================================================
+   CHAT ANIMATIONS — chat-animations.css
+   ========================================================================== */
+
+:root {
+  --anim-snap:    cubic-bezier(0.22, 1, 0.36, 1);
+  --anim-smooth:  cubic-bezier(0.4, 0, 0.2, 1);
+  --anim-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+  --anim-reveal:  cubic-bezier(0.16, 1, 0.3, 1);
+
+  --dur-instant:  80ms;
+  --dur-fast:     160ms;
+  --dur-base:     280ms;
+  --dur-slow:     420ms;
+  --dur-enter:    520ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   1. EXCHANGE BLOCK ENTRANCE
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes exchangeEnter {
+  from { opacity: 0; transform: translateY(14px); filter: blur(3px); }
+  to   { opacity: 1; transform: translateY(0);    filter: blur(0px); }
+}
+
+.qx {
+  will-change: opacity, transform;
+  transform-origin: top center;
+}
+
+@keyframes promptPop {
+  0%   { transform: scale(1);    opacity: 0.5; }
+  40%  { transform: scale(1.35); opacity: 1;   }
+  70%  { transform: scale(0.92);               }
+  100% { transform: scale(1);                   }
+}
+
+.qx__prompt { display: inline-block; animation: promptPop var(--dur-slow) var(--anim-spring) both; }
+
+@keyframes queryReveal {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0);    }
+}
+
+.qx__q-text { display: inline-block; animation: queryReveal var(--dur-base) var(--anim-reveal) var(--dur-fast) both; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   2. ANSWER PROSE — FIX: instant reveal, no blank period
+   When streaming=true, content fades in smoothly from full opacity
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes proseReveal {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.qx__answer {
+  animation: proseReveal var(--dur-base) var(--anim-smooth) 0ms both;
+}
+
+/* Streaming prose: visible immediately, subtle shimmer on the bottom edge
+   to indicate "still writing" without any blank/flicker */
+.qx__prose--streaming {
+  position: relative;
+}
+
+.qx__prose--streaming p,
+.qx__prose--streaming li,
+.qx__prose--streaming .qx__heading,
+.qx__prose--streaming .qx__table tr,
+.qx__prose--streaming .qx__codeblock,
+.qx__prose--streaming .qx__codebar,
+.qx__prose--streaming .qx__code-lang {
+  animation: none !important;
+}
+
+/* Stream cursor now lives inline with the text. */
+.qx__prose--streaming::after {
+  content: none;
+}
+
+/* Stagger paragraphs gently on initial reveal */
+.qx__prose p:nth-child(1) { animation: proseReveal var(--dur-base) var(--anim-reveal) 0ms   both; }
+.qx__prose p:nth-child(2) { animation: proseReveal var(--dur-base) var(--anim-reveal) 30ms  both; }
+.qx__prose p:nth-child(3) { animation: proseReveal var(--dur-base) var(--anim-reveal) 60ms  both; }
+.qx__prose p:nth-child(n+4) { animation: proseReveal var(--dur-base) var(--anim-reveal) 90ms both; }
+
+.qx__prose li { animation: proseReveal var(--dur-base) var(--anim-reveal) both; }
+.qx__prose li:nth-child(1)   { animation-delay: 0ms;   }
+.qx__prose li:nth-child(2)   { animation-delay: 25ms;  }
+.qx__prose li:nth-child(3)   { animation-delay: 50ms;  }
+.qx__prose li:nth-child(4)   { animation-delay: 75ms;  }
+.qx__prose li:nth-child(n+5) { animation-delay: 100ms; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   3. BLINKING CURSOR
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes cursorBlink {
+  0%, 49%   { opacity: 1; box-shadow: 0 0 6px rgba(200, 69, 26, 0.6); }
+  50%, 100% { opacity: 0; box-shadow: none; }
+}
+
+.qx__cursor { animation: cursorBlink 0.75s step-end infinite; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   4. KINETIC LOADING INDICATOR — Minimalist Pulse
+   Three fluid dots with organic, staggered motion and a subtle glow.
+   Clean, modern, and high-fidelity.
+   ───────────────────────────────────────────────────────────────────────── */
+
+.qx__loading-v3 {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 0 1.2rem;
+  padding-left: 1.55rem;
+}
+
+/* ── Kinetic container ── */
+.qx__loader-kinetic {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 20px;
+}
+
+/* Each dot */
+.qx__loader-dot {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #c8451a;
+  box-shadow: 0 0 0 rgba(200, 69, 26, 0);
+  animation: kineticPulse 1.4s var(--anim-smooth) infinite;
+}
+
+/* Staggered delays for organic feel */
+.qx__loader-dot:nth-child(1) { animation-delay: 0s; }
+.qx__loader-dot:nth-child(2) { animation-delay: 0.15s; }
+.qx__loader-dot:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes kineticPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.35;
+    box-shadow: 0 0 0 rgba(200, 69, 26, 0);
+  }
+  35% {
+    transform: scale(1.65);
+    opacity: 1;
+    box-shadow: 0 0 8px rgba(200, 69, 26, 0.4);
+  }
+  70% {
+    transform: scale(0.9);
+    opacity: 0.5;
+    box-shadow: 0 0 0 rgba(200, 69, 26, 0);
+  }
+}
+
+/* ── Thinking Label ── */
+.qx__loading-label-v3 {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--lp-text-subtle, #bbb);
+  opacity: 0.6;
+  animation: thinkingFade 2.5s ease-in-out infinite;
+}
+
+@keyframes thinkingFade {
+  0%, 100% { opacity: 0.35; transform: translateX(0); }
+  50%       { opacity: 0.8;  transform: translateX(2px); }
+}
+
+/* Dark mode adjustments */
+html[data-theme="dark"] .qx__loader-dot {
+  background: #e05a35;
+}
+
+html[data-theme="dark"] .qx__prose--streaming::after {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(224, 90, 53, 0.4) 40%,
+    rgba(224, 90, 53, 0.7) 50%,
+    rgba(224, 90, 53, 0.4) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+}
+
+.qx__loading-v3 {
+  display: block;
+  padding: 0.85rem 0 1.15rem;
+  padding-left: 1.55rem;
+  max-width: 18rem;
+}
+
+.qx__loading-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: fit-content;
+  min-width: 12.25rem;
+  padding: 0.52rem 0.68rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  animation: loadingShellIn var(--dur-base) var(--anim-smooth) both;
+}
+
+.qx__loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #c8451a;
+  box-shadow: 0 0 0 0 rgba(200, 69, 26, 0.22);
+  animation: loadingDotPulse 1.9s ease-in-out infinite;
+}
+
+.qx__loading-copy {
+  display: grid;
+  gap: 0.08rem;
+}
+
+.qx__loading-title {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--lp-text, #1a1a1a);
+}
+
+.qx__loading-sub {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.18rem;
+  font-size: 0.64rem;
+  color: var(--lp-text-muted, #888);
+  letter-spacing: 0.02em;
+}
+
+.qx__loading-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-left: 0.08rem;
+}
+
+.qx__loading-ellipsis span {
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: currentColor;
+  opacity: 0.22;
+  animation: loadingEllipsis 1.2s ease-in-out infinite;
+}
+
+.qx__loading-ellipsis span:nth-child(1) { animation-delay: 0s; }
+.qx__loading-ellipsis span:nth-child(2) { animation-delay: 0.16s; }
+.qx__loading-ellipsis span:nth-child(3) { animation-delay: 0.32s; }
+
+html[data-theme="dark"] .qx__loading-chip {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+@keyframes loadingShellIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes loadingDotPulse {
+  0%, 100% { transform: scale(1); opacity: 0.8; box-shadow: 0 0 0 0 rgba(200, 69, 26, 0.18); }
+  50% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 0 6px rgba(200, 69, 26, 0); }
+}
+
+@keyframes loadingEllipsis {
+  0%, 100% { opacity: 0.2; transform: translateY(0); }
+  50% { opacity: 0.8; transform: translateY(-1px); }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   5. RICH CARDS — entrance
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes cardEnter {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.rc { animation: cardEnter var(--dur-slow) var(--anim-snap) both; }
+
+@keyframes chipPop {
+  from { opacity: 0; transform: scale(0.7) translateY(4px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.rc__chip { animation: chipPop var(--dur-base) var(--anim-spring) both; }
+.rc__chip:nth-child(1)   { animation-delay: 60ms;  }
+.rc__chip:nth-child(2)   { animation-delay: 90ms;  }
+.rc__chip:nth-child(3)   { animation-delay: 120ms; }
+.rc__chip:nth-child(4)   { animation-delay: 150ms; }
+.rc__chip:nth-child(5)   { animation-delay: 180ms; }
+.rc__chip:nth-child(6)   { animation-delay: 210ms; }
+.rc__chip:nth-child(7)   { animation-delay: 240ms; }
+.rc__chip:nth-child(8)   { animation-delay: 270ms; }
+.rc__chip:nth-child(n+9) { animation-delay: 300ms; }
+
+@keyframes projectRowIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.rc__project { animation: projectRowIn var(--dur-base) var(--anim-reveal) both; }
+.rc__project:nth-child(1) { animation-delay: 80ms;  }
+.rc__project:nth-child(2) { animation-delay: 130ms; }
+.rc__project:nth-child(3) { animation-delay: 180ms; }
+.rc__project:nth-child(4) { animation-delay: 230ms; }
+
+@keyframes contactRowIn {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.rc__contact { animation: contactRowIn var(--dur-base) var(--anim-reveal) both; }
+.rc__contact:nth-child(1) { animation-delay: 80ms;  }
+.rc__contact:nth-child(2) { animation-delay: 130ms; }
+.rc__contact:nth-child(3) { animation-delay: 180ms; }
+.rc__contact:nth-child(4) { animation-delay: 230ms; }
+.rc__contact:nth-child(5) { animation-delay: 280ms; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   6. INPUT BAR
+   ───────────────────────────────────────────────────────────────────────── */
+
+.qt__input-row {
+  transition:
+    border-color var(--dur-fast) var(--anim-smooth),
+    box-shadow   var(--dur-fast) var(--anim-smooth);
+}
+
+.qt__input-row:focus-within:not(.qt__input-row--suppress-focus) {
+  border-color: rgba(200, 69, 26, 0.4);
+  box-shadow: 0 0 0 3px rgba(200, 69, 26, 0.08);
+}
+
+@keyframes sendPress {
+  0%   { transform: scale(1);    }
+  40%  { transform: scale(0.88); }
+  70%  { transform: scale(1.06); }
+  100% { transform: scale(1);    }
+}
+
+.qt__go--press { animation: sendPress 500ms var(--anim-spring); }
+
+.qt__go {
+  transition:
+    background  var(--dur-fast) var(--anim-smooth),
+    transform   var(--dur-fast) var(--anim-smooth),
+    box-shadow  var(--dur-fast) var(--anim-smooth);
+}
+
+.qt__go:not(:disabled):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(200, 69, 26, 0.25);
+}
+
+.qt__input-prompt {
+  transition: color var(--dur-base) var(--anim-smooth), transform var(--dur-fast) var(--anim-snap);
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   7. WELCOME SCREEN
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes welcomeIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.qt-welcome__head  { animation: welcomeIn var(--dur-enter) var(--anim-reveal) 0ms   both; }
+.qt-welcome__grid  { animation: welcomeIn var(--dur-enter) var(--anim-reveal) 80ms  both; }
+.qt-welcome__tags  { animation: welcomeIn var(--dur-enter) var(--anim-reveal) 180ms both; }
+
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.qt-card:nth-child(1) { animation: cardSlideUp var(--dur-slow) var(--anim-snap) 120ms both; }
+.qt-card:nth-child(2) { animation: cardSlideUp var(--dur-slow) var(--anim-snap) 160ms both; }
+.qt-card:nth-child(3) { animation: cardSlideUp var(--dur-slow) var(--anim-snap) 200ms both; }
+.qt-card:nth-child(4) { animation: cardSlideUp var(--dur-slow) var(--anim-snap) 240ms both; }
+.qt-card:nth-child(5) { animation: cardSlideUp var(--dur-slow) var(--anim-snap) 280ms both; }
+.qt-card:nth-child(6) { animation: cardSlideUp var(--dur-slow) var(--anim-snap) 320ms both; }
+
+@keyframes tagPop {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.qt-tag:nth-child(1)   { animation: tagPop var(--dur-base) var(--anim-spring) 240ms both; }
+.qt-tag:nth-child(2)   { animation: tagPop var(--dur-base) var(--anim-spring) 280ms both; }
+.qt-tag:nth-child(3)   { animation: tagPop var(--dur-base) var(--anim-spring) 320ms both; }
+.qt-tag:nth-child(4)   { animation: tagPop var(--dur-base) var(--anim-spring) 360ms both; }
+.qt-tag:nth-child(n+5) { animation: tagPop var(--dur-base) var(--anim-spring) 400ms both; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   8. HOVER STATES
+   ───────────────────────────────────────────────────────────────────────── */
+
+.qt-card {
+  transition:
+    border-color var(--dur-fast) var(--anim-smooth),
+    background   var(--dur-fast) var(--anim-smooth),
+    transform    var(--dur-fast) var(--anim-snap),
+    box-shadow   var(--dur-fast) var(--anim-smooth);
+}
+
+.qt-card:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(200, 69, 26, 0.12);
+}
+
+.qt-card:not(:disabled):active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: none;
+  transition-duration: var(--dur-instant);
+}
+
+.qt-card__arrow { transition: transform var(--dur-base) var(--anim-snap), color var(--dur-fast) var(--anim-smooth); }
+.qt-card:not(:disabled):hover .qt-card__arrow { transform: translateX(4px); }
+
+.qt-tag {
+  transition:
+    color        var(--dur-fast) var(--anim-smooth),
+    border-color var(--dur-fast) var(--anim-smooth),
+    transform    var(--dur-fast) var(--anim-snap);
+}
+
+.qt-tag:not(:disabled):hover  { transform: translateY(-1px); }
+.qt-tag:not(:disabled):active { transform: scale(0.96); transition-duration: var(--dur-instant); }
+
+.rc__contact {
+  transition: background var(--dur-fast) var(--anim-smooth), padding-left var(--dur-fast) var(--anim-smooth);
+}
+.rc__contact:hover { padding-left: calc(0.85rem + 3px); }
+
+.rc__contact-arrow { transition: transform var(--dur-base) var(--anim-snap), color var(--dur-fast) var(--anim-smooth); }
+.rc__contact:hover .rc__contact-arrow { transform: translate(3px, -3px); }
+
+.rc__project { transition: background var(--dur-fast) var(--anim-smooth), padding-left var(--dur-fast) var(--anim-smooth); }
+.rc__project:hover { padding-left: calc(0.85rem + 2px); }
+
+.qx__retry { transition: color var(--dur-fast) var(--anim-smooth), border-color var(--dur-fast) var(--anim-smooth), transform var(--dur-fast) var(--anim-snap); }
+.qx__retry:hover { transform: translateY(-1px); }
+
+.rc__btn { transition: background var(--dur-fast) var(--anim-smooth), transform var(--dur-fast) var(--anim-snap), box-shadow var(--dur-fast) var(--anim-smooth); }
+.rc__btn:hover  { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
+.rc__btn:active { transform: scale(0.97); transition-duration: var(--dur-instant); }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   9. STATUS DOT — ambient breathing
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes onlineBreathe {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); transform: scale(1); }
+  50%       { opacity: 0.75; box-shadow: 0 0 0 4px rgba(34, 197, 94, 0); transform: scale(1.1); }
+}
+
+.qt-welcome__dot { animation: onlineBreathe 2.8s ease-in-out infinite; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   10. TITLE SHIMMER
+   ───────────────────────────────────────────────────────────────────────── */
+
+.qt-welcome__title { animation: qtShimmer 5s ease-in-out infinite; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   11. RULE DRAW
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes ruleDraw {
+  from { transform: scaleX(0); transform-origin: left; }
+  to   { transform: scaleX(1); transform-origin: left; }
+}
+
+.qx__rule { animation: ruleDraw var(--dur-slow) var(--anim-reveal) var(--dur-base) both; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   12. CODE BLOCKS
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes codeBlockIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.qx__codeblock { animation: codeBlockIn var(--dur-base) var(--anim-reveal) both; }
+
+@keyframes langLabelIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.qx__code-lang { animation: langLabelIn var(--dur-fast) var(--anim-smooth) var(--dur-fast) both; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   13. TABLE ROWS
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes tableRowIn {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.qx__table tr                { animation: tableRowIn var(--dur-base) var(--anim-reveal) both; transition: background var(--dur-fast) var(--anim-smooth); }
+.qx__table tr:nth-child(1)   { animation-delay: 0ms;   }
+.qx__table tr:nth-child(2)   { animation-delay: 40ms;  }
+.qx__table tr:nth-child(3)   { animation-delay: 80ms;  }
+.qx__table tr:nth-child(n+4) { animation-delay: 120ms; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   14. SCROLL BEHAVIOUR
+   ───────────────────────────────────────────────────────────────────────── */
+
+.qt__body { scroll-behavior: smooth; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   15. SEND BUTTON SPINNER
+   ───────────────────────────────────────────────────────────────────────── */
+
+@keyframes qtSpinSmooth {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.qt__spin { animation: qtSpinSmooth 0.8s linear infinite; opacity: 0.9; }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   16. DARK MODE
+   ───────────────────────────────────────────────────────────────────────── */
+
+html[data-theme="dark"] .qt__input-row:focus-within:not(.qt__input-row--suppress-focus) {
+  border-color: rgba(200, 69, 26, 0.5);
+  box-shadow: 0 0 0 3px rgba(200, 69, 26, 0.1);
+}
+
+html[data-theme="dark"] .qt__go:not(:disabled):hover { box-shadow: 0 3px 14px rgba(200, 69, 26, 0.35); }
+html[data-theme="dark"] .qt-card:not(:disabled):hover { box-shadow: 0 4px 20px rgba(200, 69, 26, 0.15); }
+html[data-theme="dark"] .qx__cursor { box-shadow: 0 0 8px rgba(200, 69, 26, 0.7); }
+
+/* ==========================================================================
+   REPLACE everything from ".qx__loading-avatar" to the end of the file
+   in src/styles/chat-animations.css with this block.
+   ========================================================================== */
+
+.qx__loading-v3 {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.1rem 0 0.2rem;
+  max-width: none;
+  animation: loadingShellLift 220ms var(--anim-smooth) both;
+}
+
+.qx__loading-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.qx__loading-mark {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  animation: aiMarkDrift 4.8s ease-in-out infinite;
+}
+
+/* ── Shell (dark bg) ─────────────────────────────────────────── */
+.qx__ai-mark-shell { }
+
+/* ── Edges — opacity wave ────────────────────────────────────── */
+.qx__ai-mark-edge {
+  stroke-linecap: round;
+  animation: aiEdgePulse 2.8s ease-in-out infinite;
+}
+.qx__ai-mark-edge--1 { animation-delay: 0s; }
+.qx__ai-mark-edge--2 { animation-delay: 0.22s; }
+.qx__ai-mark-edge--3 { animation-delay: 0.44s; }
+
+@keyframes aiEdgePulse {
+  0%, 100% { opacity: 0.22; }
+  50%       { opacity: 0.46; }
+}
+
+/* ── Orbit ring around core node ─────────────────────────────── */
+.qx__ai-mark-signal {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 24 76;
+  stroke-dashoffset: 104;
+  opacity: 0;
+  filter: drop-shadow(0 0 4px rgba(255, 177, 143, 0.34));
+}
+
+.qx__ai-mark-signal--1 {
+  animation: aiSignalTravel 1.72s cubic-bezier(0.42, 0, 0.2, 1) infinite;
+}
+
+.qx__ai-mark-signal--2 {
+  stroke-dasharray: 22 78;
+  animation: aiSignalTravel 2.08s cubic-bezier(0.34, 0.08, 0.18, 1) 0.34s infinite;
+}
+
+.qx__ai-mark-signal--3 {
+  stroke-dasharray: 18 82;
+  animation: aiSignalTravel 1.86s cubic-bezier(0.4, 0, 0.22, 1) 0.92s infinite;
+}
+
+@keyframes aiSignalTravel {
+  0% {
+    opacity: 0;
+    stroke-dashoffset: 104;
+  }
+  14% {
+    opacity: 0.82;
+  }
+  58% {
+    opacity: 0.62;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: -14;
+  }
+}
+
+.qx__ai-mark-packet {
+  filter: drop-shadow(0 0 4px rgba(255, 188, 155, 0.55));
+}
+
+.qx__ai-mark-packet--4 {
+  filter: drop-shadow(0 0 3px rgba(255, 212, 191, 0.38));
+}
+
+.qx__ai-mark-core-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  filter: blur(2.2px);
+  animation: aiCoreHaloPulse 2.9s ease-in-out infinite;
+}
+
+@keyframes aiCoreHaloPulse {
+  0%, 100% { opacity: 0.12; transform: scale(0.88); }
+  50% { opacity: 0.24; transform: scale(1.06); }
+}
+
+/* ── Nodes — sequential wave pulse ──────────────────────────── */
+.qx__ai-mark-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: aiNodePulse 2.05s ease-in-out infinite;
+}
+
+.qx__ai-mark-node--core { animation-delay: 0s;    animation-duration: 1.8s; }
+.qx__ai-mark-node--1    { animation-delay: 0.4s; }
+.qx__ai-mark-node--2    { animation-delay: 0.8s; }
+
+@keyframes aiNodePulse {
+  0%, 100% { opacity: 0.62; transform: scale(1);    }
+  45%       { opacity: 0.9; transform: scale(1.07); }
+}
+
+.qx__ai-mark-node--core {
+  animation-name: aiCorePulse;
+  filter: drop-shadow(0 0 6px rgba(200, 69, 26, 0.2));
+}
+
+@keyframes aiCorePulse {
+  0%, 100% { opacity: 0.88; transform: scale(1);    }
+  45%       { opacity: 1;   transform: scale(1.045); }
+}
+
+.qx__ai-mark-node-glint {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: aiNodeGlint 3.4s ease-in-out infinite;
+}
+
+.qx__ai-mark-node-glint--core { animation-delay: 0.1s; }
+.qx__ai-mark-node-glint--1 { animation-delay: 0.85s; }
+.qx__ai-mark-node-glint--2 { animation-delay: 1.55s; }
+
+@keyframes aiNodeGlint {
+  0%, 100% { opacity: 0.18; transform: scale(0.85); }
+  42% { opacity: 0.68; transform: scale(1); }
+}
+
+/* ── Specks — gentle blink ───────────────────────────────────── */
+.qx__ai-mark-speck {
+  animation: aiSpeckBlink 3.6s ease-in-out infinite;
+}
+.qx__ai-mark-speck--1 { animation-delay: 0s;   }
+.qx__ai-mark-speck--2 { animation-delay: 1.45s; }
+
+@keyframes aiSpeckBlink {
+  0%, 100% { opacity: 0.16; }
+  50%       { opacity: 0.46; }
+}
+
+/* ── Loading copy ────────────────────────────────────────────── */
+.qx__loading-copy {
+  display: block;
+  min-width: 0;
+}
+
+.qx__loading-title {
+  display: inline-block;
+  font-family: 'Roboto Mono', 'Courier New', monospace;
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.7;
+  letter-spacing: 0;
+  color: var(--lp-text, #181412);
+}
+
+.qx__loading-title--shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--lp-text, #1a1a1a) 38%,
+    rgba(200, 69, 26, 0.9) 56%,
+    var(--lp-text, #1a1a1a) 76%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: qtShimmer 3.2s ease-in-out infinite;
+}
+
+html[data-theme="dark"] .qx__loading-title {
+  color: rgba(250, 244, 241, 0.94);
+}
+
+html[data-theme="dark"] .qx__loading-title--shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(250, 244, 241, 0.92) 38%,
+    rgba(224, 90, 53, 0.96)   56%,
+    rgba(250, 244, 241, 0.92) 76%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="dark"] .qx__ai-mark-signal {
+  filter: drop-shadow(0 0 5px rgba(255, 184, 144, 0.4));
+}
+
+html[data-theme="dark"] .qx__ai-mark-core-halo {
+  opacity: 0.18;
+}
+
+html[data-theme="dark"] .qx__ai-mark-packet {
+  filter: drop-shadow(0 0 5px rgba(255, 205, 175, 0.52));
+}
+
+.qx__answer-state {
+  min-height: 1.4rem;
+}
+
+@keyframes loadingShellLift {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+@keyframes aiMarkDrift {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-0.6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qx__loading-v3,
+  .qx__loading-title--shimmer,
+  .qx__loading-mark,
+  .qx__ai-mark-edge,
+  .qx__ai-mark-signal,
+  .qx__ai-mark-packet,
+  .qx__ai-mark-core-halo,
+  .qx__ai-mark-node,
+  .qx__ai-mark-node-glint,
+  .qx__ai-mark-speck {
+    animation: none;
+  }
+
+  .qx__ai-mark-packet {
+    display: none;
+  }
+}

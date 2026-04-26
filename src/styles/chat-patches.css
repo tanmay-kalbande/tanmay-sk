@@ -1,0 +1,101 @@
+/* ==========================================================================
+   CHAT PATCHES v3 — Query Terminal layout fixes
+   Add this import in main.tsx after chat.css
+   ========================================================================== */
+
+/* ── Flex chain: qt panel fills between nav and footer ─────────────── */
+
+.qt {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.qt--modal {
+  height: 100%;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.qt--page {
+  border-radius: 12px;
+  height: calc(100dvh - 4rem);
+  max-width: 860px;
+  width: 100%;
+}
+
+/* Body scrolls, bar stays pinned */
+.qt__body {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--lp-border, rgba(0,0,0,0.1)) transparent;
+}
+
+.qt__body::-webkit-scrollbar       { width: 3px; }
+.qt__body::-webkit-scrollbar-thumb { background: var(--lp-border, rgba(0,0,0,0.12)); border-radius: 2px; }
+
+/* Bar always pinned at bottom */
+.qt__bar {
+  flex-shrink: 0;
+  border-top: 1px solid var(--lp-border, rgba(0,0,0,0.05));
+  padding: 0.75rem 1rem;
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+/* ── Input font size fix ── */
+
+.qt__ta {
+  font-family: 'Roboto Mono', 'Courier New', monospace !important;
+  font-size: 0.82rem !important;
+  line-height: 1.5 !important;
+}
+
+@media (max-width: 600px) {
+  .qt__ta { font-size: 16px !important; }
+}
+
+/* ── Cards: flexible not stuck ── */
+
+.rc {
+  margin-top: 0.75rem;
+  border: 1px solid var(--lp-border, rgba(0,0,0,0.09));
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.rc--contact {
+  display: flex;
+  flex-direction: column;
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* ── Mobile full-screen ── */
+
+@media (max-width: 600px) {
+  .qt--page {
+    border-radius: 0;
+    border: none;
+    height: calc(100dvh - 3.5rem);
+  }
+
+  .qt__inner { padding: 1rem 0.85rem; }
+  .qt__bar   { padding: 0.6rem 0.7rem; padding-bottom: max(0.6rem, env(safe-area-inset-bottom)); }
+  .rc--contact { max-height: none; }
+}
+
+@media (min-width: 1200px) {
+  .qt--page { max-width: 900px; }
+}
