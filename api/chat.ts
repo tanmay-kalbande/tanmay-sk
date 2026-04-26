@@ -374,19 +374,17 @@ function buildBody(history: ConversationTurn[], model: string): object {
 
   const combinedSystemContext = systemContext.join("\n\n").trim();
   if (combinedSystemContext) {
-    // Gemini models and Gemma 4+ support native system_instruction.
-    // Older Gemma models (gemma-2, gemma-3) do NOT — "Developer instruction is not enabled".
-    const lower = model.toLowerCase();
-    const supportsSystemInstruction =
-      lower.startsWith("gemini-") ||
-      /^gemma-([4-9]|\d{2,})/.test(lower);
+    // Only Gemini models support system_instruction reliably via this API.
+    // For ALL Gemma models (including 3 and 4), we prepend the system
+    // instruction to the user turn, matching the working JobFitAI implementation.
+    const supportsSystemInstruction = model.toLowerCase().startsWith("gemini-");
 
     if (supportsSystemInstruction) {
       body.system_instruction = {
         parts: [{ text: combinedSystemContext }],
       };
     } else {
-      // For older Gemma: prepend system context to the FIRST user message.
+      // For Gemma: prepend system context to the FIRST user message.
       const firstUserIndex = contents.findIndex((t) => t.role === "user");
       if (firstUserIndex >= 0) {
         const originalText = contents[firstUserIndex].parts[0]?.text ?? "";
