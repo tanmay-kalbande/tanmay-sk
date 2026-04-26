@@ -1,5 +1,5 @@
 import { classifyIntents } from "./lib/classifier.js";
-import { injectContextIfNeeded, injectAllContexts } from "./lib/contextRegistry.js";
+import { injectContextIfNeeded } from "./lib/contextRegistry.js";
 import {
   appendTurn,
   getOrCreateSession,
@@ -363,6 +363,74 @@ function buildFallbackReply(userMessage: string): string | null {
   }
   if (/^(ok|okay|cool|nice|great|awesome)[.!?]*$/.test(question)) {
     return "Ready for the next one ⚡";
+  }
+
+  return null;
+}
+
+function isRateLimitError(status: number, errorMsg: string): boolean {
+  const message = errorMsg.toLowerCase();
+  return status === 429 || message.includes("quota exceeded") || message.includes("rate limit");
+}
+
+function buildRateLimitFallbackReply(userMessage: string): string | null {
+  const text = userMessage.toLowerCase();
+
+  if (/\b(contact|hire|reach|email|whatsapp|linkedin|resume|cv)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here are Tanmay's contact options:",
+      "",
+      "- **LinkedIn:** https://www.linkedin.com/in/tanmay-kalbande",
+      "- **Email:** tanmaykalbande@gmail.com",
+      "- **WhatsApp:** +91 7378381494",
+      "- **GitHub:** https://github.com/tanmay-kalbande",
+      "- **Resume:** https://tanmay-eqdav6wyd-tanmays-projects-17b5602c.vercel.app/assets/tanmay-resume-DXrIQ_Zv.pdf",
+    ].join("\n");
+  }
+
+  if (/\b(certification|certifications|certified)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here are the key certifications:",
+      "",
+      "- **AWS Cloud Technical Essentials** - Amazon Web Services",
+      "- **Foundations: Data, Data, Everywhere** - Google",
+      "- **Technical Support Fundamentals** - Google",
+      "- **Certified Data Scientist** - IABAC",
+      "- **Data Science Foundation** - IABAC",
+      "- **Certified Data Scientist** - DataMites",
+    ].join("\n");
+  }
+
+  if (/\b(pustakam|project|projects)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here's the short version:",
+      "",
+      "- **Pustakam AI:** Multi-model book-generation platform, accepted into the Z.ai Startup Program",
+      "- **AI Data Assistant:** Natural-language dataset analysis",
+      "- **Bias & Fairness Checker:** Gemma-powered bias detection with structured reports",
+    ].join("\n");
+  }
+
+  if (/\b(skill|skills|tech stack|stack|tools|python|sql|flask|power bi|tableau)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here's Tanmay's core stack:",
+      "",
+      "- **Languages:** Python, SQL, R, JavaScript",
+      "- **Data/ML:** Pandas, NumPy, Scikit-learn, Random Forest, K-Means, NLP",
+      "- **AI/backend:** Flask, REST APIs, Supabase, LLM integration, multi-agent systems",
+      "- **BI:** Power BI, Tableau, Excel, Matplotlib, Seaborn",
+    ].join("\n");
+  }
+
+  if (/\b(capgemini|rubixe|experience|work|role|current role)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here's the short version:",
+      "",
+      "- **Current role:** Data Analyst at Capgemini",
+      "- **Since:** Apr 2024",
+      "- **Earlier:** Data Analyst Trainee at Rubixe",
+      "- **Edge:** analytics, ML, dashboards, and AI tooling",
+    ].join("\n");
   }
 
   return null;
@@ -772,12 +840,13 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
   const classification = await classifyIntents(message, apiKey, MODEL_PRIMARY);
 
   // If classifier is confident, inject only matched contexts.
-  // If not confident, inject ALL contexts as fallback (unified prompt approach).
+  // If not confident, keep the assistant in lightweight general mode instead
+  // of flooding the prompt with every Tanmay-specific module.
   if (classification.confident) {
     injectContextIfNeeded(session, classification.intents);
   } else {
-    console.log(`[chat] classifier not confident — injecting all contexts`);
-    injectAllContexts(session);
+    console.log(`[chat] classifier not confident - using general context`);
+    injectContextIfNeeded(session, ["general"]);
   }
 
   appendTurn(session, { role: "user", content: message });
@@ -798,6 +867,16 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
 
       console.warn(`[chat] x ${model} [${result.status}]: ${result.errorMsg}`);
       if (isModelUnavailable(result.status, result.errorMsg)) continue;
+      if (isRateLimitError(result.status, result.errorMsg)) {
+        const fallback = buildRateLimitFallbackReply(message);
+        if (fallback) {
+          appendTurn(session, { role: "assistant", content: fallback });
+          writeStreamEvent(res, "chunk", { text: fallback, model: "fallback" });
+          writeStreamEvent(res, "done", { text: fallback, model: "fallback" });
+          res.end?.();
+          return;
+        }
+      }
 
       rollbackPendingUserTurn(session);
       if (result.streamStarted) return;
@@ -825,6 +904,15 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
 
     console.warn(`[chat] x ${model} [${result.status}]: ${result.errorMsg}`);
     if (isModelUnavailable(result.status, result.errorMsg)) continue;
+    if (isRateLimitError(result.status, result.errorMsg)) {
+      const fallback = buildRateLimitFallbackReply(message);
+      if (fallback) {
+        appendTurn(session, { role: "assistant", content: fallback });
+        res.setHeader("Content-Type", "application/json; charset=utf-8");
+        res.status(200).json({ text: fallback });
+        return;
+      }
+    }
 
     rollbackPendingUserTurn(session);
     res.setHeader("Content-Type", "application/json; charset=utf-8");

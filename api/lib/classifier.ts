@@ -17,7 +17,31 @@ const INTENT_KEYWORDS: Record<IntentLabel, string[]> = {
     "certified",
   ],
   contact: ["contact", "hire", "reach", "email", "whatsapp", "linkedin", "connect"],
-  general: ["who", "what", "tell me", "about", "hello", "hi", "intro", "introduce", "available"],
+  general: [
+    "who",
+    "what",
+    "tell me",
+    "about",
+    "hello",
+    "hi",
+    "intro",
+    "introduce",
+    "available",
+    "python",
+    "html",
+    "css",
+    "javascript",
+    "js",
+    "sql",
+    "code",
+    "snippet",
+    "example",
+    "explain",
+    "loop",
+    "loops",
+    "function",
+    "functions",
+  ],
 };
 
 const GEMINI_URL = (model: string, key: string) =>
@@ -53,7 +77,12 @@ function uniqueIntents(intents: IntentLabel[]): IntentLabel[] {
 function isStrongGeneralMatch(text: string): boolean {
   return (
     /\bwho is\b/.test(text) ||
+    /\bwhat (?:is|are)\b/.test(text) ||
     /\btell me about\b/.test(text) ||
+    /\bsend me\b/.test(text) ||
+    /\bgive me\b/.test(text) ||
+    /\bshow me\b/.test(text) ||
+    /\bwrite (?:me )?(?:some )?(?:simple )?(?:html|css|javascript|js|python|sql|code)\b/.test(text) ||
     /\bintroduce\b/.test(text) ||
     /\bintroduction\b/.test(text) ||
     /\bavailable\b/.test(text) ||
@@ -61,6 +90,20 @@ function isStrongGeneralMatch(text: string): boolean {
     /\bwhere\b.*\bbased\b/.test(text) ||
     /\bcurrent role\b/.test(text) ||
     /^(hi|hello|hey)\b/.test(text)
+  );
+}
+
+function hasPortfolioSignal(text: string): boolean {
+  return /\b(tanmay|capgemini|rubixe|pustakam|portfolio|resume|linkedin|whatsapp|certification|certifications)\b/.test(text);
+}
+
+function isGeneralHelpRequest(text: string): boolean {
+  return (
+    !hasPortfolioSignal(text) &&
+    (
+      /\b(python|html|css|javascript|js|sql|react|flask|api|json|loop|loops|function|functions|variable|variables|array|arrays|code|snippet|algorithm|bug|debug)\b/.test(text) ||
+      /\b(send me|give me|show me|write)\b.*\b(code|html|css|javascript|js|python|sql|snippet)\b/.test(text)
+    )
   );
 }
 
@@ -91,6 +134,10 @@ function classifyHeuristically(message: string): { intents: IntentLabel[]; confi
   const specificIntents = INTENT_ORDER.filter(
     (intent) => intent !== "general" && scores[intent] > 0,
   );
+
+  if (isGeneralHelpRequest(text)) {
+    return { intents: ["general"], confident: true };
+  }
 
   const intents = [...specificIntents];
   if (specificIntents.length === 0) {
@@ -149,9 +196,10 @@ async function classifyWithAi(
 ): Promise<IntentLabel[]> {
   const model = resolveClassifierModel(primaryModel);
   const prompt = [
-    "Classify this portfolio chat message into one or more labels.",
+    "Classify this assistant chat message into one or more labels.",
     "Allowed labels: projects, skills, resume, contact, general.",
     "Use resume for work history, employers, dates, achievements, or certifications.",
+    "Use general for normal coding, web, data, AI, explanatory, or non-portfolio questions.",
     'Return JSON only in this format: {"labels":["projects","contact"]}.',
     `Message: ${JSON.stringify(message)}`,
   ].join("\n");
