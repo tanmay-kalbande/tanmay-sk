@@ -384,12 +384,21 @@ function buildBody(history: ConversationTurn[], model: string): object {
         parts: [{ text: combinedSystemContext }],
       };
     } else {
-      contents.unshift({
-        role: "user",
-        parts: [{
-          text: `[SYSTEM INSTRUCTION]\n${combinedSystemContext}\n\n[USER REQUEST FOLLOWS]`,
-        }],
-      });
+      // For Gemma: prepend system context to the FIRST user message.
+      // A standalone system turn causes Gemma to respond TO it instead of using it as context.
+      const firstUserIndex = contents.findIndex((t) => t.role === "user");
+      if (firstUserIndex >= 0) {
+        const originalText = contents[firstUserIndex].parts[0]?.text ?? "";
+        contents[firstUserIndex].parts[0] = {
+          text: `[SYSTEM INSTRUCTION]\n${combinedSystemContext}\n\n[USER REQUEST]\n${originalText}`,
+        };
+      } else {
+        // No user turns yet — add as standalone (shouldn't normally happen)
+        contents.unshift({
+          role: "user",
+          parts: [{ text: combinedSystemContext }],
+        });
+      }
     }
   }
 
