@@ -40,13 +40,13 @@
   overflow-y: auto;
   overflow-x: hidden;
   scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--lp-border, rgba(0,0,0,0.12)) transparent;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
 }
 
-.tk-chat__body::-webkit-scrollbar { width: 4px; }
+.tk-chat__body::-webkit-scrollbar { display: none; }
 .tk-chat__body::-webkit-scrollbar-thumb {
-  background: var(--lp-border, rgba(0,0,0,0.12));
+  background: transparent;
   border-radius: 2px;
 }
 

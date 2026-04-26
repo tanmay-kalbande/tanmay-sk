@@ -40,13 +40,13 @@
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  scrollbar-width: thin;
-  scrollbar-color: var(--lp-border, rgba(0,0,0,0.1)) transparent;
+  scrollbar-width: none;
+  scrollbar-color: transparent transparent;
 }
 
-.qt__body::-webkit-scrollbar       { width: 3px; }
+.qt__body::-webkit-scrollbar       { display: none; }
 .qt__body::-webkit-scrollbar-thumb {
-  background: var(--lp-border, rgba(0,0,0,0.1));
+  background: transparent;
   border-radius: 99px;
 }
 
