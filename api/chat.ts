@@ -374,18 +374,19 @@ function buildBody(history: ConversationTurn[], model: string): object {
 
   const combinedSystemContext = systemContext.join("\n\n").trim();
   if (combinedSystemContext) {
-    // Gemma models (all versions) do NOT reliably support system_instruction
-    // via the Gemini API. Use system_instruction only for Gemini-branded models.
+    // Gemini models and Gemma 4+ support native system_instruction.
+    // Older Gemma models (gemma-2, gemma-3) do NOT — "Developer instruction is not enabled".
     const lower = model.toLowerCase();
-    const supportsSystemInstruction = lower.startsWith("gemini-");
+    const supportsSystemInstruction =
+      lower.startsWith("gemini-") ||
+      /^gemma-([4-9]|\d{2,})/.test(lower);
 
     if (supportsSystemInstruction) {
       body.system_instruction = {
         parts: [{ text: combinedSystemContext }],
       };
     } else {
-      // For Gemma: prepend system context to the FIRST user message.
-      // A standalone system turn causes Gemma to respond TO it instead of using it as context.
+      // For older Gemma: prepend system context to the FIRST user message.
       const firstUserIndex = contents.findIndex((t) => t.role === "user");
       if (firstUserIndex >= 0) {
         const originalText = contents[firstUserIndex].parts[0]?.text ?? "";
@@ -393,7 +394,6 @@ function buildBody(history: ConversationTurn[], model: string): object {
           text: `[SYSTEM INSTRUCTION]\n${combinedSystemContext}\n\n[USER REQUEST]\n${originalText}`,
         };
       } else {
-        // No user turns yet — add as standalone (shouldn't normally happen)
         contents.unshift({
           role: "user",
           parts: [{ text: combinedSystemContext }],
