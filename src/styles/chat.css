@@ -883,7 +883,11 @@ html:not([data-theme="dark"]) .rc__btn {
   min-height: 20px;
   max-height: 140px;
   padding: 0.18rem 0;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
+
+.qt__ta::-webkit-scrollbar { display: none; }
 
 .qt__ta::placeholder { color: var(--lp-text-subtle, #bbb); }
 

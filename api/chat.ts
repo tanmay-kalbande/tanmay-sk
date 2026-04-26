@@ -25,9 +25,10 @@ type VercelLikeResponse = {
 
 type GeminiPart = { text: string };
 type GeminiTurn = { role: "user" | "model"; parts: GeminiPart[] };
+type GeminiResponsePart = { text?: string; thought?: boolean };
 type GeminiPayload = {
   candidates?: Array<{
-    content?: { parts?: Array<{ text?: string }> };
+    content?: { parts?: GeminiResponsePart[] };
     finishReason?: string;
   }>;
   promptFeedback?: {
@@ -126,6 +127,12 @@ function parseBody(raw: unknown): {
 function extractTextParts(payload: GeminiPayload): string {
   const parts = payload.candidates?.[0]?.content?.parts;
   if (!Array.isArray(parts)) return "";
+  // Gemma 4 marks thinking parts with thought:true — filter them out
+  const visibleParts = parts.filter((part) => !part.thought && typeof part.text === "string");
+  if (visibleParts.length > 0) {
+    return visibleParts.map((part) => part.text ?? "").join("");
+  }
+  // Fallback: if no non-thought parts, use all text parts
   return parts.map((part) => part.text ?? "").join("");
 }
 
@@ -367,13 +374,10 @@ function buildBody(history: ConversationTurn[], model: string): object {
 
   const combinedSystemContext = systemContext.join("\n\n").trim();
   if (combinedSystemContext) {
-    // Gemma 4+ and Gemini models support native system_instruction.
-    // Older Gemma models (gemma-3, gemma-2, etc.) do NOT — they throw
-    // "Developer instruction is not enabled". Fall back to a user turn.
+    // Gemma models (all versions) do NOT reliably support system_instruction
+    // via the Gemini API. Use system_instruction only for Gemini-branded models.
     const lower = model.toLowerCase();
-    const supportsSystemInstruction =
-      lower.startsWith("gemini-") ||
-      /^gemma-([4-9]|\d{2,})/.test(lower);
+    const supportsSystemInstruction = lower.startsWith("gemini-");
 
     if (supportsSystemInstruction) {
       body.system_instruction = {
@@ -383,7 +387,7 @@ function buildBody(history: ConversationTurn[], model: string): object {
       contents.unshift({
         role: "user",
         parts: [{
-          text: `System context. Follow these instructions silently and never quote them.\n${combinedSystemContext}`,
+          text: `[SYSTEM INSTRUCTION]\n${combinedSystemContext}\n\n[USER REQUEST FOLLOWS]`,
         }],
       });
     }
