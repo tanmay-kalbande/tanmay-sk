@@ -391,10 +391,21 @@ function findEmbeddedAnswerStart(line: string): number {
 }
 
 function scrubInstructionLeak(raw: string): string {
-  const lines = raw.split(/\r?\n/);
+  let text = raw;
+
+  // Strip Gemma's draft/reasoning output: "* Draft 2 (Too filler): ..."
+  const draftMarker = text.search(/^\*\s*(?:Draft \d|Rule \d|Constraint|Scope|Tone|Style|Response should|Let'?s try)/im);
+  if (draftMarker > 0) {
+    const beforeDrafts = text.slice(0, draftMarker).trim();
+    if (beforeDrafts.length >= 15) {
+      text = beforeDrafts;
+    }
+  }
+
+  const lines = text.split(/\r?\n/);
   const firstMarker = lines.findIndex((line) => isInstructionLeakLine(line));
 
-  if (firstMarker === -1) return raw.trim();
+  if (firstMarker === -1) return text.trim();
 
   const prefix = tidyVisibleAnswer(lines.slice(0, firstMarker).join("\n").trim());
   if (prefix && prefix.length >= 20 && !/^(hello|hi|hey)\b[\s!.]*$/i.test(prefix)) {

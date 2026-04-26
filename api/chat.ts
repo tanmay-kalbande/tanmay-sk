@@ -265,6 +265,17 @@ function cleanText(raw: string): string {
   text = text.replace(/<reflection>[\s\S]*?<\/reflection>/gi, "");
   text = text.replace(/<internal>[\s\S]*?<\/internal>/gi, "");
 
+  // Strip Gemma's draft/reasoning output: "* Draft 2 (Too filler): ..."
+  // and rule-checking lines: "* Rule 1: No filler"
+  // Keep only the text before the first draft/rule marker.
+  const draftMarker = text.search(/^\*\s*(?:Draft \d|Rule \d|Constraint|Scope|Tone|Style|Response should|Let'?s try)/im);
+  if (draftMarker > 0) {
+    const beforeDrafts = text.slice(0, draftMarker).trim();
+    if (beforeDrafts.length >= 15) {
+      text = beforeDrafts;
+    }
+  }
+
   if (/^\*\s/.test(text.trimStart())) {
     const stripped = text.replace(/^(?:\*[^\n]*\n)+\n*/m, "");
     if (stripped.length > 20) text = stripped;
@@ -346,9 +357,6 @@ function buildBody(history: ConversationTurn[], model: string): object {
     temperature: 0.4,
     topP: 0.85,
     maxOutputTokens: 1200,
-    // Disable thinking mode — Gemma 4 enables it by default, which wastes
-    // tokens on internal reasoning and can leak chain-of-thought to users.
-    thinkingConfig: { thinkingBudget: 0 },
   };
 
   const body: Record<string, unknown> = {
