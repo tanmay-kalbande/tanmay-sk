@@ -843,8 +843,17 @@ function ExchangeBlock({ ex, onRetry }: { ex: Exchange; onRetry: () => void }) {
   const isWaiting = ex.answer === "" && ex.isStreaming;
   const { ref, isVisible } = useScrollReveal();
   const html = useMemo(() => {
-    const rendered = renderMarkdown(ex.answer);
-    return ex.isStreaming ? appendStreamingCursor(rendered) : rendered;
+    try {
+      const rendered = renderMarkdown(ex.answer);
+      return ex.isStreaming ? appendStreamingCursor(rendered) : rendered;
+    } catch {
+      // Prevent markdown errors from crashing the entire UI
+      const fallback = ex.answer
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+      return ex.isStreaming ? appendStreamingCursor(`<p>${fallback}</p>`) : `<p>${fallback}</p>`;
+    }
   }, [ex.answer, ex.isStreaming]);
 
   const handleAnswerClick = useCallback(async (event: React.MouseEvent<HTMLDivElement>) => {

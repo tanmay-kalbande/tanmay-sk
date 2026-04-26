@@ -170,7 +170,13 @@ renderer.table = (token: Tokens.Table) => {
 
 renderer.code = ({ text, lang }: Tokens.Code) => {
   const language = (lang ?? "text").trim().match(/^[\w.+-]+/)?.[0] ?? "text";
-  const encoded = escapeAttr(encodeURIComponent(text));
+  let encoded: string;
+  try {
+    encoded = escapeAttr(encodeURIComponent(text));
+  } catch {
+    // Streaming can produce partial/malformed text that breaks encodeURIComponent
+    encoded = escapeAttr(text);
+  }
   const code = text.replace(/\n$/, "");
 
   return [
