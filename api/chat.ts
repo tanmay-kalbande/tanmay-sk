@@ -257,7 +257,13 @@ function stripInstructionLeak(raw: string): string {
 
 function cleanText(raw: string): string {
   let text = raw;
+
+  // Strip all known thinking/reasoning tag formats (Gemma 4, DeepSeek, etc.)
   text = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
+  text = text.replace(/<thinking>[\s\S]*?<\/thinking>/gi, "");
+  text = text.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, "");
+  text = text.replace(/<reflection>[\s\S]*?<\/reflection>/gi, "");
+  text = text.replace(/<internal>[\s\S]*?<\/internal>/gi, "");
 
   if (/^\*\s/.test(text.trimStart())) {
     const stripped = text.replace(/^(?:\*[^\n]*\n)+\n*/m, "");
@@ -340,6 +346,9 @@ function buildBody(history: ConversationTurn[], model: string): object {
     temperature: 0.4,
     topP: 0.85,
     maxOutputTokens: 1200,
+    // Disable thinking mode — Gemma 4 enables it by default, which wastes
+    // tokens on internal reasoning and can leak chain-of-thought to users.
+    thinkingConfig: { thinkingBudget: 0 },
   };
 
   const body: Record<string, unknown> = {
