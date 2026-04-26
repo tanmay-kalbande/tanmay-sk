@@ -350,9 +350,13 @@ function isInstructionLeakLine(line: string): boolean {
   const cleaned = normaliseInstructionLine(line);
 
   return (
+    /^system role:/i.test(cleaned) ||
     /^role:/i.test(cleaned) ||
     /^my role:/i.test(cleaned) ||
     /^persona:/i.test(cleaned) ||
+    /^voice:/i.test(cleaned) ||
+    /^core rules:/i.test(cleaned) ||
+    /^boundaries:/i.test(cleaned) ||
     /^constraint:/i.test(cleaned) ||
     /^constraints:/i.test(cleaned) ||
     /^identity:/i.test(cleaned) ||
@@ -365,7 +369,8 @@ function isInstructionLeakLine(line: string): boolean {
     /^default length:/i.test(cleaned) ||
     /^draft \d+:/i.test(cleaned) ||
     /^(constraint check:|out-of-scope response:|tone\/style:|response should be:)/i.test(cleaned) ||
-    /^(the user is asking|the system instructions state:|i must briefly state|the question .+ is outside the scope)/i.test(cleaned) ||
+    /^(the user is asking|the user just said|the system instructions state:|i must briefly state|the question .+ is outside the scope)/i.test(cleaned) ||
+    /^(the assistant needs to|avoid:|align with:)/i.test(cleaned) ||
     /^(context:|reference profile:|scope:|style:)/i.test(cleaned) ||
     /^(direct and natural\?|2-5 sentences\?|no filler\?|no role restatement\?|scope adhered to\?|let'?s try:)/i.test(cleaned) ||
     /^(acknowledge the user|identify who i am|offer help)/i.test(cleaned) ||
@@ -392,6 +397,12 @@ function findEmbeddedAnswerStart(line: string): number {
 
 function scrubInstructionLeak(raw: string): string {
   let text = raw;
+
+  text = text.replace(/<\|channel\>thought[\s\S]*?<channel\|>/gi, "");
+  text = text.replace(/<\|channel\>thought[\s\S]*$/gi, "");
+  text = text.replace(/<\|turn\>(?:system|user|model)\s*/gi, "");
+  text = text.replace(/<turn\|>/gi, "");
+  text = text.replace(/<bos>|<eos>/gi, "");
 
   // Strip Gemma's draft/reasoning output and internal monologue
   const draftMarker = text.search(/^\*\s*(?:Draft \d|Rule|The user|I should|Constraint|Scope|Tone|Style|Response should|Let'?s try|Goal:)/im);

@@ -18,7 +18,7 @@ export const assetUrls = {
 };
 
 export const socialLinks = [
-  { href: "mailto:kalbandetanmay@gmail.com", label: "Email", icon: "fas fa-envelope" },
+  { href: "mailto:tanmaykalbande@gmail.com", label: "Email", icon: "fas fa-envelope" },
   { href: "https://linkedin.com/in/tanmay-kalbande", label: "LinkedIn Profile", icon: "fab fa-linkedin-in" },
   { href: "https://github.com/tanmay-kalbande", label: "GitHub Profile", icon: "fab fa-github" },
   { href: "https://medium.com/@tanmaykalbande", label: "Medium Blog", icon: "fab fa-medium" },
@@ -93,7 +93,7 @@ export const assistantQuickActions = [
 ] as const;
 
 export const assistantWelcomeMessage =
-  "Hey! I'm Tanmay's AI assistant. Ask me anything about his work, projects, or how to connect.";
+  "I'm Tanmay's AI assistant. Ask about projects, skills, experience, or how to reach him ⚡";
 
 export const technicalSummary = [
   "Data analyst and ML practitioner with 2+ years of experience building predictive models and analyzing large datasets.",

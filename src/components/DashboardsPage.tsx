@@ -44,7 +44,7 @@ export default function DashboardsPage() {
           </div>
           <div className="contact-info">
             <p>
-              Email: <a href="mailto:kalbandetanmay@gmail.com">kalbandetanmay@gmail.com</a>
+              Email: <a href="mailto:tanmaykalbande@gmail.com">tanmaykalbande@gmail.com</a>
               <br />
               Phone: 737-838-1494
             </p>

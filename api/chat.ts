@@ -57,6 +57,18 @@ const GEMINI_STREAM_URL = (model: string, key: string) =>
 
 const rateLimitStore = new Map<string, number[]>();
 
+function isGeminiModel(model: string): boolean {
+  return model.toLowerCase().startsWith("gemini-");
+}
+
+function isGemma4Model(model: string): boolean {
+  return /^gemma-4-/i.test(model);
+}
+
+function supportsNativeSystemInstruction(model: string): boolean {
+  return isGeminiModel(model) || isGemma4Model(model);
+}
+
 function getHeaderValue(
   headers: Record<string, string | string[] | undefined> | undefined,
   name: string,
@@ -127,13 +139,15 @@ function parseBody(raw: unknown): {
 function extractTextParts(payload: GeminiPayload): string {
   const parts = payload.candidates?.[0]?.content?.parts;
   if (!Array.isArray(parts)) return "";
-  // Gemma 4 marks thinking parts with thought:true — filter them out
-  const visibleParts = parts.filter((part) => !part.thought && typeof part.text === "string");
+  const textParts = parts.filter((part) => typeof part.text === "string");
+  const visibleParts = textParts.filter((part) => !part.thought);
   if (visibleParts.length > 0) {
     return visibleParts.map((part) => part.text ?? "").join("");
   }
-  // Fallback: if no non-thought parts, use all text parts
-  return parts.map((part) => part.text ?? "").join("");
+  if (textParts.some((part) => part.thought)) {
+    return "";
+  }
+  return textParts.map((part) => part.text ?? "").join("");
 }
 
 function extractText(payload: GeminiPayload): string {
@@ -177,9 +191,13 @@ function tidyVisibleAnswer(text: string): string {
 function isInstructionLeakLine(line: string): boolean {
   const cleaned = normaliseInstructionLine(line);
   return (
+    /^system role:/i.test(cleaned) ||
     /^role:/i.test(cleaned) ||
     /^my role:/i.test(cleaned) ||
     /^persona:/i.test(cleaned) ||
+    /^voice:/i.test(cleaned) ||
+    /^core rules:/i.test(cleaned) ||
+    /^boundaries:/i.test(cleaned) ||
     /^constraint[s]?:/i.test(cleaned) ||
     /^identity:/i.test(cleaned) ||
     /^behavior:/i.test(cleaned) ||
@@ -192,7 +210,8 @@ function isInstructionLeakLine(line: string): boolean {
     /^never output role labels/i.test(cleaned) ||
     /^draft \d+:/i.test(cleaned) ||
     /^(constraint check:|out-of-scope response:|tone\/style:|response should be:)/i.test(cleaned) ||
-    /^(the user is asking|the system instructions state:|i must briefly state)/i.test(cleaned) ||
+    /^(the user is asking|the user just said|the system instructions state:|i must briefly state)/i.test(cleaned) ||
+    /^(the assistant needs to|avoid:|align with:)/i.test(cleaned) ||
     /^(context:|reference profile:|scope:|style:)/i.test(cleaned) ||
     /^(direct and natural\?|2-5 sentences\?|no filler\?|scope adhered to\?|let'?s try:)/i.test(cleaned) ||
     /^(acknowledge the user|identify who i am|offer help)/i.test(cleaned) ||
@@ -271,6 +290,11 @@ function cleanText(raw: string): string {
   text = text.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, "");
   text = text.replace(/<reflection>[\s\S]*?<\/reflection>/gi, "");
   text = text.replace(/<internal>[\s\S]*?<\/internal>/gi, "");
+  text = text.replace(/<\|channel\>thought[\s\S]*?<channel\|>/gi, "");
+  text = text.replace(/<\|channel\>thought[\s\S]*$/gi, "");
+  text = text.replace(/<\|turn\>(?:system|user|model)\s*/gi, "");
+  text = text.replace(/<turn\|>/gi, "");
+  text = text.replace(/<bos>|<eos>/gi, "");
 
   // Strip Gemma's draft/reasoning output and internal monologue
   // It outputs things like:
@@ -332,13 +356,13 @@ function buildFallbackReply(userMessage: string): string | null {
   const question = userMessage.toLowerCase().trim();
 
   if (/^(hi|hello|hey|sup|yo|howdy|greetings)[.!?]*$/.test(question)) {
-    return "Hi! Ask me anything about Tanmay's work, projects, or experience.";
+    return "I'm Tanmay Kalbande's AI assistant. Ask me about his projects, skills, or experience 🎯";
   }
   if (/^(thanks|thank you|thx)[.!?]*$/.test(question)) {
-    return "Happy to help. Anything else you'd like to know about Tanmay?";
+    return "Anytime 👍";
   }
   if (/^(ok|okay|cool|nice|great|awesome)[.!?]*$/.test(question)) {
-    return "Let me know if you have any other questions about Tanmay's work.";
+    return "Ready for the next one ⚡";
   }
 
   return null;
@@ -385,9 +409,9 @@ function buildBody(history: ConversationTurn[], model: string): object {
   ];
 
   const generationConfig: Record<string, unknown> = {
-    temperature: 0.4,
+    temperature: 0.45,
     topP: 0.85,
-    maxOutputTokens: 1200,
+    maxOutputTokens: 600,
   };
 
   const body: Record<string, unknown> = {
@@ -398,17 +422,13 @@ function buildBody(history: ConversationTurn[], model: string): object {
 
   const combinedSystemContext = systemContext.join("\n\n").trim();
   if (combinedSystemContext) {
-    // Only Gemini models support system_instruction reliably via this API.
-    // For ALL Gemma models (including 3 and 4), we prepend the system
-    // instruction to the user turn, matching the working JobFitAI implementation.
-    const supportsSystemInstruction = model.toLowerCase().startsWith("gemini-");
-
-    if (supportsSystemInstruction) {
-      body.system_instruction = {
+    if (supportsNativeSystemInstruction(model)) {
+      body.systemInstruction = {
         parts: [{ text: combinedSystemContext }],
       };
     } else {
-      // For Gemma: prepend system context to the FIRST user message.
+      // Legacy Gemma variants do not support a separate system role, so keep
+      // the instruction inside the first user turn.
       const firstUserIndex = contents.findIndex((t) => t.role === "user");
       if (firstUserIndex >= 0) {
         const originalText = contents[firstUserIndex].parts[0]?.text ?? "";

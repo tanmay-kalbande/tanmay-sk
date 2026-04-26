@@ -54,11 +54,11 @@ export default function PortfolioPage() {
           </div>
           <div className="header-text">
             <h1>Tanmay Kalbande</h1>
-            <h2>Data Science Enthusiast</h2>
+            <h2>Data Analyst &amp; AI Builder</h2>
           </div>
           <div className="contact-info">
             <p>
-              Email: <a href="mailto:kalbandetanmay@gmail.com">kalbandetanmay@gmail.com</a>
+              Email: <a href="mailto:tanmaykalbande@gmail.com">tanmaykalbande@gmail.com</a>
               <br />
               Phone: <a href="tel:7378381494">737-838-1494</a>
             </p>
@@ -71,10 +71,9 @@ export default function PortfolioPage() {
         <div className="section">
           <h2>About Me</h2>
           <p>
-            I&apos;m a data science enthusiast skilled in statistical analysis, machine learning, and
-            data visualization. Passionate about uncovering insights from complex datasets to drive
-            informed decision-making, I aim to contribute to impactful projects while staying updated
-            with the latest advancements in data science.
+            I&apos;m a data analyst and AI builder focused on turning messy data into clear decisions.
+            My work spans analytics, machine learning, dashboards, and practical AI tools that solve
+            real workflow problems.
           </p>
         </div>
 

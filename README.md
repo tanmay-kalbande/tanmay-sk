@@ -21,16 +21,17 @@ This repo now contains a single unified React + TypeScript portfolio app with:
 1. Import this repository into Vercel.
 2. Add the environment variable `GEMINI_API_KEY`.
 3. Optional: add `GEMINI_MODEL` if you want to override the default model.
+4. Optional: add `GEMINI_MODEL_FALLBACK` for a backup model.
 4. Deploy.
 
 Default model:
 
-- `gemma-3-27b-it`
+- `gemma-4-31b-it`
 
 Notes:
 
 - The chat UI requests streamed responses by default.
-- You can set `GEMINI_MODEL_FALLBACK` if you want a secondary model, but the default test path is pinned to Gemma 3 27B.
+- Gemma 4 is wired with native system instructions, and the backend strips thought-channel output before rendering replies.
 
 ## Local Structure
 

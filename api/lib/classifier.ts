@@ -168,7 +168,7 @@ async function classifyWithAi(
   };
 
   if (model.startsWith("gemini-")) {
-    body.system_instruction = {
+    body.systemInstruction = {
       parts: [{ text: "You are an intent router. Output JSON only." }],
     };
   }
