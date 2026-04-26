@@ -93,7 +93,7 @@ export const assistantQuickActions = [
 ] as const;
 
 export const assistantWelcomeMessage =
-  "I'm Tanmay's AI assistant. Ask about projects, skills, experience, or how to reach him ⚡";
+  "Sharp answers on Tanmay's projects, skills, experience, and contact - clean, fast, and easy to scan ⚡";
 
 export const technicalSummary = [
   "Data analyst and ML practitioner with 2+ years of experience building predictive models and analyzing large datasets.",

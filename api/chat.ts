@@ -46,8 +46,8 @@ interface ModelResult {
   streamStarted?: boolean;
 }
 
-const MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "gemma-4-31b-it";
-const MODEL_FALLBACK = process.env.GEMINI_MODEL_FALLBACK ?? "";
+const MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "gemma-3-27b-it";
+const MODEL_FALLBACK = process.env.GEMINI_MODEL_FALLBACK ?? "gemma-4-31b-it";
 
 const GEMINI_URL = (model: string, key: string) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
@@ -409,9 +409,9 @@ function buildBody(history: ConversationTurn[], model: string): object {
   ];
 
   const generationConfig: Record<string, unknown> = {
-    temperature: 0.45,
+    temperature: 0.6,
     topP: 0.85,
-    maxOutputTokens: 600,
+    maxOutputTokens: 420,
   };
 
   const body: Record<string, unknown> = {

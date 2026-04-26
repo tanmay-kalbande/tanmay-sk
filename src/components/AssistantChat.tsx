@@ -132,7 +132,7 @@ type QueryIntentResult = {
   matchedProject: string | null;
 };
 
-const ROUTING_STAGE_MS = 720;
+const ROUTING_STAGE_MS = 240;
 const CONTACT_QUERY_RE = /\b(contact|hire|reach(?:\s+out)?|email|mail|whatsapp|linkedin|connect|get in touch|collaborat(?:e|ion)|work with)\b/i;
 const SKILLS_QUERY_RE = /\b(skill|skills|tech stack|stack|tool|tools|language|languages|framework|frameworks|library|libraries|technology|technologies|proficient|expertise)\b/i;
 const RESUME_QUERY_RE = /\b(experience|work history|career|role|roles|job|jobs|worked|employment|employer|timeline|resume|cv|certification|certifications|certified|capgemini|rubixe)\b/i;
@@ -1161,7 +1161,7 @@ export default function AssistantChat({ variant }: AssistantChatProps) {
     await new Promise<void>((resolve) => {
       window.setTimeout(
         resolve,
-        Math.min(2800, Math.max(2000, (frames.length - 1) * ROUTING_STAGE_MS)),
+        Math.min(320, Math.max(120, Math.round((frames.length - 1) * ROUTING_STAGE_MS * 0.35))),
       );
     });
   }, []);
@@ -1263,12 +1263,8 @@ export default function AssistantChat({ variant }: AssistantChatProps) {
           }
 
           const remaining = pending.target.length - pending.visible.length;
-          const step = pending.isStreaming
-            ? remaining > 24 ? 3 : remaining > 8 ? 2 : 1
-            : Math.max(6, Math.ceil(remaining / 10));
-
           if (remaining > 0) {
-            pending.visible = pending.target.slice(0, pending.visible.length + Math.min(step, remaining));
+            pending.visible = pending.target;
           }
 
           const shouldKeepStreaming = pending.isStreaming || pending.visible.length < pending.target.length;
