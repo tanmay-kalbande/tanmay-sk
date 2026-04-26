@@ -106,7 +106,7 @@ const PROJECT_ALIASES: Record<string, string[]> = {
 };
 
 const CONTACTS = [
-  { label: "Email",    icon: "✉",  href: "mailto:tanmaykalbande@gmail.com",                                                                  display: "tanmaykalbande@gmail.com" },
+  { label: "Email",    icon: "✉",  href: "mailto:kalbandetanmay@gmail.com",                                                                  display: "kalbandetanmay@gmail.com" },
   { label: "LinkedIn", icon: "in", href: "https://www.linkedin.com/in/tanmay-kalbande",                                                      display: "linkedin.com/in/tanmay-kalbande" },
   { label: "GitHub",   icon: "gh", href: "https://github.com/tanmay-kalbande",                                                               display: "github.com/tanmay-kalbande" },
   { label: "WhatsApp", icon: "wa", href: "https://wa.me/7378381494?text=Hi%20Tanmay,%20I%20came%20across%20your%20portfolio%20and%20I%20", display: "+91 7378381494" },

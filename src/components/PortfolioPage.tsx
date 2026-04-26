@@ -58,7 +58,7 @@ export default function PortfolioPage() {
           </div>
           <div className="contact-info">
             <p>
-              Email: <a href="mailto:tanmaykalbande@gmail.com">tanmaykalbande@gmail.com</a>
+              Email: <a href="mailto:kalbandetanmay@gmail.com">kalbandetanmay@gmail.com</a>
               <br />
               Phone: <a href="tel:7378381494">737-838-1494</a>
             </p>
@@ -237,7 +237,7 @@ export default function PortfolioPage() {
             Feel free to reach out if you&apos;d like to connect, discuss a project, or just say hello!
           </p>
           <div className="button-group centered-button-group">
-            <a href="mailto:tanmaykalbande@gmail.com" className="neo-button">
+            <a href="mailto:kalbandetanmay@gmail.com" className="neo-button">
               <i className="fas fa-envelope" /> Email Me
             </a>
             <a
