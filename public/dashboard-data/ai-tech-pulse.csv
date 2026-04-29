@@ -1,0 +1,6 @@
+source,topic,metric,value,status
+arXiv,LLMs,research_items,24,active
+GitHub,Open Source,repo_stars,182400,strong
+Hacker News,Agents,discussion_points,11820,rising
+Combined,Agents,attention_score,86,watch
+Combined,Data Engineering,momentum_score,74,steady

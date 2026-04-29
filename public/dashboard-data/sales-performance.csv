@@ -1,0 +1,13 @@
+month,quarter,region,channel,category,revenue,target,profit,orders,customers
+Jan,Q1,North,Direct,SaaS,188000,176000,72000,318,182
+Feb,Q1,South,Marketplace,Services,164000,158000,54000,286,166
+Mar,Q1,West,Retail,Hardware,196000,188000,58000,342,214
+Apr,Q2,East,Partner,Training,142000,148000,52000,252,136
+May,Q2,North,Marketplace,SaaS,224000,207000,91000,392,228
+Jun,Q2,South,Direct,Services,218000,206000,79000,364,210
+Jul,Q3,West,Partner,SaaS,254000,236000,104000,418,247
+Aug,Q3,East,Retail,Hardware,231000,229000,67000,405,236
+Sep,Q3,North,Direct,Training,206000,194000,86000,336,198
+Oct,Q4,South,Marketplace,SaaS,286000,257000,121000,462,275
+Nov,Q4,West,Direct,Services,302000,282000,116000,481,286
+Dec,Q4,East,Partner,Hardware,274000,265000,82000,438,256

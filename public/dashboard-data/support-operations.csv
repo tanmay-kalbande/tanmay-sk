@@ -1,0 +1,13 @@
+month,team,priority,tickets,resolved,sla,csat,backlog,avg_hours
+Jan,Platform,P2,286,271,91,4.2,42,19
+Feb,Payments,P1,194,181,88,4.0,34,15
+Mar,Data,P3,238,229,94,4.4,27,22
+Apr,Infra,P2,262,251,90,4.1,38,24
+May,Platform,P1,312,302,93,4.3,31,17
+Jun,Payments,P2,276,268,95,4.5,24,16
+Jul,Data,P2,334,319,92,4.2,43,21
+Aug,Infra,P1,298,288,89,4.0,45,18
+Sep,Platform,P3,241,236,96,4.6,19,25
+Oct,Payments,P2,356,344,94,4.4,28,14
+Nov,Data,P1,292,276,87,3.9,52,20
+Dec,Infra,P3,224,219,97,4.7,17,23
