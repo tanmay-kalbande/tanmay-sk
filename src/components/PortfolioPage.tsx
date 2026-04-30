@@ -13,8 +13,10 @@ import {
 } from "../data/siteData";
 import "../styles/landing.css";
 
+type PersonalProjectId = (typeof personalProjects)[number]["id"];
+
 export default function PortfolioPage() {
-  const [activeProjectId, setActiveProjectId] = useState(personalProjects[0].id);
+  const [activeProjectId, setActiveProjectId] = useState<PersonalProjectId>(personalProjects[0].id);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-app-page", "portfolio");
@@ -213,8 +215,8 @@ export default function PortfolioPage() {
           <div>
             <h3>Explore My BI Dashboards</h3>
             <p>
-              Discover my collection of interactive Business Intelligence dashboards showcasing data
-              visualization skills.
+              View a curated set of high-confidence dashboards built from the strongest available
+              portfolio and Power BI data.
             </p>
             <div className="cta-buttons">
               <Link to="/dashboards" className="neo-button">

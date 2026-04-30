@@ -391,11 +391,11 @@ export const dashboardProjects = [
   {
     title: "Power BI Dashboard: Data Wave Metrics in India",
     description:
-      "Explore key wireless data usage and ARPU metrics in India across quarters for revenue, consumption, and tariff insights.",
+      "Power BI report for India wireless data usage, tariff per GB, derived quarterly revenue, and consumption trends using the data.gov.in source noted inside the PBIX.",
     points: [
-      "Analyze wireless data usage and ARPU metrics across quarters.",
-      "Review revenue and data-consumption trends over time.",
-      "Understand tariff variations and their impact.",
+      "Analyze wireless data usage and tariff movement from 2017 to 2022.",
+      "Review quarterly data consumption in petabytes.",
+      "Read quarterly revenue as a derived usage-and-tariff metric.",
     ],
     screenshot: dashboardPhoto,
     screenshotLabel: "Quarterly Metrics Overview",
