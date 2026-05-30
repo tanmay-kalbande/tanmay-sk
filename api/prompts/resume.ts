@@ -25,4 +25,6 @@ Certifications:
 - Certified Data Scientist — IABAC, Sep 2023
 - Data Science Foundation — IABAC, Aug 2023
 - Certified Data Scientist — DataMites, Apr 2023
+- 100 Days of Code: The Complete Python Pro Bootcamp — London App Brewery
+- The Data Science Course: Complete Data Science Bootcamp — 365 Data Science
 `.trim();

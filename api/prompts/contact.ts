@@ -7,7 +7,7 @@ Portfolio: https://tanmaysk.in
 GitHub: https://github.com/tanmay-kalbande
 LinkedIn: https://www.linkedin.com/in/tanmay-kalbande
 Email: kalbandetanmay@gmail.com | hello@tanmaysk.in
-WhatsApp: +91 7378381494 | https://wa.me/7378381494?text=Hi%20Tanmay,%20I%20came%20across%20your%20portfolio%20and%20I%20
-Resume PDF: https://tanmay-eqdav6wyd-tanmays-projects-17b5602c.vercel.app/assets/tanmay-resume-DXrIQ_Zv.pdf
+WhatsApp: +91 7378381494 | https://wa.me/917378381494?text=Hi%20Tanmay,%20I%20came%20across%20your%20portfolio%20and%20wanted%20to%20connect!
+Resume PDF: https://tanmaysk.in/assets/tanmay-resume.pdf
 Medium: https://medium.com/@tanmaykalbande
 `.trim();

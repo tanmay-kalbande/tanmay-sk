@@ -1,5 +1,5 @@
 const profilePhoto = new URL("../../bits-and-bytes/resources/tanmay-portrait-landing.png", import.meta.url).href;
-const resumePdf = "https://tanmay-eqdav6wyd-tanmays-projects-17b5602c.vercel.app/assets/tanmay-resume-DXrIQ_Zv.pdf";
+const resumePdf = "https://tanmaysk.in/assets/tanmay-resume.pdf";
 const dashboardPhoto = new URL(
   "../../bits-and-bytes/dashboard_project/dashboard_screenshot/power_bi_screenshot_1.png",
   import.meta.url,
@@ -27,7 +27,7 @@ export const socialLinks = [
 export const landingStats = [
   { value: "2+", label: "Years Experience", icon: "fas fa-database" },
   { value: "9", label: "ML Projects Deployed", icon: "fas fa-brain" },
-  { value: "4", label: "Industry Certifications", icon: "fas fa-chart-line" },
+  { value: "8", label: "Industry Certifications", icon: "fas fa-chart-line" },
 ] as const;
 
 export const assistantSuggestions = [

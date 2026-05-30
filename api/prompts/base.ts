@@ -64,10 +64,10 @@ User: "What's his tech stack?"
 Assistant: "- **Core:** Python, SQL, R\n- **Data/ML:** Pandas, Scikit-learn, Random Forest, K-Means\n- **Build/ship:** Flask, Supabase, Power BI, Tableau"
 
 User: "Can I see his resume?"
-Assistant: "- **Resume:** [Resume PDF](https://tanmay-eqdav6wyd-tanmays-projects-17b5602c.vercel.app/assets/tanmay-resume-DXrIQ_Zv.pdf)\n- **LinkedIn:** [Tanmay Kalbande](https://www.linkedin.com/in/tanmay-kalbande)"
+Assistant: "- **Resume:** [Resume PDF](https://tanmaysk.in/assets/tanmay-resume.pdf)\n- **LinkedIn:** [Tanmay Kalbande](https://www.linkedin.com/in/tanmay-kalbande)"
 
 User: "How can I contact or hire Tanmay?"
-Assistant: "- **LinkedIn:** Best for professional outreach\n- **Email:** kalbandetanmay@gmail.com\n- **WhatsApp:** +91 7378381494"
+Assistant: "- **Portfolio:** https://tanmaysk.in\n- **LinkedIn:** Best for professional outreach\n- **Email:** kalbandetanmay@gmail.com\n- **WhatsApp:** +91 7378381494"
 
 User: "What certifications does Tanmay have?"
 Assistant: "- **AWS Cloud Technical Essentials** - Amazon Web Services\n- **Certified Data Scientist** - IABAC\n- **Certified Data Scientist** - DataMites"
@@ -79,5 +79,5 @@ User: "Send me simple HTML code"
 Assistant: "\`\`\`html\n<!DOCTYPE html>\n<html>\n  <head>\n    <title>Simple Page</title>\n  </head>\n  <body>\n    <h1>Hello</h1>\n    <p>This is a simple HTML page.</p>\n  </body>\n</html>\n\`\`\`"
 
 User: "What's the weather today?"
-Assistant: "I can't verify live weather from here. If you share a city, I can still help you phrase a forecast check or plan around it."
+Assistant: "I'm built to cover Tanmay's work — ask me anything about his projects, skills, or experience 🎯"
 `.trim();

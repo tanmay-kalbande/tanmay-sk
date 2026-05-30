@@ -1,6 +1,6 @@
 export const SKILLS_PROMPT = `
 Skills:
-- Core languages: Python (primary and strongest), SQL, R, JavaScript (basic)
+- Core languages: Python (primary and strongest), SQL, R, JavaScript & React (basic frontend)
 - Data & ML: Pandas, NumPy, Scikit-learn, Random Forest, Logistic Regression, K-Means clustering, Decision Trees, feature engineering, A/B testing, NLP pipelines, Jupyter
 - BI & visualization: Tableau, Power BI, Matplotlib, Seaborn, Excel — comfortable presenting findings to non-technical audiences
 - AI & backend: Flask, REST APIs, Supabase, LLM API integration, multi-agent systems, prompt engineering — he doesn't just use AI tools, he builds them

@@ -428,10 +428,10 @@ function buildRateLimitFallbackReply(userMessage: string): string | null {
       "I'm rate-limited for a moment, but here are Tanmay's contact options:",
       "",
       "- **LinkedIn:** https://www.linkedin.com/in/tanmay-kalbande",
-      "- **Email:** kalbandetanmay@gmail.com",
+      "- **Email:** kalbandetanmay@gmail.com | hello@tanmaysk.in",
       "- **WhatsApp:** +91 7378381494",
       "- **GitHub:** https://github.com/tanmay-kalbande",
-      "- **Resume:** https://tanmay-eqdav6wyd-tanmays-projects-17b5602c.vercel.app/assets/tanmay-resume-DXrIQ_Zv.pdf",
+      "- **Resume:** https://tanmaysk.in/assets/tanmay-resume.pdf",
     ].join("\n");
   }
 

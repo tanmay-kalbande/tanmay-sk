@@ -99,7 +99,7 @@ export function resolveSessionAccess(
   const sessionId = createSessionId();
   return {
     sessionId,
-    setCookie: `${SESSION_COOKIE_NAME}=${encodeURIComponent(sessionId)}; Path=/; HttpOnly; SameSite=Lax`,
+    setCookie: `${SESSION_COOKIE_NAME}=${encodeURIComponent(sessionId)}; Path=/; HttpOnly; SameSite=Lax; Secure`,
   };
 }
 

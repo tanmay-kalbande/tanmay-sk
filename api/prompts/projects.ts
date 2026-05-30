@@ -21,4 +21,11 @@ Shipped Tools:
 - Mindfulness App | Yoga and meditation PWA with a minimalist, offline-first design. Live: https://breathewell.vercel.app/ | GitHub: https://github.com/tanmay-kalbande/Mindfulness-App
 - The Scam Master Podcast | Website for a fraud-awareness podcast — episode showcase, social integration. Live: https://the-scam-master.vercel.app/ | GitHub: https://github.com/the-scam-master/podcast_webpage
 - Jawala Vyapar | Local business directory with category filtering, search, and multi-language support. Private link.
+
+Professional Projects (Rubixe & Zoompare):
+- Lead Quality Prediction & Scoring - Rubixe | Built a predictive lead scoring model achieving 85% accuracy (Logistic Regression + Random Forest, feature-engineered from CRM data) to directly improve sales team prioritization and outreach efficiency.
+- Customer Segmentation via K-Means Clustering - Rubixe | Preprocessed transaction data and implemented K-Means clustering to identify distinct customer groups, delivering marketing recommendations via custom Tableau dashboards.
+- Predictive Maintenance System - TechCorp / Rubixe | Built predictive maintenance models using Random Forest on IoT sensor datasets to anticipate equipment failure patterns ahead of breakdowns, integrated with real-time alerting.
+- Web Traffic & Conversion Analysis - Zoompare | Extracted Google Analytics API data, performed funnel analysis, and designed A/B tests to optimize conversion rates using Python.
+- Sentiment Analysis - Sentix | Developed an NLP pipeline for real-time customer review sentiment scoring.
 `.trim();
