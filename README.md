@@ -19,24 +19,28 @@ This repo now contains a single unified React + TypeScript portfolio app with:
 ## Vercel Setup
 
 1. Import this repository into Vercel.
-2. Add the environment variable `GEMINI_API_KEY`.
-3. Set `GEMINI_MODEL=gemma-3-27b-it`.
-4. Set `GEMINI_MODEL_FALLBACK=gemma-4-31b-it`.
-4. Deploy.
+2. Add the environment variable `CEREBRAS_API_KEY`.
+3. Set `CEREBRAS_MODEL=gpt-oss-120b`.
+4. Add `GEMINI_API_KEY` for the Gemma backup path and classifier.
+5. Set `GEMINI_MODEL=gemma-3-27b-it`.
+6. Optionally set `GEMINI_MODEL_FALLBACK=gemma-4-31b-it` as a secondary Gemma backup.
+7. Deploy.
 
-Default model:
+Primary model:
 
-- `gemma-3-27b-it`
+- Cerebras `gpt-oss-120b`
 
 Fallback model:
 
-- `gemma-4-31b-it`
+- Gemma `gemma-3-27b-it`
+- Optional secondary Gemma fallback: `gemma-4-31b-it`
 
 Notes:
 
 - The chat UI requests streamed responses by default.
-- Gemma 3 is the faster default for the public portfolio assistant.
-- Gemma 4 is kept as a fallback, and the backend strips thought-channel output before rendering replies.
+- Cerebras is the primary provider for the public portfolio assistant.
+- If Cerebras has an issue before a response starts, the backend switches to Gemma and the chat UI shows a small fallback notice.
+- The backend strips thought-channel output before rendering replies.
 - The assistant prompt is tuned for concise Markdown answers that are easier to scan.
 
 ## Local Structure

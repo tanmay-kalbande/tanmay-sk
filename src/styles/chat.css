@@ -349,6 +349,22 @@
   word-break: break-word;
 }
 
+.qx__model-notice {
+  display: inline-flex;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0.32rem 0.52rem;
+  border: 1px solid rgba(200, 69, 26, 0.18);
+  border-left: 2px solid #c8451a;
+  border-radius: 6px;
+  background: rgba(200, 69, 26, 0.055);
+  color: var(--lp-text-muted, #666);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.58rem;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
 .qx__stream-cursor {
   display: inline-block;
   width: 0.62ch;
@@ -951,6 +967,12 @@ html[data-theme="dark"] .qx__retry {
   background: rgba(255,255,255,0.035);
   border-color: rgba(255,255,255,0.08);
   color: var(--lp-text-muted, #9a9a9a);
+}
+
+html[data-theme="dark"] .qx__model-notice {
+  background: rgba(200, 69, 26, 0.1);
+  border-color: rgba(200, 69, 26, 0.28);
+  color: var(--lp-text-muted, #a8a8a8);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════

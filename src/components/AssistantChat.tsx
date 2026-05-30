@@ -32,6 +32,7 @@ type Exchange = {
   loadingSubtitle: string;
   loadingStageIndex: number;
   loadingStageCount: number;
+  modelNotice?: string;
 };
 
 export type AssistantChatProps = {
@@ -475,6 +476,7 @@ type AssistantStreamPayload = {
   text?: string;
   error?: string;
   model?: string;
+  notice?: string;
 };
 
 function readApiError(raw: string): string {
@@ -879,7 +881,7 @@ function useScrollReveal() {
 }
 
 function ExchangeBlock({ ex, onRetry }: { ex: Exchange; onRetry: () => void }) {
-  const isWaiting = ex.answer === "" && ex.isStreaming;
+  const isWaiting = ex.answer === "" && ex.isStreaming && !ex.modelNotice;
   const { ref, isVisible } = useScrollReveal();
   const html = useMemo(() => {
     try {
@@ -959,6 +961,12 @@ function ExchangeBlock({ ex, onRetry }: { ex: Exchange; onRetry: () => void }) {
               initial={{ opacity: 0, y: 5 }}
               animate={{ opacity: 1, y: 0, transition: answerStateTransition }}
             >
+              {ex.modelNotice && (
+                <div className="qx__model-notice" role="status" aria-live="polite">
+                  {ex.modelNotice}
+                </div>
+              )}
+
               <div
                 className={`qx__prose${ex.isStreaming ? " qx__prose--streaming" : ""}`}
                 dangerouslySetInnerHTML={{ __html: html }}
@@ -1307,6 +1315,16 @@ export default function AssistantChat({ variant }: AssistantChatProps) {
             return;
           }
 
+          if (event === "notice") {
+            const notice = payload.notice ?? payload.text;
+            if (notice) {
+              setExchanges((prev) =>
+                prev.map((e) => (e.id === exId ? { ...e, modelNotice: notice } : e)),
+              );
+            }
+            return;
+          }
+
           if (event !== "chunk" && event !== "done") return;
 
           stopNarration();
@@ -1343,8 +1361,8 @@ export default function AssistantChat({ variant }: AssistantChatProps) {
         );
       } else {
         const raw = await res.text();
-        let payload: { text?: string; error?: string };
-        try { payload = JSON.parse(raw) as { text?: string; error?: string }; }
+        let payload: { text?: string; error?: string; notice?: string };
+        try { payload = JSON.parse(raw) as { text?: string; error?: string; notice?: string }; }
         catch { throw new Error(raw.slice(0, 200) || "Non-JSON response"); }
         if (!payload.text) throw new Error(payload.error ?? "No response");
         stopNarration();
@@ -1359,6 +1377,7 @@ export default function AssistantChat({ variant }: AssistantChatProps) {
                   answer,
                   isStreaming: false,
                   canRetry: true,
+                  modelNotice: payload.notice,
                   cardType: finalCard.cardType,
                   matchedProject: finalCard.matchedProject,
                 }

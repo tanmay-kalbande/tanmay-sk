@@ -46,8 +46,34 @@ interface ModelResult {
   streamStarted?: boolean;
 }
 
-const MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "gemma-3-27b-it";
-const MODEL_FALLBACK = process.env.GEMINI_MODEL_FALLBACK ?? "gemma-4-31b-it";
+type ModelProvider = "cerebras" | "gemini";
+type ModelRoute = {
+  provider: ModelProvider;
+  model: string;
+  apiKey: string;
+  displayName: string;
+};
+
+type CerebrasMessage = {
+  role: "developer" | "system" | "user" | "assistant";
+  content: string;
+};
+type CerebrasPayload = {
+  choices?: Array<{
+    message?: { content?: string | null };
+    delta?: { content?: string | null };
+    finish_reason?: string | null;
+  }>;
+  error?: { message?: string } | string;
+  message?: string;
+  detail?: string;
+};
+
+const CEREBRAS_MODEL = process.env.CEREBRAS_MODEL ?? "gpt-oss-120b";
+const GEMINI_MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "gemma-3-27b-it";
+const GEMINI_MODEL_FALLBACK = process.env.GEMINI_MODEL_FALLBACK ?? "gemma-4-31b-it";
+
+const CEREBRAS_CHAT_URL = "https://api.cerebras.ai/v1/chat/completions";
 
 const GEMINI_URL = (model: string, key: string) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
@@ -448,7 +474,51 @@ function pushGeminiTurn(contents: GeminiTurn[], role: "user" | "model", text: st
   contents.push({ role, parts: [{ text }] });
 }
 
-function buildBody(history: ConversationTurn[], model: string): object {
+function pushCerebrasMessage(messages: CerebrasMessage[], role: CerebrasMessage["role"], text: string): void {
+  if (!text) return;
+
+  const previous = messages[messages.length - 1];
+  if (previous?.role === role) {
+    previous.content = `${previous.content}\n\n${text}`;
+    return;
+  }
+
+  messages.push({ role, content: text });
+}
+
+function buildCerebrasBody(history: ConversationTurn[], model: string, stream: boolean): object {
+  const messages: CerebrasMessage[] = [];
+  const systemContext: string[] = [];
+
+  for (const turn of history) {
+    const text = turn.content.trim();
+    if (!text) continue;
+
+    if (turn.role === "system") {
+      systemContext.push(text);
+      continue;
+    }
+
+    pushCerebrasMessage(messages, turn.role === "assistant" ? "assistant" : "user", text);
+  }
+
+  const combinedSystemContext = systemContext.join("\n\n").trim();
+  if (combinedSystemContext) {
+    const systemRole = model.toLowerCase() === "gpt-oss-120b" ? "developer" : "system";
+    messages.unshift({ role: systemRole, content: combinedSystemContext });
+  }
+
+  return {
+    model,
+    messages,
+    stream,
+    temperature: 0.6,
+    top_p: 0.85,
+    max_completion_tokens: 420,
+  };
+}
+
+function buildGeminiBody(history: ConversationTurn[], model: string): object {
   const contents: GeminiTurn[] = [];
   const systemContext: string[] = [];
 
@@ -517,11 +587,72 @@ function buildBody(history: ConversationTurn[], model: string): object {
 
 function readApiError(raw: string, status: number): string {
   try {
-    const payload = JSON.parse(raw) as GeminiPayload;
-    return payload.error?.message ?? raw.trim() ?? `HTTP ${status}`;
+    const payload = JSON.parse(raw) as {
+      error?: { message?: string } | string;
+      message?: string;
+      detail?: string;
+    };
+    const error = payload.error;
+    if (typeof error === "string") return error;
+    return error?.message ?? payload.message ?? payload.detail ?? raw.trim() ?? `HTTP ${status}`;
   } catch {
     return raw.trim() || `HTTP ${status}`;
   }
+}
+
+function extractCerebrasText(payload: CerebrasPayload): string {
+  return (payload.choices?.[0]?.message?.content ?? "").trim();
+}
+
+function openStreamResponse(response: VercelLikeResponse): void {
+  response.status(200);
+  response.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+  response.setHeader("Cache-Control", "no-cache, no-transform");
+  response.setHeader("Connection", "keep-alive");
+  response.setHeader("X-Accel-Buffering", "no");
+  response.flushHeaders?.();
+}
+
+function buildModelQueue(
+  cerebrasApiKey: string | undefined,
+  geminiApiKey: string | undefined,
+): { queue: ModelRoute[]; skippedPrimaryNotice: string | null } {
+  const queue: ModelRoute[] = [];
+  let skippedPrimaryNotice: string | null = null;
+
+  if (CEREBRAS_MODEL && cerebrasApiKey) {
+    queue.push({
+      provider: "cerebras",
+      model: CEREBRAS_MODEL,
+      apiKey: cerebrasApiKey,
+      displayName: "Cerebras",
+    });
+  } else if (CEREBRAS_MODEL) {
+    skippedPrimaryNotice =
+      "Cerebras is not configured in this deployment, so this answer is coming from Gemma backup.";
+  }
+
+  const geminiModels = [GEMINI_MODEL_PRIMARY, GEMINI_MODEL_FALLBACK].filter(
+    (model, index, models): model is string => Boolean(model) && models.indexOf(model) === index,
+  );
+
+  if (geminiApiKey) {
+    for (const model of geminiModels) {
+      queue.push({
+        provider: "gemini",
+        model,
+        apiKey: geminiApiKey,
+        displayName: "Gemma",
+      });
+    }
+  }
+
+  return { queue, skippedPrimaryNotice };
+}
+
+function buildFallbackNotice(route: ModelRoute, result: ModelResult, nextRoute: ModelRoute): string {
+  const issue = result.status > 0 ? `HTTP ${result.status}` : "connection issue";
+  return `${route.displayName} had an issue (${issue}), so this answer is coming from ${nextRoute.displayName} backup.`;
 }
 
 function writeStreamEvent(
@@ -557,13 +688,13 @@ function mergeChunkText(existing: string, incoming: string): string {
   return existing + incoming;
 }
 
-async function tryModel(
+async function tryGeminiModel(
   apiKey: string,
   model: string,
   history: ConversationTurn[],
   userMessage: string,
 ): Promise<ModelResult> {
-  const body = buildBody(history, model);
+  const body = buildGeminiBody(history, model);
 
   let response: Response;
   try {
@@ -617,18 +748,89 @@ async function tryModel(
   };
 }
 
-async function tryModelStream(
+async function tryCerebrasModel(
+  apiKey: string,
+  model: string,
+  history: ConversationTurn[],
+  userMessage: string,
+): Promise<ModelResult> {
+  const body = buildCerebrasBody(history, model, false);
+
+  let response: Response;
+  try {
+    response = await fetch(CEREBRAS_CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return { ok: false, text: "", status: 0, errorMsg: `Network error: ${String(error)}` };
+  }
+
+  let payload: CerebrasPayload;
+  try {
+    payload = await response.json() as CerebrasPayload;
+  } catch {
+    return { ok: false, text: "", status: response.status, errorMsg: "Failed to parse API response" };
+  }
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      text: "",
+      status: response.status,
+      errorMsg: typeof payload.error === "string" ? payload.error : payload.error?.message ?? `HTTP ${response.status}`,
+    };
+  }
+
+  const raw = extractCerebrasText(payload);
+  if (!raw) {
+    console.warn(`[chat] ${model} empty. finishReason=${payload.choices?.[0]?.finish_reason || "unknown"}`);
+
+    const fallback = buildFallbackReply(userMessage);
+    if (fallback) return { ok: true, text: fallback, status: response.status, errorMsg: "" };
+
+    return {
+      ok: false,
+      text: "",
+      status: 500,
+      errorMsg: "No content from model",
+    };
+  }
+
+  const cleaned = cleanText(raw);
+  return {
+    ok: true,
+    text: cleaned || raw.slice(0, 400).trim(),
+    status: response.status,
+    errorMsg: "",
+  };
+}
+
+async function tryModel(route: ModelRoute, history: ConversationTurn[], userMessage: string): Promise<ModelResult> {
+  if (route.provider === "cerebras") {
+    return tryCerebrasModel(route.apiKey, route.model, history, userMessage);
+  }
+
+  return tryGeminiModel(route.apiKey, route.model, history, userMessage);
+}
+
+async function tryGeminiModelStream(
   apiKey: string,
   model: string,
   history: ConversationTurn[],
   userMessage: string,
   response: VercelLikeResponse,
+  notice?: string | null,
 ): Promise<ModelResult> {
   if (!response.write || !response.end) {
     return { ok: false, text: "", status: 500, errorMsg: "Streaming not supported.", streamStarted: false };
   }
 
-  const body = buildBody(history, model);
+  const body = buildGeminiBody(history, model);
 
   let upstream: Response;
   try {
@@ -662,13 +864,9 @@ async function tryModelStream(
     return { ok: false, text: "", status: upstream.status, errorMsg: "Empty stream body.", streamStarted: false };
   }
 
-  response.status(200);
-  response.setHeader("Content-Type", "text/event-stream; charset=utf-8");
-  response.setHeader("Cache-Control", "no-cache, no-transform");
-  response.setHeader("Connection", "keep-alive");
-  response.setHeader("X-Accel-Buffering", "no");
-  response.flushHeaders?.();
-  writeStreamEvent(response, "meta", { model });
+  openStreamResponse(response);
+  writeStreamEvent(response, "meta", { model, provider: "gemini" });
+  if (notice) writeStreamEvent(response, "notice", { notice, model, provider: "gemini" });
 
   const reader = upstream.body.getReader();
   const decoder = new TextDecoder();
@@ -736,7 +934,7 @@ async function tryModelStream(
   if (!rawText) {
     console.warn(`[chat] ${model} stream empty. finishReason=${lastFinishReason || "unknown"}`);
 
-    const recovered = await tryModel(apiKey, model, history, userMessage);
+    const recovered = await tryGeminiModel(apiKey, model, history, userMessage);
     if (recovered.ok && recovered.text) {
       writeStreamEvent(response, "chunk", { text: recovered.text, model, recovered: "generateContent" });
       writeStreamEvent(response, "done", { text: recovered.text, model, recovered: "generateContent" });
@@ -774,6 +972,174 @@ async function tryModelStream(
   return { ok: true, text: finalText, status: 200, errorMsg: "", streamStarted: true };
 }
 
+async function tryCerebrasModelStream(
+  apiKey: string,
+  model: string,
+  history: ConversationTurn[],
+  userMessage: string,
+  response: VercelLikeResponse,
+  notice?: string | null,
+): Promise<ModelResult> {
+  if (!response.write || !response.end) {
+    return { ok: false, text: "", status: 500, errorMsg: "Streaming not supported.", streamStarted: false };
+  }
+
+  const body = buildCerebrasBody(history, model, true);
+
+  let upstream: Response;
+  try {
+    upstream = await fetch(CEREBRAS_CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      text: "",
+      status: 0,
+      errorMsg: `Network error: ${String(error)}`,
+      streamStarted: false,
+    };
+  }
+
+  if (!upstream.ok) {
+    const rawError = await upstream.text();
+    return {
+      ok: false,
+      text: "",
+      status: upstream.status,
+      errorMsg: readApiError(rawError, upstream.status),
+      streamStarted: false,
+    };
+  }
+
+  if (!upstream.body) {
+    return { ok: false, text: "", status: upstream.status, errorMsg: "Empty stream body.", streamStarted: false };
+  }
+
+  openStreamResponse(response);
+  writeStreamEvent(response, "meta", { model, provider: "cerebras" });
+  if (notice) writeStreamEvent(response, "notice", { notice, model, provider: "cerebras" });
+
+  const reader = upstream.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let rawText = "";
+  let visibleText = "";
+  let lastFinishReason = "";
+
+  const processBlock = (block: string) => {
+    const data = extractSseData(block);
+    if (!data || data === "[DONE]") return;
+
+    let payload: CerebrasPayload;
+    try {
+      payload = JSON.parse(data) as CerebrasPayload;
+    } catch {
+      return;
+    }
+
+    const choice = payload.choices?.[0];
+    if (choice?.finish_reason) lastFinishReason = choice.finish_reason;
+
+    const chunkText = choice?.delta?.content ?? "";
+    if (!chunkText) return;
+
+    rawText += chunkText;
+    const next = cleanText(rawText) || rawText.trim();
+    if (next && next !== visibleText) {
+      visibleText = next;
+      writeStreamEvent(response, "chunk", { text: visibleText, model, provider: "cerebras" });
+    }
+  };
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      buffer += decoder.decode(value ?? new Uint8Array(), { stream: !done });
+
+      let boundary = findSseBoundary(buffer);
+      while (boundary) {
+        processBlock(buffer.slice(0, boundary.index));
+        buffer = buffer.slice(boundary.index + boundary.length);
+        boundary = findSseBoundary(buffer);
+      }
+
+      if (done) break;
+    }
+
+    if (buffer.trim()) processBlock(buffer);
+  } catch (error) {
+    writeStreamEvent(response, "error", { error: `Stream interrupted: ${String(error)}`, model });
+    response.end();
+    return {
+      ok: false,
+      text: visibleText,
+      status: 500,
+      errorMsg: String(error),
+      streamStarted: true,
+    };
+  }
+
+  if (!rawText) {
+    console.warn(`[chat] ${model} stream empty. finishReason=${lastFinishReason || "unknown"}`);
+
+    const recovered = await tryCerebrasModel(apiKey, model, history, userMessage);
+    if (recovered.ok && recovered.text) {
+      writeStreamEvent(response, "chunk", { text: recovered.text, model, provider: "cerebras", recovered: "chat.completions" });
+      writeStreamEvent(response, "done", { text: recovered.text, model, provider: "cerebras", recovered: "chat.completions" });
+      response.end();
+      return { ok: true, text: recovered.text, status: 200, errorMsg: "", streamStarted: true };
+    }
+
+    const fallback = buildFallbackReply(userMessage);
+    if (!fallback) {
+      const recoveryHint = recovered.errorMsg ? `; fallback=${recovered.errorMsg}` : "";
+      writeStreamEvent(
+        response,
+        "error",
+        { error: `No content from model (finishReason=${lastFinishReason || "unknown"}${recoveryHint})`, model },
+      );
+      response.end();
+      return {
+        ok: false,
+        text: "",
+        status: 500,
+        errorMsg: `No content from model${recoveryHint}`,
+        streamStarted: true,
+      };
+    }
+
+    writeStreamEvent(response, "chunk", { text: fallback, model, provider: "cerebras" });
+    writeStreamEvent(response, "done", { text: fallback, model, provider: "cerebras" });
+    response.end();
+    return { ok: true, text: fallback, status: 200, errorMsg: "", streamStarted: true };
+  }
+
+  const finalText = cleanText(rawText) || visibleText.trim() || rawText.slice(0, 400).trim();
+  writeStreamEvent(response, "done", { text: finalText, model, provider: "cerebras" });
+  response.end();
+  return { ok: true, text: finalText, status: 200, errorMsg: "", streamStarted: true };
+}
+
+async function tryModelStream(
+  route: ModelRoute,
+  history: ConversationTurn[],
+  userMessage: string,
+  response: VercelLikeResponse,
+  notice?: string | null,
+): Promise<ModelResult> {
+  if (route.provider === "cerebras") {
+    return tryCerebrasModelStream(route.apiKey, route.model, history, userMessage, response, notice);
+  }
+
+  return tryGeminiModelStream(route.apiKey, route.model, history, userMessage, response, notice);
+}
+
 export default async function handler(req: VercelLikeRequest, res: VercelLikeResponse) {
   if (req.method !== "POST") {
     res.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -781,10 +1147,13 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
     return;
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
+  const cerebrasApiKey = process.env.CEREBRAS_API_KEY?.trim();
+  const geminiApiKey = process.env.GEMINI_API_KEY?.trim();
+  const { queue, skippedPrimaryNotice } = buildModelQueue(cerebrasApiKey, geminiApiKey);
+
+  if (queue.length === 0) {
     res.setHeader("Content-Type", "application/json; charset=utf-8");
-    res.status(500).json({ error: "GEMINI_API_KEY is not configured." });
+    res.status(500).json({ error: "CEREBRAS_API_KEY or GEMINI_API_KEY is required." });
     return;
   }
 
@@ -837,7 +1206,7 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
     session.messageHistory = [...systemTurns, ...clientTurns];
   }
 
-  const classification = await classifyIntents(message, apiKey, MODEL_PRIMARY);
+  const classification = await classifyIntents(message, geminiApiKey ?? "", GEMINI_MODEL_PRIMARY);
 
   // If classifier is confident, inject only matched contexts.
   // If not confident, keep the assistant in lightweight general mode instead
@@ -851,25 +1220,31 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
 
   appendTurn(session, { role: "user", content: message });
 
-  const queue = [MODEL_PRIMARY, MODEL_FALLBACK].filter(
-    (model, index, models) => Boolean(model) && models.indexOf(model) === index,
-  );
-
   if (shouldStream) {
-    for (const model of queue) {
-      console.log(`[chat] -> streaming ${model}`);
-      const result = await tryModelStream(apiKey, model, session.messageHistory, message, res);
+    let pendingNotice = skippedPrimaryNotice;
+
+    for (let index = 0; index < queue.length; index += 1) {
+      const route = queue[index];
+      const nextRoute = queue[index + 1];
+      console.log(`[chat] -> streaming ${route.displayName}:${route.model}`);
+      const result = await tryModelStream(route, session.messageHistory, message, res, pendingNotice);
       if (result.ok) {
         appendTurn(session, { role: "assistant", content: result.text });
-        console.log(`[chat] ok ${model}`);
+        console.log(`[chat] ok ${route.displayName}:${route.model}`);
         return;
       }
 
-      console.warn(`[chat] x ${model} [${result.status}]: ${result.errorMsg}`);
-      if (isModelUnavailable(result.status, result.errorMsg)) continue;
+      console.warn(`[chat] x ${route.displayName}:${route.model} [${result.status}]: ${result.errorMsg}`);
+      if (result.streamStarted) return;
+      if (nextRoute && (route.provider === "cerebras" || isModelUnavailable(result.status, result.errorMsg))) {
+        pendingNotice = pendingNotice ?? buildFallbackNotice(route, result, nextRoute);
+        continue;
+      }
       if (isRateLimitError(result.status, result.errorMsg)) {
         const fallback = buildRateLimitFallbackReply(message);
         if (fallback) {
+          openStreamResponse(res);
+          if (pendingNotice) writeStreamEvent(res, "notice", { notice: pendingNotice, model: route.model, provider: route.provider });
           appendTurn(session, { role: "assistant", content: fallback });
           writeStreamEvent(res, "chunk", { text: fallback, model: "fallback" });
           writeStreamEvent(res, "done", { text: fallback, model: "fallback" });
@@ -879,7 +1254,6 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
       }
 
       rollbackPendingUserTurn(session);
-      if (result.streamStarted) return;
 
       res.setHeader("Content-Type", "application/json; charset=utf-8");
       res.status(500).json({ error: result.errorMsg || "The assistant encountered an error." });
@@ -892,24 +1266,31 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
     return;
   }
 
-  for (const model of queue) {
-    console.log(`[chat] -> ${model}`);
-    const result = await tryModel(apiKey, model, session.messageHistory, message);
+  let pendingNotice = skippedPrimaryNotice;
+
+  for (let index = 0; index < queue.length; index += 1) {
+    const route = queue[index];
+    const nextRoute = queue[index + 1];
+    console.log(`[chat] -> ${route.displayName}:${route.model}`);
+    const result = await tryModel(route, session.messageHistory, message);
     if (result.ok) {
       appendTurn(session, { role: "assistant", content: result.text });
       res.setHeader("Content-Type", "application/json; charset=utf-8");
-      res.status(200).json({ text: result.text });
+      res.status(200).json({ text: result.text, ...(pendingNotice ? { notice: pendingNotice } : {}) });
       return;
     }
 
-    console.warn(`[chat] x ${model} [${result.status}]: ${result.errorMsg}`);
-    if (isModelUnavailable(result.status, result.errorMsg)) continue;
+    console.warn(`[chat] x ${route.displayName}:${route.model} [${result.status}]: ${result.errorMsg}`);
+    if (nextRoute && (route.provider === "cerebras" || isModelUnavailable(result.status, result.errorMsg))) {
+      pendingNotice = pendingNotice ?? buildFallbackNotice(route, result, nextRoute);
+      continue;
+    }
     if (isRateLimitError(result.status, result.errorMsg)) {
       const fallback = buildRateLimitFallbackReply(message);
       if (fallback) {
         appendTurn(session, { role: "assistant", content: fallback });
         res.setHeader("Content-Type", "application/json; charset=utf-8");
-        res.status(200).json({ text: fallback });
+        res.status(200).json({ text: fallback, ...(pendingNotice ? { notice: pendingNotice } : {}) });
         return;
       }
     }

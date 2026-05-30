@@ -256,6 +256,12 @@ export async function classifyIntents(
 ): Promise<ClassificationResult> {
   const heuristic = classifyHeuristically(message);
   if (heuristic.confident) return { intents: heuristic.intents, confident: true };
+  if (!apiKey.trim()) {
+    return {
+      intents: heuristic.intents.length > 0 ? heuristic.intents : ["general"],
+      confident: false,
+    };
+  }
 
   try {
     const aiLabels = await classifyWithAi(message, apiKey, primaryModel);
