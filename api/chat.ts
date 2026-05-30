@@ -72,6 +72,7 @@ type CerebrasPayload = {
 const CEREBRAS_MODEL = process.env.CEREBRAS_MODEL ?? "gpt-oss-120b";
 const GEMINI_MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "gemma-3-27b-it";
 const GEMINI_MODEL_FALLBACK = process.env.GEMINI_MODEL_FALLBACK ?? "gemma-4-31b-it";
+const CHAT_CONFIG_VERSION = "cerebras-env-2026-05-30";
 
 const CEREBRAS_CHAT_URL = "https://api.cerebras.ai/v1/chat/completions";
 
@@ -881,7 +882,7 @@ async function tryGeminiModelStream(
   }
 
   openStreamResponse(response);
-  writeStreamEvent(response, "meta", { model, provider: "gemini" });
+  writeStreamEvent(response, "meta", { model, provider: "gemini", configVersion: CHAT_CONFIG_VERSION });
   if (notice) writeStreamEvent(response, "notice", { notice, model, provider: "gemini" });
 
   const reader = upstream.body.getReader();
@@ -1038,7 +1039,7 @@ async function tryCerebrasModelStream(
   }
 
   openStreamResponse(response);
-  writeStreamEvent(response, "meta", { model, provider: "cerebras" });
+  writeStreamEvent(response, "meta", { model, provider: "cerebras", configVersion: CHAT_CONFIG_VERSION });
   if (notice) writeStreamEvent(response, "notice", { notice, model, provider: "cerebras" });
 
   const reader = upstream.body.getReader();
@@ -1163,8 +1164,12 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
     return;
   }
 
-  const cerebrasApiKey = readEnv("CEREBRAS_API_KEY", "CEREBRAS_KEY", "CEREBRAS_TOKEN", "CEREBRAS_API_TOKEN");
-  const geminiApiKey = readEnv("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY");
+  const cerebrasApiKey =
+    process.env.CEREBRAS_API_KEY?.trim() ||
+    readEnv("CEREBRAS_API_KEY", "CEREBRAS_KEY", "CEREBRAS_TOKEN", "CEREBRAS_API_TOKEN");
+  const geminiApiKey =
+    process.env.GEMINI_API_KEY?.trim() ||
+    readEnv("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY");
   const { queue, skippedPrimaryNotice } = buildModelQueue(cerebrasApiKey, geminiApiKey);
 
   if (queue.length === 0) {
