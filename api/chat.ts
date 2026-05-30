@@ -84,15 +84,19 @@ const GEMINI_STREAM_URL = (model: string, key: string) =>
 
 const rateLimitStore = new Map<string, number[]>();
 
+function normaliseEnvName(name: string): string {
+  return name.replace(/[^a-z0-9_]/gi, "").toUpperCase();
+}
+
 function readEnv(...names: string[]): string | undefined {
   for (const name of names) {
     const direct = process.env[name]?.trim();
     if (direct) return direct;
   }
 
-  const normalisedNames = new Set(names.map((name) => name.trim().toUpperCase()));
+  const normalisedNames = new Set(names.map(normaliseEnvName));
   for (const [key, value] of Object.entries(process.env)) {
-    if (!normalisedNames.has(key.trim().toUpperCase())) continue;
+    if (!normalisedNames.has(normaliseEnvName(key))) continue;
     const cleaned = value?.trim();
     if (cleaned) return cleaned;
   }
