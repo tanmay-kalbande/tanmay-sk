@@ -83,6 +83,22 @@ const GEMINI_STREAM_URL = (model: string, key: string) =>
 
 const rateLimitStore = new Map<string, number[]>();
 
+function readEnv(...names: string[]): string | undefined {
+  for (const name of names) {
+    const direct = process.env[name]?.trim();
+    if (direct) return direct;
+  }
+
+  const normalisedNames = new Set(names.map((name) => name.trim().toUpperCase()));
+  for (const [key, value] of Object.entries(process.env)) {
+    if (!normalisedNames.has(key.trim().toUpperCase())) continue;
+    const cleaned = value?.trim();
+    if (cleaned) return cleaned;
+  }
+
+  return undefined;
+}
+
 function isGeminiModel(model: string): boolean {
   return model.toLowerCase().startsWith("gemini-");
 }
@@ -1147,8 +1163,8 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
     return;
   }
 
-  const cerebrasApiKey = process.env.CEREBRAS_API_KEY?.trim();
-  const geminiApiKey = process.env.GEMINI_API_KEY?.trim();
+  const cerebrasApiKey = readEnv("CEREBRAS_API_KEY", "CEREBRAS_KEY", "CEREBRAS_TOKEN", "CEREBRAS_API_TOKEN");
+  const geminiApiKey = readEnv("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY");
   const { queue, skippedPrimaryNotice } = buildModelQueue(cerebrasApiKey, geminiApiKey);
 
   if (queue.length === 0) {
