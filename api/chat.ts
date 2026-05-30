@@ -1170,9 +1170,14 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
 
   const cerebrasApiKey =
     process.env.CEREBRAS_API_KEY?.trim() ||
+    process.env.CEREBRAS_KEY?.trim() ||
+    process.env.CEREBRAS_TOKEN?.trim() ||
+    process.env.CEREBRAS_API_TOKEN?.trim() ||
     readEnv("CEREBRAS_API_KEY", "CEREBRAS_KEY", "CEREBRAS_TOKEN", "CEREBRAS_API_TOKEN");
   const geminiApiKey =
     process.env.GEMINI_API_KEY?.trim() ||
+    process.env.GOOGLE_API_KEY?.trim() ||
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY?.trim() ||
     readEnv("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY");
   const { queue, skippedPrimaryNotice } = buildModelQueue(cerebrasApiKey, geminiApiKey);
 
