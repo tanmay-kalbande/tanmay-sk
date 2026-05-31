@@ -54,7 +54,6 @@ html[data-app-page="landing-v5"][data-theme="dark"] {
   font-family: var(--f-mono);
   overflow: hidden;
   position: relative;
-  zoom: 1.1;
 }
 
 html[data-theme="dark"] .lv5-shell {
