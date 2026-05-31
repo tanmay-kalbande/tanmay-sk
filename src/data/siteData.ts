@@ -1,4 +1,4 @@
-const profilePhoto = new URL("../../bits-and-bytes/resources/tanmay-portrait-landing.png", import.meta.url).href;
+const profilePhoto = new URL("../../bits-and-bytes/resources/tanmay-portrait-landing.jpg", import.meta.url).href;
 const resumePdf = "https://tanmaysk.in/assets/tanmay-resume.pdf";
 const dashboardPhoto = new URL(
   "../../bits-and-bytes/dashboard_project/dashboard_screenshot/power_bi_screenshot_1.png",
