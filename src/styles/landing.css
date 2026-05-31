@@ -54,6 +54,7 @@ html[data-app-page="landing-v5"][data-theme="dark"] {
   font-family: var(--f-mono);
   overflow: hidden;
   position: relative;
+  zoom: 1.1;
 }
 
 html[data-theme="dark"] .lv5-shell {
@@ -528,7 +529,7 @@ html[data-theme="dark"] .lv5-shell {
   transition: color 0.2s, border-color 0.2s;
 }
 
-.lv5-social:hover { color: var(--gold); border-color: var(--gold); }
+.lv5-social:hover { color: var(--accent); border-color: var(--accent); }
 
 /* ── Chat panel ─────────────────────────────────────────────────
    Fills 100% of the stretched content area.

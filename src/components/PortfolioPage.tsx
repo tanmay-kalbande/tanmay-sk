@@ -21,14 +21,7 @@ export default function PortfolioPage() {
   useEffect(() => {
     document.documentElement.setAttribute("data-app-page", "portfolio");
     document.title = "Tanmay Kalbande - Data Science Portfolio";
-    // Disable context menu for "this page" as requested
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
-    };
-    document.addEventListener("contextmenu", handleContextMenu);
-    return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-    };
+    return undefined;
   }, []);
 
   const activeProject = personalProjects.find((project) => project.id === activeProjectId) ?? personalProjects[0];

@@ -45,13 +45,5 @@
   50%       { opacity: 0.2; }
 }
 
-/* ── Patch: LandingPage chat panel not squished on big screens ──────────
-   The lv5-chat container also needs a sensible max width.
-   ──────────────────────────────────────────────────────────────────── */
+/* (duplicate .lv5-chat rule removed — canonical in landing.css) */
 
-@media (min-width: 1200px) {
-  .lv5-chat {
-    max-width: 860px;
-    width: 100%;
-  }
-}
