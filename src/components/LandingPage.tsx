@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import AssistantChat from "./AssistantChat";
-import { socialLinks, experiences, skills } from "../data/siteData";
+import { assetUrls, socialLinks, experiences, skills } from "../data/siteData";
 import "../styles/landing.css";
 
 type Tab = "home" | "assistant";
@@ -75,7 +75,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-app-page", "landing-v5");
-    document.title = "Tanmay Kalbande — Data Analyst & AI Builder";
+    document.title = "Tanmay Kalbande — Data Scientist & Software Engineer";
     const saved = window.localStorage.getItem("theme");
     const preferDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
     const t = preferDark ? "dark" : "light";
@@ -150,9 +150,9 @@ export default function LandingPage() {
                 </motion.div>
 
                 <motion.div variants={line} className="lv5-identity">
-                  <span>Data Analyst &amp; AI Builder</span>
+                  <span>Data Scientist &amp; Software Engineer</span>
                   <span className="lv5-sep" aria-hidden="true">·</span>
-                  <span>Noida, IN</span>
+                  <span>Nagpur, IN</span>
                   <span className="lv5-sep" aria-hidden="true">·</span>
                   <span className="lv5-open">
                     <span className="lv5-open__dot" />
@@ -167,15 +167,15 @@ export default function LandingPage() {
                 <motion.div variants={line} className="lv5-cta">
                   <Link to="/portfolio" className="lv5-btn lv5-btn--fill">View Work</Link>
                   <button className="lv5-btn lv5-btn--outline" onClick={() => switchTab("assistant")}>Ask AI ↗</button>
-                  <a href="https://tanmay-eqdav6wyd-tanmays-projects-17b5602c.vercel.app/assets/tanmay-resume-DXrIQ_Zv.pdf" className="lv5-btn lv5-btn--ghost" target="_blank" rel="noopener noreferrer">Resume ↗</a>
+                  <a href={assetUrls.resumePdf} className="lv5-btn lv5-btn--ghost" target="_blank" rel="noopener noreferrer">Resume ↗</a>
                 </motion.div>
 
                 <motion.div variants={line} className="lv5-statsbar">
                   <AnimStat target={2} suffix="+" label="YRS EXP" decimals={0} />
                   <div className="lv5-vr" />
-                  <AnimStat target={9} label="ML PROJECTS" />
+                  <AnimStat target={4} label="KEY PROJECTS" />
                   <div className="lv5-vr" />
-                  <AnimStat target={8} label="CERTS" />
+                  <AnimStat target={6} label="CERTS" />
                   <div className="lv5-vr" />
                   <div className="lv5-stat lv5-stat--role">
                     <span className="lv5-stat__n">{role.company}</span>

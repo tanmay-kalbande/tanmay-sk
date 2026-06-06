@@ -463,9 +463,9 @@ function buildRateLimitFallbackReply(userMessage: string): string | null {
       "I'm rate-limited for a moment, but here's Tanmay's core stack:",
       "",
       "- **Languages:** Python, SQL, R, JavaScript",
-      "- **Data/ML:** Pandas, NumPy, Scikit-learn, Random Forest, K-Means, NLP",
+      "- **Data/ML:** Pandas, NumPy, Scikit-learn, Random Forest, K-Means, collaborative filtering",
       "- **AI/backend:** Flask, REST APIs, Supabase, LLM integration, multi-agent systems",
-      "- **BI:** Power BI, Tableau, Excel, Matplotlib, Seaborn",
+      "- **BI & tooling:** Power BI, Tableau, Excel, Matplotlib, Seaborn, Hadoop/Spark basics",
     ].join("\n");
   }
 
@@ -473,7 +473,7 @@ function buildRateLimitFallbackReply(userMessage: string): string | null {
     return [
       "I'm rate-limited for a moment, but here's the short version:",
       "",
-      "- **Current role:** Data Analyst at Capgemini",
+      "- **Current role:** Software Engineer at Capgemini",
       "- **Since:** Apr 2024",
       "- **Earlier:** Data Analyst Trainee at Rubixe",
       "- **Edge:** analytics, ML, dashboards, and AI tooling",

@@ -20,7 +20,7 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-app-page", "portfolio");
-    document.title = "Tanmay Kalbande - Data Science Portfolio";
+    document.title = "Tanmay Kalbande - AI & Data Portfolio";
     return undefined;
   }, []);
 
@@ -49,7 +49,7 @@ export default function PortfolioPage() {
           </div>
           <div className="header-text">
             <h1>Tanmay Kalbande</h1>
-            <h2>Data Analyst &amp; AI Builder</h2>
+            <h2>Data Scientist &amp; Software Engineer</h2>
           </div>
           <div className="contact-info">
             <p>
@@ -66,9 +66,9 @@ export default function PortfolioPage() {
         <div className="section">
           <h2>About Me</h2>
           <p>
-            I&apos;m a data analyst and AI builder focused on turning messy data into clear decisions.
-            My work spans analytics, machine learning, dashboards, and practical AI tools that solve
-            real workflow problems.
+            I&apos;m a data scientist and software engineer focused on turning messy data into clear
+            decisions and practical AI tools. My work spans analytics, machine learning, dashboards,
+            and workflow systems that solve real operational problems.
           </p>
         </div>
 

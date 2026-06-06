@@ -26,8 +26,8 @@ export const socialLinks = [
 
 export const landingStats = [
   { value: "2+", label: "Years Experience", icon: "fas fa-database" },
-  { value: "9", label: "ML Projects Deployed", icon: "fas fa-brain" },
-  { value: "8", label: "Industry Certifications", icon: "fas fa-chart-line" },
+  { value: "4", label: "Key AI/Data Projects", icon: "fas fa-brain" },
+  { value: "6", label: "Industry Certifications", icon: "fas fa-chart-line" },
 ] as const;
 
 export const assistantSuggestions = [
@@ -96,32 +96,32 @@ export const assistantWelcomeMessage =
   "Sharp answers on Tanmay's projects, skills, experience, and contact - clean, fast, and easy to scan ⚡";
 
 export const technicalSummary = [
-  "Data analyst and ML practitioner with 2+ years of experience building predictive models and analyzing large datasets.",
-  "Proven track record across customer segmentation, predictive maintenance, and lead scoring (85% accuracy).",
-  "Hands-on experience across the end-to-end development of predictive modeling solutions.",
+  "Data scientist and software engineer with 2+ years of experience building AI systems and data-driven solutions.",
+  "Proven track record across multi-agent AI systems, customer segmentation, predictive maintenance, and lead scoring (85% accuracy).",
+  "Hands-on experience developing predictive modeling solutions and production-grade workflow tools.",
   "Proficient in Python with strong data analysis foundations in NumPy, Pandas, Scikit-learn, and Jupyter.",
-  "Experienced independently building AI-powered tools like Pustakam (AI Book platform) and data structurers.",
+  "Experienced independently building AI-powered tools like Pustakam AI, AI-Tutor, and data assistants.",
   "Transforms complex findings into business decisions using Python, Pandas, SQL, and Tableau dashboards.",
   "Grounded in statistical concepts for practical, results-focused data analysis.",
 ] as const;
 
 export const toolSummary = [
   { label: "Languages", value: "Python (primary), SQL, R, JavaScript (basic)" },
-  { label: "Analysis & ML", value: "Pandas, NumPy, Scikit-learn, Random Forest, K-Means, NLP" },
+  { label: "Analysis & ML", value: "Pandas, NumPy, Scikit-learn, Random Forest, K-Means, Collaborative Filtering" },
   { label: "Visualization", value: "Tableau, Power BI, Matplotlib, Seaborn" },
-  { label: "Databases & AI", value: "SQL Server, Supabase, Flask, LLM APIs" },
+  { label: "Databases & AI", value: "SQL Server, Hadoop, Spark, Flask, Supabase, LLM APIs" },
 ] as const;
 
 export const experiences = [
   {
-    title: "Data Analyst",
+    title: "Software Engineer",
     company: "Capgemini",
     duration: "Apr 2024 - Present",
     details: [
-      "Analyzed incident datasets to identify recurring problem categories and surface root causes.",
-      "Presented data-driven findings to clients, contributing to a measurable reduction in repeat incidents.",
-      "Built an AI-powered documentation formatter (Python + Flask) to automate manual work-note generation.",
-      "Built a dual-agent validation tool to self-review knowledge base entries, improving documentation accuracy.",
+      "Developed a multi-agent AI work note formatter using Flask and AI models, reducing resolution time by 35%.",
+      "Built a real-time quality assurance pipeline with dual AI agents, improving knowledge base reliability by 60%.",
+      "Designed a knowledge generation engine that improved team documentation accessibility by 45%.",
+      "Transforms unstructured service desk notes into structured knowledge base entries for faster retrieval.",
     ],
   },
   {
@@ -129,10 +129,10 @@ export const experiences = [
     company: "Rubixe",
     duration: "Nov 2022 - Dec 2023",
     details: [
-      "Built a lead scoring model achieving 85% accuracy, directly improving sales prioritization and outreach efficiency.",
+      "Built a lead scoring model achieving 85% accuracy, increasing sales team efficiency by 20%.",
       "Developed K-Means customer segmentation models for data-backed marketing strategy recommendations.",
       "Designed Tableau dashboards to communicate complex analytical findings to non-technical stakeholders.",
-      "Built predictive maintenance models using Random Forest to identify equipment failure patterns from sensor data.",
+      "Built predictive maintenance models using Random Forest, reducing equipment downtime by 25%.",
     ],
   },
 ] as const;
@@ -160,7 +160,7 @@ export const professionalProjects = [
     title: "Lead Quality Prediction & Scoring - Rubixe",
     icon: "fas fa-bullseye",
     description: "Built a predictive lead scoring model achieving 85% accuracy for sales prioritization.",
-    contributions: "Directly improved sales team prioritization and outreach efficiency.",
+    contributions: "Increased sales team efficiency by 20% through improved prospect prioritization.",
     tasks: [
       "Cleaned and engineered features from raw sales lead data.",
       "Trained and evaluated Logistic Regression and Random Forest models.",
@@ -182,7 +182,7 @@ export const professionalProjects = [
     title: "Predictive Maintenance System - Rubixe",
     icon: "fas fa-tools",
     description: "Built predictive maintenance models using Random Forest to anticipate equipment failures.",
-    contributions: "Discovered failure patterns from sensor data ahead of breakdowns.",
+    contributions: "Reduced equipment downtime by 25% by identifying failure patterns before breakdowns.",
     tasks: [
       "Analyzed historical IoT/sensor data.",
       "Trained predictive maintenance models.",
@@ -205,17 +205,26 @@ export const professionalProjects = [
 export const personalProjects = [
   {
     id: "project0",
-    label: "Pustakam Injin [Flagship AI]",
+    label: "Pustakam AI [Flagship]",
     icon: "fas fa-book",
-    description: "Production AI platform for book generation using multi-model LLM routing. Accepted into Z.ai Startup Program.",
+    description: "AI-powered book generation engine that creates structured, context-aware books on any topic. Accepted into the Z.ai Startup Program.",
     features: [
-      "End-to-end product development",
+      "Sequential generation with memory retention",
       "Python, Flask, React, Supabase",
-      "Multi-agent LLM routing",
+      "Multi-model LLM routing",
     ],
     links: [
       { label: "Live Demo", href: "https://pustakamai.tanmaysk.in", icon: "fas fa-desktop" },
     ],
+  },
+  {
+    id: "project_tutor",
+    label: "AI-Tutor",
+    icon: "fas fa-graduation-cap",
+    description:
+      "Personalized AI tutoring platform using Google's Gemma model with teaching personas, quizzes, and learning flowcharts.",
+    features: ["Multiple teaching personas", "Context-aware quiz generation", "Interactive learning flowcharts"],
+    links: [],
   },
   {
     id: "project_analyst",
@@ -354,11 +363,11 @@ export const personalProjects = [
   },
   {
     id: "project10",
-    label: "Jawala Vyapar",
+    label: "Village Directory / Jawala Vyapar",
     icon: "fas fa-address-book",
     description:
-      "An online phone directory for local businesses with category filtering, search, and multi-language support.",
-    features: ["Category filtering and search", "Mobile-first responsive design", "Multi-language support"],
+      "AI-powered village/local phone directory with admin record maintenance, fast search, and multi-language support.",
+    features: ["Admin portal for record maintenance", "Category filtering and search", "Multi-language support"],
     links: [],
   },
   {
@@ -382,8 +391,6 @@ export const certifications = [
   "Certified Data Scientist - IABAC, Issued Sep 2023",
   "Data Science Foundation - IABAC, Issued Aug 2023",
   "Certified Data Scientist Certification - DataMites, Issued Apr 2023",
-  "100 Days of Code: The Complete Python Pro Bootcamp - London App Brewery",
-  "The Data Science Course Complete Data Science Bootcamp - 365 Data Science",
 ] as const;
 
 

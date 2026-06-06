@@ -9,6 +9,7 @@ import {
 } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
+  assetUrls,
   assistantSuggestions,
   assistantWelcomeMessage,
   assistantQuickActions,
@@ -52,6 +53,7 @@ const SKILLS = [
   "Random Forest", "K-Means Clustering", "NLP",
   "Tableau", "Power BI", "Matplotlib", "Seaborn",
   "Flask", "Supabase", "Git", "REST APIs", "Jupyter",
+  "Hadoop", "Spark", "Multi-Agent Systems", "Collaborative Filtering",
 ];
 
 type ProjectEntry = {
@@ -63,9 +65,10 @@ type ProjectEntry = {
 };
 
 const PROJECTS: ProjectEntry[] = [
-  { name: "Lead Quality Prediction",     desc: "Predictive lead scoring model — **85% accuracy** — for sales prioritization.", tags: ["rubixe","lead","scoring","prediction","ml","model"] },
+  { name: "Lead Quality Prediction",     desc: "Predictive lead scoring model — **85% accuracy** — increasing sales efficiency by 20%.", tags: ["rubixe","lead","scoring","prediction","ml","model"] },
   { name: "K-Means Customer Segmentation", desc: "K-Means segmentation from transaction data; drove marketing strategy decisions.", tags: ["rubixe","segmentation","clustering","k-means","customer"] },
-  { name: "Pustakam AI",                  desc: "Production AI book platform using multi-model LLM routing. Accepted into Z.ai Startup Program.", live: "https://pustakamai.tanmaysk.in", tags: ["pustakam","ai","book","llm","startup","z.ai"] },
+  { name: "Pustakam AI",                  desc: "AI-powered book generation engine with sequential memory and multi-model LLM routing. Accepted into Z.ai Startup Program.", live: "https://pustakamai.tanmaysk.in", tags: ["pustakam","ai","book","llm","startup","z.ai"] },
+  { name: "AI-Tutor",                     desc: "Personalized Gemma-powered tutoring platform with teaching personas, quizzes, and learning flowcharts.", tags: ["ai tutor","tutor","gemma","quiz","learning"] },
   { name: "AI Data Structurer",           desc: "Converts raw unstructured data into clean formats using Gemma + Flask.", tags: ["ai data structurer","structurer","unstructured","gemma"] },
   { name: "Expense Tracker",              desc: "Personal finance web app — CSV I/O, data visualisation, responsive UI.", live: "https://expense-tail.vercel.app/", gh: "https://github.com/tanmay-kalbande/Expense-Tracker", tags: ["expense","tracker","finance","csv"] },
   { name: "Bias & Fairness Checker",      desc: "AI-powered text bias detector built with Flask + Gemma. Structured report output.", live: "https://bias-checker.onrender.com/", gh: "https://github.com/tanmay-kalbande/bias-fairness-checker", tags: ["bias","fairness","checker","ai","gemma"] },
@@ -75,7 +78,7 @@ const PROJECTS: ProjectEntry[] = [
   { name: "Goal Tracker",                 desc: "Daily goal tracking with progress visualisation and shareable progress.", live: "https://tanmay-kalbande.github.io/Goal-Tracker/", gh: "https://github.com/tanmay-kalbande/Goal-Tracker", tags: ["goal","tracker","goals"] },
   { name: "Incident Tracker",             desc: "Company incident management — search, filter, paginate, CSV export.", live: "https://tanmay-kalbande.github.io/Incident-Tracker/", gh: "https://github.com/tanmay-kalbande/Incident-Tracker", tags: ["incident","tracker","itsm"] },
   { name: "Mindfulness App",              desc: "Yoga & meditation guides. Minimalist PWA with offline support.", live: "https://breathewell.vercel.app/", gh: "https://github.com/tanmay-kalbande/Mindfulness-App", tags: ["mindfulness","yoga","meditation","breathe"] },
-  { name: "Jawala Vyapar",                desc: "Local business phone directory — category filter, search, multi-language.", tags: ["jawala","vyapar","directory","local","business"] },
+  { name: "Village Directory / Jawala Vyapar", desc: "AI-powered village/local phone directory with admin maintenance, search, and multi-language support.", tags: ["jawala","vyapar","village","directory","local","business"] },
   { name: "The Scam Master Podcast",      desc: "Website for a podcast exposing fraud and scams.", live: "https://the-scam-master.vercel.app/", gh: "https://github.com/the-scam-master/podcast_webpage", tags: ["scam","master","podcast"] },
   { name: "AI Data Assistant",            desc: "Conversational analytics system — interrogate datasets in plain English.", tags: ["ai data assistant","assistant","analytics","conversational"] },
 ];
@@ -101,7 +104,8 @@ const PROJECT_ALIASES: Record<string, string[]> = {
   "Goal Tracker": ["goal tracker"],
   "Incident Tracker": ["incident tracker"],
   "Mindfulness App": ["mindfulness app", "breathewell"],
-  "Jawala Vyapar": ["jawala vyapar"],
+  "AI-Tutor": ["ai tutor", "ai-tutor", "tutor"],
+  "Village Directory / Jawala Vyapar": ["jawala vyapar", "village directory"],
   "The Scam Master Podcast": ["the scam master podcast", "scam master podcast"],
   "AI Data Assistant": ["ai data assistant"],
 };
@@ -111,7 +115,7 @@ const CONTACTS = [
   { label: "LinkedIn", icon: "in", href: "https://www.linkedin.com/in/tanmay-kalbande",                                                      display: "linkedin.com/in/tanmay-kalbande" },
   { label: "GitHub",   icon: "gh", href: "https://github.com/tanmay-kalbande",                                                               display: "github.com/tanmay-kalbande" },
   { label: "WhatsApp", icon: "wa", href: "https://wa.me/7378381494?text=Hi%20Tanmay,%20I%20came%20across%20your%20portfolio%20and%20I%20", display: "+91 7378381494" },
-  { label: "Resume",   icon: "↗",  href: "https://tanmay-eqdav6wyd-tanmays-projects-17b5602c.vercel.app/assets/tanmay-resume-DXrIQ_Zv.pdf", display: "View Resume PDF" },
+  { label: "Resume",   icon: "↗",  href: assetUrls.resumePdf, display: "View Resume PDF" },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
