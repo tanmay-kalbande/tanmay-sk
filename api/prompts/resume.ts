@@ -1,25 +1,34 @@
 export const RESUME_PROMPT = `
 Resume:
 
-Capgemini | Software Engineer | Apr 2024 – Present
-Enterprise IT services. Tanmay builds AI and data-driven workflow tools inside service delivery.
-- Developed a multi-agent AI-powered work note formatter using Flask and AI models, transforming unstructured service desk notes into structured knowledge base entries and reducing resolution time by 35%
-- Built a real-time quality assurance pipeline with dual AI agents, improving knowledge base reliability by 60% through automated error detection and validation
-- Designed a knowledge generation engine that improved team documentation accessibility by 45% and streamlined information retrieval
-- Translates complex workflow and data problems into practical tools that improve operational efficiency
+Profile:
+- Data Analyst with 2+ years of experience in predictive modeling and SQL
+- Based in Noida, India
+- Open to relocate anywhere in India
+- Built a lead scoring model with 85% accuracy, boosting sales conversion by 23%
 
-Rubixe | Data Analyst Trainee | Nov 2022 – Dec 2023
-Data science consultancy. Tanmay owned end-to-end ML delivery for business clients.
-- Lead Quality Prediction: built a scoring model with 85% accuracy using Logistic Regression + Random Forest, increasing sales team efficiency by 20% through better prospect prioritization
-- Customer Segmentation: K-Means clustering on transaction data that surfaced distinct customer groups and shaped marketing strategy
-- Predictive Maintenance: Random Forest on IoT/sensor data to catch equipment failures before they happened, reducing equipment downtime by 25%
-- Delivered all findings via Tableau dashboards built for non-technical stakeholders
+Capgemini | Apr 2024 – Present
+- Analyzed incident data via SQL, uncovering failure patterns to prioritize remediation
+- Built an ETL pipeline, cutting manual entry errors by 40% and saving 10+ hours per week
+- Created 8+ Power BI dashboards across 3 units, delivering real-time KPI visibility
+
+Rubixe | Nov 2022 – Dec 2023
+- Built a lead scoring model achieving 85% accuracy, raising sales conversion by 23%
+- Developed K-Means segmentation, enabling targeted marketing recommendations
+- Designed Tableau dashboards to clearly present analytical insights to stakeholders
+
+Resume projects:
+- End-to-end ML pipeline delivering 85% accurate lead scoring and actionable customer clusters via Tableau
+- SQL-driven cohort analysis revealing 35% higher 6-month retention for Q4 acquisitions
+
+Skills:
+- Languages: Python, SQL, R
+- Data/ML: Pandas, Scikit-learn, XGBoost, Regression, K-Means
+- Visualization: Tableau, Power BI, Matplotlib
+
+Education:
+- 2019 – 2022
 
 Certifications:
-- AWS Cloud Technical Essentials — Amazon Web Services, Dec 2024
-- Foundations: Data, Data, Everywhere — Google, Apr 2024
-- Technical Support Fundamentals — Google, Dec 2023
-- Certified Data Scientist — IABAC, Sep 2023
-- Data Science Foundation — IABAC, Aug 2023
-- Certified Data Scientist — DataMites, Apr 2023
+- The current shared resume does not list certifications. If asked, say the current resume does not include certification details.
 `.trim();

@@ -1,10 +1,10 @@
 export const SKILLS_PROMPT = `
 Skills:
 - Core languages: Python (primary and strongest), SQL, R, JavaScript & React (basic frontend)
-- Data & ML: Pandas, NumPy, Scikit-learn, Random Forest, Logistic Regression, K-Means clustering, collaborative filtering, feature engineering, A/B testing, Jupyter
-- BI & visualization: Tableau, Power BI, Matplotlib, Seaborn, Excel — comfortable presenting findings to non-technical audiences
-- AI & backend: Flask, REST APIs, Supabase, LLM API integration, multi-agent systems, prompt engineering — he doesn't just use AI tools, he builds them
-- Infrastructure & tooling: Git, SQL Server, Hadoop, Spark, Vercel, AWS Cloud basics
+- Data & ML: Pandas, Scikit-learn, XGBoost, Regression, K-Means, predictive modeling, cohort analysis
+- BI & visualization: Tableau, Power BI, Matplotlib — comfortable presenting findings to non-technical stakeholders
+- Analytics: SQL-driven incident analysis, ETL pipelines, KPI dashboards, customer segmentation
+- Web/project tooling: Flask, Supabase, Git, Vercel, LLM API integration
 
-Worth noting: Tanmay's edge is the full loop — he can take a raw dataset, build a model, deploy a Flask backend, and ship a dashboard. Most analysts stop at the insight; he goes all the way to the product.
+Worth noting: Tanmay's edge is practical business impact — 85% lead scoring accuracy, 23% sales conversion lift, 40% fewer manual entry errors, 10+ hours/week saved, and 8+ Power BI dashboards across 3 units.
 `.trim();

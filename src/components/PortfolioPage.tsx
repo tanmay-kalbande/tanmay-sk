@@ -20,7 +20,7 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-app-page", "portfolio");
-    document.title = "Tanmay Kalbande - AI & Data Portfolio";
+    document.title = "Tanmay Kalbande - Data Analyst Portfolio";
     return undefined;
   }, []);
 
@@ -49,7 +49,7 @@ export default function PortfolioPage() {
           </div>
           <div className="header-text">
             <h1>Tanmay Kalbande</h1>
-            <h2>Data Scientist &amp; Software Engineer</h2>
+            <h2>Data Analyst</h2>
           </div>
           <div className="contact-info">
             <p>
@@ -66,9 +66,9 @@ export default function PortfolioPage() {
         <div className="section">
           <h2>About Me</h2>
           <p>
-            I&apos;m a data scientist and software engineer focused on turning messy data into clear
-            decisions and practical AI tools. My work spans analytics, machine learning, dashboards,
-            and workflow systems that solve real operational problems.
+            I&apos;m a Data Analyst based in Noida and open to relocate anywhere in India. My work spans
+            predictive modeling, SQL analysis, ETL pipelines, customer segmentation, and Power BI/Tableau
+            dashboards that turn messy data into clear business decisions.
           </p>
         </div>
 
@@ -194,14 +194,16 @@ export default function PortfolioPage() {
           </div>
         </div>
 
-        <div className="section">
-          <h2>Certifications</h2>
-          <ul>
-            {certifications.map((certification) => (
-              <li key={certification}>{certification}</li>
-            ))}
-          </ul>
-        </div>
+        {certifications.length > 0 ? (
+          <div className="section">
+            <h2>Certifications</h2>
+            <ul>
+              {certifications.map((certification) => (
+                <li key={certification}>{certification}</li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
 
         <div className="section cta-section">
           <h2>Want to see more?</h2>

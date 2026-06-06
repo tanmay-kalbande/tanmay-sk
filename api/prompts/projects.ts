@@ -23,9 +23,10 @@ Shipped Tools:
 - The Scam Master Podcast | Website for a fraud-awareness podcast — episode showcase, social integration. Live: https://the-scam-master.vercel.app/ | GitHub: https://github.com/the-scam-master/podcast_webpage
 - Village Directory / Jawala Vyapar | AI-powered village/local phone directory with admin record maintenance, category filtering, search, and multi-language support. Private link.
 
-Professional Projects (Rubixe & Zoompare):
-- Lead Quality Prediction & Scoring - Rubixe | Built a predictive lead scoring model achieving 85% accuracy (Logistic Regression + Random Forest, feature-engineered from CRM data), increasing sales team efficiency by 20% through improved prospect prioritization.
-- Customer Segmentation via K-Means Clustering - Rubixe | Preprocessed transaction data and implemented K-Means clustering to identify distinct customer groups, delivering marketing recommendations via custom Tableau dashboards.
-- Predictive Maintenance System - Rubixe | Built predictive maintenance models using Random Forest on IoT sensor datasets to anticipate equipment failure patterns ahead of breakdowns, reducing equipment downtime by 25%.
-- Web Traffic & Conversion Analysis - Zoompare | Extracted Google Analytics API data, performed funnel analysis, and designed A/B tests to optimize conversion rates using Python.
+Professional / Resume Projects:
+- Lead Quality Prediction & Scoring | Built an end-to-end ML pipeline delivering 85% accurate lead scoring, boosting sales conversion by 23%.
+- Customer Segmentation | Developed K-Means segmentation and presented actionable customer clusters through Tableau.
+- SQL Cohort Analysis | Used SQL-driven cohort analysis to reveal 35% higher 6-month retention for Q4 acquisitions.
+- Incident Analysis & ETL | Analyzed incident data via SQL, uncovered failure patterns, and built an ETL pipeline that cut manual entry errors by 40% while saving 10+ hours per week.
+- Power BI KPI Dashboards | Created 8+ Power BI dashboards across 3 units for real-time KPI visibility.
 `.trim();

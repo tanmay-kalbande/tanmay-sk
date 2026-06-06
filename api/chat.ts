@@ -437,14 +437,7 @@ function buildRateLimitFallbackReply(userMessage: string): string | null {
 
   if (/\b(certification|certifications|certified)\b/.test(text)) {
     return [
-      "I'm rate-limited for a moment, but here are the key certifications:",
-      "",
-      "- **AWS Cloud Technical Essentials** - Amazon Web Services",
-      "- **Foundations: Data, Data, Everywhere** - Google",
-      "- **Technical Support Fundamentals** - Google",
-      "- **Certified Data Scientist** - IABAC",
-      "- **Data Science Foundation** - IABAC",
-      "- **Certified Data Scientist** - DataMites",
+      "I'm rate-limited for a moment, but the current shared resume does not include certification details.",
     ].join("\n");
   }
 
@@ -453,8 +446,8 @@ function buildRateLimitFallbackReply(userMessage: string): string | null {
       "I'm rate-limited for a moment, but here's the short version:",
       "",
       "- **Pustakam AI:** Multi-model book-generation platform, accepted into the Z.ai Startup Program",
-      "- **AI Data Assistant:** Natural-language dataset analysis",
-      "- **Bias & Fairness Checker:** Gemma-powered bias detection with structured reports",
+      "- **Lead Scoring:** 85% accurate ML pipeline that boosted sales conversion by 23%",
+      "- **SQL Cohort Analysis:** Revealed 35% higher 6-month retention for Q4 acquisitions",
     ].join("\n");
   }
 
@@ -462,10 +455,10 @@ function buildRateLimitFallbackReply(userMessage: string): string | null {
     return [
       "I'm rate-limited for a moment, but here's Tanmay's core stack:",
       "",
-      "- **Languages:** Python, SQL, R, JavaScript",
-      "- **Data/ML:** Pandas, NumPy, Scikit-learn, Random Forest, K-Means, collaborative filtering",
-      "- **AI/backend:** Flask, REST APIs, Supabase, LLM integration, multi-agent systems",
-      "- **BI & tooling:** Power BI, Tableau, Excel, Matplotlib, Seaborn, Hadoop/Spark basics",
+      "- **Languages:** Python, SQL, R",
+      "- **Data/ML:** Pandas, Scikit-learn, XGBoost, Regression, K-Means",
+      "- **BI:** Power BI, Tableau, Matplotlib",
+      "- **Analytics:** ETL pipelines, cohort analysis, KPI dashboards",
     ].join("\n");
   }
 
@@ -473,10 +466,10 @@ function buildRateLimitFallbackReply(userMessage: string): string | null {
     return [
       "I'm rate-limited for a moment, but here's the short version:",
       "",
-      "- **Current role:** Software Engineer at Capgemini",
+      "- **Current focus:** Data Analyst",
       "- **Since:** Apr 2024",
       "- **Earlier:** Data Analyst Trainee at Rubixe",
-      "- **Edge:** analytics, ML, dashboards, and AI tooling",
+      "- **Location:** Based in Noida and open to relocate anywhere in India",
     ].join("\n");
   }
 

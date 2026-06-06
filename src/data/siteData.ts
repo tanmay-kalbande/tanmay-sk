@@ -26,8 +26,8 @@ export const socialLinks = [
 
 export const landingStats = [
   { value: "2+", label: "Years Experience", icon: "fas fa-database" },
-  { value: "4", label: "Key AI/Data Projects", icon: "fas fa-brain" },
-  { value: "6", label: "Industry Certifications", icon: "fas fa-chart-line" },
+  { value: "85%", label: "Lead Scoring Accuracy", icon: "fas fa-brain" },
+  { value: "8+", label: "Power BI Dashboards", icon: "fas fa-chart-line" },
 ] as const;
 
 export const assistantSuggestions = [
@@ -79,12 +79,6 @@ export const assistantQuickActions = [
     description: "Get in touch",
   },
   {
-    icon: "🎓",
-    label: "Certifications",
-    query: "What certifications does Tanmay have?",
-    description: "Credentials & courses",
-  },
-  {
     icon: "🤖",
     label: "AI projects",
     query: "Tell me about Tanmay's AI-powered projects.",
@@ -96,32 +90,30 @@ export const assistantWelcomeMessage =
   "Sharp answers on Tanmay's projects, skills, experience, and contact - clean, fast, and easy to scan ⚡";
 
 export const technicalSummary = [
-  "Data scientist and software engineer with 2+ years of experience building AI systems and data-driven solutions.",
-  "Proven track record across multi-agent AI systems, customer segmentation, predictive maintenance, and lead scoring (85% accuracy).",
-  "Hands-on experience developing predictive modeling solutions and production-grade workflow tools.",
-  "Proficient in Python with strong data analysis foundations in NumPy, Pandas, Scikit-learn, and Jupyter.",
-  "Experienced independently building AI-powered tools like Pustakam AI, AI-Tutor, and data assistants.",
-  "Transforms complex findings into business decisions using Python, Pandas, SQL, and Tableau dashboards.",
-  "Grounded in statistical concepts for practical, results-focused data analysis.",
+  "Data Analyst based in Noida with 2+ years of experience in predictive modeling and SQL.",
+  "Built a lead scoring model with 85% accuracy, boosting sales conversion by 23%.",
+  "Built an ETL pipeline that cut manual entry errors by 40% and saved 10+ hours per week.",
+  "Created 8+ Power BI dashboards across 3 units, delivering real-time KPI visibility.",
+  "Developed K-Means segmentation and Tableau dashboards for stakeholder-ready insights.",
+  "Open to relocate anywhere in India.",
 ] as const;
 
 export const toolSummary = [
-  { label: "Languages", value: "Python (primary), SQL, R, JavaScript (basic)" },
-  { label: "Analysis & ML", value: "Pandas, NumPy, Scikit-learn, Random Forest, K-Means, Collaborative Filtering" },
-  { label: "Visualization", value: "Tableau, Power BI, Matplotlib, Seaborn" },
-  { label: "Databases & AI", value: "SQL Server, Hadoop, Spark, Flask, Supabase, LLM APIs" },
+  { label: "Languages", value: "Python, SQL, R" },
+  { label: "Analysis & ML", value: "Pandas, Scikit-learn, XGBoost, Regression, K-Means" },
+  { label: "Visualization", value: "Tableau, Power BI, Matplotlib" },
+  { label: "Analytics", value: "ETL pipelines, cohort analysis, KPI dashboards, customer segmentation" },
 ] as const;
 
 export const experiences = [
   {
-    title: "Software Engineer",
+    title: "Data Analyst",
     company: "Capgemini",
     duration: "Apr 2024 - Present",
     details: [
-      "Developed a multi-agent AI work note formatter using Flask and AI models, reducing resolution time by 35%.",
-      "Built a real-time quality assurance pipeline with dual AI agents, improving knowledge base reliability by 60%.",
-      "Designed a knowledge generation engine that improved team documentation accessibility by 45%.",
-      "Transforms unstructured service desk notes into structured knowledge base entries for faster retrieval.",
+      "Analyzed incident data via SQL, uncovering failure patterns to prioritize remediation.",
+      "Built an ETL pipeline, cutting manual entry errors by 40% and saving 10+ hours per week.",
+      "Created 8+ Power BI dashboards across 3 units, delivering real-time KPI visibility.",
     ],
   },
   {
@@ -129,10 +121,9 @@ export const experiences = [
     company: "Rubixe",
     duration: "Nov 2022 - Dec 2023",
     details: [
-      "Built a lead scoring model achieving 85% accuracy, increasing sales team efficiency by 20%.",
-      "Developed K-Means customer segmentation models for data-backed marketing strategy recommendations.",
-      "Designed Tableau dashboards to communicate complex analytical findings to non-technical stakeholders.",
-      "Built predictive maintenance models using Random Forest, reducing equipment downtime by 25%.",
+      "Built a lead scoring model achieving 85% accuracy, raising sales conversion by 23%.",
+      "Developed K-Means segmentation, enabling targeted marketing recommendations.",
+      "Designed Tableau dashboards to clearly present analytical insights to stakeholders.",
     ],
   },
 ] as const;
@@ -142,9 +133,9 @@ export const skills = [
   "Data Analysis",
   "Python & SQL",
   "Tableau & Power BI",
-  "Statistical Thinking",
-  "Machine Learning",
-  "R / NLP / Feature Engineering",
+  "ETL Pipelines",
+  "K-Means Segmentation",
+  "XGBoost / Regression",
 ] as const;
 
 export const interests = [
@@ -159,8 +150,8 @@ export const professionalProjects = [
   {
     title: "Lead Quality Prediction & Scoring - Rubixe",
     icon: "fas fa-bullseye",
-    description: "Built a predictive lead scoring model achieving 85% accuracy for sales prioritization.",
-    contributions: "Increased sales team efficiency by 20% through improved prospect prioritization.",
+    description: "Built an end-to-end ML pipeline delivering 85% accurate lead scoring.",
+    contributions: "Boosted sales conversion by 23% and delivered actionable customer clusters through Tableau.",
     tasks: [
       "Cleaned and engineered features from raw sales lead data.",
       "Trained and evaluated Logistic Regression and Random Forest models.",
@@ -170,7 +161,7 @@ export const professionalProjects = [
   {
     title: "Customer Segmentation via K-Means Analysis - Rubixe",
     icon: "fas fa-users",
-    description: "Developed K-Means customer segmentation model for transaction segmentations.",
+    description: "Developed K-Means segmentation for targeted marketing recommendations.",
     contributions: "Enabled data-backed marketing strategy recommendations for business stakeholders.",
     tasks: [
       "Preprocessed transaction and user data for clustering.",
@@ -179,25 +170,25 @@ export const professionalProjects = [
     ],
   },
   {
-    title: "Predictive Maintenance System - Rubixe",
-    icon: "fas fa-tools",
-    description: "Built predictive maintenance models using Random Forest to anticipate equipment failures.",
-    contributions: "Reduced equipment downtime by 25% by identifying failure patterns before breakdowns.",
+    title: "SQL Cohort Analysis",
+    icon: "fas fa-database",
+    description: "Used SQL-driven cohort analysis to examine retention behavior.",
+    contributions: "Revealed 35% higher 6-month retention for Q4 acquisitions.",
     tasks: [
-      "Analyzed historical IoT/sensor data.",
-      "Trained predictive maintenance models.",
-      "Implemented proactive alerting support.",
+      "Built SQL cohorts for acquisition-period analysis.",
+      "Compared 6-month retention patterns.",
+      "Converted retention findings into stakeholder-ready insights.",
     ],
   },
   {
-    title: "Web Traffic Analysis for Conversion Rate Improvement - Zoompare",
+    title: "ETL Pipeline & KPI Dashboards - Capgemini",
     icon: "fas fa-chart-line",
-    description: "Analyzed website traffic data to identify patterns and optimize conversion rates using Python.",
-    contributions: "Performed web traffic analysis and implemented A/B testing.",
+    description: "Built ETL and Power BI reporting workflows for operational visibility.",
+    contributions: "Cut manual entry errors by 40%, saved 10+ hours per week, and created 8+ dashboards across 3 units.",
     tasks: [
-      "Extracted data from the Google Analytics API.",
-      "Designed funnel analysis.",
-      "Proposed page optimizations.",
+      "Analyzed incident data with SQL.",
+      "Built an ETL pipeline for cleaner reporting inputs.",
+      "Created real-time KPI dashboards in Power BI.",
     ],
   },
 ] as const;
@@ -384,14 +375,7 @@ export const personalProjects = [
   },
 ] as const;
 
-export const certifications = [
-  "AWS Cloud Technical Essentials - Amazon Web Services (AWS), Issued Dec 2024",
-  "Foundations: Data, Data, Everywhere - Google, Issued Apr 2024",
-  "Technical Support Fundamentals - Google, Issued Dec 2023",
-  "Certified Data Scientist - IABAC, Issued Sep 2023",
-  "Data Science Foundation - IABAC, Issued Aug 2023",
-  "Certified Data Scientist Certification - DataMites, Issued Apr 2023",
-] as const;
+export const certifications = [] as const;
 
 
 export const dashboardProjects = [

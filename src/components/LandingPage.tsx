@@ -75,7 +75,7 @@ export default function LandingPage() {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-app-page", "landing-v5");
-    document.title = "Tanmay Kalbande — Data Scientist & Software Engineer";
+    document.title = "Tanmay Kalbande — Data Analyst";
     const saved = window.localStorage.getItem("theme");
     const preferDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
     const t = preferDark ? "dark" : "light";
@@ -150,9 +150,9 @@ export default function LandingPage() {
                 </motion.div>
 
                 <motion.div variants={line} className="lv5-identity">
-                  <span>Data Scientist &amp; Software Engineer</span>
+                  <span>Data Analyst</span>
                   <span className="lv5-sep" aria-hidden="true">·</span>
-                  <span>Nagpur, IN</span>
+                  <span>Noida, IN</span>
                   <span className="lv5-sep" aria-hidden="true">·</span>
                   <span className="lv5-open">
                     <span className="lv5-open__dot" />
@@ -173,9 +173,9 @@ export default function LandingPage() {
                 <motion.div variants={line} className="lv5-statsbar">
                   <AnimStat target={2} suffix="+" label="YRS EXP" decimals={0} />
                   <div className="lv5-vr" />
-                  <AnimStat target={4} label="KEY PROJECTS" />
+                  <AnimStat target={85} suffix="%" label="LEAD ACCURACY" />
                   <div className="lv5-vr" />
-                  <AnimStat target={6} label="CERTS" />
+                  <AnimStat target={8} suffix="+" label="DASHBOARDS" />
                   <div className="lv5-vr" />
                   <div className="lv5-stat lv5-stat--role">
                     <span className="lv5-stat__n">{role.company}</span>

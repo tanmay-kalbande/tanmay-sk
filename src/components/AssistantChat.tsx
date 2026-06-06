@@ -49,11 +49,10 @@ function uid() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SKILLS = [
-  "Python", "SQL", "R", "Pandas", "NumPy", "Scikit-learn",
-  "Random Forest", "K-Means Clustering", "NLP",
-  "Tableau", "Power BI", "Matplotlib", "Seaborn",
-  "Flask", "Supabase", "Git", "REST APIs", "Jupyter",
-  "Hadoop", "Spark", "Multi-Agent Systems", "Collaborative Filtering",
+  "Python", "SQL", "R", "Pandas", "Scikit-learn", "XGBoost",
+  "Regression", "K-Means Clustering", "Cohort Analysis",
+  "Tableau", "Power BI", "Matplotlib", "ETL Pipelines",
+  "KPI Dashboards", "Customer Segmentation",
 ];
 
 type ProjectEntry = {
@@ -65,8 +64,10 @@ type ProjectEntry = {
 };
 
 const PROJECTS: ProjectEntry[] = [
-  { name: "Lead Quality Prediction",     desc: "Predictive lead scoring model — **85% accuracy** — increasing sales efficiency by 20%.", tags: ["rubixe","lead","scoring","prediction","ml","model"] },
+  { name: "Lead Quality Prediction",     desc: "End-to-end ML pipeline — **85% accuracy** — boosting sales conversion by 23%.", tags: ["rubixe","lead","scoring","prediction","ml","model"] },
   { name: "K-Means Customer Segmentation", desc: "K-Means segmentation from transaction data; drove marketing strategy decisions.", tags: ["rubixe","segmentation","clustering","k-means","customer"] },
+  { name: "SQL Cohort Analysis",         desc: "SQL-driven cohort analysis revealing 35% higher 6-month retention for Q4 acquisitions.", tags: ["sql","cohort","retention","analysis"] },
+  { name: "ETL & Power BI Dashboards",   desc: "ETL pipeline cut manual entry errors by 40%, saved 10+ hrs/week, and powered 8+ dashboards.", tags: ["etl","power bi","dashboard","kpi","capgemini"] },
   { name: "Pustakam AI",                  desc: "AI-powered book generation engine with sequential memory and multi-model LLM routing. Accepted into Z.ai Startup Program.", live: "https://pustakamai.tanmaysk.in", tags: ["pustakam","ai","book","llm","startup","z.ai"] },
   { name: "AI-Tutor",                     desc: "Personalized Gemma-powered tutoring platform with teaching personas, quizzes, and learning flowcharts.", tags: ["ai tutor","tutor","gemma","quiz","learning"] },
   { name: "AI Data Structurer",           desc: "Converts raw unstructured data into clean formats using Gemma + Flask.", tags: ["ai data structurer","structurer","unstructured","gemma"] },
@@ -94,6 +95,8 @@ const FEATURED_PROJECTS: ProjectEntry[] = [
 const PROJECT_ALIASES: Record<string, string[]> = {
   "Lead Quality Prediction": ["lead quality prediction", "lead scoring"],
   "K-Means Customer Segmentation": ["k-means customer segmentation", "k-means segmentation", "customer segmentation"],
+  "SQL Cohort Analysis": ["sql cohort analysis", "cohort analysis"],
+  "ETL & Power BI Dashboards": ["etl", "power bi dashboards", "dashboards", "kpi dashboards"],
   "Pustakam AI": ["pustakam ai", "pustakam", "pustakam injin"],
   "AI Data Structurer": ["ai data structurer"],
   "Expense Tracker": ["expense tracker"],
