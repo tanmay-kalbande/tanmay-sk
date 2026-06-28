@@ -1,0 +1,1335 @@
+import { classifyIntents } from "./lib/classifier.js";
+import { injectContextIfNeeded } from "./lib/contextRegistry.js";
+import {
+  appendTurn,
+  getOrCreateSession,
+  resolveSessionAccess,
+  rollbackPendingUserTurn,
+} from "./lib/sessionStore.js";
+import type { ChatRole, ConversationTurn } from "./lib/types.js";
+
+type VercelLikeRequest = {
+  method?: string;
+  headers?: Record<string, string | string[] | undefined>;
+  body?: unknown;
+};
+
+type VercelLikeResponse = {
+  status: (code: number) => VercelLikeResponse;
+  json: (payload: unknown) => void;
+  setHeader: (name: string, value: string) => void;
+  write?: (chunk: string) => void;
+  end?: (chunk?: string) => void;
+  flushHeaders?: () => void;
+};
+
+type GeminiPart = { text: string };
+type GeminiTurn = { role: "user" | "model"; parts: GeminiPart[] };
+type GeminiResponsePart = { text?: string; thought?: boolean };
+type GeminiPayload = {
+  candidates?: Array<{
+    content?: { parts?: GeminiResponsePart[] };
+    finishReason?: string;
+  }>;
+  promptFeedback?: {
+    blockReason?: string;
+    blockReasonMessage?: string;
+  };
+  error?: { code?: number; message?: string; status?: string };
+};
+
+interface ModelResult {
+  ok: boolean;
+  text: string;
+  status: number;
+  errorMsg: string;
+  streamStarted?: boolean;
+}
+
+type ModelProvider = "cerebras" | "gemini";
+type ModelRoute = {
+  provider: ModelProvider;
+  model: string;
+  apiKey: string;
+  displayName: string;
+};
+
+type CerebrasMessage = {
+  role: "developer" | "system" | "user" | "assistant";
+  content: string;
+};
+type CerebrasPayload = {
+  choices?: Array<{
+    message?: { content?: string | null };
+    delta?: { content?: string | null };
+    finish_reason?: string | null;
+  }>;
+  error?: { message?: string } | string;
+  message?: string;
+  detail?: string;
+};
+
+const CEREBRAS_MODEL = process.env.CEREBRAS_MODEL ?? "gpt-oss-120b";
+const GEMINI_MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "gemma-3-27b-it";
+const GEMINI_MODEL_FALLBACK = process.env.GEMINI_MODEL_FALLBACK ?? "gemma-4-31b-it";
+const CHAT_CONFIG_VERSION = "cerebras-env-2026-05-30";
+
+const CEREBRAS_CHAT_URL = "https://api.cerebras.ai/v1/chat/completions";
+
+const GEMINI_URL = (model: string, key: string) =>
+  `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`;
+
+const GEMINI_STREAM_URL = (model: string, key: string) =>
+  `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${key}`;
+
+const rateLimitStore = new Map<string, number[]>();
+
+function normaliseEnvName(name: string): string {
+  return name.replace(/[^a-z0-9_]/gi, "").toUpperCase();
+}
+
+function readEnv(...names: string[]): string | undefined {
+  for (const name of names) {
+    const direct = process.env[name]?.trim();
+    if (direct) return direct;
+  }
+
+  const normalisedNames = new Set(names.map(normaliseEnvName));
+  for (const [key, value] of Object.entries(process.env)) {
+    if (!normalisedNames.has(normaliseEnvName(key))) continue;
+    const cleaned = value?.trim();
+    if (cleaned) return cleaned;
+  }
+
+  return undefined;
+}
+
+function isGeminiModel(model: string): boolean {
+  return model.toLowerCase().startsWith("gemini-");
+}
+
+function isGemma4Model(model: string): boolean {
+  return /^gemma-4-/i.test(model);
+}
+
+function supportsNativeSystemInstruction(model: string): boolean {
+  return isGeminiModel(model) || isGemma4Model(model);
+}
+
+function getHeaderValue(
+  headers: Record<string, string | string[] | undefined> | undefined,
+  name: string,
+): string | undefined {
+  if (!headers) return undefined;
+
+  const direct = headers[name] ?? headers[name.toLowerCase()] ?? headers[name.toUpperCase()];
+  if (typeof direct === "string") return direct;
+  if (Array.isArray(direct)) return direct[0];
+
+  const matchedKey = Object.keys(headers).find((key) => key.toLowerCase() === name.toLowerCase());
+  const matched = matchedKey ? headers[matchedKey] : undefined;
+  if (typeof matched === "string") return matched;
+  if (Array.isArray(matched)) return matched[0];
+  return undefined;
+}
+
+function getIp(req: VercelLikeRequest): string {
+  const forwarded = getHeaderValue(req.headers, "x-forwarded-for");
+  if (typeof forwarded === "string" && forwarded.length > 0) {
+    return forwarded.split(",")[0]?.trim() ?? "unknown";
+  }
+  return "unknown";
+}
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const windowStart = now - 60_000;
+  const hits = (rateLimitStore.get(ip) ?? []).filter((timestamp) => timestamp > windowStart);
+
+  if (hits.length >= 20) {
+    rateLimitStore.set(ip, hits);
+    return true;
+  }
+
+  hits.push(now);
+  rateLimitStore.set(ip, hits);
+  return false;
+}
+
+function parseBody(raw: unknown): {
+  message?: string;
+  sessionId?: string;
+  history?: unknown;
+  clientHistory?: Array<{ role: string; content: string }>;
+  stream?: boolean;
+} {
+  if (!raw) return {};
+  if (typeof raw === "string") {
+    return JSON.parse(raw) as {
+      message?: string;
+      sessionId?: string;
+      history?: unknown;
+      clientHistory?: Array<{ role: string; content: string }>;
+      stream?: boolean;
+    };
+  }
+
+  return raw as {
+    message?: string;
+    sessionId?: string;
+    history?: unknown;
+    clientHistory?: Array<{ role: string; content: string }>;
+    stream?: boolean;
+  };
+}
+
+function extractTextParts(payload: GeminiPayload): string {
+  const parts = payload.candidates?.[0]?.content?.parts;
+  if (!Array.isArray(parts)) return "";
+  const textParts = parts.filter((part) => typeof part.text === "string");
+  const visibleParts = textParts.filter((part) => !part.thought);
+  if (visibleParts.length > 0) {
+    return visibleParts.map((part) => part.text ?? "").join("");
+  }
+  if (textParts.some((part) => part.thought)) {
+    return "";
+  }
+  return textParts.map((part) => part.text ?? "").join("");
+}
+
+function extractText(payload: GeminiPayload): string {
+  return extractTextParts(payload).trim();
+}
+
+function extractFinishReason(payload: GeminiPayload): string {
+  return payload.candidates?.[0]?.finishReason ?? "";
+}
+
+function describeEmptyPayload(payload: GeminiPayload): string {
+  const finishReason = extractFinishReason(payload);
+  const blockReason = payload.promptFeedback?.blockReason ?? "";
+  const blockMessage = payload.promptFeedback?.blockReasonMessage ?? "";
+
+  if (finishReason && blockReason && blockMessage) return `${finishReason}; ${blockReason}: ${blockMessage}`;
+  if (finishReason && blockReason) return `${finishReason}; ${blockReason}`;
+  if (finishReason) return finishReason;
+  if (blockReason && blockMessage) return `${blockReason}: ${blockMessage}`;
+  if (blockReason) return blockReason;
+  return "unknown";
+}
+
+function normaliseInstructionLine(line: string): string {
+  return line
+    .trim()
+    .replace(/^(?:[-*]+[ \t]*)+/, "")
+    .replace(/^(?:\d+\.[ \t]*)+/, "")
+    .replace(/^(?:[*_`]+[ \t]*)+/, "")
+    .trim();
+}
+
+function tidyVisibleAnswer(text: string): string {
+  let cleaned = text.replace(/[ \t]+$/gm, "").trim();
+  cleaned = cleaned.replace(/\s*\((?:violates|breaks)\s+"[^"]+"\)\.?$/i, "").trim();
+  const quoteCount = (cleaned.match(/"/g) ?? []).length;
+  if (quoteCount % 2 === 1) cleaned = cleaned.replace(/"+$/, "").trim();
+  return cleaned;
+}
+
+function isInstructionLeakLine(line: string): boolean {
+  const cleaned = normaliseInstructionLine(line);
+  return (
+    /^system role:/i.test(cleaned) ||
+    /^role:/i.test(cleaned) ||
+    /^my role:/i.test(cleaned) ||
+    /^persona:/i.test(cleaned) ||
+    /^voice:/i.test(cleaned) ||
+    /^core rules:/i.test(cleaned) ||
+    /^boundaries:/i.test(cleaned) ||
+    /^constraint[s]?:/i.test(cleaned) ||
+    /^identity:/i.test(cleaned) ||
+    /^behavior:/i.test(cleaned) ||
+    /^profile:/i.test(cleaned) ||
+    /^projects:/i.test(cleaned) ||
+    /^skills:/i.test(cleaned) ||
+    /^certifications:/i.test(cleaned) ||
+    /^experience details:/i.test(cleaned) ||
+    /^default length:/i.test(cleaned) ||
+    /^never output role labels/i.test(cleaned) ||
+    /^draft \d+:/i.test(cleaned) ||
+    /^(constraint check:|out-of-scope response:|tone\/style:|response should be:)/i.test(cleaned) ||
+    /^(the user is asking|the user just said|the system instructions state:|i must briefly state)/i.test(cleaned) ||
+    /^(the assistant needs to|avoid:|align with:)/i.test(cleaned) ||
+    /^(context:|reference profile:|scope:|style:)/i.test(cleaned) ||
+    /^(direct and natural\?|2-5 sentences\?|no filler\?|scope adhered to\?|let'?s try:)/i.test(cleaned) ||
+    /^(acknowledge the user|identify who i am|offer help)/i.test(cleaned) ||
+    /^(you are tanmay'?s (ai|portfolio)|tone:|keep most answers|answer only about)/i.test(cleaned) ||
+    /^(never repeat|never output|do not use filler|if a detail is missing from context)/i.test(cleaned) ||
+    /^(for outside-scope requests|portfolio:|github:|linkedin:|email:|whatsapp:|resume:|medium:)/i.test(cleaned) ||
+    /^system context\./i.test(cleaned)
+  );
+}
+
+function findEmbeddedAnswerStart(line: string): number {
+  const candidates = [
+    line.lastIndexOf("Hello!"),
+    line.lastIndexOf("Hi!"),
+    line.lastIndexOf("Hey!"),
+  ].filter((index) => index >= 0);
+
+  const introPattern = /(?:I am|I'm)\s+Tanmay(?: Kalbande)?'s (?:AI|portfolio) assistant/gi;
+  let match: RegExpExecArray | null;
+  while ((match = introPattern.exec(line)) !== null) {
+    candidates.push(match.index);
+  }
+
+  return candidates.length > 0 ? Math.max(...candidates) : -1;
+}
+
+function stripInstructionLeak(raw: string): string {
+  const lines = raw.split(/\r?\n/);
+  const firstMarker = lines.findIndex((line) => isInstructionLeakLine(line.trim()));
+  if (firstMarker === -1) return raw;
+
+  const prefix = tidyVisibleAnswer(lines.slice(0, firstMarker).join("\n").trim());
+  if (prefix && prefix.length >= 20 && !/^(hello|hi|hey)\b[\s!.]*$/i.test(prefix)) {
+    return prefix;
+  }
+
+  let end = firstMarker;
+  while (end < lines.length) {
+    const trimmed = lines[end].trim();
+    const normalised = normaliseInstructionLine(trimmed);
+    const answerStart = findEmbeddedAnswerStart(normalised);
+
+    if (answerStart > 0) {
+      const remainder = [normalised.slice(answerStart), ...lines.slice(end + 1)].join("\n").trim();
+      if (remainder.length >= 10) return tidyVisibleAnswer(remainder);
+    }
+
+    if (
+      !trimmed ||
+      isInstructionLeakLine(trimmed) ||
+      /^(?:[-*]|\d+\.)\s/.test(trimmed) ||
+      /^[A-Z][A-Z /&-]{5,}$/.test(trimmed)
+    ) {
+      end += 1;
+      continue;
+    }
+
+    break;
+  }
+
+  const remainder = lines.slice(end).join("\n").trim();
+  if (remainder.length < 10) return raw;
+  if (!prefix || prefix.length < 20 || /^(hello|hi|hey)\b[\s!.]*$/i.test(prefix)) {
+    return tidyVisibleAnswer(remainder);
+  }
+
+  return prefix;
+}
+
+function cleanText(raw: string): string {
+  let text = raw;
+
+  // Strip all known thinking/reasoning tag formats (Gemma 4, DeepSeek, etc.)
+  text = text.replace(/<think>[\s\S]*?<\/think>/gi, "");
+  text = text.replace(/<thinking>[\s\S]*?<\/thinking>/gi, "");
+  text = text.replace(/<reasoning>[\s\S]*?<\/reasoning>/gi, "");
+  text = text.replace(/<reflection>[\s\S]*?<\/reflection>/gi, "");
+  text = text.replace(/<internal>[\s\S]*?<\/internal>/gi, "");
+  text = text.replace(/<\|channel\>thought[\s\S]*?<channel\|>/gi, "");
+  text = text.replace(/<\|channel\>thought[\s\S]*$/gi, "");
+  text = text.replace(/<\|turn\>(?:system|user|model)\s*/gi, "");
+  text = text.replace(/<turn\|>/gi, "");
+  text = text.replace(/<bos>|<eos>/gi, "");
+
+  // Strip Gemma's draft/reasoning output and internal monologue
+  // It outputs things like:
+  // * Rules: Punchy...
+  // * The user is initiating...
+  // * I should introduce...
+  // "Correct. I'm here to..."
+  const draftMarker = text.search(/^\*\s*(?:Draft \d|Rule|The user|I should|Constraint|Scope|Tone|Style|Response should|Let'?s try|Goal:)/im);
+  if (draftMarker > 0) {
+    const beforeDrafts = text.slice(0, draftMarker).trim();
+    if (beforeDrafts.length >= 15) {
+      text = beforeDrafts;
+    }
+  }
+
+  // Sometimes Gemma 4 puts the final answer in quotes at the end after all the reasoning
+  const finalQuoteMatch = text.match(/"([^"]+)"\s*$/);
+  if (finalQuoteMatch && finalQuoteMatch[1].length > 10) {
+    // If the entire text ends with a quoted string and has bullet points earlier,
+    // it's almost certainly Gemma outputting its final drafted answer in quotes.
+    if (text.includes('*')) {
+       return finalQuoteMatch[1].trim();
+    }
+  }
+
+  // If the text starts with bullet points (reasoning) but has a quoted string later
+  if (/^\s*\*/.test(text)) {
+      const quotes = text.match(/"([^"]+)"/g);
+      if (quotes && quotes.length > 0) {
+          const lastQuote = quotes[quotes.length - 1].replace(/"/g, '').trim();
+          if (lastQuote.length > 15) {
+              return lastQuote;
+          }
+      }
+  }
+
+  if (/^\*\s/.test(text.trimStart())) {
+    const stripped = text.replace(/^(?:\*[^\n]*\n)+\n*/m, "");
+    if (stripped.length > 20) text = stripped;
+  }
+
+  const preamble = text.match(/^(?:\*\s[^\n]+\n)+\n*([\s\S]+)/);
+  if (preamble?.[1] && preamble[1].length > 20) text = preamble[1];
+
+  text = stripInstructionLeak(text);
+  return text.replace(/\n{3,}/g, "\n\n").trim();
+}
+
+function isModelUnavailable(status: number, errMsg: string): boolean {
+  if (status === 404) return true;
+  if (status === 400) {
+    const message = errMsg.toLowerCase();
+    return message.includes("not found") || message.includes("not supported for generatecontent");
+  }
+  return false;
+}
+
+function buildFallbackReply(userMessage: string): string | null {
+  const question = userMessage.toLowerCase().trim();
+
+  if (/^(hi|hello|hey|sup|yo|howdy|greetings)[.!?]*$/.test(question)) {
+    return "I'm Tanmay Kalbande's AI assistant. Ask me about his projects, skills, or experience 🎯";
+  }
+  if (/^(thanks|thank you|thx)[.!?]*$/.test(question)) {
+    return "Anytime 👍";
+  }
+  if (/^(ok|okay|cool|nice|great|awesome)[.!?]*$/.test(question)) {
+    return "Ready for the next one ⚡";
+  }
+
+  return null;
+}
+
+function isRateLimitError(status: number, errorMsg: string): boolean {
+  const message = errorMsg.toLowerCase();
+  return status === 429 || message.includes("quota exceeded") || message.includes("rate limit");
+}
+
+function buildRateLimitFallbackReply(userMessage: string): string | null {
+  const text = userMessage.toLowerCase();
+
+  if (/\b(contact|hire|reach|email|whatsapp|linkedin|resume|cv)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here are Tanmay's contact options:",
+      "",
+      "- **LinkedIn:** https://www.linkedin.com/in/tanmay-kalbande",
+      "- **Email:** kalbandetanmay@gmail.com | hello@tanmaysk.in",
+      "- **WhatsApp:** +91 7378381494",
+      "- **GitHub:** https://github.com/tanmay-kalbande",
+      "- **Resume:** https://tanmaysk.in/assets/tanmay-resume.pdf",
+    ].join("\n");
+  }
+
+  if (/\b(certification|certifications|certified)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here are Tanmay's certifications:",
+      "",
+      "- **AWS Cloud Technical Essentials** — Amazon Web Services (Dec 2024)",
+      "- **Certified Data Scientist** — IABAC (Sep 2023)",
+      "- **Google Data Analytics Foundations** — Google (2024)",
+      "- **DataMites Data Science Bootcamp** (2023)",
+    ].join("\n");
+  }
+
+  if (/\b(pustakam|project|projects)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here's the short version:",
+      "",
+      "- **Pustakam AI:** Multi-model book-generation platform, accepted into the Z.ai Startup Program",
+      "- **Lead Scoring:** 85% accurate ML pipeline that boosted sales conversion by 23%",
+      "- **SQL Cohort Analysis:** Revealed 35% higher 6-month retention for Q4 acquisitions",
+    ].join("\n");
+  }
+
+  if (/\b(skill|skills|tech stack|stack|tools|python|sql|flask|power bi|tableau)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here's Tanmay's core stack:",
+      "",
+      "- **Languages:** Python, SQL, R",
+      "- **Data/ML:** Pandas, Scikit-learn, XGBoost, Regression, K-Means",
+      "- **BI:** Power BI, Tableau, Matplotlib",
+      "- **Analytics:** ETL pipelines, cohort analysis, KPI dashboards",
+    ].join("\n");
+  }
+
+  if (/\b(capgemini|rubixe|experience|work|role|current role)\b/.test(text)) {
+    return [
+      "I'm rate-limited for a moment, but here's the short version:",
+      "",
+      "- **Current focus:** Data Analyst",
+      "- **Since:** Apr 2024",
+      "- **Earlier:** Data Analyst Trainee at Rubixe",
+      "- **Location:** Based in Noida and open to relocate anywhere in India",
+    ].join("\n");
+  }
+
+  return null;
+}
+
+function pushGeminiTurn(contents: GeminiTurn[], role: "user" | "model", text: string): void {
+  if (!text) return;
+
+  const previous = contents[contents.length - 1];
+  if (previous?.role === role && previous.parts[0]) {
+    previous.parts[0].text = `${previous.parts[0].text}\n\n${text}`;
+    return;
+  }
+
+  contents.push({ role, parts: [{ text }] });
+}
+
+function pushCerebrasMessage(messages: CerebrasMessage[], role: CerebrasMessage["role"], text: string): void {
+  if (!text) return;
+
+  const previous = messages[messages.length - 1];
+  if (previous?.role === role) {
+    previous.content = `${previous.content}\n\n${text}`;
+    return;
+  }
+
+  messages.push({ role, content: text });
+}
+
+function buildCerebrasBody(history: ConversationTurn[], model: string, stream: boolean): object {
+  const messages: CerebrasMessage[] = [];
+  const systemContext: string[] = [];
+
+  for (const turn of history) {
+    const text = turn.content.trim();
+    if (!text) continue;
+
+    if (turn.role === "system") {
+      systemContext.push(text);
+      continue;
+    }
+
+    pushCerebrasMessage(messages, turn.role === "assistant" ? "assistant" : "user", text);
+  }
+
+  const combinedSystemContext = systemContext.join("\n\n").trim();
+  if (combinedSystemContext) {
+    const systemRole = model.toLowerCase() === "gpt-oss-120b" ? "developer" : "system";
+    messages.unshift({ role: systemRole, content: combinedSystemContext });
+  }
+
+  return {
+    model,
+    messages,
+    stream,
+    temperature: 0.6,
+    top_p: 0.85,
+    max_completion_tokens: 420,
+  };
+}
+
+function buildGeminiBody(history: ConversationTurn[], model: string): object {
+  const contents: GeminiTurn[] = [];
+  const systemContext: string[] = [];
+
+  for (const turn of history) {
+    const text = turn.content.trim();
+    if (!text) continue;
+
+    if (turn.role === "assistant") {
+      pushGeminiTurn(contents, "model", text);
+      continue;
+    }
+
+    if (turn.role === "system") {
+      systemContext.push(text);
+      continue;
+    }
+
+    pushGeminiTurn(contents, "user", text);
+  }
+
+  const safetySettings = [
+    { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
+    { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+  ];
+
+  const generationConfig: Record<string, unknown> = {
+    temperature: 0.6,
+    topP: 0.85,
+    maxOutputTokens: 420,
+  };
+
+  const body: Record<string, unknown> = {
+    contents,
+    generationConfig,
+    safetySettings,
+  };
+
+  const combinedSystemContext = systemContext.join("\n\n").trim();
+  if (combinedSystemContext) {
+    if (supportsNativeSystemInstruction(model)) {
+      body.systemInstruction = {
+        parts: [{ text: combinedSystemContext }],
+      };
+    } else {
+      // Legacy Gemma variants do not support a separate system role, so keep
+      // the instruction inside the first user turn.
+      const firstUserIndex = contents.findIndex((t) => t.role === "user");
+      if (firstUserIndex >= 0) {
+        const originalText = contents[firstUserIndex].parts[0]?.text ?? "";
+        contents[firstUserIndex].parts[0] = {
+          text: `[SYSTEM INSTRUCTION]\n${combinedSystemContext}\n\n[USER REQUEST]\n${originalText}`,
+        };
+      } else {
+        contents.unshift({
+          role: "user",
+          parts: [{ text: combinedSystemContext }],
+        });
+      }
+    }
+  }
+
+  return body;
+}
+
+function readApiError(raw: string, status: number): string {
+  try {
+    const payload = JSON.parse(raw) as {
+      error?: { message?: string } | string;
+      message?: string;
+      detail?: string;
+    };
+    const error = payload.error;
+    if (typeof error === "string") return error;
+    return error?.message ?? payload.message ?? payload.detail ?? raw.trim() ?? `HTTP ${status}`;
+  } catch {
+    return raw.trim() || `HTTP ${status}`;
+  }
+}
+
+function extractCerebrasText(payload: CerebrasPayload): string {
+  return (payload.choices?.[0]?.message?.content ?? "").trim();
+}
+
+function openStreamResponse(response: VercelLikeResponse): void {
+  response.status(200);
+  response.setHeader("Content-Type", "text/event-stream; charset=utf-8");
+  response.setHeader("Cache-Control", "no-cache, no-transform");
+  response.setHeader("Connection", "keep-alive");
+  response.setHeader("X-Accel-Buffering", "no");
+  response.flushHeaders?.();
+}
+
+function buildModelQueue(
+  cerebrasApiKey: string | undefined,
+  geminiApiKey: string | undefined,
+): { queue: ModelRoute[]; skippedPrimaryNotice: string | null } {
+  const queue: ModelRoute[] = [];
+  let skippedPrimaryNotice: string | null = null;
+
+  if (CEREBRAS_MODEL && cerebrasApiKey) {
+    queue.push({
+      provider: "cerebras",
+      model: CEREBRAS_MODEL,
+      apiKey: cerebrasApiKey,
+      displayName: "Cerebras",
+    });
+  } else if (CEREBRAS_MODEL) {
+    skippedPrimaryNotice =
+      "Cerebras is not configured in this deployment, so this answer is coming from Gemma backup.";
+  }
+
+  const geminiModels = [GEMINI_MODEL_PRIMARY, GEMINI_MODEL_FALLBACK].filter(
+    (model, index, models): model is string => Boolean(model) && models.indexOf(model) === index,
+  );
+
+  if (geminiApiKey) {
+    for (const model of geminiModels) {
+      queue.push({
+        provider: "gemini",
+        model,
+        apiKey: geminiApiKey,
+        displayName: "Gemma",
+      });
+    }
+  }
+
+  return { queue, skippedPrimaryNotice };
+}
+
+function buildFallbackNotice(route: ModelRoute, result: ModelResult, nextRoute: ModelRoute): string {
+  const issue = result.status > 0 ? `HTTP ${result.status}` : "connection issue";
+  return `${route.displayName} had an issue (${issue}), so this answer is coming from ${nextRoute.displayName} backup.`;
+}
+
+function writeStreamEvent(
+  response: VercelLikeResponse,
+  event: string,
+  payload: Record<string, unknown>,
+): void {
+  response.write?.(`event: ${event}\n`);
+  response.write?.(`data: ${JSON.stringify(payload)}\n\n`);
+}
+
+function findSseBoundary(buffer: string): { index: number; length: number } | null {
+  const match = /\r\n\r\n|\n\n|\r\r/.exec(buffer);
+  if (!match || typeof match.index !== "number") return null;
+  return { index: match.index, length: match[0].length };
+}
+
+function extractSseData(block: string): string | null {
+  const dataLines = block
+    .split(/\r?\n/)
+    .filter((line) => line.startsWith("data:"))
+    .map((line) => line.slice(5).trimStart());
+
+  if (dataLines.length === 0) return null;
+  return dataLines.join("\n");
+}
+
+function mergeChunkText(existing: string, incoming: string): string {
+  if (!incoming) return existing;
+  if (!existing) return incoming;
+  if (incoming.startsWith(existing)) return incoming;
+  if (existing.endsWith(incoming)) return existing;
+  return existing + incoming;
+}
+
+async function tryGeminiModel(
+  apiKey: string,
+  model: string,
+  history: ConversationTurn[],
+  userMessage: string,
+): Promise<ModelResult> {
+  const body = buildGeminiBody(history, model);
+
+  let response: Response;
+  try {
+    response = await fetch(GEMINI_URL(model, apiKey), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return { ok: false, text: "", status: 0, errorMsg: `Network error: ${String(error)}` };
+  }
+
+  let payload: GeminiPayload;
+  try {
+    payload = await response.json() as GeminiPayload;
+  } catch {
+    return { ok: false, text: "", status: response.status, errorMsg: "Failed to parse API response" };
+  }
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      text: "",
+      status: response.status,
+      errorMsg: payload.error?.message ?? `HTTP ${response.status}`,
+    };
+  }
+
+  const raw = extractText(payload);
+  if (!raw) {
+    const reason = describeEmptyPayload(payload);
+    console.warn(`[chat] ${model} empty. finishReason=${reason || "unknown"}`);
+
+    const fallback = buildFallbackReply(userMessage);
+    if (fallback) return { ok: true, text: fallback, status: response.status, errorMsg: "" };
+
+    return {
+      ok: false,
+      text: "",
+      status: 500,
+      errorMsg: `No content from model (finishReason=${reason || "unknown"})`,
+    };
+  }
+
+  const cleaned = cleanText(raw);
+  return {
+    ok: true,
+    text: cleaned || raw.slice(0, 400).trim(),
+    status: response.status,
+    errorMsg: "",
+  };
+}
+
+async function tryCerebrasModel(
+  apiKey: string,
+  model: string,
+  history: ConversationTurn[],
+  userMessage: string,
+): Promise<ModelResult> {
+  const body = buildCerebrasBody(history, model, false);
+
+  let response: Response;
+  try {
+    response = await fetch(CEREBRAS_CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return { ok: false, text: "", status: 0, errorMsg: `Network error: ${String(error)}` };
+  }
+
+  let payload: CerebrasPayload;
+  try {
+    payload = await response.json() as CerebrasPayload;
+  } catch {
+    return { ok: false, text: "", status: response.status, errorMsg: "Failed to parse API response" };
+  }
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      text: "",
+      status: response.status,
+      errorMsg: typeof payload.error === "string" ? payload.error : payload.error?.message ?? `HTTP ${response.status}`,
+    };
+  }
+
+  const raw = extractCerebrasText(payload);
+  if (!raw) {
+    console.warn(`[chat] ${model} empty. finishReason=${payload.choices?.[0]?.finish_reason || "unknown"}`);
+
+    const fallback = buildFallbackReply(userMessage);
+    if (fallback) return { ok: true, text: fallback, status: response.status, errorMsg: "" };
+
+    return {
+      ok: false,
+      text: "",
+      status: 500,
+      errorMsg: "No content from model",
+    };
+  }
+
+  const cleaned = cleanText(raw);
+  return {
+    ok: true,
+    text: cleaned || raw.slice(0, 400).trim(),
+    status: response.status,
+    errorMsg: "",
+  };
+}
+
+async function tryModel(route: ModelRoute, history: ConversationTurn[], userMessage: string): Promise<ModelResult> {
+  if (route.provider === "cerebras") {
+    return tryCerebrasModel(route.apiKey, route.model, history, userMessage);
+  }
+
+  return tryGeminiModel(route.apiKey, route.model, history, userMessage);
+}
+
+async function tryGeminiModelStream(
+  apiKey: string,
+  model: string,
+  history: ConversationTurn[],
+  userMessage: string,
+  response: VercelLikeResponse,
+  notice?: string | null,
+): Promise<ModelResult> {
+  if (!response.write || !response.end) {
+    return { ok: false, text: "", status: 500, errorMsg: "Streaming not supported.", streamStarted: false };
+  }
+
+  const body = buildGeminiBody(history, model);
+
+  let upstream: Response;
+  try {
+    upstream = await fetch(GEMINI_STREAM_URL(model, apiKey), {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      text: "",
+      status: 0,
+      errorMsg: `Network error: ${String(error)}`,
+      streamStarted: false,
+    };
+  }
+
+  if (!upstream.ok) {
+    const rawError = await upstream.text();
+    return {
+      ok: false,
+      text: "",
+      status: upstream.status,
+      errorMsg: readApiError(rawError, upstream.status),
+      streamStarted: false,
+    };
+  }
+
+  if (!upstream.body) {
+    return { ok: false, text: "", status: upstream.status, errorMsg: "Empty stream body.", streamStarted: false };
+  }
+
+  openStreamResponse(response);
+  writeStreamEvent(response, "meta", { model, provider: "gemini", configVersion: CHAT_CONFIG_VERSION });
+  if (notice) writeStreamEvent(response, "notice", { notice, model, provider: "gemini" });
+
+  const reader = upstream.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let rawText = "";
+  let visibleText = "";
+  let lastFinishReason = "";
+
+  const processBlock = (block: string) => {
+    const data = extractSseData(block);
+    if (!data || data === "[DONE]") return;
+
+    let parsed: GeminiPayload | GeminiPayload[];
+    try {
+      parsed = JSON.parse(data) as GeminiPayload | GeminiPayload[];
+    } catch {
+      return;
+    }
+
+    const payloads = Array.isArray(parsed) ? parsed : [parsed];
+    for (const payload of payloads) {
+      const reason = extractFinishReason(payload);
+      if (reason) lastFinishReason = reason;
+
+      const chunkText = extractTextParts(payload);
+      if (chunkText === "") continue;
+
+      rawText = mergeChunkText(rawText, chunkText);
+      const next = cleanText(rawText) || rawText.trim();
+      if (next && next !== visibleText) {
+        visibleText = next;
+        writeStreamEvent(response, "chunk", { text: visibleText, model });
+      }
+    }
+  };
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      buffer += decoder.decode(value ?? new Uint8Array(), { stream: !done });
+
+      let boundary = findSseBoundary(buffer);
+      while (boundary) {
+        processBlock(buffer.slice(0, boundary.index));
+        buffer = buffer.slice(boundary.index + boundary.length);
+        boundary = findSseBoundary(buffer);
+      }
+
+      if (done) break;
+    }
+
+    if (buffer.trim()) processBlock(buffer);
+  } catch (error) {
+    writeStreamEvent(response, "error", { error: `Stream interrupted: ${String(error)}`, model });
+    response.end();
+    return {
+      ok: false,
+      text: visibleText,
+      status: 500,
+      errorMsg: String(error),
+      streamStarted: true,
+    };
+  }
+
+  if (!rawText) {
+    console.warn(`[chat] ${model} stream empty. finishReason=${lastFinishReason || "unknown"}`);
+
+    const recovered = await tryGeminiModel(apiKey, model, history, userMessage);
+    if (recovered.ok && recovered.text) {
+      writeStreamEvent(response, "chunk", { text: recovered.text, model, recovered: "generateContent" });
+      writeStreamEvent(response, "done", { text: recovered.text, model, recovered: "generateContent" });
+      response.end();
+      return { ok: true, text: recovered.text, status: 200, errorMsg: "", streamStarted: true };
+    }
+
+    const fallback = buildFallbackReply(userMessage);
+    if (!fallback) {
+      const recoveryHint = recovered.errorMsg ? `; fallback=${recovered.errorMsg}` : "";
+      writeStreamEvent(
+        response,
+        "error",
+        { error: `No content from model (finishReason=${lastFinishReason || "unknown"}${recoveryHint})`, model },
+      );
+      response.end();
+      return {
+        ok: false,
+        text: "",
+        status: 500,
+        errorMsg: `No content from model${recoveryHint}`,
+        streamStarted: true,
+      };
+    }
+
+    writeStreamEvent(response, "chunk", { text: fallback, model });
+    writeStreamEvent(response, "done", { text: fallback, model });
+    response.end();
+    return { ok: true, text: fallback, status: 200, errorMsg: "", streamStarted: true };
+  }
+
+  const finalText = cleanText(rawText) || visibleText.trim() || rawText.slice(0, 400).trim();
+  writeStreamEvent(response, "done", { text: finalText, model });
+  response.end();
+  return { ok: true, text: finalText, status: 200, errorMsg: "", streamStarted: true };
+}
+
+async function tryCerebrasModelStream(
+  apiKey: string,
+  model: string,
+  history: ConversationTurn[],
+  userMessage: string,
+  response: VercelLikeResponse,
+  notice?: string | null,
+): Promise<ModelResult> {
+  if (!response.write || !response.end) {
+    return { ok: false, text: "", status: 500, errorMsg: "Streaming not supported.", streamStarted: false };
+  }
+
+  const body = buildCerebrasBody(history, model, true);
+
+  let upstream: Response;
+  try {
+    upstream = await fetch(CEREBRAS_CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      text: "",
+      status: 0,
+      errorMsg: `Network error: ${String(error)}`,
+      streamStarted: false,
+    };
+  }
+
+  if (!upstream.ok) {
+    const rawError = await upstream.text();
+    return {
+      ok: false,
+      text: "",
+      status: upstream.status,
+      errorMsg: readApiError(rawError, upstream.status),
+      streamStarted: false,
+    };
+  }
+
+  if (!upstream.body) {
+    return { ok: false, text: "", status: upstream.status, errorMsg: "Empty stream body.", streamStarted: false };
+  }
+
+  openStreamResponse(response);
+  writeStreamEvent(response, "meta", { model, provider: "cerebras", configVersion: CHAT_CONFIG_VERSION });
+  if (notice) writeStreamEvent(response, "notice", { notice, model, provider: "cerebras" });
+
+  const reader = upstream.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let rawText = "";
+  let visibleText = "";
+  let lastFinishReason = "";
+
+  const processBlock = (block: string) => {
+    const data = extractSseData(block);
+    if (!data || data === "[DONE]") return;
+
+    let payload: CerebrasPayload;
+    try {
+      payload = JSON.parse(data) as CerebrasPayload;
+    } catch {
+      return;
+    }
+
+    const choice = payload.choices?.[0];
+    if (choice?.finish_reason) lastFinishReason = choice.finish_reason;
+
+    const chunkText = choice?.delta?.content ?? "";
+    if (!chunkText) return;
+
+    rawText += chunkText;
+    const next = cleanText(rawText) || rawText.trim();
+    if (next && next !== visibleText) {
+      visibleText = next;
+      writeStreamEvent(response, "chunk", { text: visibleText, model, provider: "cerebras" });
+    }
+  };
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      buffer += decoder.decode(value ?? new Uint8Array(), { stream: !done });
+
+      let boundary = findSseBoundary(buffer);
+      while (boundary) {
+        processBlock(buffer.slice(0, boundary.index));
+        buffer = buffer.slice(boundary.index + boundary.length);
+        boundary = findSseBoundary(buffer);
+      }
+
+      if (done) break;
+    }
+
+    if (buffer.trim()) processBlock(buffer);
+  } catch (error) {
+    writeStreamEvent(response, "error", { error: `Stream interrupted: ${String(error)}`, model });
+    response.end();
+    return {
+      ok: false,
+      text: visibleText,
+      status: 500,
+      errorMsg: String(error),
+      streamStarted: true,
+    };
+  }
+
+  if (!rawText) {
+    console.warn(`[chat] ${model} stream empty. finishReason=${lastFinishReason || "unknown"}`);
+
+    const recovered = await tryCerebrasModel(apiKey, model, history, userMessage);
+    if (recovered.ok && recovered.text) {
+      writeStreamEvent(response, "chunk", { text: recovered.text, model, provider: "cerebras", recovered: "chat.completions" });
+      writeStreamEvent(response, "done", { text: recovered.text, model, provider: "cerebras", recovered: "chat.completions" });
+      response.end();
+      return { ok: true, text: recovered.text, status: 200, errorMsg: "", streamStarted: true };
+    }
+
+    const fallback = buildFallbackReply(userMessage);
+    if (!fallback) {
+      const recoveryHint = recovered.errorMsg ? `; fallback=${recovered.errorMsg}` : "";
+      writeStreamEvent(
+        response,
+        "error",
+        { error: `No content from model (finishReason=${lastFinishReason || "unknown"}${recoveryHint})`, model },
+      );
+      response.end();
+      return {
+        ok: false,
+        text: "",
+        status: 500,
+        errorMsg: `No content from model${recoveryHint}`,
+        streamStarted: true,
+      };
+    }
+
+    writeStreamEvent(response, "chunk", { text: fallback, model, provider: "cerebras" });
+    writeStreamEvent(response, "done", { text: fallback, model, provider: "cerebras" });
+    response.end();
+    return { ok: true, text: fallback, status: 200, errorMsg: "", streamStarted: true };
+  }
+
+  const finalText = cleanText(rawText) || visibleText.trim() || rawText.slice(0, 400).trim();
+  writeStreamEvent(response, "done", { text: finalText, model, provider: "cerebras" });
+  response.end();
+  return { ok: true, text: finalText, status: 200, errorMsg: "", streamStarted: true };
+}
+
+async function tryModelStream(
+  route: ModelRoute,
+  history: ConversationTurn[],
+  userMessage: string,
+  response: VercelLikeResponse,
+  notice?: string | null,
+): Promise<ModelResult> {
+  if (route.provider === "cerebras") {
+    return tryCerebrasModelStream(route.apiKey, route.model, history, userMessage, response, notice);
+  }
+
+  return tryGeminiModelStream(route.apiKey, route.model, history, userMessage, response, notice);
+}
+
+export default async function handler(req: VercelLikeRequest, res: VercelLikeResponse) {
+  if (req.method !== "POST") {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.status(405).json({ error: "Method not allowed." });
+    return;
+  }
+
+  const cerebrasApiKey =
+    process.env.CEREBRAS_API_KEY?.trim() ||
+    process.env.CEREBRAS_KEY?.trim() ||
+    process.env.CEREBRAS_TOKEN?.trim() ||
+    process.env.CEREBRAS_API_TOKEN?.trim() ||
+    readEnv("CEREBRAS_API_KEY", "CEREBRAS_KEY", "CEREBRAS_TOKEN", "CEREBRAS_API_TOKEN");
+  const geminiApiKey =
+    process.env.GEMINI_API_KEY?.trim() ||
+    process.env.GOOGLE_API_KEY?.trim() ||
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY?.trim() ||
+    readEnv("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY");
+  const { queue, skippedPrimaryNotice } = buildModelQueue(cerebrasApiKey, geminiApiKey);
+
+  if (queue.length === 0) {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.status(500).json({ error: "CEREBRAS_API_KEY or GEMINI_API_KEY is required." });
+    return;
+  }
+
+  let body: { message?: string; sessionId?: string; history?: unknown; stream?: boolean };
+  try {
+    body = parseBody(req.body);
+  } catch {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.status(400).json({ error: "Invalid JSON." });
+    return;
+  }
+
+  const message = body.message?.trim() ?? "";
+  const shouldStream = body.stream === true;
+
+  if (!message) {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.status(400).json({ error: "Message is required." });
+    return;
+  }
+  if (message.length > 400) {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.status(400).json({ error: "Message too long. Max 400 characters." });
+    return;
+  }
+  if (isRateLimited(getIp(req))) {
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.status(429).json({ error: "Too many requests. Please wait a moment." });
+    return;
+  }
+
+  const { sessionId, setCookie } = resolveSessionAccess(
+    body.sessionId,
+    getHeaderValue(req.headers, "cookie"),
+  );
+  if (setCookie) {
+    res.setHeader("Set-Cookie", setCookie);
+  }
+
+  const session = getOrCreateSession(sessionId);
+
+  // Sync client-side history into session for Vercel serverless persistence
+  const clientHistory = Array.isArray(body.clientHistory) ? body.clientHistory : [];
+  if (clientHistory.length > 0) {
+    const systemTurns = session.messageHistory.filter((t) => t.role === "system");
+    const clientTurns: ConversationTurn[] = clientHistory
+      .filter((t) => t.role === "user" || t.role === "assistant")
+      .filter((t) => typeof t.content === "string" && t.content.trim())
+      .map((t) => ({ role: t.role as ChatRole, content: t.content.trim() }));
+    session.messageHistory = [...systemTurns, ...clientTurns];
+  }
+
+  const classification = await classifyIntents(message, geminiApiKey ?? "", GEMINI_MODEL_PRIMARY);
+
+  // If classifier is confident, inject only matched contexts.
+  // If not confident, keep the assistant in lightweight general mode instead
+  // of flooding the prompt with every Tanmay-specific module.
+  if (classification.confident) {
+    injectContextIfNeeded(session, classification.intents);
+  } else {
+    console.log(`[chat] classifier not confident - using general context`);
+    injectContextIfNeeded(session, ["general"]);
+  }
+
+  appendTurn(session, { role: "user", content: message });
+
+  if (shouldStream) {
+    let pendingNotice = skippedPrimaryNotice;
+
+    for (let index = 0; index < queue.length; index += 1) {
+      const route = queue[index];
+      const nextRoute = queue[index + 1];
+      console.log(`[chat] -> streaming ${route.displayName}:${route.model}`);
+      const result = await tryModelStream(route, session.messageHistory, message, res, pendingNotice);
+      if (result.ok) {
+        appendTurn(session, { role: "assistant", content: result.text });
+        console.log(`[chat] ok ${route.displayName}:${route.model}`);
+        return;
+      }
+
+      console.warn(`[chat] x ${route.displayName}:${route.model} [${result.status}]: ${result.errorMsg}`);
+      if (result.streamStarted) return;
+      if (nextRoute && (route.provider === "cerebras" || isModelUnavailable(result.status, result.errorMsg))) {
+        pendingNotice = pendingNotice ?? buildFallbackNotice(route, result, nextRoute);
+        continue;
+      }
+      if (isRateLimitError(result.status, result.errorMsg)) {
+        const fallback = buildRateLimitFallbackReply(message);
+        if (fallback) {
+          openStreamResponse(res);
+          if (pendingNotice) writeStreamEvent(res, "notice", { notice: pendingNotice, model: route.model, provider: route.provider });
+          appendTurn(session, { role: "assistant", content: fallback });
+          writeStreamEvent(res, "chunk", { text: fallback, model: "fallback" });
+          writeStreamEvent(res, "done", { text: fallback, model: "fallback" });
+          res.end?.();
+          return;
+        }
+      }
+
+      rollbackPendingUserTurn(session);
+
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.status(500).json({ error: result.errorMsg || "The assistant encountered an error." });
+      return;
+    }
+
+    rollbackPendingUserTurn(session);
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.status(500).json({ error: "AI model currently unavailable. Please try again." });
+    return;
+  }
+
+  let pendingNotice = skippedPrimaryNotice;
+
+  for (let index = 0; index < queue.length; index += 1) {
+    const route = queue[index];
+    const nextRoute = queue[index + 1];
+    console.log(`[chat] -> ${route.displayName}:${route.model}`);
+    const result = await tryModel(route, session.messageHistory, message);
+    if (result.ok) {
+      appendTurn(session, { role: "assistant", content: result.text });
+      res.setHeader("Content-Type", "application/json; charset=utf-8");
+      res.status(200).json({ text: result.text, ...(pendingNotice ? { notice: pendingNotice } : {}) });
+      return;
+    }
+
+    console.warn(`[chat] x ${route.displayName}:${route.model} [${result.status}]: ${result.errorMsg}`);
+    if (nextRoute && (route.provider === "cerebras" || isModelUnavailable(result.status, result.errorMsg))) {
+      pendingNotice = pendingNotice ?? buildFallbackNotice(route, result, nextRoute);
+      continue;
+    }
+    if (isRateLimitError(result.status, result.errorMsg)) {
+      const fallback = buildRateLimitFallbackReply(message);
+      if (fallback) {
+        appendTurn(session, { role: "assistant", content: fallback });
+        res.setHeader("Content-Type", "application/json; charset=utf-8");
+        res.status(200).json({ text: fallback, ...(pendingNotice ? { notice: pendingNotice } : {}) });
+        return;
+      }
+    }
+
+    rollbackPendingUserTurn(session);
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    res.status(500).json({ error: result.errorMsg || "The assistant encountered an error." });
+    return;
+  }
+
+  rollbackPendingUserTurn(session);
+  res.setHeader("Content-Type", "application/json; charset=utf-8");
+  res.status(500).json({ error: "AI model currently unavailable. Please try again." });
+}

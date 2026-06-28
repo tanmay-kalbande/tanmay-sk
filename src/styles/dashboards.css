@@ -1,0 +1,171 @@
+/* =====================================================================
+   Dashboard Page — Clean Showcase Styles
+   ===================================================================== */
+
+/* ── Screenshot wrapper ──────────────────────────────────────────── */
+
+.dash-screenshot-wrap {
+  margin: 1.25rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: #fafafa;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+html[data-theme="dark"] .dash-screenshot-wrap {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: #1a1a1a;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.dash-screenshot-wrap .project-screenshot {
+  width: 100%;
+  display: block;
+  border: none;
+  border-radius: 0;
+}
+
+.dash-screenshot-caption {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #888;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+html[data-theme="dark"] .dash-screenshot-caption {
+  border-top-color: rgba(255, 255, 255, 0.06);
+  color: #777;
+}
+
+/* ── Approach Grid ───────────────────────────────────────────────── */
+
+.dash-approach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 1.25rem;
+}
+
+.dash-approach-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.015);
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.dash-approach-card:hover {
+  border-color: rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+html[data-theme="dark"] .dash-approach-card {
+  border-color: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+html[data-theme="dark"] .dash-approach-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.dash-approach-icon {
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.04);
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 0.85rem;
+}
+
+html[data-theme="dark"] .dash-approach-icon {
+  background: rgba(255, 255, 255, 0.06);
+  color: #aaa;
+}
+
+.dash-approach-card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.dash-approach-card p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: #666;
+}
+
+html[data-theme="dark"] .dash-approach-card p {
+  color: #999;
+}
+
+/* ── Tools Row ───────────────────────────────────────────────────── */
+
+.dash-tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.dash-tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.02);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #333;
+  transition: border-color 0.2s, transform 0.15s;
+}
+
+.dash-tool-chip:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.dash-tool-chip i {
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+html[data-theme="dark"] .dash-tool-chip {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  color: #ccc;
+}
+
+html[data-theme="dark"] .dash-tool-chip:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Responsive ──────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .dash-approach-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .dash-tools-row {
+    gap: 0.4rem;
+  }
+
+  .dash-tool-chip {
+    padding: 0.45rem 0.75rem;
+    font-size: 0.72rem;
+  }
+}

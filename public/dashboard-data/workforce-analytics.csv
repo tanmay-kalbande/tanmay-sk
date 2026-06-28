@@ -1,0 +1,13 @@
+month,department,location,headcount,hires,exits,engagement,training_hours,open_roles
+Jan,Analytics,India,42,4,1,82,420,5
+Feb,Engineering,Remote,88,6,2,78,690,9
+Mar,Sales,US,53,5,3,74,310,6
+Apr,Operations,Europe,61,3,1,80,360,4
+May,Analytics,Remote,47,5,0,85,512,4
+Jun,Engineering,India,96,8,2,79,760,8
+Jul,Sales,Remote,58,6,2,76,334,7
+Aug,Operations,India,64,4,2,81,388,3
+Sep,Analytics,Europe,51,4,1,86,540,3
+Oct,Engineering,US,103,9,3,77,820,10
+Nov,Sales,India,61,5,1,79,365,5
+Dec,Operations,Remote,69,6,2,83,418,4
