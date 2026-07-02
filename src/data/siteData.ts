@@ -1,5 +1,5 @@
 const profilePhoto = new URL("../../bits-and-bytes/resources/tanmay-portrait-landing.jpg", import.meta.url).href;
-const resumePdf = "https://tanmaysk.in/assets/tanmay-resume.pdf";
+const resumeDoc = "/assets/Tanmay_Kalbande_Resume.docx";
 const dashboardPhoto = new URL(
   "../../bits-and-bytes/dashboard_project/dashboard_screenshot/power_bi_screenshot_1.png",
   import.meta.url,
@@ -12,7 +12,7 @@ const dashboardFile = new URL(
 export const assetUrls = {
   profilePhoto,
   landingPortrait: profilePhoto,
-  resumePdf,
+  resumeDoc,
   dashboardPhoto,
   dashboardFile,
 };
@@ -90,21 +90,20 @@ export const assistantWelcomeMessage =
   "Sharp answers on Tanmay's projects, skills, experience, and contact - clean, fast, and easy to scan ⚡";
 
 export const technicalSummary = [
-  "Data Analyst and ML Practitioner with 2+ years of experience building predictive models and running statistical analyses.",
+  "Data Analyst based in Noida with 2+ years of experience in predictive modeling and SQL.",
   "Built a lead scoring model with 85% accuracy, boosting sales conversion by 23% and cutting outreach effort by 15 hrs/week.",
   "Developed churn prediction pipeline (AUC 0.82) identifying high-risk segments driving 60% of total churn.",
   "Built an ETL pipeline that cut manual entry errors by 40% and saved 10+ hours per week.",
-  "Created 8+ Power BI dashboards across 3 units, delivering real-time KPI visibility to senior leadership.",
-  "Designed A/B test (Variant B: 8.5% conversion lift, p < 0.01) and conducted cohort retention analysis.",
-  "Based in Bengaluru / Pune (Open to Relocate).",
+  "Created 8+ Power BI dashboards across 3 units, delivering real-time KPI visibility.",
+  "Developed K-Means segmentation and Tableau dashboards for stakeholder-ready insights.",
+  "Open to relocate anywhere in India.",
 ] as const;
 
 export const toolSummary = [
-  { label: "Languages", value: "Python (primary), SQL, R, JavaScript (basic)" },
-  { label: "Analysis & ML", value: "Pandas, NumPy, Scikit-learn, XGBoost, Random Forest, K-Means, Statistical Testing, A/B Testing, Cohort Analysis" },
-  { label: "Visualization", value: "Tableau, Power BI (DAX, Power Query), Matplotlib, Seaborn" },
-  { label: "Databases & Cloud", value: "SQL Server, PostgreSQL, MySQL, Supabase, AWS (Certified), GCP" },
-  { label: "Tools & Methodologies", value: "ETL Pipelines, Data Modelling, Git/GitHub, FastAPI, Streamlit, Excel" },
+  { label: "Languages", value: "Python, SQL, R" },
+  { label: "Analysis & ML", value: "Pandas, Scikit-learn, XGBoost, Regression, K-Means" },
+  { label: "Visualization", value: "Tableau, Power BI, Matplotlib" },
+  { label: "Analytics", value: "ETL pipelines, cohort analysis, KPI dashboards, customer segmentation" },
 ] as const;
 
 export const experiences = [
@@ -113,10 +112,10 @@ export const experiences = [
     company: "Capgemini",
     duration: "Apr 2024 - Present",
     details: [
-      "Analysed incident and operational data in SQL to identify recurring failure patterns, enabling client teams to prioritise remediation and reduce repeat incidents across high-priority service tiers.",
-      "Built ETL pipeline automating data cleaning and transformation workflows — reduced manual entry errors 40% and saved 10+ hours/week across the team.",
-      "Designed and maintained 8+ Power BI dashboards (DAX, Power Query) across 3 business units, delivering real-time KPI visibility to senior leadership.",
-      "Standardised metric definitions and reporting frameworks across cross-functional teams — cut manual data extraction time by 30% and improved data trust stakeholder-wide.",
+      "Analyzed incident data via SQL, uncovering failure patterns to prioritize remediation.",
+      "Built an ETL pipeline, cutting manual entry errors by 40% and saving 10+ hours per week.",
+      "Created 8+ Power BI dashboards (DAX, Power Query) across 3 units, delivering real-time KPI visibility.",
+      "Standardised metric definitions across cross-functional teams — reduced manual data extraction time by 30%.",
     ],
   },
   {
@@ -124,22 +123,22 @@ export const experiences = [
     company: "Rubixe",
     duration: "Nov 2022 - Dec 2023",
     details: [
-      "Built lead scoring model (Random Forest) achieving 85% accuracy — improved sales conversion by 23% and cut sales outreach effort by 15 hours/week.",
-      "Developed K-Means customer segmentation model, producing actionable customer clusters that directly shaped targeted marketing strategy for business stakeholders.",
-      "Built predictive maintenance models on sensor data to identify equipment failure patterns ahead of breakdowns — surfaced proactive intervention opportunities for operations teams.",
-      "Designed Tableau dashboards translating ML outputs into clear business visuals for non-technical decision-makers.",
+      "Built a lead scoring model (Random Forest) achieving 85% accuracy, raising sales conversion by 23% and cutting outreach effort by 15 hrs/week.",
+      "Developed K-Means customer segmentation, enabling targeted marketing recommendations.",
+      "Built predictive maintenance models on sensor data to identify equipment failure patterns ahead of breakdowns.",
+      "Designed Tableau dashboards to clearly present analytical insights to stakeholders.",
     ],
   },
 ] as const;
 
 export const skills = [
   "Predictive Modeling",
-  "Data Analysis & SQL",
-  "A/B Testing & Statistics",
+  "Data Analysis",
+  "Python & SQL",
   "Tableau & Power BI",
-  "ETL & Data Pipelines",
-  "Customer Segmentation",
-  "XGBoost / Random Forest",
+  "ETL Pipelines",
+  "K-Means Segmentation",
+  "XGBoost / Regression",
 ] as const;
 
 export const interests = [
@@ -152,47 +151,47 @@ export const interests = [
 
 export const professionalProjects = [
   {
-    title: "Lead Scoring & Customer Segmentation",
+    title: "Lead Quality Prediction & Scoring - Rubixe",
     icon: "fas fa-bullseye",
-    description: "Built an end-to-end ML pipeline delivering 85% accurate lead scoring and actionable customer clusters.",
-    contributions: "Boosted sales conversion by 23% and reduced sales outreach effort by 15 hours/week.",
+    description: "Built an end-to-end ML pipeline delivering 85% accurate lead scoring.",
+    contributions: "Boosted sales conversion by 23% and delivered actionable customer clusters through Tableau.",
     tasks: [
-      "Cleaned and engineered features from raw sales lead data using Python and Pandas.",
-      "Trained and evaluated Logistic Regression and Random Forest models achieving 85% accuracy.",
-      "Developed K-Means customer segmentation to produce actionable customer clusters presented via Tableau dashboards.",
+      "Cleaned and engineered features from raw sales lead data.",
+      "Trained and evaluated Logistic Regression and Random Forest models.",
+      "Deployed scoring algorithms for sales team usage.",
     ],
   },
   {
-    title: "SQL Cohort Retention Analysis",
+    title: "Customer Segmentation via K-Means Analysis - Rubixe",
+    icon: "fas fa-users",
+    description: "Developed K-Means segmentation for targeted marketing recommendations.",
+    contributions: "Enabled data-backed marketing strategy recommendations for business stakeholders.",
+    tasks: [
+      "Preprocessed transaction and user data for clustering.",
+      "Implemented the K-Means algorithm to find distinct customer groups.",
+      "Designed Tableau dashboards to present insights clearly.",
+    ],
+  },
+  {
+    title: "SQL Cohort Analysis",
     icon: "fas fa-database",
-    description: "Conducted pure-SQL cohort analysis to examine customer retention behavior.",
-    contributions: "Revealed 35% higher 6-month retention for Q4 acquisitions, reshaping marketing budget allocation.",
+    description: "Used SQL-driven cohort analysis to examine retention behavior.",
+    contributions: "Revealed 35% higher 6-month retention for Q4 acquisitions.",
     tasks: [
-      "Built SQL cohorts using DATE_TRUNC, LAG(), self-joins, Window Functions, and CTEs.",
-      "Analyzed and compared 6-month retention patterns across acquisition periods.",
-      "Visualized retention curves with Python and Matplotlib, converting findings into stakeholder insights.",
+      "Built SQL cohorts for acquisition-period analysis.",
+      "Compared 6-month retention patterns.",
+      "Converted retention findings into stakeholder-ready insights.",
     ],
   },
   {
-    title: "Customer Churn Prediction & Statistical Validation",
-    icon: "fas fa-user-minus",
-    description: "Developed a churn prediction pipeline (Logistic Regression, Random Forest, XGBoost) with statistical validation.",
-    contributions: "Achieved an AUC of 0.82, successfully identifying high-risk segments driving 60% of total churn volume.",
+    title: "ETL Pipeline & KPI Dashboards - Capgemini",
+    icon: "fas fa-chart-line",
+    description: "Built ETL and Power BI reporting workflows for operational visibility.",
+    contributions: "Cut manual entry errors by 40%, saved 10+ hours per week, and created 8+ dashboards across 3 units.",
     tasks: [
-      "Built end-to-end churn prediction pipeline using Python and Scikit-learn.",
-      "Applied Chi-square and t-tests (p < 0.05) using Statsmodels for feature validation.",
-      "Identified top churn-driving customer segments and presented insights using Seaborn visualization.",
-    ],
-  },
-  {
-    title: "A/B Test — Checkout Conversion",
-    icon: "fas fa-vial",
-    description: "Analyzed an A/B test on checkout conversion (n=10,000) to project revenue impact.",
-    contributions: "Detected an 8.5% conversion lift with statistical significance, projecting a ₹12L annual revenue uplift.",
-    tasks: [
-      "Analyzed experimental results using Python, Pandas, SciPy, and Statsmodels.",
-      "Conducted hypothesis testing verifying Variant B lift (p < 0.01, 95% CI: [4.2%, 12.8%]).",
-      "Performed Simpson's Paradox validation checks to ensure statistical integrity of the segments.",
+      "Analyzed incident data with SQL.",
+      "Built an ETL pipeline for cleaner reporting inputs.",
+      "Created real-time KPI dashboards in Power BI.",
     ],
   },
 ] as const;
