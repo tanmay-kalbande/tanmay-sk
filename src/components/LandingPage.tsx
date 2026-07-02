@@ -152,7 +152,7 @@ export default function LandingPage() {
                 <motion.div variants={line} className="lv5-identity">
                   <span>Data Analyst</span>
                   <span className="lv5-sep" aria-hidden="true">·</span>
-                  <span>Noida, IN</span>
+                  <span>Bengaluru / Pune, IN</span>
                   <span className="lv5-sep" aria-hidden="true">·</span>
                   <span className="lv5-open">
                     <span className="lv5-open__dot" />

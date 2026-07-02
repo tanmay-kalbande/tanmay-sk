@@ -67,7 +67,7 @@ export default function PortfolioPage() {
         <div className="section">
           <h2>About Me</h2>
           <p>
-            I&apos;m a Data Analyst based in Noida and open to relocate anywhere in India. My work spans
+            I&apos;m a Data Analyst and ML Practitioner based in Bengaluru / Pune (Open to Relocate). My work spans
             predictive modeling, SQL analysis, ETL pipelines, customer segmentation, and Power BI/Tableau
             dashboards that turn messy data into clear business decisions.
           </p>
