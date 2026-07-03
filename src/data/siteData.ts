@@ -1,5 +1,5 @@
 const profilePhoto = new URL("../../bits-and-bytes/resources/tanmay-portrait-landing.jpg", import.meta.url).href;
-const resumeDoc = "/assets/Tanmay_Kalbande_Resume.docx";
+const resumePdf = "/assets/Tanmay_Kalbande_Resume.pdf";
 const dashboardPhoto = new URL(
   "../../bits-and-bytes/dashboard_project/dashboard_screenshot/power_bi_screenshot_1.png",
   import.meta.url,
@@ -12,7 +12,7 @@ const dashboardFile = new URL(
 export const assetUrls = {
   profilePhoto,
   landingPortrait: profilePhoto,
-  resumeDoc,
+  resumePdf,
   dashboardPhoto,
   dashboardFile,
 };
