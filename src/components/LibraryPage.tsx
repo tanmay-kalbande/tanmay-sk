@@ -273,48 +273,68 @@ export default function LibraryPage() {
                   <span className="lib-sidebar-stat-label">Words</span>
                   <span className="lib-sidebar-stat-value">{(index.total * 9).toLocaleString()}K+</span>
                 </div>
+                <div className="lib-sidebar-stat-item">
+                  <span className="lib-sidebar-stat-label">Access</span>
+                  <span className="lib-sidebar-stat-value">Free</span>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Social Links */}
-          <div className="lib-sidebar-social">
-            {socialLinks.map(link => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="lib-sidebar-social-link"
-              >
-                {link.label}
-              </a>
-            ))}
+          <div className="lib-sidebar-cta">
+            <a
+              href={PUSTAKAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-secondary"
+              style={{ width: '100%', justifyContent: 'center' }}
+            >
+              Generate Custom
+            </a>
           </div>
         </aside>
 
-        {/* Right content panel */}
-        <main className="lib-content">
-          <div className="lib-content-header">
-            <h1 className="lib-title">
-              A Curated Library of <br />
-              <span>Structured Learning Guides</span>
+        {/* Right Main Grid */}
+        <main className="lib-main">
+          {/* Collapsible Hero Block */}
+          <div className={`lib-hero ${isFilterActive ? 'collapsed' : ''}`}>
+            <div className="lib-hero-badge">
+              Open-Access · Free to Read
+            </div>
+            <h1>
+              <span className="first-name">A Curated Library of</span><br />
+              <span className="accent">Structured</span><br />
+              Learning Guides
             </h1>
-            <p className="lib-subtitle">
-              Structured, chapter-by-chapter roadmaps on programming, finance, exams, and
-              more. Free to read, built as custom versions on your own topics with Pustakam.
+            <p className="lib-hero-sub">
+              Structured, chapter-by-chapter roadmaps on programming, finance, exams, and more.
+              Every curriculum is free to read. Build a custom version on your exact topic with Pustakam.
             </p>
           </div>
 
-          <div className="lib-content-body">
+          {/* Active Filter Header */}
+          {isFilterActive && (
+            <div className="lib-active-header">
+              <h2>
+                {activeCategory !== 'all' ? CATEGORY_LABELS[activeCategory] : 'All Books'}
+                {search.trim() ? ` matching "${search}"` : ''}
+              </h2>
+              <button onClick={handleResetFilters} className="lib-reset-btn">
+                Clear Filters ×
+              </button>
+            </div>
+          )}
+
+          {/* Grid Area */}
+          <div className="lib-grid-wrap">
             {loading && (
               <div className="lib-loading">
                 <div className="lib-spinner" />
-                <p>Loading library catalogs...</p>
+                Loading library...
               </div>
             )}
 
-            {error && (
+            {error && !loading && (
               <div className="lib-empty">
                 <h3>{error}</h3>
                 <p>
@@ -329,6 +349,11 @@ export default function LibraryPage() {
 
             {!loading && !error && (
               <>
+                <div className="lib-results-count">
+                  {filtered.length === index?.total
+                    ? `${filtered.length} books`
+                    : `${filtered.length} of ${index?.total} books`}
+                </div>
                 {filtered.length === 0 ? (
                   <div className="lib-empty">
                     <h3>No books found for "{search}"</h3>
