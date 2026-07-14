@@ -74,7 +74,7 @@ jobs:
           ZAI_MODEL:         'glm-5.2'
           SITE_URL:          'https://tanmaysk.in'
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '4' }}
-          MAX_BOOKS:         ${{ github.event.inputs.max_books || '3' }}
+          MAX_BOOKS:         ${{ github.event.inputs.max_books || '20' }}
           # Tells the script it's running in CI — enables extra logging
           CI:                'true'
         run: |

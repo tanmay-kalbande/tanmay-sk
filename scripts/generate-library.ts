@@ -565,7 +565,7 @@ async function main() {
     } catch {}
   }
 
-  const countToGenerate = CONFIG.MAX_BOOKS > 0 ? CONFIG.MAX_BOOKS : 3;
+  const countToGenerate = CONFIG.MAX_BOOKS > 0 ? CONFIG.MAX_BOOKS : 20;
 
   console.log('\n🚀 Pustakam Library Generator (File-Based & AI-Driven)');
   console.log(`🤖 Target books to generate this run: ${countToGenerate}`);
