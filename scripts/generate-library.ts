@@ -43,7 +43,7 @@ const CONFIG = {
   MAX_MODULES:           8,
 
   // Primary model — Mistral Small (cheapest, fastest, 1B tokens free)
-  PRIMARY_MODEL:         'mistral-small-latest',
+  PRIMARY_MODEL:         'mistral-large-latest',
   PRIMARY_API_URL:       'https://api.mistral.ai/v1/chat/completions',
   PRIMARY_API_KEY:       process.env.MISTRAL_API_KEY || '',
 
@@ -466,7 +466,7 @@ async function main() {
   if (CONFIG.MAX_BOOKS > 0) console.log(`🎯 Limit: generating max ${CONFIG.MAX_BOOKS} books this run`);
   console.log(`⚙️  Workers: ${CONFIG.CONCURRENCY} parallel`);
   console.log(`📁 Output: ${CONFIG.OUTPUT_DIR}`);
-  console.log(`🤖 Primary: Mistral Small  |  Fallback: Z.ai GLM-4.7 FlashX`);
+  console.log(`🤖 Primary: Mistral Large  |  Fallback: Z.ai GLM-4.7 FlashX`);
   console.log(`⏱️  Estimated: ~${estMinutes.toFixed(0)} minutes`);
   console.log(`💾 Storage: ~${(pending.length * 0.015).toFixed(0)}MB (${pending.length} books × ~15KB each)`);
   console.log('─────────────────────────────────────────\n');

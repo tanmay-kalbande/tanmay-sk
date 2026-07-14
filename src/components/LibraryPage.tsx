@@ -37,6 +37,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
+const LINKEDIN_URL = 'https://www.linkedin.com/in/tanmay-kalbande';
 
 export default function LibraryPage() {
   const [index, setIndex] = useState<LibraryIndex | null>(null);
@@ -77,6 +78,11 @@ export default function LibraryPage() {
     }
     return books;
   }, [index, activeCategory, search]);
+
+  const totalWords = useMemo(() => {
+    if (!index) return 0;
+    return index.books.reduce((sum, b) => sum + b.wordCount, 0);
+  }, [index]);
 
   return (
     <div className="lib-root">
@@ -120,12 +126,12 @@ export default function LibraryPage() {
               <span className="lib-stat-label">Books</span>
             </div>
             <div className="lib-stat">
-              <span className="lib-stat-num">{(index.total * 9).toLocaleString()}K+</span>
+              <span className="lib-stat-num">{Math.round(totalWords / 1000).toLocaleString()}K+</span>
               <span className="lib-stat-label">Words</span>
             </div>
             <div className="lib-stat">
               <span className="lib-stat-num">{categories.length - 1}</span>
-              <span className="lib-stat-label">Topics</span>
+              <span className="lib-stat-label">{categories.length - 1 === 1 ? 'Topic' : 'Topics'}</span>
             </div>
             <div className="lib-stat">
               <span className="lib-stat-num">Free</span>
@@ -232,6 +238,28 @@ export default function LibraryPage() {
           </>
         )}
       </div>
+
+      {/* Footer */}
+      <footer className="lib-footer">
+        <div className="lib-footer-inner">
+          <div className="lib-footer-left">
+            <span className="lib-footer-dot" />
+            <span>Built by Tanmay Kalbande</span>
+          </div>
+          <div className="lib-footer-links">
+            <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            <span className="lib-footer-sep">·</span>
+            <a href="https://github.com/tanmay-kalbande" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <span className="lib-footer-sep">·</span>
+            <Link to="/">Portfolio</Link>
+            <span className="lib-footer-sep">·</span>
+            <a href={PUSTAKAM_URL} target="_blank" rel="noopener noreferrer">Pustakam</a>
+          </div>
+          <div className="lib-footer-right">
+            © {new Date().getFullYear()} Tanmay Kalbande
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
