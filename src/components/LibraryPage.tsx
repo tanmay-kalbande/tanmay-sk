@@ -15,6 +15,7 @@ interface BookMeta {
   moduleCount: number;
   readingTimeMins: number;
   metaDescription: string;
+  modelUsed?: string;
   generatedAt: string;
 }
 
@@ -291,6 +292,9 @@ export default function LibraryPage() {
                           {book.tags.slice(0, 3).map(t => (
                             <span key={t} className="lib-tag">{t}</span>
                           ))}
+                          <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                            {book.modelUsed?.includes('large') ? 'Edition L' : 'Edition S'}
+                          </span>
                         </div>
                         <div className="lib-card-cta">
                           Read now <ArrowRight size={11} />

@@ -25,6 +25,7 @@ interface BookFile {
   moduleCount: number;
   readingTimeMins: number;
   metaDescription: string;
+  modelUsed?: string;
   generatedAt: string;
   modules: BookModule[];
 }
@@ -591,6 +592,9 @@ export default function BookReaderPage() {
               {book.tags.slice(0, 2).map(t => (
                 <span key={t} className="lib-tag">{t}</span>
               ))}
+              <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: 'var(--accent)', color: 'var(--accent)' }}>
+                {book.modelUsed?.includes('large') ? 'Edition L' : 'Edition S'}
+              </span>
             </div>
 
             <h1 className="reader-title">{book.title}</h1>
