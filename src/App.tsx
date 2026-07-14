@@ -5,6 +5,8 @@ import PortfolioPage from "./components/PortfolioPage";
 import DashboardsPage from "./components/DashboardsPage";
 import AssistantPage from "./components/AssistantPage";
 import MaintenancePage from "./components/MaintenancePage";
+import LibraryPage from "./components/LibraryPage";
+import BookReaderPage from "./components/BookReaderPage";
 
 // HIDE PORTFOLIO FOR A FEW DAYS
 const MAINTENANCE_MODE = false;
@@ -32,6 +34,9 @@ export default function App() {
         <Route path="/portfolio" element={<PortfolioPage />} />
         <Route path="/dashboards" element={<DashboardsPage />} />
         <Route path="/assistant" element={<AssistantPage />} />
+        {/* ── Book Library (SEO acquisition engine) ── */}
+        <Route path="/library" element={<LibraryPage />} />
+        <Route path="/library/book/:slug" element={<BookReaderPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

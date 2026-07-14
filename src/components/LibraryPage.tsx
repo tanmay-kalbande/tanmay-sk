@@ -1,0 +1,241 @@
+import React, { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { BookOpen, Search, Clock, FileText, ArrowRight, Sparkles } from 'lucide-react';
+import '../styles/library.css';
+
+interface BookMeta {
+  slug: string;
+  title: string;
+  goal: string;
+  category: string;
+  tags: string[];
+  complexity: 'beginner' | 'intermediate' | 'advanced';
+  wordCount: number;
+  moduleCount: number;
+  readingTimeMins: number;
+  metaDescription: string;
+  generatedAt: string;
+}
+
+interface LibraryIndex {
+  total: number;
+  lastUpdated: string;
+  books: BookMeta[];
+}
+
+const CATEGORY_LABELS: Record<string, string> = {
+  all: 'All',
+  programming: '💻 Programming',
+  'data-science': '📊 Data Science',
+  ai: '🤖 AI / LLM',
+  finance: '💰 Finance',
+  business: '🚀 Business',
+  exams: '📝 Exams',
+  language: '🗣️ Language',
+  health: '💪 Health',
+  design: '🎨 Design',
+};
+
+const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
+
+export default function LibraryPage() {
+  const [index, setIndex] = useState<LibraryIndex | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState('all');
+
+  useEffect(() => {
+    document.title = 'Free Book Library — Tanmay Kalbande';
+    fetch('/library/index.json')
+      .then(r => r.ok ? r.json() : Promise.reject('Not found'))
+      .then((data: LibraryIndex) => { setIndex(data); setLoading(false); })
+      .catch(() => {
+        setError('Library is being built — check back soon!');
+        setLoading(false);
+      });
+  }, []);
+
+  const categories = useMemo(() => {
+    if (!index) return ['all'];
+    const cats = Array.from(new Set(index.books.map(b => b.category)));
+    return ['all', ...cats.sort()];
+  }, [index]);
+
+  const filtered = useMemo(() => {
+    if (!index) return [];
+    let books = index.books;
+    if (activeCategory !== 'all') books = books.filter(b => b.category === activeCategory);
+    if (search.trim()) {
+      const q = search.toLowerCase();
+      books = books.filter(b =>
+        b.title.toLowerCase().includes(q) ||
+        b.goal.toLowerCase().includes(q) ||
+        b.tags.some(t => t.toLowerCase().includes(q)) ||
+        b.category.toLowerCase().includes(q)
+      );
+    }
+    return books;
+  }, [index, activeCategory, search]);
+
+  return (
+    <div className="lib-root">
+      {/* Nav */}
+      <nav className="lib-nav">
+        <Link to="/" className="lib-nav-back">
+          ← tanmaysk.in
+        </Link>
+        <Link to="/library" className="lib-nav-brand">
+          <BookOpen size={18} />
+          <span>Free Library</span>
+        </Link>
+        <a
+          href={PUSTAKAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-primary"
+          style={{ padding: '7px 14px', fontSize: '12px' }}
+        >
+          <Sparkles size={13} />
+          Generate Your Own
+        </a>
+      </nav>
+
+      {/* Hero */}
+      <div className="lib-hero">
+        <div className="lib-hero-badge">
+          <Sparkles size={11} />
+          AI-Generated · Free to Read
+        </div>
+        <h1>
+          A Free Library of <span className="grad">AI-Generated</span> Learning Books
+        </h1>
+        <p className="lib-hero-sub">
+          Thousands of structured, chapter-by-chapter guides on programming, finance, exams, and more.
+          Every book is free to read. Want one on your exact topic? Generate it on Pustakam.
+        </p>
+
+        {index && (
+          <div className="lib-stats-row">
+            <div className="lib-stat">
+              <span className="lib-stat-num">{index.total.toLocaleString()}</span>
+              <span className="lib-stat-label">Books</span>
+            </div>
+            <div className="lib-stat">
+              <span className="lib-stat-num">{(index.total * 9).toLocaleString()}K+</span>
+              <span className="lib-stat-label">Words</span>
+            </div>
+            <div className="lib-stat">
+              <span className="lib-stat-num">{categories.length - 1}</span>
+              <span className="lib-stat-label">Topics</span>
+            </div>
+            <div className="lib-stat">
+              <span className="lib-stat-num">Free</span>
+              <span className="lib-stat-label">Always</span>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Controls */}
+      <div className="lib-controls">
+        <div className="lib-search-wrap">
+          <Search size={15} className="lib-search-icon" />
+          <input
+            className="lib-search"
+            type="text"
+            placeholder="Search books — try &quot;python&quot;, &quot;UPSC&quot;, &quot;stock market&quot;..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+        </div>
+        <div className="lib-category-row">
+          {categories.map(cat => (
+            <button
+              key={cat}
+              className={`lib-cat-btn ${activeCategory === cat ? 'active' : ''}`}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {CATEGORY_LABELS[cat] ?? cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Grid */}
+      <div className="lib-grid-wrap">
+        {loading && (
+          <div className="lib-loading">
+            <div className="lib-spinner" />
+            Loading library...
+          </div>
+        )}
+
+        {error && !loading && (
+          <div className="lib-empty">
+            <BookOpen size={40} style={{ marginBottom: 16, opacity: 0.3 }} />
+            <h3>{error}</h3>
+            <p style={{ marginTop: 8 }}>
+              Meanwhile, you can{' '}
+              <a href={PUSTAKAM_URL} style={{ color: 'var(--lib-accent)' }}>
+                generate a custom book on Pustakam
+              </a>
+              .
+            </p>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <>
+            <div className="lib-results-count">
+              {filtered.length === index?.total
+                ? `${filtered.length} books`
+                : `${filtered.length} of ${index?.total} books`}
+            </div>
+            {filtered.length === 0 ? (
+              <div className="lib-empty">
+                <Search size={40} style={{ marginBottom: 16, opacity: 0.3 }} />
+                <h3>No books found for "{search}"</h3>
+                <p style={{ marginTop: 8 }}>
+                  <a href={PUSTAKAM_URL} style={{ color: 'var(--lib-accent)' }}>
+                    Generate this exact book on Pustakam →
+                  </a>
+                </p>
+              </div>
+            ) : (
+              <div className="lib-grid">
+                {filtered.map(book => (
+                  <Link
+                    key={book.slug}
+                    to={`/library/book/${book.slug}`}
+                    className="lib-card"
+                  >
+                    <div className="lib-card-top">
+                      <p className="lib-card-title">{book.title}</p>
+                      <span className={`lib-card-complexity ${book.complexity}`}>
+                        {book.complexity}
+                      </span>
+                    </div>
+                    <div className="lib-card-meta">
+                      <span><Clock size={11} /> {book.readingTimeMins} min</span>
+                      <span><FileText size={11} /> {book.moduleCount} chapters</span>
+                      <span>{(book.wordCount / 1000).toFixed(1)}K words</span>
+                    </div>
+                    <div className="lib-card-tags">
+                      {book.tags.slice(0, 3).map(t => (
+                        <span key={t} className="lib-tag">{t}</span>
+                      ))}
+                    </div>
+                    <div className="lib-card-cta">
+                      Read now <ArrowRight size={12} />
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,124 @@
+name: 📚 Generate Library Books
+
+on:
+  # ── Automatic: runs every Sunday at 1am UTC (6:30am IST) ──────────────────
+  schedule:
+    - cron: '0 1 * * 0'
+
+  # ── Manual: trigger from GitHub UI anytime ────────────────────────────────
+  workflow_dispatch:
+    inputs:
+      concurrency:
+        description: 'Number of parallel workers (default: 8)'
+        required: false
+        default: '8'
+      max_books:
+        description: 'Max books to generate this run (0 = all pending)'
+        required: false
+        default: '0'
+
+# ── Only one run at a time — cancel any queued run if a new one starts ───────
+concurrency:
+  group: library-generation
+  cancel-in-progress: false   # don't cancel mid-run, queue instead
+
+jobs:
+  generate:
+    name: Generate books
+    runs-on: ubuntu-latest
+    timeout-minutes: 340      # 5h 40min — stays under GitHub's 6h limit
+
+    steps:
+      # ── 1. Checkout ─────────────────────────────────────────────────────────
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # fetch-depth 0 gets full history so we can push back
+          fetch-depth: 0
+
+      # ── 2. Node setup ───────────────────────────────────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # ── 3. Install only what the script needs ───────────────────────────────
+      - name: Install dependencies
+        run: |
+          npm install --save-dev \
+            ts-node \
+            typescript \
+            @types/node
+          echo "✅ Dependencies installed"
+
+      # ── 4. Show what we're about to generate ───────────────────────────────
+      - name: Pre-run summary
+        run: |
+          echo "──────────────────────────────────────────"
+          echo "📚 Pustakam Library Generator"
+          echo "🕐 Started at: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          echo "⚙️  Workers: ${{ github.event.inputs.concurrency || '8' }}"
+          echo "📁 Output: public/library/"
+          EXISTING=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          echo "📖 Books already generated: $EXISTING"
+          echo "──────────────────────────────────────────"
+
+      # ── 5. Run the generator ────────────────────────────────────────────────
+      - name: Generate books
+        env:
+          MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
+          ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
+          SITE_URL:          ${{ secrets.SITE_URL || 'https://pustakam.app' }}
+          CONCURRENCY:       ${{ github.event.inputs.concurrency || '8' }}
+          MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
+          # Tells the script it's running in CI — enables extra logging
+          CI:                'true'
+        run: |
+          npx ts-node --project tsconfig.node.json scripts/generate-library.ts
+        # If the script exits with error, we still want to commit whatever was generated
+        continue-on-error: true
+
+      # ── 6. Show what was generated this run ────────────────────────────────
+      - name: Post-run summary
+        run: |
+          TOTAL=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          SITEMAP_URLS=$(grep -c '<url>' public/library/sitemap.xml 2>/dev/null || echo "0")
+          INDEX_SIZE=$(wc -c < public/library/index.json 2>/dev/null || echo "0")
+          echo "──────────────────────────────────────────"
+          echo "✅ Run complete"
+          echo "📖 Total books now: $TOTAL"
+          echo "🗺️  Sitemap URLs: $SITEMAP_URLS"
+          echo "📑 index.json size: ${INDEX_SIZE} bytes"
+          echo "──────────────────────────────────────────"
+
+      # ── 7. Commit generated files back to repo ─────────────────────────────
+      - name: Commit and push generated books
+        run: |
+          git config user.name  "Pustakam Library Bot"
+          git config user.email "library-bot@pustakam.app"
+
+          git add public/library/
+
+          # Only commit if there are actual changes
+          if git diff --staged --quiet; then
+            echo "ℹ️  No new books generated — nothing to commit"
+          else
+            BOOK_COUNT=$(git diff --staged --name-only | grep "books/" | wc -l)
+            git commit -m "📚 Library update: +${BOOK_COUNT} books ($(date -u '+%Y-%m-%d'))"
+            git push
+            echo "✅ Pushed ${BOOK_COUNT} new books to repo"
+            echo "🚀 Vercel will auto-deploy in ~2 minutes"
+          fi
+
+      # ── 8. Notify on failure (optional — needs SLACK_WEBHOOK secret) ───────
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Generation job failed or timed out"
+          echo "ℹ️  Checkpoint is saved — next run will resume from where this stopped"
+          # If you add SLACK_WEBHOOK secret, uncomment this:
+          # curl -X POST "${{ secrets.SLACK_WEBHOOK }}" \
+          #   -H 'Content-type: application/json' \
+          #   --data '{"text":"⚠️ Pustakam library generation failed. Will retry next Sunday."}'
