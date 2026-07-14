@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { marked } from 'marked';
+
 import {
   ArrowLeft, Clock, FileText, BookOpen,
-  Download, ExternalLink, Check
+  Download, ExternalLink, Check, Calendar, Sun, Moon
 } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import '../styles/library.css';
@@ -465,6 +466,32 @@ export default function BookReaderPage() {
   const [copied, setCopied] = useState(false);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
 
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    window.localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const formatGeneratedDate = (dateStr?: string) => {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString(undefined, { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    }) + ' ' + d.toLocaleTimeString(undefined, { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  };
+
   useEffect(() => {
     if (!slug) return;
     setLoading(true);
@@ -592,7 +619,29 @@ export default function BookReaderPage() {
         <Link to="/library" className="lib-nav-back">
           <ArrowLeft size={12} /> Library
         </Link>
-        <div className="lib-nav-actions">
+        <div className="lib-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--ink-2)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '6px',
+              borderRadius: '50%',
+              marginRight: '4px',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--ink)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--ink-2)'}
+          >
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+          </button>
           <button
             className="btn-secondary"
             onClick={handleCopyLink}
@@ -648,6 +697,11 @@ export default function BookReaderPage() {
               <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)', color: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)' }}>
                 {(book as any).edition === 'street' ? '🔥 Street Edition' : ((book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? '✨ Stellar Edition' : 'Street Edition')}
               </span>
+              {book.modelUsed && (
+                <span className="lib-tag model-tag" style={{ borderStyle: 'solid', borderColor: 'var(--ink-3)', color: 'var(--ink-2)' }}>
+                  🤖 {book.modelUsed}
+                </span>
+              )}
             </div>
 
             <h1 className="reader-title">{book.title}</h1>
@@ -657,6 +711,9 @@ export default function BookReaderPage() {
               <span className="reader-stat"><Clock size={12} /> {book.readingTimeMins} min read</span>
               <span className="reader-stat"><FileText size={12} /> {book.moduleCount} chapters</span>
               <span className="reader-stat"><BookOpen size={12} /> {book.wordCount.toLocaleString()} words</span>
+              {book.generatedAt && (
+                <span className="reader-stat"><Calendar size={12} /> {formatGeneratedDate(book.generatedAt)}</span>
+              )}
             </div>
 
             <div className="reader-action-row">

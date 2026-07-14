@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import '../styles/library.css';
 
@@ -46,6 +46,32 @@ export default function LibraryPage() {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [showAllCategories, setShowAllCategories] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    window.localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
+
+  const formatGeneratedDate = (dateStr?: string) => {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    return d.toLocaleDateString(undefined, { 
+      month: 'short', 
+      day: 'numeric', 
+      year: 'numeric' 
+    }) + ' ' + d.toLocaleTimeString(undefined, { 
+      hour: '2-digit', 
+      minute: '2-digit' 
+    });
+  };
 
   useEffect(() => {
     document.title = 'Free Book Library — Tanmay Kalbande';
@@ -75,14 +101,22 @@ export default function LibraryPage() {
         count: counts[c]
       }));
 
-    // Sort categories (keeping 'all' at the top)
+    // Keep 'all' at the top, sort others by book count descending (for top 5)
     const allItem = list.find(item => item.id === 'all')!;
     const sortedOthers = list
       .filter(item => item.id !== 'all')
-      .sort((a, b) => a.label.localeCompare(b.label));
+      .sort((a, b) => b.count - a.count);
 
     return [allItem, ...sortedOthers];
   }, [index]);
+
+  const top5Categories = useMemo(() => {
+    return categoriesWithCounts.slice(1, 6);
+  }, [categoriesWithCounts]);
+
+  const remainingCategories = useMemo(() => {
+    return categoriesWithCounts.slice(6);
+  }, [categoriesWithCounts]);
 
   const filtered = useMemo(() => {
     if (!index) return [];
@@ -119,14 +153,37 @@ export default function LibraryPage() {
         <Link to="/library" className="lib-nav-brand">
           <span>Free Library</span>
         </Link>
-        <a
-          href={PUSTAKAM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-primary"
-        >
-          Generate Your Own
-        </a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <button
+            className="theme-toggle-btn"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--ink-2)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '6px',
+              borderRadius: '50%',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--ink)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--ink-2)'}
+          >
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+          </button>
+          <a
+            href={PUSTAKAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
+            Generate Your Own
+          </a>
+        </div>
       </nav>
 
       {/* Main Split Layout */}
@@ -150,7 +207,8 @@ export default function LibraryPage() {
           <div className="lib-sidebar-section">
             <h3>Categories</h3>
             <div className="lib-category-list">
-              {categoriesWithCounts.map(cat => (
+              {/* Always show "All" first */}
+              {categoriesWithCounts.slice(0, 1).map(cat => (
                 <button
                   key={cat.id}
                   className={`lib-sidebar-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
@@ -160,6 +218,46 @@ export default function LibraryPage() {
                   {index && <span className="lib-sidebar-cat-count">{cat.count}</span>}
                 </button>
               ))}
+
+              {/* Show top 5 sorted categories */}
+              {top5Categories.map(cat => (
+                <button
+                  key={cat.id}
+                  className={`lib-sidebar-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(cat.id)}
+                >
+                  <span>{cat.label}</span>
+                  {index && <span className="lib-sidebar-cat-count">{cat.count}</span>}
+                </button>
+              ))}
+
+              {/* Show the rest if expanded */}
+              {showAllCategories && remainingCategories.map(cat => (
+                <button
+                  key={cat.id}
+                  className={`lib-sidebar-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(cat.id)}
+                >
+                  <span>{cat.label}</span>
+                  {index && <span className="lib-sidebar-cat-count">{cat.count}</span>}
+                </button>
+              ))}
+
+              {remainingCategories.length > 0 && (
+                <button
+                  className="lib-sidebar-cat-btn more-btn"
+                  onClick={() => setShowAllCategories(!showAllCategories)}
+                  style={{ 
+                    color: 'var(--accent)', 
+                    fontWeight: 500, 
+                    justifyContent: 'center',
+                    borderStyle: 'dashed',
+                    marginTop: '8px'
+                  }}
+                >
+                  <span>{showAllCategories ? 'Show Less' : `+ ${remainingCategories.length} More`}</span>
+                </button>
+              )}
             </div>
           </div>
 
@@ -175,68 +273,48 @@ export default function LibraryPage() {
                   <span className="lib-sidebar-stat-label">Words</span>
                   <span className="lib-sidebar-stat-value">{(index.total * 9).toLocaleString()}K+</span>
                 </div>
-                <div className="lib-sidebar-stat-item">
-                  <span className="lib-sidebar-stat-label">Access</span>
-                  <span className="lib-sidebar-stat-value">Free</span>
-                </div>
               </div>
             </div>
           )}
 
-          <div className="lib-sidebar-cta">
-            <a
-              href={PUSTAKAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary"
-              style={{ width: '100%', justifyContent: 'center' }}
-            >
-              Generate Custom
-            </a>
+          {/* Social Links */}
+          <div className="lib-sidebar-social">
+            {socialLinks.map(link => (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lib-sidebar-social-link"
+              >
+                {link.label}
+              </a>
+            ))}
           </div>
         </aside>
 
-        {/* Right Main Grid */}
-        <main className="lib-main">
-          {/* Collapsible Hero Block */}
-          <div className={`lib-hero ${isFilterActive ? 'collapsed' : ''}`}>
-            <div className="lib-hero-badge">
-              Open-Access · Free to Read
-            </div>
-            <h1>
-              <span className="first-name">A Curated Library of</span><br />
-              <span className="accent">Structured</span><br />
-              Learning Guides
+        {/* Right content panel */}
+        <main className="lib-content">
+          <div className="lib-content-header">
+            <h1 className="lib-title">
+              A Curated Library of <br />
+              <span>Structured Learning Guides</span>
             </h1>
-            <p className="lib-hero-sub">
-              Structured, chapter-by-chapter roadmaps on programming, finance, exams, and more.
-              Every curriculum is free to read. Build a custom version on your exact topic with Pustakam.
+            <p className="lib-subtitle">
+              Structured, chapter-by-chapter roadmaps on programming, finance, exams, and
+              more. Free to read, built as custom versions on your own topics with Pustakam.
             </p>
           </div>
 
-          {/* Active Filter Header */}
-          {isFilterActive && (
-            <div className="lib-active-header">
-              <h2>
-                {activeCategory !== 'all' ? CATEGORY_LABELS[activeCategory] : 'All Books'}
-                {search.trim() ? ` matching "${search}"` : ''}
-              </h2>
-              <button onClick={handleResetFilters} className="lib-reset-btn">
-                Clear Filters ×
-              </button>
-            </div>
-          )}
-
-          {/* Grid Area */}
-          <div className="lib-grid-wrap">
+          <div className="lib-content-body">
             {loading && (
               <div className="lib-loading">
                 <div className="lib-spinner" />
-                Loading library...
+                <p>Loading library catalogs...</p>
               </div>
             )}
 
-            {error && !loading && (
+            {error && (
               <div className="lib-empty">
                 <h3>{error}</h3>
                 <p>
@@ -251,11 +329,6 @@ export default function LibraryPage() {
 
             {!loading && !error && (
               <>
-                <div className="lib-results-count">
-                  {filtered.length === index?.total
-                    ? `${filtered.length} books`
-                    : `${filtered.length} of ${index?.total} books`}
-                </div>
                 {filtered.length === 0 ? (
                   <div className="lib-empty">
                     <h3>No books found for "{search}"</h3>
@@ -287,6 +360,11 @@ export default function LibraryPage() {
                           <span><Clock size={10} /> {book.readingTimeMins} min</span>
                           <span><FileText size={10} /> {book.moduleCount} ch</span>
                           <span>{(book.wordCount / 1000).toFixed(1)}K words</span>
+                          {book.generatedAt && (
+                            <span className="lib-card-date" style={{ opacity: 0.65, fontSize: '0.62rem' }}>
+                              <Calendar size={9} /> {formatGeneratedDate(book.generatedAt)}
+                            </span>
+                          )}
                         </div>
                         <div className="lib-card-tags">
                           {book.tags.slice(0, 3).map(t => (
@@ -295,6 +373,11 @@ export default function LibraryPage() {
                           <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)', color: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)' }}>
                             {(book as any).edition === 'street' ? '🔥 Street' : ((book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? '✨ Stellar' : 'Street')}
                           </span>
+                          {book.modelUsed && (
+                            <span className="lib-tag model-tag" style={{ borderStyle: 'solid', borderColor: 'var(--ink-3)', color: 'var(--ink-2)', opacity: 0.8 }}>
+                              🤖 {book.modelUsed}
+                            </span>
+                          )}
                         </div>
                         <div className="lib-card-cta">
                           Read now <ArrowRight size={11} />
