@@ -1,9 +1,9 @@
 name: 📚 Generate Library Books
 
 on:
-  # ── Automatic: runs every Sunday at 1am UTC (6:30am IST) ──────────────────
+  # ── Automatic: runs every 5 hours ──────────────────────────────────────────
   schedule:
-    - cron: '0 1 * * 0'
+    - cron: '0 */5 * * *'
 
   # ── Manual: trigger from GitHub UI anytime ────────────────────────────────
   workflow_dispatch:
@@ -74,7 +74,7 @@ jobs:
           ZAI_MODEL:         'glm-5.2'
           SITE_URL:          'https://tanmaysk.in'
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '4' }}
-          MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
+          MAX_BOOKS:         ${{ github.event.inputs.max_books || '3' }}
           # Tells the script it's running in CI — enables extra logging
           CI:                'true'
         run: |
