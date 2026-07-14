@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
     inputs:
       concurrency:
-        description: 'Number of parallel workers (default: 8)'
+        description: 'Number of parallel workers (default: 4)'
         required: false
-        default: '8'
+        default: '4'
       max_books:
         description: 'Max books to generate this run (0 = all pending)'
         required: false
@@ -51,10 +51,7 @@ jobs:
       # ── 3. Install only what the script needs ───────────────────────────────
       - name: Install dependencies
         run: |
-          npm install --save-dev \
-            tsx \
-            typescript \
-            @types/node
+          npm install --no-save tsx @types/node
           echo "✅ Dependencies installed"
 
       # ── 4. Show what we're about to generate ───────────────────────────────
@@ -63,7 +60,7 @@ jobs:
           echo "──────────────────────────────────────────"
           echo "📚 Pustakam Library Generator"
           echo "🕐 Started at: $(date -u '+%Y-%m-%d %H:%M UTC')"
-          echo "⚙️  Workers: ${{ github.event.inputs.concurrency || '8' }}"
+          echo "⚙️  Workers: ${{ github.event.inputs.concurrency || '4' }}"
           echo "📁 Output: public/library/"
           EXISTING=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
           echo "📖 Books already generated: $EXISTING"
@@ -74,27 +71,26 @@ jobs:
         env:
           MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
           ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
+          ZAI_MODEL:         'glm-5.1'
           SITE_URL:          'https://tanmaysk.in'
-          CONCURRENCY:       ${{ github.event.inputs.concurrency || '8' }}
+          CONCURRENCY:       ${{ github.event.inputs.concurrency || '4' }}
           MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
           # Tells the script it's running in CI — enables extra logging
           CI:                'true'
         run: |
           npx tsx scripts/generate-library.ts
-        # If the script exits with error, we still want to commit whatever was generated
-        continue-on-error: true
 
       # ── 6. Show what was generated this run ────────────────────────────────
       - name: Post-run summary
         run: |
           TOTAL=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
           SITEMAP_URLS=$(grep -c '<url>' public/library/sitemap.xml 2>/dev/null || echo "0")
-          INDEX_SIZE=$(wc -c < public/library/index.json 2>/dev/null || echo "0")
+          CATALOG_SIZE=$(wc -c < public/library/catalog.json 2>/dev/null || echo "0")
           echo "──────────────────────────────────────────"
           echo "✅ Run complete"
           echo "📖 Total books now: $TOTAL"
           echo "🗺️  Sitemap URLs: $SITEMAP_URLS"
-          echo "📑 index.json size: ${INDEX_SIZE} bytes"
+          echo "📑 catalog.json size: ${CATALOG_SIZE} bytes"
           echo "──────────────────────────────────────────"
 
       # ── 7. Commit generated files back to repo ─────────────────────────────

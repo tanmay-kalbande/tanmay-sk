@@ -6,15 +6,16 @@
  *
  * Output structure:
  *   public/library/
- *     index.json              ← all book metadata (for directory page)
+ *     catalog.json            ← all book metadata (for directory page)
  *     sitemap.xml             ← submit this to Google Search Console
  *     books/
  *       learn-python.json     ← individual book (content + metadata)
  *       stock-market.json
  *       ...
  *
- * Run:  npx ts-node scripts/generate-library.ts
- * Env:  MISTRAL_API_KEY   (required)
+ * Run:  npx tsx scripts/generate-library.ts
+ * Env:  ZAI_API_KEY       (required)
+ *       ZAI_MODEL         (optional, default: glm-5.1)
  *       SITE_URL          (optional, default: https://pustakam.app)
  *
  * After running:
@@ -42,15 +43,17 @@ const CONFIG = {
   MODULE_WORD_TARGET:    '800-1200',
   MAX_MODULES:           8,
 
-  // Primary model — Mistral Small (cheapest, fastest, 1B tokens free)
-  PRIMARY_MODEL:         'mistral-small-2506',
-  PRIMARY_API_URL:       'https://api.mistral.ai/v1/chat/completions',
-  PRIMARY_API_KEY:       process.env.MISTRAL_API_KEY || '',
+  // ZAI_MODEL allows a controlled model upgrade without changing generator code.
+  PRIMARY_MODEL:         process.env.ZAI_MODEL || 'glm-5.1',
+  PRIMARY_API_URL:       'https://api.z.ai/api/paas/v4/chat/completions',
+  PRIMARY_API_KEY:       process.env.ZAI_API_KEY || '',
+  PRIMARY_PROVIDER:      'zai',
 
-  // Fallback model — Z.ai GLM-4.7 FlashX (used if Mistral fails 3+ times in a row)
-  FALLBACK_MODEL:        'glm-4.7-flashx',
-  FALLBACK_API_URL:      'https://api.z.ai/api/paas/v4/chat/completions',
-  FALLBACK_API_KEY:      process.env.ZAI_API_KEY || '',
+  // Keep a separate provider available if Z.ai is temporarily unavailable.
+  FALLBACK_MODEL:        process.env.MISTRAL_FALLBACK_MODEL || 'mistral-small-2506',
+  FALLBACK_API_URL:      'https://api.mistral.ai/v1/chat/completions',
+  FALLBACK_API_KEY:      process.env.MISTRAL_API_KEY || '',
+  FALLBACK_PROVIDER:     'mistral',
 
   OUTPUT_DIR:            path.resolve(__dirname, '../public/library'),
   CHECKPOINT_FILE:       path.resolve(__dirname, '.library-checkpoint.json'),
@@ -108,6 +111,14 @@ function ensureDirs() {
 function saveBook(book: BookFile): void {
   const filePath = path.join(CONFIG.OUTPUT_DIR, 'books', `${book.slug}.json`);
   fs.writeFileSync(filePath, JSON.stringify(book, null, 2), 'utf8');
+}
+
+function getExistingSlugs(): string[] {
+  const booksDir = path.join(CONFIG.OUTPUT_DIR, 'books');
+  if (!fs.existsSync(booksDir)) return [];
+  return fs.readdirSync(booksDir)
+    .filter(file => file.endsWith('.json'))
+    .map(file => path.basename(file, '.json'));
 }
 
 function rebuildIndex(): void {
@@ -238,25 +249,28 @@ async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
   throw new Error(`${label} failed all retries`);
 }
 
-// ── AI caller (Mistral primary, Z.ai fallback) ───────────────────────────────
+// ── AI caller (Z.ai primary, Mistral fallback) ───────────────────────────────
+type RequestKind = 'roadmap' | 'chapter';
+type Completion = { text: string; model: string };
 
-// Track consecutive Mistral failures to know when to switch to fallback
-let mistralConsecutiveFailures = 0;
-const FALLBACK_THRESHOLD = 3; // switch to Z.ai after 3 consecutive Mistral failures
+let primaryConsecutiveFailures = 0;
+const FALLBACK_THRESHOLD = 3;
 
 async function callAI(
   prompt: string,
   estInputTokens = 500,
+  kind: RequestKind = 'chapter',
   forceFallback = false
-): Promise<string> {
-  const useFallback = forceFallback ||
-    (mistralConsecutiveFailures >= FALLBACK_THRESHOLD && CONFIG.FALLBACK_API_KEY);
+): Promise<Completion> {
+  const useFallback = forceFallback || (!CONFIG.PRIMARY_API_KEY && Boolean(CONFIG.FALLBACK_API_KEY)) ||
+    (primaryConsecutiveFailures >= FALLBACK_THRESHOLD && CONFIG.FALLBACK_API_KEY);
 
   const model   = useFallback ? CONFIG.FALLBACK_MODEL   : CONFIG.PRIMARY_MODEL;
   const apiUrl  = useFallback ? CONFIG.FALLBACK_API_URL  : CONFIG.PRIMARY_API_URL;
   const apiKey  = useFallback ? CONFIG.FALLBACK_API_KEY  : CONFIG.PRIMARY_API_KEY;
+  const provider = useFallback ? CONFIG.FALLBACK_PROVIDER : CONFIG.PRIMARY_PROVIDER;
 
-  if (!apiKey) throw new Error(`No API key configured for ${useFallback ? 'Z.ai fallback' : 'Mistral primary'}`);
+  if (!apiKey) throw new Error(`No API key configured for ${useFallback ? 'Mistral fallback' : 'Z.ai primary'}`);
 
   const estTotal = estInputTokens + 1400;
   await tokenBudget.acquire(estTotal);
@@ -269,61 +283,108 @@ async function callAI(
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
       max_tokens: 2048,
+      ...(provider === 'zai' ? { thinking: { type: kind === 'roadmap' ? 'enabled' : 'disabled' } } : {}),
     }),
   });
 
   if (res.status === 429) {
-    const e: any = new Error(`429 rate limited (${useFallback ? 'Z.ai' : 'Mistral'})`);
+    const e: any = new Error(`429 rate limited (${provider})`);
     e.status = 429;
-    if (!useFallback) mistralConsecutiveFailures++;
+    if (!useFallback) primaryConsecutiveFailures++;
     throw e;
   }
 
   if (!res.ok) {
-    if (!useFallback) mistralConsecutiveFailures++;
-    throw new Error(`${useFallback ? 'Z.ai' : 'Mistral'} ${res.status}: ${(await res.text()).slice(0, 200)}`);
+    if (!useFallback) primaryConsecutiveFailures++;
+    throw new Error(`${provider} ${res.status}: ${(await res.text()).slice(0, 200)}`);
   }
 
   // Success — reset failure counter
-  if (!useFallback) mistralConsecutiveFailures = 0;
+  if (!useFallback) primaryConsecutiveFailures = 0;
 
   const data = await res.json() as any;
   tokenBudget.record(data.usage?.total_tokens || estTotal);
-  return data.choices?.[0]?.message?.content || '';
+  const text = data.choices?.[0]?.message?.content?.trim() || '';
+  if (!text) throw new Error(`${provider} returned no content`);
+  return { text, model };
 }
 
 // Convenience wrapper — always tries primary first
-async function callMistral(prompt: string, estInputTokens = 500): Promise<string> {
-  return callAI(prompt, estInputTokens);
+async function callWriter(prompt: string, estInputTokens = 500, kind: RequestKind = 'chapter'): Promise<Completion> {
+  return callAI(prompt, estInputTokens, kind);
 }
 
 // ── Prompts ────────────────────────────────────────────────────────────────────
 
-function buildRoadmapPrompt(goal: string, complexity: string): string {
-  return `Create a learning roadmap for: "${goal}"
-Target: ${complexity} learners. Make ${CONFIG.MAX_MODULES} progressive modules.
+function buildRoadmapPrompt(seed: TopicSeed): string {
+  const complexity = seed.complexity || 'beginner';
+  return `You are designing a practical, evergreen learning guide.
+Topic: "${seed.goal}"
+Audience: ${complexity} learners. Category: ${seed.category}.
+
+Create exactly ${CONFIG.MAX_MODULES} progressive modules. Start at the learner's current level and end with a usable outcome. Every module must be distinct and build on earlier modules. Prefer durable fundamentals over time-sensitive claims. Avoid invented statistics, guarantees, and clickbait titles.
+
 Return ONLY valid JSON, no markdown:
-{"title":"Engaging book title","modules":[{"title":"Module title","description":"One sentence focus","objectives":["Point 1","Point 2","Point 3"]}],"difficultyLevel":"${complexity}"}`;
+{"title":"Clear, descriptive book title","modules":[{"title":"Module title","description":"One sentence focus","objectives":["Point 1","Point 2","Point 3"]}],"difficultyLevel":"${complexity}"}`;
 }
 
 function buildModulePrompt(
-  goal: string,
+  seed: TopicSeed,
+  roadmap: { title?: string; modules: Array<{ title: string; description: string; objectives: string[] }> },
   mod: { title: string; description: string; objectives: string[] },
-  index: number, total: number
+  index: number,
+  total: number,
+  previousChapterMemory: string
 ): string {
-  return `Write a learning chapter for: "${goal}"
+  const outline = roadmap.modules.map((item, i) => `${i + 1}. ${item.title}`).join('\n');
+  const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
+    ? 'Include a small, correct code or worked technical example when it helps.'
+    : 'Include a concrete, realistic scenario when it helps.';
+  const continuity = previousChapterMemory
+    ? `Previous chapter memory (continue from it; do not repeat it):\n${previousChapterMemory}`
+    : 'This is the first chapter. Establish only the foundations needed for later chapters.';
+
+  return `Write one chapter of the guide "${roadmap.title || seed.goal}".
+Topic: "${seed.goal}". Audience: ${seed.complexity || 'beginner'} learners.
 Chapter ${index + 1}/${total}: "${mod.title}"
 Focus: ${mod.description}
-Cover: ${mod.objectives.join(', ')}
+Required learning objectives: ${mod.objectives.join('; ')}
 
-Write ${CONFIG.MODULE_WORD_TARGET} words. Use ## headers. Include 1-2 real examples.
-Start directly with content. End with "## Key Takeaways" (3 bullet points).`;
+Full learning path:\n${outline}
+
+${continuity}
+
+Write ${CONFIG.MODULE_WORD_TARGET} words of clear, useful prose. Start directly with the lesson. Use descriptive ## headings, short paragraphs, and explain why an idea matters before showing how to use it. ${exampleInstruction} Include a short "## Practice" section with one actionable exercise. Do not add filler, unsupported statistics, generic motivational language, or claims likely to become outdated. End with "## Key Takeaways" and exactly 3 bullet points.`;
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 function countWords(t: string) { return t.trim().split(/\s+/).filter(Boolean).length; }
+function chapterMemory(content: string): string {
+  const takeaways = content.match(/## Key Takeaways[\s\S]*$/i)?.[0] || content;
+  return takeaways.replace(/\s+/g, ' ').trim().slice(0, 900);
+}
+function assertRoadmap(roadmap: any): asserts roadmap is { title?: string; modules: Array<{ title: string; description: string; objectives: string[] }> } {
+  if (!Array.isArray(roadmap?.modules) || roadmap.modules.length !== CONFIG.MAX_MODULES) {
+    throw new Error(`Roadmap must contain exactly ${CONFIG.MAX_MODULES} modules`);
+  }
+  for (const module of roadmap.modules) {
+    if (!module?.title || !module?.description || !Array.isArray(module?.objectives) || module.objectives.length < 3) {
+      throw new Error('Roadmap contains an incomplete module');
+    }
+  }
+}
+function assertChapter(content: string): void {
+  const words = countWords(content);
+  if (words < 700) throw new Error(`Chapter too short (${words} words)`);
+  if (!/^##\s+/m.test(content)) throw new Error('Chapter is missing section headings');
+  if (!/##\s+Practice\b/i.test(content)) throw new Error('Chapter is missing a practice section');
+  if (!/##\s+Key Takeaways\b/i.test(content)) throw new Error('Chapter is missing key takeaways');
+}
+function makeMetaDescription(title: string, seed: TopicSeed): string {
+  return `${title}: a ${seed.complexity || 'beginner'} guide to ${seed.goal.toLowerCase()} with clear explanations, examples, and practice.`.slice(0, 155);
+}
 function toSlug(text: string): string {
   return text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-').slice(0, 80).replace(/-+$/, '');
 }
@@ -341,13 +402,19 @@ function parseJSON(raw: string): any {
 async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' | 'fail'> {
   const slug = toSlug(`${seed.goal} ${seed.complexity || 'beginner'}`);
   const tag = `[W${workerIndex}]`;
+  const modelsUsed = new Set<string>();
 
   // Step 1: Roadmap
   let roadmap: any;
   try {
     roadmap = await withRetry(
-      () => callMistral(buildRoadmapPrompt(seed.goal, seed.complexity || 'beginner'), 300)
-        .then(parseJSON),
+      async () => {
+        const result = await callWriter(buildRoadmapPrompt(seed), 500, 'roadmap');
+        modelsUsed.add(result.model);
+        const parsed = parseJSON(result.text);
+        assertRoadmap(parsed);
+        return parsed;
+      },
       `${tag} roadmap`
     );
   } catch (e: any) {
@@ -355,19 +422,32 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     return 'fail';
   }
 
-  // Step 2: Modules (sequential within book for narrative coherence)
+  // Step 2: Generate chapters sequentially, carrying forward a compact memory.
   const modules: Array<{ title: string; content: string; wordCount: number }> = [];
+  let previousChapterMemory = '';
   for (let i = 0; i < roadmap.modules.length; i++) {
     const mod = roadmap.modules[i];
     try {
-      const content = await withRetry(
-        () => callMistral(buildModulePrompt(seed.goal, mod, i, roadmap.modules.length), 500),
+      const result = await withRetry(
+        async () => {
+          const completion = await callWriter(
+            buildModulePrompt(seed, roadmap, mod, i, roadmap.modules.length, previousChapterMemory),
+            1200,
+            'chapter'
+          );
+          assertChapter(completion.text);
+          return completion;
+        },
         `${tag} module ${i + 1}`
       );
+      modelsUsed.add(result.model);
+      const content = result.text;
       modules.push({ title: mod.title, content, wordCount: countWords(content) });
+      previousChapterMemory = chapterMemory(content);
       process.stdout.write('.');
-    } catch {
-      modules.push({ title: mod.title, content: `## ${mod.title}\n\n${mod.description}`, wordCount: 10 });
+    } catch (error: any) {
+      console.error(`\n❌ ${tag} module ${i + 1} failed: ${String(error?.message || error).slice(0, 120)}`);
+      return 'fail';
     }
   }
 
@@ -392,8 +472,8 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     wordCount: totalWords,
     moduleCount: modules.length,
     readingTimeMins: Math.ceil(totalWords / 250),
-    metaDescription: `${totalWords.toLocaleString()}-word guide: ${seed.goal}. Free to read on Pustakam.`,
-    modelUsed: CONFIG.MODEL,
+    metaDescription: makeMetaDescription(roadmap.title || seed.goal, seed),
+    modelUsed: [...modelsUsed].join(', '),
     generatedAt: new Date().toISOString(),
     roadmap,
     modules,
@@ -450,11 +530,14 @@ const TOPIC_SEEDS: TopicSeed[] = BASE_SEEDS.flatMap(s => [
 // ── Main ───────────────────────────────────────────────────────────────────────
 
 async function main() {
-  if (!process.env.MISTRAL_API_KEY) throw new Error('Missing MISTRAL_API_KEY');
+  if (!CONFIG.PRIMARY_API_KEY && !CONFIG.FALLBACK_API_KEY) {
+    throw new Error('Missing ZAI_API_KEY and MISTRAL_API_KEY');
+  }
 
   ensureDirs();
   const checkpoint = loadCheckpoint();
-  const completedSet = new Set(checkpoint.completedSlugs);
+  const completedSet = new Set([...checkpoint.completedSlugs, ...getExistingSlugs()]);
+  checkpoint.completedSlugs = [...completedSet];
   const pending = TOPIC_SEEDS.filter(s => !completedSet.has(toSlug(`${s.goal} ${s.complexity || 'beginner'}`)));
 
   const estMinutes = (pending.length * CONFIG.MAX_MODULES * 3) / CONFIG.CONCURRENCY;
@@ -466,7 +549,7 @@ async function main() {
   if (CONFIG.MAX_BOOKS > 0) console.log(`🎯 Limit: generating max ${CONFIG.MAX_BOOKS} books this run`);
   console.log(`⚙️  Workers: ${CONFIG.CONCURRENCY} parallel`);
   console.log(`📁 Output: ${CONFIG.OUTPUT_DIR}`);
-  console.log(`🤖 Primary: Mistral Small  |  Fallback: Z.ai GLM-4.7 FlashX`);
+  console.log(`🤖 Primary: ${CONFIG.PRIMARY_MODEL}  |  Fallback: ${CONFIG.FALLBACK_MODEL}`);
   console.log(`⏱️  Estimated: ~${estMinutes.toFixed(0)} minutes`);
   console.log(`💾 Storage: ~${(pending.length * 0.015).toFixed(0)}MB (${pending.length} books × ~15KB each)`);
   console.log('─────────────────────────────────────────\n');

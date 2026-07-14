@@ -293,7 +293,7 @@ export default function LibraryPage() {
                             <span key={t} className="lib-tag">{t}</span>
                           ))}
                           <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: 'var(--accent)', color: 'var(--accent)' }}>
-                            {book.modelUsed?.includes('large') ? 'Edition L' : 'Edition S'}
+                            {(book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? 'Edition L' : 'Edition S'}
                           </span>
                         </div>
                         <div className="lib-card-cta">
