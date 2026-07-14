@@ -44,9 +44,18 @@ export default function LibraryPage() {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-app-page", "landing-v5");
     document.title = 'Free Book Library — Tanmay Kalbande';
+    
+    const saved = window.localStorage.getItem("theme");
+    const preferDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const t = preferDark ? "dark" : "light";
+    setTheme(t);
+    document.documentElement.setAttribute("data-theme", t);
+
     fetch('/library/catalog.json')
       .then(r => r.ok ? r.json() : Promise.reject('Not found'))
       .then((data: LibraryIndex) => { setIndex(data); setLoading(false); })
@@ -55,6 +64,11 @@ export default function LibraryPage() {
         setLoading(false);
       });
   }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
 
   const categories = useMemo(() => {
     if (!index) return ['all'];
@@ -80,39 +94,59 @@ export default function LibraryPage() {
 
   return (
     <div className="lib-root">
+      {/* Background decoration matching landing page */}
+      <div className="lp-bg-wrapper">
+        <div className="lp-grain"></div>
+        <div className="lp-grid-original"></div>
+        <div className="lp-orb lp-orb-a"></div>
+        <div className="lp-orb lp-orb-b"></div>
+        <div className="lp-orb lp-orb-c"></div>
+      </div>
+
       {/* Nav */}
-      <nav className="lib-nav">
-        <Link to="/" className="lib-nav-back">
-          ← tanmaysk.in
-        </Link>
-        <Link to="/library" className="lib-nav-brand">
-          <BookOpen size={18} />
-          <span>Free Library</span>
-        </Link>
-        <a
-          href={PUSTAKAM_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-primary"
-          style={{ padding: '7px 14px', fontSize: '12px' }}
-        >
-          <Sparkles size={13} />
-          Generate Your Own
-        </a>
-      </nav>
+      <header className="lv5-nav" style={{ position: 'sticky', top: 0, backdropFilter: 'blur(8px)', background: 'rgba(14, 14, 16, 0.4)' }}>
+        <div className="lv5-nav__brand">
+          <Link to="/" className="lv5-nav__link" style={{ padding: '0.4rem 0', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            ← <span className="lv5-nav__initials">TK</span>
+          </Link>
+          <span className="lv5-nav__sep" aria-hidden="true">·</span>
+          <span className="lv5-nav__descriptor">LIBRARY</span>
+        </div>
+        <nav className="lv5-nav__links">
+          <a
+            href={PUSTAKAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="lv5-nav__cta"
+          >
+            GENERATE YOUR OWN
+          </a>
+          <button
+            className="lv5-nav__theme"
+            onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+            aria-label="Toggle theme"
+            style={{ marginLeft: '0.5rem' }}
+          >
+            {theme === "dark" ? "☀" : "☾"}
+          </button>
+        </nav>
+      </header>
 
       {/* Hero */}
       <div className="lib-hero">
         <div className="lib-hero-badge">
-          <Sparkles size={11} />
-          AI-Generated · Free to Read
+          AI-GENERATED · FREE TO READ
         </div>
-        <h1>
-          A Free Library of <span className="grad">AI-Generated</span> Learning Books
-        </h1>
+        <div className="lv5-nameblock" style={{ width: 'auto', display: 'inline-block', margin: '0 auto 1.5rem', textAlign: 'left' }}>
+          <h1 className="lv5-name">
+            <span className="lv5-name__first">FREE</span>
+            <span className="lv5-name__last" style={{ fontSize: 'clamp(2.5rem, 8vw, 6rem)' }}>LIBRARY</span>
+          </h1>
+          <div className="lv5-nameblock__rule" />
+        </div>
         <p className="lib-hero-sub">
-          Thousands of structured, chapter-by-chapter guides on programming, finance, exams, and more.
-          Every book is free to read. Want one on your exact topic? Generate it on Pustakam.
+          Structured, chapter-by-chapter guides on programming, finance, exams, and more.
+          Every book is 100% free. Want one on your exact topic? Generate it instantly on Pustakam.
         </p>
 
         {index && (

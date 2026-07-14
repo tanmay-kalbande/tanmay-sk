@@ -99,9 +99,18 @@ export default function BookReaderPage() {
   const [activeChapter, setActiveChapter] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-app-page", "landing-v5");
+    
+    const saved = window.localStorage.getItem("theme");
+    const preferDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const t = preferDark ? "dark" : "light";
+    setTheme(t);
+    document.documentElement.setAttribute("data-theme", t);
+
     if (!slug) return;
     setLoading(true);
     fetch(`/library/books/${slug}.json`)
@@ -119,6 +128,11 @@ export default function BookReaderPage() {
         setLoading(false);
       });
   }, [slug]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
 
   // Track which chapter is in view
   useEffect(() => {
@@ -165,7 +179,12 @@ export default function BookReaderPage() {
   if (loading) {
     return (
       <div className="reader-root">
-        <div className="lib-loading" style={{ height: '100vh' }}>
+        {/* Background decoration */}
+        <div className="lp-bg-wrapper">
+          <div className="lp-grain"></div>
+          <div className="lp-grid-original"></div>
+        </div>
+        <div className="lib-loading" style={{ height: '100vh', position: 'relative', zIndex: 10 }}>
           <div className="lib-spinner" />
           Loading book...
         </div>
@@ -176,16 +195,23 @@ export default function BookReaderPage() {
   if (error || !book) {
     return (
       <div className="reader-root">
-        <nav className="lib-nav">
-          <Link to="/library" className="lib-nav-back">
-            <ArrowLeft size={14} /> Library
-          </Link>
-        </nav>
-        <div className="lib-empty" style={{ paddingTop: 120 }}>
+        {/* Background decoration */}
+        <div className="lp-bg-wrapper">
+          <div className="lp-grain"></div>
+          <div className="lp-grid-original"></div>
+        </div>
+        <header className="lv5-nav" style={{ position: 'relative', zIndex: 10 }}>
+          <div className="lv5-nav__brand">
+            <Link to="/library" className="lv5-nav__link" style={{ padding: '0.4rem 0' }}>
+              ← LIBRARY
+            </Link>
+          </div>
+        </header>
+        <div className="lib-empty" style={{ paddingTop: 120, position: 'relative', zIndex: 10 }}>
           <BookOpen size={40} style={{ marginBottom: 16, opacity: 0.3 }} />
           <h3>{error || 'Book not found'}</h3>
           <p style={{ marginTop: 8 }}>
-            <Link to="/library" style={{ color: 'var(--lib-accent)' }}>← Back to library</Link>
+            <Link to="/library" style={{ color: 'var(--accent)' }}>← Back to library</Link>
           </p>
         </div>
       </div>
@@ -194,41 +220,57 @@ export default function BookReaderPage() {
 
   return (
     <div className="reader-root">
+      {/* Background decoration matching landing page */}
+      <div className="lp-bg-wrapper">
+        <div className="lp-grain"></div>
+        <div className="lp-grid-original"></div>
+        <div className="lp-orb lp-orb-a"></div>
+        <div className="lp-orb lp-orb-b"></div>
+        <div className="lp-orb lp-orb-c"></div>
+      </div>
+
       {/* Nav */}
-      <nav className="lib-nav">
-        <Link to="/library" className="lib-nav-back">
-          <ArrowLeft size={14} /> Library
-        </Link>
-        <div className="lib-nav-actions">
+      <header className="lv5-nav" style={{ position: 'sticky', top: 0, backdropFilter: 'blur(8px)', background: 'rgba(14, 14, 16, 0.4)', zIndex: 100 }}>
+        <div className="lv5-nav__brand">
+          <Link to="/library" className="lv5-nav__link" style={{ padding: '0.4rem 0', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+            ← LIBRARY
+          </Link>
+        </div>
+        <nav className="lv5-nav__links">
           <button
             className="btn-secondary"
             onClick={handleCopyLink}
-            style={{ padding: '7px 14px', fontSize: '12px' }}
+            style={{ padding: '0.4rem 0.75rem', fontSize: '0.6rem', height: 'auto', border: '1px solid var(--border)' }}
           >
-            {copied ? <Check size={13} /> : null}
-            {copied ? 'Copied!' : 'Share'}
+            {copied ? 'COPIED!' : 'SHARE'}
           </button>
           <button
             className="btn-secondary"
             onClick={handlePdf}
             disabled={pdfLoading}
-            style={{ padding: '7px 14px', fontSize: '12px' }}
+            style={{ padding: '0.4rem 0.75rem', fontSize: '0.6rem', height: 'auto', border: '1px solid var(--border)', marginLeft: '0.3rem' }}
           >
-            <Download size={13} />
-            {pdfLoading ? 'Preparing...' : 'Download PDF'}
+            {pdfLoading ? 'PREPARING...' : 'DOWNLOAD PDF'}
           </button>
           <a
             href={generateUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary"
-            style={{ padding: '7px 14px', fontSize: '12px' }}
+            className="lv5-nav__cta"
+            style={{ marginLeft: '0.3rem' }}
           >
-            <Sparkles size={13} />
-            Generate My Version
+            GENERATE MY VERSION
           </a>
-        </div>
-      </nav>
+          <button
+            className="lv5-nav__theme"
+            onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
+            aria-label="Toggle theme"
+            style={{ marginLeft: '0.5rem' }}
+          >
+            {theme === "dark" ? "☀" : "☾"}
+          </button>
+        </nav>
+      </header>
 
       {/* Layout */}
       <div className="reader-layout">
