@@ -331,6 +331,25 @@
       "generatedAt": "2026-07-14T04:51:09.819Z"
     },
     {
+      "slug": "street-engineer-highfrequency-trading-algorithms-using-rust-and-lowlatency-netwo",
+      "title": "BLOOD, RUST, AND NANOSECONDS: THE HFT WAR PLAN",
+      "goal": "Engineer high-frequency trading algorithms using Rust and low-latency networking",
+      "category": "programming",
+      "tags": [
+        "rust",
+        "hft"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 7972,
+      "moduleCount": 6,
+      "readingTimeMins": 32,
+      "metaDescription": "BLOOD, RUST, AND NANOSECONDS: THE HFT WAR PLAN: a advanced guide to engineer high-frequency trading algorithms using rust and low-latency networking with c",
+      "modelUsed": "gemma-4-31b",
+      "generatedAt": "2026-07-14T22:26:56.102Z",
+      "edition": "street"
+    },
+    {
       "slug": "learn-python-programming-from-zero-to-real-projects-beginner",
       "title": "Learn Python Programming from Zero to Real Projects",
       "goal": "Learn Python programming from zero to real projects",
@@ -411,6 +430,6 @@
       "edition": "street"
     }
   ],
-  "total": 21,
-  "generatedAt": "2026-07-14T21:08:40.485Z"
+  "total": 22,
+  "generatedAt": "2026-07-14T22:26:56.131Z"
 }
