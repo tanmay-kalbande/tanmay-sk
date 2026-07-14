@@ -484,6 +484,7 @@ WRITING STYLE (follow these carefully):
 ${VISUAL_INSTRUCTIONS}
 
 Write ${CONFIG.MODULE_WORD_TARGET} words of clear, engaging prose. Start directly with the hook. Use descriptive ## headings, short paragraphs. Do not add filler, unsupported statistics, generic motivational language, or claims likely to become outdated. Include a short "## Practice" section with one actionable exercise. End with "## Key Takeaways" (exactly 3 bullet points) followed by the "## 🧠 Quick Fire Round" quiz section.`;
+}
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
