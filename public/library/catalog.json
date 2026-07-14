@@ -73,6 +73,24 @@
       "generatedAt": "2026-07-14T04:56:24.508Z"
     },
     {
+      "slug": "score-band-7-in-ielts-writing-and-speaking-advanced",
+      "title": "Achieving Band 7+ in IELTS Writing and Speaking: A Fundamentals Guide",
+      "goal": "Score band 7+ in IELTS writing and speaking",
+      "category": "exams",
+      "tags": [
+        "ielts",
+        "english"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8106,
+      "moduleCount": 8,
+      "readingTimeMins": 33,
+      "metaDescription": "Achieving Band 7+ in IELTS Writing and Speaking: A Fundamentals Guide: a advanced guide to score band 7+ in ielts writing and speaking with clear explanati",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T14:20:59.862Z"
+    },
+    {
       "slug": "learn-stock-market-investing-for-beginners-in-india-beginner",
       "title": "The Foundations of Stock Market Investing in India: A Beginner's Guide",
       "goal": "Learn stock market investing for beginners in India",
@@ -163,6 +181,6 @@
       "generatedAt": "2026-07-14T04:52:02.249Z"
     }
   ],
-  "total": 9,
-  "generatedAt": "2026-07-14T11:21:42.067Z"
+  "total": 10,
+  "generatedAt": "2026-07-14T14:20:59.885Z"
 }
