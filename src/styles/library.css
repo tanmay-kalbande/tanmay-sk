@@ -938,6 +938,102 @@
   color: var(--ink-2);
 }
 
+/* ── Callout Block Variants ─────────────────────────────────────── */
+.reader-chapter-body blockquote.callout-tip {
+  border-left-color: #4caf50;
+  background: rgba(76, 175, 80, 0.06);
+}
+.reader-chapter-body blockquote.callout-tip p { font-style: normal; color: var(--ink); }
+
+.reader-chapter-body blockquote.callout-fire {
+  border-left-color: #ff5722;
+  background: rgba(255, 87, 34, 0.06);
+}
+.reader-chapter-body blockquote.callout-fire p { font-style: normal; color: var(--ink); }
+
+.reader-chapter-body blockquote.callout-warning {
+  border-left-color: #ff9800;
+  background: rgba(255, 152, 0, 0.06);
+}
+.reader-chapter-body blockquote.callout-warning p { font-style: normal; color: var(--ink); }
+
+.reader-chapter-body blockquote.callout-challenge {
+  border-left-color: #9c27b0;
+  background: rgba(156, 39, 176, 0.06);
+}
+.reader-chapter-body blockquote.callout-challenge p { font-style: normal; color: var(--ink); }
+
+.reader-chapter-body blockquote.callout-quiz {
+  border-left-color: #2196f3;
+  background: rgba(33, 150, 243, 0.06);
+}
+.reader-chapter-body blockquote.callout-quiz p { font-style: normal; color: var(--ink); }
+
+.reader-chapter-body blockquote.callout-chill {
+  border-left-color: #795548;
+  background: rgba(121, 85, 72, 0.06);
+}
+.reader-chapter-body blockquote.callout-chill p { font-style: normal; color: var(--ink); }
+
+.reader-chapter-body blockquote.callout-target {
+  border-left-color: var(--accent);
+  background: rgba(224, 90, 53, 0.06);
+}
+.reader-chapter-body blockquote.callout-target p { font-style: normal; color: var(--ink); }
+
+/* ── Quiz Cards (details/summary) ──────────────────────────────── */
+.reader-chapter-body details {
+  margin: 12px 0;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.reader-chapter-body details[open] {
+  background: rgba(255, 255, 255, 0.05);
+}
+.reader-chapter-body details summary {
+  cursor: pointer;
+  font-family: var(--f-mono, 'Roboto Mono', monospace);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--accent);
+  user-select: none;
+  padding: 4px 0;
+  list-style: none;
+}
+.reader-chapter-body details summary::before {
+  content: '▸ ';
+  transition: transform 0.2s;
+}
+.reader-chapter-body details[open] summary::before {
+  content: '▾ ';
+}
+.reader-chapter-body details summary::-webkit-details-marker { display: none; }
+.reader-chapter-body details > *:not(summary) {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+/* ── Mermaid Diagram Blocks ────────────────────────────────────── */
+.reader-chapter-body .mermaid-block {
+  margin: 20px 0;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  overflow-x: auto;
+  text-align: center;
+}
+.reader-chapter-body .mermaid-block svg {
+  max-width: 100%;
+  height: auto;
+}
+
 .reader-chapter-body code {
   font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
   font-size: 13px;

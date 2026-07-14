@@ -34,14 +34,16 @@ const __dirname = path.dirname(__filename);
 
 // ── Config ─────────────────────────────────────────────────────────────────────
 
+const EDITION = (process.env.EDITION || 'stellar') as 'stellar' | 'street';
+
 const CONFIG = {
   // Read from env so GitHub Actions can override via workflow_dispatch inputs
   CONCURRENCY:           Number(process.env.CONCURRENCY || 8),
   MAX_BOOKS:             Number(process.env.MAX_BOOKS   || 0), // 0 = no limit
 
   TOKENS_PER_MIN_LIMIT:  450_000,
-  MODULE_WORD_TARGET:    '800-1200',
-  MAX_MODULES:           8,
+  MODULE_WORD_TARGET:    EDITION === 'street' ? '1200-2200' : '800-1200',
+  MAX_MODULES:           EDITION === 'street' ? 6 : 8,
 
   // ZAI_MODEL allows a controlled model upgrade without changing generator code.
   PRIMARY_MODEL:         process.env.ZAI_MODEL || 'glm-5.2',
@@ -78,6 +80,7 @@ interface BookMeta {
   modelUsed: string;
   generatedAt: string;
   complexity: string;
+  edition: 'stellar' | 'street';
 }
 
 interface BookFile extends BookMeta {
@@ -316,16 +319,73 @@ async function callWriter(prompt: string, estInputTokens = 500, kind: RequestKin
 
 // ── Prompts ────────────────────────────────────────────────────────────────────
 
+// ── Visual content instructions (shared across editions) ──────────────────────
+const VISUAL_INSTRUCTIONS = `
+VISUAL ENGAGEMENT RULES (follow these strictly):
+- Use emoji-prefixed blockquotes for callout boxes. Types:
+  > 💡 **Pro Tip:** for useful insights
+  > ⚠️ **Common Mistake:** for pitfalls to avoid
+  > 🎯 **Key Insight:** for important takeaways
+  > ☕ **Real Talk:** for honest, grounded advice
+- For technical/process topics, include ONE mermaid diagram per chapter using fenced code blocks:
+  \`\`\`mermaid
+  graph TD
+      A[Step 1] --> B[Step 2]
+  \`\`\`
+  Only include a diagram when it genuinely clarifies a process, flow, or relationship. Skip it if the chapter is purely conceptual.
+- End EVERY chapter with a "## 🧠 Quick Fire Round" section containing exactly 2 quiz questions. Use this exact format:
+  **Q1: Your question here?**
+  <details>
+  <summary>Reveal Answer</summary>
+  The answer explanation here.
+  </details>
+`;
+
 function buildRoadmapPrompt(seed: TopicSeed): string {
   const complexity = seed.complexity || 'beginner';
-  return `You are designing a practical, evergreen learning guide.
+
+  if (EDITION === 'street') {
+    return `Boss, we're building a blackhole roadmap for: "${seed.goal}". No hand-holding. No shortcuts. Just raw strategy.
+
+PERSONA:
+You're the unhinged street oracle - zero filters, all grit. A battle-scarred hustler who's clawed through hell and back, now mapping out the war plan for someone who's hungry but clueless. Call 'em "bro," "chief," "dreamer" - whatever wakes 'em up. Roast their excuses, hype their potential, and hand 'em a roadmap that slaps.
+
+LANGUAGE: Raw conversational Hinglish (Hindi + English mix). "Bhai", "Boss", "Sahi hai". Vary phrases to keep it fresh.
+
+STYLE WARFARE:
+- Titles that hit like headlines: Punchy, provocative, impossible to ignore.
+- Objectives that corner 'em: Clear, actionable, no wiggle room for slackers.
+- Energy on max: This roadmap should feel like a war briefing, not a PowerPoint snooze.
+
+CONTEXT:
+- Target Audience: ${complexity} learners who need a reality check
+- Complexity Level: ${complexity}
+- Category: ${seed.category}
+
+MISSION SPECS:
+- Create exactly ${CONFIG.MAX_MODULES} progressive modules. Each module builds on the last.
+- Each module: Savage title in Hinglish + a one-line "focus" + 3-5 real objectives + no two modules covering the same ground.
+- Match the energy: Titles should make 'em curious, scared, or hyped - never bored.
+
+Return ONLY valid JSON, no markdown:
+{"title":"Punchy Book Title in Hinglish Style","modules":[{"title":"Module Title That Slaps Hard","description":"One line focus","objectives":["Objective 1","Objective 2","Objective 3"]}],"difficultyLevel":"${complexity}"}`;
+  }
+
+  // ── Stellar edition ──
+  return `You are designing a practical, evergreen learning guide that hooks readers from the first line.
 Topic: "${seed.goal}"
 Audience: ${complexity} learners. Category: ${seed.category}.
 
-Create exactly ${CONFIG.MAX_MODULES} progressive modules. Start at the learner's current level and end with a usable outcome. Every module must be distinct and build on earlier modules. Prefer durable fundamentals over time-sensitive claims. Avoid invented statistics, guarantees, and clickbait titles.
+Create exactly ${CONFIG.MAX_MODULES} progressive modules. Start at the learner's current level and end with a usable outcome. Every module must be distinct and build on earlier modules.
+
+TITLE RULES:
+- The book title should be compelling and specific, not generic. Make readers curious.
+- Module titles should be intriguing — use questions, bold claims, or curiosity gaps. Instead of "Introduction to Variables" try "Why Your Computer Has a Memory Problem (And How Variables Fix It)".
+
+Prefer durable fundamentals over time-sensitive claims. Avoid invented statistics, guarantees, and clickbait titles.
 
 Return ONLY valid JSON, no markdown:
-{"title":"Clear, descriptive book title","modules":[{"title":"Module title","description":"One sentence focus","objectives":["Point 1","Point 2","Point 3"]}],"difficultyLevel":"${complexity}"}`;
+{"title":"Clear, compelling book title","modules":[{"title":"Intriguing module title","description":"One sentence focus","objectives":["Point 1","Point 2","Point 3"]}],"difficultyLevel":"${complexity}"}`;
 }
 
 function buildModulePrompt(
@@ -337,12 +397,70 @@ function buildModulePrompt(
   previousChapterMemory: string
 ): string {
   const outline = roadmap.modules.map((item, i) => `${i + 1}. ${item.title}`).join('\n');
-  const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
-    ? 'Include a small, correct code or worked technical example when it helps.'
-    : 'Include a concrete, realistic scenario when it helps.';
   const continuity = previousChapterMemory
     ? `Previous chapter memory (continue from it; do not repeat it):\n${previousChapterMemory}`
     : 'This is the first chapter. Establish only the foundations needed for later chapters.';
+
+  if (EDITION === 'street') {
+    const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
+      ? 'Code examples de bhai - real code, working code. Fake code fenk ke smart mat ban.'
+      : 'Real-life desi examples use kar (Traffic, Vada pav, Local train, Gali cricket, Dating apps, Chai tapri). Concept ko ground reality se connect kar.';
+
+    return `Abe oy Boss! Is chapter ko likhne ka time aa gaya hai: "${mod.title}"
+
+PERSONA:
+Tu ek raw, unfiltered knowledge engine hai jo street language bolta hai. Tera style aggressive aur direct hai. Tu mazaak udata hai, par end goal hamesha *concept clear karna* hai. Slang ko fresh aur varied rakh - same patterns mat repeat.
+
+LANGUAGE: Raw conversational Hinglish (Hindi + English mix). "Bhai", "Boss", "Sahi hai". Vary phrases - no overusing "bhai" or "boss" in every line.
+
+IMPORTANT - SWEARING & TONE:
+- Gaaliyan natural aur limited (10-20% max, only for emphasis). No force - har sentence mein nahi.
+- Keep headers and motivational punches playful and roast-y, but NEVER use crude/sexual insults. Tone: Tough-love from a bhai, uplifting not mean.
+- Agar tu zyada slang fenk raha hai aur content kam de raha hai, toh tu fail hai. Content King hai.
+
+STYLE WARFARE:
+- Hook 'em like a gut punch: First line? Make 'em gasp, laugh, or nod. Vary the hook every chapter.
+- Raw street dialect on blast: Bro, straight fire, you slacking?, vibes check failed, highkey delusional.
+- Sentences? Short as a bar fight. Bam. Wham. !?! Everywhere.
+- Questions that corner 'em: "Samjha kya?" "Still with me, or you zoning out already?"
+- ${exampleInstruction}
+- Sarcasm as your sidekick: "Oh, sure, skip the basics - because mediocrity's a great look on you."
+- Facts? Ironclad, deep-dive accurate. If not sure about a stat, don't invent one.
+
+CONTEXT:
+- Big Picture: ${seed.goal}
+- Chapter ${index + 1}/${total}: "${mod.title}"
+- Focus: ${mod.description}
+- Objectives: ${mod.objectives.join('; ')}
+- Audience: ${seed.complexity || 'beginner'} learners
+
+Full learning path:\n${outline}
+
+${continuity}
+
+${VISUAL_INSTRUCTIONS}
+
+NOTE FOR STREET MODE QUIZ: Write the quiz questions in Hinglish style too. Example:
+**Q1: Bhai, list aur tuple mein kya farak hai?**
+<details>
+<summary>Reveal Answer</summary>
+List mutable hai (change kar sakta hai), tuple immutable hai (ek baar set, bas). Simple!
+</details>
+
+LAYOUT:
+(Seedha content se shuru kar - chapter ka title dobara mat likh)
+## [Section Header in Hinglish - punchy]
+(Content + examples)
+## Street Smarts (How to use this IRL)
+## 🧠 Quick Fire Round (2 quiz questions, format as shown above)
+
+Write ${CONFIG.MODULE_WORD_TARGET} words. Markdown strict. Tone: Raw, Intelligent, Unfiltered.`;
+  }
+
+  // ── Stellar edition ──
+  const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
+    ? 'Include a small, correct code or worked technical example when it helps.'
+    : 'Include a concrete, realistic scenario when it helps.';
 
   return `Write one chapter of the guide "${roadmap.title || seed.goal}".
 Topic: "${seed.goal}". Audience: ${seed.complexity || 'beginner'} learners.
@@ -354,15 +472,26 @@ Full learning path:\n${outline}
 
 ${continuity}
 
-Write ${CONFIG.MODULE_WORD_TARGET} words of clear, useful prose. Start directly with the lesson. Use descriptive ## headings, short paragraphs, and explain why an idea matters before showing how to use it. ${exampleInstruction} Include a short "## Practice" section with one actionable exercise. Do not add filler, unsupported statistics, generic motivational language, or claims likely to become outdated. End with "## Key Takeaways" and exactly 3 bullet points.`;
-}
+WRITING STYLE (follow these carefully):
+- OPENING HOOK: Start every chapter with a surprising fact, a relatable problem, or a brief "imagine this" scenario (2-3 sentences). Never start with a dry definition. Make the reader think "I need to read this."
+- CONVERSATIONAL TONE: Write like a smart mentor explaining to a friend over coffee. Use "you" and "your." Be warm but authoritative.
+- WHY BEFORE HOW: Before explaining how something works, always explain *why* it matters. What problem does it solve? What can the reader do after learning it that they couldn't before?
+- ANALOGIES: Use at least one real-world analogy per chapter to explain a complex concept (e.g., "Think of a variable like a labeled jar in your kitchen").
+- ${exampleInstruction}
+- VARY STRUCTURE: Not every section should follow the same pattern. Mix explanations, examples, comparisons, mini-stories, and direct advice.
+- Use callout boxes for tips, warnings, and insights (see VISUAL ENGAGEMENT RULES below).
+
+${VISUAL_INSTRUCTIONS}
+
+Write ${CONFIG.MODULE_WORD_TARGET} words of clear, engaging prose. Start directly with the hook. Use descriptive ## headings, short paragraphs. Do not add filler, unsupported statistics, generic motivational language, or claims likely to become outdated. Include a short "## Practice" section with one actionable exercise. End with "## Key Takeaways" (exactly 3 bullet points) followed by the "## 🧠 Quick Fire Round" quiz section.`;
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 function countWords(t: string) { return t.trim().split(/\s+/).filter(Boolean).length; }
 function chapterMemory(content: string): string {
-  const takeaways = content.match(/## Key Takeaways[\s\S]*$/i)?.[0] || content;
+  // For street mode, look for 'Quick Fire Round' or 'Street Smarts' as the chapter ending
+  const takeaways = content.match(/## (?:Key Takeaways|🧠 Quick Fire Round|Street Smarts)[\s\S]*$/i)?.[0] || content;
   return takeaways.replace(/\s+/g, ' ').trim().slice(0, 900);
 }
 function assertRoadmap(roadmap: any): asserts roadmap is { title?: string; modules: Array<{ title: string; description: string; objectives: string[] }> } {
@@ -379,8 +508,13 @@ function assertChapter(content: string): void {
   const words = countWords(content);
   if (words < 700) throw new Error(`Chapter too short (${words} words)`);
   if (!/^##\s+/m.test(content)) throw new Error('Chapter is missing section headings');
-  if (!/##\s+Practice\b/i.test(content)) throw new Error('Chapter is missing a practice section');
-  if (!/##\s+Key Takeaways\b/i.test(content)) throw new Error('Chapter is missing key takeaways');
+  if (EDITION === 'street') {
+    // Street mode uses different section names
+    if (!/##\s+.*Quick Fire Round/i.test(content)) throw new Error('Chapter is missing the Quick Fire Round quiz');
+  } else {
+    if (!/##\s+Practice\b/i.test(content)) throw new Error('Chapter is missing a practice section');
+    if (!/##\s+Key Takeaways\b/i.test(content)) throw new Error('Chapter is missing key takeaways');
+  }
 }
 function makeMetaDescription(title: string, seed: TopicSeed): string {
   return `${title}: a ${seed.complexity || 'beginner'} guide to ${seed.goal.toLowerCase()} with clear explanations, examples, and practice.`.slice(0, 155);
@@ -400,7 +534,7 @@ function parseJSON(raw: string): any {
 // ── Core generator ─────────────────────────────────────────────────────────────
 
 async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' | 'fail'> {
-  const slug = toSlug(`${seed.goal} ${seed.complexity || 'beginner'}`);
+  const slug = toSlug(`${EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
   const tag = `[W${workerIndex}]`;
   const modelsUsed = new Set<string>();
 
@@ -475,6 +609,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     metaDescription: makeMetaDescription(roadmap.title || seed.goal, seed),
     modelUsed: [...modelsUsed].join(', '),
     generatedAt: new Date().toISOString(),
+    edition: EDITION,
     roadmap,
     modules,
     finalBook,
@@ -585,6 +720,7 @@ async function main() {
   console.log(`⚙️  Workers: ${CONFIG.CONCURRENCY} parallel`);
   console.log(`📁 Output: ${CONFIG.OUTPUT_DIR}`);
   console.log(`🤖 Primary: ${CONFIG.PRIMARY_MODEL}  |  Fallback: ${CONFIG.FALLBACK_MODEL}`);
+  console.log(`📖 Edition: ${EDITION.toUpperCase()} ${EDITION === 'street' ? '🔥 (Desi Tapori Mode)' : '✨ (Premium)'}`);
   console.log(`⏱️  Estimated: ~${estMinutes.toFixed(0)} minutes`);
   console.log(`💾 Storage: ~${(pending.length * 0.015).toFixed(0)}MB (${pending.length} books × ~15KB each)`);
   console.log('─────────────────────────────────────────\n');

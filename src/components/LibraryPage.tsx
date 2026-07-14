@@ -292,8 +292,8 @@ export default function LibraryPage() {
                           {book.tags.slice(0, 3).map(t => (
                             <span key={t} className="lib-tag">{t}</span>
                           ))}
-                          <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: 'var(--accent)', color: 'var(--accent)' }}>
-                            {(book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? 'Stellar Edition' : 'Street Edition'}
+                          <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)', color: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)' }}>
+                            {(book as any).edition === 'street' ? '🔥 Street' : ((book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? '✨ Stellar' : 'Street')}
                           </span>
                         </div>
                         <div className="lib-card-cta">

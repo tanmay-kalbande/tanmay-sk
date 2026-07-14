@@ -32,9 +32,32 @@ interface BookFile {
 
 const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
 
-// ── Minimal Markdown renderer using `marked` (already in deps) ──
+// ── Enhanced Markdown renderer with callout detection & mermaid prep ──
 function renderMd(md: string): string {
-  return marked.parse(md, { breaks: true, gfm: true }) as string;
+  let html = marked.parse(md, { breaks: true, gfm: true }) as string;
+
+  // Post-process callout blocks: detect emoji patterns in blockquotes and add CSS classes
+  html = html.replace(
+    /<blockquote>\s*<p>([💡🔥⚠️🏋️🧠☕🎯])/g,
+    (_match: string, emoji: string) => {
+      const classMap: Record<string, string> = {
+        '💡': 'callout-tip', '🔥': 'callout-fire', '⚠️': 'callout-warning',
+        '🏋️': 'callout-challenge', '🧠': 'callout-quiz', '☕': 'callout-chill',
+        '🎯': 'callout-target',
+      };
+      const cls = classMap[emoji] || 'callout-tip';
+      return `<blockquote class="${cls}"><p>${emoji}`;
+    }
+  );
+
+  // Post-process mermaid code blocks into renderable containers
+  html = html.replace(
+    /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+    (_: string, code: string) =>
+      `<div class="mermaid-block"><pre class="mermaid">${code.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&amp;/g,'&')}</pre></div>`
+  );
+
+  return html;
 }
 
 // ── PDF export using custom high-end CSS Print template (emulates pdfmake design) ───
@@ -479,6 +502,36 @@ export default function BookReaderPage() {
     return () => observer.disconnect();
   }, [book]);
 
+  // Mermaid diagram rendering — lazy-load from CDN only when needed
+  useEffect(() => {
+    const mermaidBlocks = document.querySelectorAll('.mermaid');
+    if (mermaidBlocks.length === 0) return;
+
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js';
+    script.onload = () => {
+      (window as any).mermaid?.initialize({
+        startOnLoad: false,
+        theme: 'dark',
+        themeVariables: {
+          primaryColor: '#e05a35',
+          primaryBorderColor: '#e05a35',
+          primaryTextColor: '#f5efe6',
+          lineColor: '#999',
+          secondaryColor: '#1a1a1a',
+          tertiaryColor: '#111',
+          fontFamily: 'Inter, sans-serif',
+        }
+      });
+      (window as any).mermaid?.run({ nodes: mermaidBlocks });
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      try { document.head.removeChild(script); } catch {}
+    };
+  }, [activeChapter, book]);
+
   const scrollToChapter = (i: number) => {
     chapterRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
@@ -592,8 +645,8 @@ export default function BookReaderPage() {
               {book.tags.slice(0, 2).map(t => (
                 <span key={t} className="lib-tag">{t}</span>
               ))}
-              <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: 'var(--accent)', color: 'var(--accent)' }}>
-                {(book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? 'Stellar Edition' : 'Street Edition'}
+              <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)', color: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)' }}>
+                {(book as any).edition === 'street' ? '🔥 Street Edition' : ((book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? '✨ Stellar Edition' : 'Street Edition')}
               </span>
             </div>
 

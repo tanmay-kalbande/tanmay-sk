@@ -8,6 +8,14 @@ on:
   # ── Manual: trigger from GitHub UI anytime ────────────────────────────────
   workflow_dispatch:
     inputs:
+      edition:
+        description: 'Book edition style'
+        required: false
+        type: choice
+        options:
+          - stellar
+          - street
+        default: 'stellar'
       concurrency:
         description: 'Number of parallel workers (default: 4)'
         required: false
@@ -60,6 +68,7 @@ jobs:
           echo "──────────────────────────────────────────"
           echo "📚 Pustakam Library Generator"
           echo "🕐 Started at: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          echo "📖 Edition: ${{ github.event.inputs.edition || 'stellar' }}"
           echo "⚙️  Workers: ${{ github.event.inputs.concurrency || '4' }}"
           echo "📁 Output: public/library/"
           EXISTING=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
@@ -73,6 +82,7 @@ jobs:
           ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
           ZAI_MODEL:         'glm-5.2'
           SITE_URL:          'https://tanmaysk.in'
+          EDITION:           ${{ github.event.inputs.edition || 'stellar' }}
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '4' }}
           MAX_BOOKS:         ${{ github.event.inputs.max_books || '20' }}
           # Tells the script it's running in CI — enables extra logging
