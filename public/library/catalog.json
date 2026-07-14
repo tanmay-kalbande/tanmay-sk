@@ -1,6 +1,513 @@
 {
-  "total": 0,
-  "lastUpdated": "2026-07-14T00:00:00Z",
-  "categories": [],
-  "books": []
+  "books": [
+    {
+      "slug": "build-android-apps-with-kotlin-from-scratch-advanced",
+      "title": "Advanced Kotlin Android Development: From Theory to Scalable App Architecture",
+      "goal": "Build Android apps with Kotlin from scratch",
+      "category": "programming",
+      "tags": [
+        "android",
+        "kotlin"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 7676,
+      "moduleCount": 8,
+      "readingTimeMins": 31,
+      "metaDescription": "7,676-word guide: Build Android apps with Kotlin from scratch. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:38:00.512Z"
+    },
+    {
+      "slug": "understand-data-structures-and-algorithms-for-tech-interviews-intermediate",
+      "title": "Crack the Code: Master Data Structures & Algorithms for Tech Interviews",
+      "goal": "Understand data structures and algorithms for tech interviews",
+      "category": "programming",
+      "tags": [
+        "dsa",
+        "algorithms"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8592,
+      "moduleCount": 8,
+      "readingTimeMins": 35,
+      "metaDescription": "8,592-word guide: Understand data structures and algorithms for tech interviews. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:34:50.115Z"
+    },
+    {
+      "slug": "understand-data-structures-and-algorithms-for-tech-interviews-beginner",
+      "title": "Cracking the Tech Interview: A Beginner's Guide to Data Structures and Algorithms",
+      "goal": "Understand data structures and algorithms for tech interviews",
+      "category": "programming",
+      "tags": [
+        "dsa",
+        "algorithms"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8767,
+      "moduleCount": 8,
+      "readingTimeMins": 36,
+      "metaDescription": "8,767-word guide: Understand data structures and algorithms for tech interviews. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:34:47.813Z"
+    },
+    {
+      "slug": "build-rest-apis-with-nodejs-and-express-beginner",
+      "title": "From Zero to Hero: Building REST APIs with Node.js and Express",
+      "goal": "Build REST APIs with Node.js and Express",
+      "category": "programming",
+      "tags": [
+        "nodejs",
+        "backend"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8515,
+      "moduleCount": 8,
+      "readingTimeMins": 35,
+      "metaDescription": "8,515-word guide: Build REST APIs with Node.js and Express. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:34:43.463Z"
+    },
+    {
+      "slug": "learn-sql-and-relational-database-design-beginner",
+      "title": "From Zero to SQL Hero: A Beginner's Journey into Relational Databases",
+      "goal": "Learn SQL and relational database design",
+      "category": "programming",
+      "tags": [
+        "sql",
+        "database"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 9092,
+      "moduleCount": 8,
+      "readingTimeMins": 37,
+      "metaDescription": "9,092-word guide: Learn SQL and relational database design. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:35:01.910Z"
+    },
+    {
+      "slug": "master-git-and-github-for-professional-developers-intermediate",
+      "title": "Git & GitHub Mastery: From Collaboration to Deployment",
+      "goal": "Master Git and GitHub for professional developers",
+      "category": "programming",
+      "tags": [
+        "git",
+        "devops"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8198,
+      "moduleCount": 8,
+      "readingTimeMins": 33,
+      "metaDescription": "8,198-word guide: Master Git and GitHub for professional developers. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:36:23.553Z"
+    },
+    {
+      "slug": "master-git-and-github-for-professional-developers-beginner",
+      "title": "Git and GitHub Mastery: A Beginner's Journey to Professional Version Control",
+      "goal": "Master Git and GitHub for professional developers",
+      "category": "programming",
+      "tags": [
+        "git",
+        "devops"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8283,
+      "moduleCount": 8,
+      "readingTimeMins": 34,
+      "metaDescription": "8,283-word guide: Master Git and GitHub for professional developers. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:36:16.039Z"
+    },
+    {
+      "slug": "master-javascript-and-build-modern-web-applications-beginner",
+      "title": "JavaScript Mastery: From Zero to Modern Web Apps",
+      "goal": "Master JavaScript and build modern web applications",
+      "category": "programming",
+      "tags": [
+        "javascript",
+        "web"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8917,
+      "moduleCount": 8,
+      "readingTimeMins": 36,
+      "metaDescription": "8,917-word guide: Master JavaScript and build modern web applications. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:33:24.283Z"
+    },
+    {
+      "slug": "build-android-apps-with-kotlin-from-scratch-beginner",
+      "title": "Kotlin Quest: Build Your First Android App from Scratch",
+      "goal": "Build Android apps with Kotlin from scratch",
+      "category": "programming",
+      "tags": [
+        "android",
+        "kotlin"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 7823,
+      "moduleCount": 8,
+      "readingTimeMins": 32,
+      "metaDescription": "7,823-word guide: Build Android apps with Kotlin from scratch. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:37:49.437Z"
+    },
+    {
+      "slug": "master-javascript-and-build-modern-web-applications-intermediate",
+      "title": "Master JavaScript and Build Modern Web Applications: From Intermediate to Advanced",
+      "goal": "Master JavaScript and build modern web applications",
+      "category": "programming",
+      "tags": [
+        "javascript",
+        "web"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8629,
+      "moduleCount": 8,
+      "readingTimeMins": 35,
+      "metaDescription": "8,629-word guide: Master JavaScript and build modern web applications. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:33:26.598Z"
+    },
+    {
+      "slug": "learn-sql-and-relational-database-design-advanced",
+      "title": "Mastering Advanced SQL and Relational Database Design: From Theory to Expert-Level Implementation",
+      "goal": "Learn SQL and relational database design",
+      "category": "programming",
+      "tags": [
+        "sql",
+        "database"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8917,
+      "moduleCount": 8,
+      "readingTimeMins": 36,
+      "metaDescription": "8,917-word guide: Learn SQL and relational database design. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:36:23.064Z"
+    },
+    {
+      "slug": "build-android-apps-with-kotlin-from-scratch-intermediate",
+      "title": "Mastering Android App Development with Kotlin: A Practical Roadmap for Intermediate Learners",
+      "goal": "Build Android apps with Kotlin from scratch",
+      "category": "programming",
+      "tags": [
+        "android",
+        "kotlin"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 7954,
+      "moduleCount": 8,
+      "readingTimeMins": 32,
+      "metaDescription": "7,954-word guide: Build Android apps with Kotlin from scratch. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:37:57.961Z"
+    },
+    {
+      "slug": "understand-data-structures-and-algorithms-for-tech-interviews-advanced",
+      "title": "Mastering Data Structures & Algorithms for Top-Tier Tech Interviews",
+      "goal": "Understand data structures and algorithms for tech interviews",
+      "category": "programming",
+      "tags": [
+        "dsa",
+        "algorithms"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8905,
+      "moduleCount": 8,
+      "readingTimeMins": 36,
+      "metaDescription": "8,905-word guide: Understand data structures and algorithms for tech interviews. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:35:00.873Z"
+    },
+    {
+      "slug": "learn-docker-and-containerization-beginner",
+      "title": "Mastering Docker and Containerization: A Beginner's Journey to Efficient Application Deployment",
+      "goal": "Learn Docker and containerization",
+      "category": "programming",
+      "tags": [
+        "docker",
+        "devops"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8798,
+      "moduleCount": 8,
+      "readingTimeMins": 36,
+      "metaDescription": "8,798-word guide: Learn Docker and containerization. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:37:53.838Z"
+    },
+    {
+      "slug": "learn-docker-and-containerization-advanced",
+      "title": "Mastering Docker and Containerization: From Concepts to Advanced Orchestration",
+      "goal": "Learn Docker and containerization",
+      "category": "programming",
+      "tags": [
+        "docker",
+        "devops"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 9294,
+      "moduleCount": 8,
+      "readingTimeMins": 38,
+      "metaDescription": "9,294-word guide: Learn Docker and containerization. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:38:22.476Z"
+    },
+    {
+      "slug": "learn-docker-and-containerization-intermediate",
+      "title": "Mastering Docker and Containerization: From Fundamentals to Advanced Orchestration",
+      "goal": "Learn Docker and containerization",
+      "category": "programming",
+      "tags": [
+        "docker",
+        "devops"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 7814,
+      "moduleCount": 8,
+      "readingTimeMins": 32,
+      "metaDescription": "7,814-word guide: Learn Docker and containerization. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:37:47.430Z"
+    },
+    {
+      "slug": "master-git-and-github-for-professional-developers-advanced",
+      "title": "Mastering Git & GitHub: From Advanced Workflows to Professional Collaboration",
+      "goal": "Master Git and GitHub for professional developers",
+      "category": "programming",
+      "tags": [
+        "git",
+        "devops"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8814,
+      "moduleCount": 8,
+      "readingTimeMins": 36,
+      "metaDescription": "8,814-word guide: Master Git and GitHub for professional developers. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:36:36.159Z"
+    },
+    {
+      "slug": "master-javascript-and-build-modern-web-applications-advanced",
+      "title": "Mastering JavaScript: From Fundamentals to Modern Web Applications",
+      "goal": "Master JavaScript and build modern web applications",
+      "category": "programming",
+      "tags": [
+        "javascript",
+        "web"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8344,
+      "moduleCount": 8,
+      "readingTimeMins": 34,
+      "metaDescription": "8,344-word guide: Master JavaScript and build modern web applications. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:33:25.181Z"
+    },
+    {
+      "slug": "build-productionready-apps-with-reactjs-intermediate",
+      "title": "Mastering Production-Grade React: From Components to Deployment",
+      "goal": "Build production-ready apps with React.js",
+      "category": "programming",
+      "tags": [
+        "react",
+        "frontend"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8579,
+      "moduleCount": 8,
+      "readingTimeMins": 35,
+      "metaDescription": "8,579-word guide: Build production-ready apps with React.js. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:33:29.506Z"
+    },
+    {
+      "slug": "build-productionready-apps-with-reactjs-advanced",
+      "title": "Mastering React.js: From Advanced Concepts to Production-Ready Apps",
+      "goal": "Build production-ready apps with React.js",
+      "category": "programming",
+      "tags": [
+        "react",
+        "frontend"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8609,
+      "moduleCount": 8,
+      "readingTimeMins": 35,
+      "metaDescription": "8,609-word guide: Build production-ready apps with React.js. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:34:52.159Z"
+    },
+    {
+      "slug": "build-rest-apis-with-nodejs-and-express-advanced",
+      "title": "Mastering REST APIs with Node.js and Express: A Deep Dive for Advanced Developers",
+      "goal": "Build REST APIs with Node.js and Express",
+      "category": "programming",
+      "tags": [
+        "nodejs",
+        "backend"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8229,
+      "moduleCount": 8,
+      "readingTimeMins": 33,
+      "metaDescription": "8,229-word guide: Build REST APIs with Node.js and Express. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:34:54.812Z"
+    },
+    {
+      "slug": "build-rest-apis-with-nodejs-and-express-intermediate",
+      "title": "Mastering REST APIs: A Node.js and Express Journey",
+      "goal": "Build REST APIs with Node.js and Express",
+      "category": "programming",
+      "tags": [
+        "nodejs",
+        "backend"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8477,
+      "moduleCount": 8,
+      "readingTimeMins": 34,
+      "metaDescription": "8,477-word guide: Build REST APIs with Node.js and Express. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:34:46.587Z"
+    },
+    {
+      "slug": "learn-sql-and-relational-database-design-intermediate",
+      "title": "Mastering SQL and Relational Databases: From Intermediate to Advanced",
+      "goal": "Learn SQL and relational database design",
+      "category": "programming",
+      "tags": [
+        "sql",
+        "database"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 9389,
+      "moduleCount": 8,
+      "readingTimeMins": 38,
+      "metaDescription": "9,389-word guide: Learn SQL and relational database design. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:36:19.046Z"
+    },
+    {
+      "slug": "learn-typescript-for-professional-development-intermediate",
+      "title": "Mastering TypeScript: A Professional's Guide to Modern Development",
+      "goal": "Learn TypeScript for professional development",
+      "category": "programming",
+      "tags": [
+        "typescript"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8940,
+      "moduleCount": 8,
+      "readingTimeMins": 36,
+      "metaDescription": "8,940-word guide: Learn TypeScript for professional development. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:36:33.786Z"
+    },
+    {
+      "slug": "learn-typescript-for-professional-development-advanced",
+      "title": "Mastering TypeScript: From Intermediate to Professional",
+      "goal": "Learn TypeScript for professional development",
+      "category": "programming",
+      "tags": [
+        "typescript"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8264,
+      "moduleCount": 8,
+      "readingTimeMins": 34,
+      "metaDescription": "8,264-word guide: Learn TypeScript for professional development. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:36:39.054Z"
+    },
+    {
+      "slug": "learn-python-programming-from-zero-to-real-projects-beginner",
+      "title": "Python Journey: From Zero to Real-World Projects",
+      "goal": "Learn Python programming from zero to real projects",
+      "category": "programming",
+      "tags": [
+        "python",
+        "coding"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8743,
+      "moduleCount": 8,
+      "readingTimeMins": 35,
+      "metaDescription": "8,743-word guide: Learn Python programming from zero to real projects. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:33:21.988Z"
+    },
+    {
+      "slug": "learn-python-programming-from-zero-to-real-projects-intermediate",
+      "title": "Python Mastery: From Foundations to Real-World Projects",
+      "goal": "Learn Python programming from zero to real projects",
+      "category": "programming",
+      "tags": [
+        "python",
+        "coding"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8046,
+      "moduleCount": 8,
+      "readingTimeMins": 33,
+      "metaDescription": "8,046-word guide: Learn Python programming from zero to real projects. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:33:18.994Z"
+    },
+    {
+      "slug": "learn-python-programming-from-zero-to-real-projects-advanced",
+      "title": "Python Mastery: From Zero to Advanced Real-World Projects",
+      "goal": "Learn Python programming from zero to real projects",
+      "category": "programming",
+      "tags": [
+        "python",
+        "coding"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 7668,
+      "moduleCount": 8,
+      "readingTimeMins": 31,
+      "metaDescription": "7,668-word guide: Learn Python programming from zero to real projects. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:33:17.989Z"
+    },
+    {
+      "slug": "build-productionready-apps-with-reactjs-beginner",
+      "title": "React.js Mastery: From Zero to Production-Ready Apps",
+      "goal": "Build production-ready apps with React.js",
+      "category": "programming",
+      "tags": [
+        "react",
+        "frontend"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8140,
+      "moduleCount": 8,
+      "readingTimeMins": 33,
+      "metaDescription": "8,140-word guide: Build production-ready apps with React.js. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:33:20.219Z"
+    },
+    {
+      "slug": "learn-typescript-for-professional-development-beginner",
+      "title": "TypeScript Unlocked: A Beginner's Journey to Professional Mastery",
+      "goal": "Learn TypeScript for professional development",
+      "category": "programming",
+      "tags": [
+        "typescript"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8383,
+      "moduleCount": 8,
+      "readingTimeMins": 34,
+      "metaDescription": "8,383-word guide: Learn TypeScript for professional development. Free to read on Pustakam.",
+      "generatedAt": "2026-07-14T02:36:21.170Z"
+    }
+  ],
+  "total": 30,
+  "generatedAt": "2026-07-14T02:38:22.503Z"
 }
