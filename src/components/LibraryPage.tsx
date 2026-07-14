@@ -110,12 +110,12 @@ export default function LibraryPage() {
     return [allItem, ...sortedOthers];
   }, [index]);
 
-  const top5Categories = useMemo(() => {
-    return categoriesWithCounts.slice(1, 6);
+  const top3Categories = useMemo(() => {
+    return categoriesWithCounts.slice(1, 4);
   }, [categoriesWithCounts]);
 
   const remainingCategories = useMemo(() => {
-    return categoriesWithCounts.slice(6);
+    return categoriesWithCounts.slice(4);
   }, [categoriesWithCounts]);
 
   const filtered = useMemo(() => {
@@ -219,8 +219,8 @@ export default function LibraryPage() {
                 </button>
               ))}
 
-              {/* Show top 5 sorted categories */}
-              {top5Categories.map(cat => (
+              {/* Show top 3 sorted categories */}
+              {top3Categories.map(cat => (
                 <button
                   key={cat.id}
                   className={`lib-sidebar-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
@@ -245,17 +245,30 @@ export default function LibraryPage() {
 
               {remainingCategories.length > 0 && (
                 <button
-                  className="lib-sidebar-cat-btn more-btn"
                   onClick={() => setShowAllCategories(!showAllCategories)}
                   style={{ 
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    width: '100%',
+                    padding: '8px 12px',
+                    background: 'transparent',
+                    border: 'none',
+                    fontFamily: 'var(--f-mono)',
+                    fontSize: '0.62rem',
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.12em',
                     color: 'var(--accent)', 
-                    fontWeight: 500, 
-                    justifyContent: 'center',
-                    borderStyle: 'dashed',
-                    marginTop: '8px'
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    marginTop: '8px',
+                    opacity: 0.85
                   }}
+                  onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+                  onMouseLeave={e => e.currentTarget.style.opacity = '0.85'}
                 >
-                  <span>{showAllCategories ? 'Show Less' : `+ ${remainingCategories.length} More`}</span>
+                  {showAllCategories ? '← Show Less' : `+ ${remainingCategories.length} More Categories`}
                 </button>
               )}
             </div>
