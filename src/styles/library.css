@@ -174,7 +174,7 @@
 .lib-sidebar {
   position: sticky;
   top: 52px;
-  height: calc(100vh - 52px - 50px); /* viewport minus nav minus fixed footer */
+  height: calc(100vh - 52px);
   padding: 32px 24px;
   border-right: 1px solid var(--border);
   overflow-y: auto;
@@ -269,7 +269,7 @@
 /* ── Main Content Area ──────────────────────────────────────────────────────── */
 
 .lib-main {
-  padding: 40px clamp(1.5rem, 5vw, 4rem) 120px; /* added 120px padding at bottom to offset fixed footer */
+  padding: 40px clamp(1.5rem, 5vw, 4rem) 80px;
   display: flex;
   flex-direction: column;
 }
@@ -597,11 +597,8 @@
   flex-shrink: 0;
   border-top: 1px solid var(--border);
   padding: 0.65rem clamp(1.25rem, 5vw, 4rem);
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
+  position: relative;
+  z-index: 2;
   background: var(--bg);
 }
 
@@ -688,7 +685,7 @@
 .reader-toc {
   position: sticky;
   top: 52px;
-  height: calc(100vh - 52px - 50px); /* viewport minus nav minus fixed footer */
+  height: calc(100vh - 52px);
   overflow-y: auto;
   padding: 32px 16px;
   border-right: 1px solid var(--border);
@@ -735,7 +732,7 @@
 /* ── Reader Main ───────────────────────────────────────────────────────────── */
 
 .reader-main {
-  padding: 40px clamp(24px, 4vw, 56px) 120px; /* added 120px padding at bottom to offset fixed footer */
+  padding: 40px clamp(24px, 4vw, 56px) 80px;
   max-width: 780px;
 }
 
@@ -1041,29 +1038,23 @@
    ═══════════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 900px) {
-  .lib-root {
-    height: auto;
-    overflow: visible;
-  }
   .lib-layout {
     grid-template-columns: 1fr;
-    flex: none;
+    min-height: auto;
   }
   .lib-sidebar {
+    position: static;
     height: auto;
     border-right: none;
     border-bottom: 1px solid var(--border);
     padding: 24px 20px;
     gap: 20px;
-    overflow-y: visible;
   }
   .lib-sidebar-cta {
     margin-top: 10px;
   }
   .lib-main {
     padding: 24px 20px 60px;
-    height: auto;
-    overflow-y: visible;
   }
   .lib-hero h1 {
     font-size: clamp(2rem, 8vw, 3rem);
@@ -1071,14 +1062,9 @@
 }
 
 @media (max-width: 768px) {
-  .reader-root {
-    height: auto;
-    overflow: visible;
-  }
   /* Reader: stack sidebar below */
   .reader-layout {
     grid-template-columns: 1fr;
-    flex: none;
   }
   .reader-toc {
     position: static;
@@ -1087,12 +1073,9 @@
     border-right: none;
     border-bottom: 1px solid var(--border);
     padding: 20px;
-    overflow-y: auto;
   }
   .reader-main {
     padding: 24px 20px 60px;
-    height: auto;
-    overflow-y: visible;
   }
   .reader-title {
     font-size: 1.6rem;
