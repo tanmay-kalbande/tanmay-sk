@@ -34,8 +34,7 @@
 
 .lib-root,
 .reader-root {
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   background: var(--bg);
@@ -175,7 +174,7 @@
 .lib-sidebar {
   position: sticky;
   top: 52px;
-  height: calc(100vh - 52px);
+  height: calc(100vh - 52px - 50px); /* viewport minus nav minus fixed footer */
   padding: 32px 24px;
   border-right: 1px solid var(--border);
   overflow-y: auto;
@@ -270,11 +269,9 @@
 /* ── Main Content Area ──────────────────────────────────────────────────────── */
 
 .lib-main {
-  padding: 40px clamp(1.5rem, 5vw, 4rem) 80px;
+  padding: 40px clamp(1.5rem, 5vw, 4rem) 120px; /* added 120px padding at bottom to offset fixed footer */
   display: flex;
   flex-direction: column;
-  height: 100%;
-  overflow-y: auto;
 }
 
 /* Collapsible Hero Block */
@@ -600,8 +597,11 @@
   flex-shrink: 0;
   border-top: 1px solid var(--border);
   padding: 0.65rem clamp(1.25rem, 5vw, 4rem);
-  position: relative;
-  z-index: 2;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
   background: var(--bg);
 }
 
@@ -688,7 +688,7 @@
 .reader-toc {
   position: sticky;
   top: 52px;
-  height: calc(100vh - 52px);
+  height: calc(100vh - 52px - 50px); /* viewport minus nav minus fixed footer */
   overflow-y: auto;
   padding: 32px 16px;
   border-right: 1px solid var(--border);
@@ -735,10 +735,8 @@
 /* ── Reader Main ───────────────────────────────────────────────────────────── */
 
 .reader-main {
-  padding: 40px clamp(24px, 4vw, 56px) 80px;
+  padding: 40px clamp(24px, 4vw, 56px) 120px; /* added 120px padding at bottom to offset fixed footer */
   max-width: 780px;
-  height: 100%;
-  overflow-y: auto;
 }
 
 .reader-header {
