@@ -47,7 +47,7 @@ export default function LibraryPage() {
 
   useEffect(() => {
     document.title = 'Free Book Library — Tanmay Kalbande';
-    fetch('/library/index.json')
+    fetch('/library/catalog.json')
       .then(r => r.ok ? r.json() : Promise.reject('Not found'))
       .then((data: LibraryIndex) => { setIndex(data); setLoading(false); })
       .catch(() => {

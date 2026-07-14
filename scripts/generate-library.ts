@@ -122,12 +122,12 @@ function rebuildIndex(): void {
   index.sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
 
   fs.writeFileSync(
-    path.join(CONFIG.OUTPUT_DIR, 'index.json'),
+    path.join(CONFIG.OUTPUT_DIR, 'catalog.json'),
     JSON.stringify({ books: index, total: index.length, generatedAt: new Date().toISOString() }, null, 2),
     'utf8'
   );
 
-  console.log(`\n📑 index.json rebuilt: ${index.length} books`);
+  console.log(`\n📑 catalog.json rebuilt: ${index.length} books`);
 }
 
 function generateSitemap(books: BookMeta[]): void {
@@ -496,7 +496,7 @@ async function main() {
 
   // Rebuild index.json and sitemap.xml from all files
   rebuildIndex();
-  const indexData = JSON.parse(fs.readFileSync(path.join(CONFIG.OUTPUT_DIR, 'index.json'), 'utf8'));
+  const indexData = JSON.parse(fs.readFileSync(path.join(CONFIG.OUTPUT_DIR, 'catalog.json'), 'utf8'));
   generateSitemap(indexData.books);
 
   const totalMin = (Date.now() - startTime) / 60000;
