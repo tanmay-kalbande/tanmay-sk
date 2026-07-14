@@ -200,16 +200,16 @@ export default function LibraryPage() {
           {/* Collapsible Hero Block */}
           <div className={`lib-hero ${isFilterActive ? 'collapsed' : ''}`}>
             <div className="lib-hero-badge">
-              AI-Generated · Free to Read
+              Open-Access · Free to Read
             </div>
             <h1>
-              <span className="first-name">A Free Library of</span><br />
-              <span className="accent">AI-Generated</span><br />
-              Learning Books
+              <span className="first-name">A Curated Library of</span><br />
+              <span className="accent">Structured</span><br />
+              Learning Guides
             </h1>
             <p className="lib-hero-sub">
-              Structured, chapter-by-chapter guides on programming, finance, exams, and more.
-              Every book is free to read. Want one on your exact topic? Generate it on Pustakam.
+              Structured, chapter-by-chapter roadmaps on programming, finance, exams, and more.
+              Every curriculum is free to read. Build a custom version on your exact topic with Pustakam.
             </p>
           </div>
 

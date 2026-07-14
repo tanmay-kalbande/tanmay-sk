@@ -395,7 +395,7 @@ function exportToPdf(book: BookFile) {
   <!-- COVER PAGE -->
   <div class="cover-page">
     <div class="cover-top">
-      <div class="cover-brand">Pustakam AI Library</div>
+      <div class="cover-brand">Pustakam Reference Library</div>
       <h1 class="cover-title"><span class="cover-title-italic">A Learning Guide to</span><br />${book.title}</h1>
       <div class="cover-subtitle">${book.complexity} LEVEL · ${book.category} EDITION</div>
       <div class="cover-accent-line"></div>
