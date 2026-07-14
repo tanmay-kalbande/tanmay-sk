@@ -392,9 +392,9 @@ function parseJSON(raw: string): any {
   const cleaned = raw.trim()
     .replace(/```(?:json)?\s*/gi, '').replace(/```\s*/g, '')
     .replace(/[\u201C\u201D]/g, '"').replace(/[\u2018\u2019]/g, "'");
-  const match = cleaned.match(/\{[\s\S]*\}/);
-  if (!match) throw new Error('No JSON in response');
-  return JSON.parse(match[0].replace(/,\s*([}\]])/g, '$1'));
+  const match = cleaned.match(/([\{\[][\s\S]*[\}\]])/);
+  if (!match) throw new Error('No JSON found in response');
+  return JSON.parse(match[1].replace(/,\s*([}\]])/g, '$1'));
 }
 
 // ── Core generator ─────────────────────────────────────────────────────────────
@@ -487,7 +487,9 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
 
 // ── Topic seeds (10 highly diverse seeds across fields) ──────────────────────────
 
-const TOPIC_SEEDS: TopicSeed[] = [
+// ── Topic seeds (Fallback/Bootstrap seeds) ─────────────────────────────────────
+
+const BOOTSTRAP_SEEDS: TopicSeed[] = [
   { goal: 'Learn Python programming from zero to real projects', category: 'programming', tags: ['python', 'coding'], complexity: 'beginner' },
   { goal: 'Understand data structures and algorithms for tech interviews', category: 'programming', tags: ['dsa', 'algorithms'], complexity: 'intermediate' },
   { goal: 'Understand prompt engineering and build LLM apps', category: 'ai', tags: ['llm', 'prompt-engineering'], complexity: 'advanced' },
@@ -500,6 +502,49 @@ const TOPIC_SEEDS: TopicSeed[] = [
   { goal: 'Learn UI/UX design from scratch with Figma', category: 'design', tags: ['uiux', 'figma'], complexity: 'intermediate' }
 ];
 
+async function generateSeedsViaAI(count: number, existing: BookMeta[]): Promise<TopicSeed[]> {
+  const existingList = existing.map(b => `- ${b.title} (${b.category}, ${b.complexity})`).join('\n');
+  const prompt = `You are a curriculum curator. Generate exactly ${count} completely new, highly interesting, and unique learning guide topics/seeds.
+  
+Existing guides in the library (DO NOT duplicate, overlap, or cover similar topics):
+${existingList || 'None yet.'}
+
+Requirements:
+1. Ensure topics span diverse categories (e.g., programming, business, finance, health, design, science, career, languages).
+2. Choose a mix of complexities: 'beginner', 'intermediate', 'advanced'.
+3. Each guide must have a specific learning goal.
+4. Return ONLY a valid JSON array matching this format (no markdown, no wrap):
+[
+  {
+    "goal": "Clear learning goal (e.g. Master personal finance and budgeting)",
+    "category": "category-slug (e.g. finance)",
+    "tags": ["tag1", "tag2"],
+    "complexity": "beginner"
+  }
+]`;
+
+  try {
+    const result = await callWriter(prompt, 500, 'seeds-generator');
+    const parsed = parseJSON(result.text);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      return parsed.map(s => ({
+        goal: s.goal,
+        category: s.category || 'general',
+        tags: s.tags || [],
+        complexity: s.complexity || 'beginner'
+      }));
+    }
+  } catch (e) {
+    console.error('Failed to generate seeds dynamically, using bootstrap fallbacks:', e);
+  }
+
+  // Fallback to bootstrap seeds that aren't already completed
+  const completedSet = new Set(existing.map(b => b.slug));
+  return BOOTSTRAP_SEEDS
+    .filter(s => !completedSet.has(toSlug(`${s.goal} ${s.complexity || 'beginner'}`)))
+    .slice(0, count);
+}
+
 // ── Main ───────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -511,15 +556,32 @@ async function main() {
   const checkpoint = loadCheckpoint();
   const completedSet = new Set([...checkpoint.completedSlugs, ...getExistingSlugs()]);
   checkpoint.completedSlugs = [...completedSet];
-  const pending = TOPIC_SEEDS.filter(s => !completedSet.has(toSlug(`${s.goal} ${s.complexity || 'beginner'}`)));
+
+  const catalogPath = path.join(CONFIG.OUTPUT_DIR, 'catalog.json');
+  let existingBooks: BookMeta[] = [];
+  if (fs.existsSync(catalogPath)) {
+    try {
+      existingBooks = JSON.parse(fs.readFileSync(catalogPath, 'utf8')).books || [];
+    } catch {}
+  }
+
+  const countToGenerate = CONFIG.MAX_BOOKS > 0 ? CONFIG.MAX_BOOKS : 3;
+
+  console.log('\n🚀 Pustakam Library Generator (File-Based & AI-Driven)');
+  console.log(`🤖 Target books to generate this run: ${countToGenerate}`);
+  console.log(`✅ Already done in library: ${completedSet.size}`);
+  
+  console.log('🤖 Generating unique topic seeds via Z.ai GLM...');
+  const pending = await generateSeedsViaAI(countToGenerate, existingBooks);
+  
+  if (pending.length === 0) {
+    console.log('ℹ️  No new topics generated or all bootstrap topics exhausted. Exiting.');
+    return;
+  }
+
+  console.log(`⏭️  Topics selected for generation:\n${pending.map((p, idx) => `   ${idx + 1}. ${p.goal} (${p.complexity})`).join('\n')}`);
 
   const estMinutes = (pending.length * CONFIG.MAX_MODULES * 3) / CONFIG.CONCURRENCY;
-
-  console.log('\n🚀 Pustakam Library Generator (File-Based)');
-  console.log(`📚 ${TOPIC_SEEDS.length} total seeds → ${pending.length} to generate`);
-  console.log(`✅ Already done: ${checkpoint.completedSlugs.length}`);
-  console.log(`⏭️  Pending: ${pending.length}`);
-  if (CONFIG.MAX_BOOKS > 0) console.log(`🎯 Limit: generating max ${CONFIG.MAX_BOOKS} books this run`);
   console.log(`⚙️  Workers: ${CONFIG.CONCURRENCY} parallel`);
   console.log(`📁 Output: ${CONFIG.OUTPUT_DIR}`);
   console.log(`🤖 Primary: ${CONFIG.PRIMARY_MODEL}  |  Fallback: ${CONFIG.FALLBACK_MODEL}`);
