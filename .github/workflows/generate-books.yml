@@ -22,6 +22,10 @@ concurrency:
   group: library-generation
   cancel-in-progress: false   # don't cancel mid-run, queue instead
 
+# ── Grant permission to push commits back to the repo ────────────────────────
+permissions:
+  contents: write
+
 jobs:
   generate:
     name: Generate books
