@@ -349,6 +349,26 @@
       "generatedAt": "2026-07-14T04:52:02.249Z"
     },
     {
+      "slug": "build-a-fully-functional-mobile-application-using-flutter-and-firebase-without-p",
+      "title": "The Blueprint to Your First App: Building with Flutter and Firebase from Scratch",
+      "goal": "Build a fully functional mobile application using Flutter and Firebase without prior coding experience",
+      "category": "programming",
+      "tags": [
+        "flutter",
+        "firebase",
+        "mobile-app"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 10085,
+      "moduleCount": 8,
+      "readingTimeMins": 41,
+      "metaDescription": "The Blueprint to Your First App: Building with Flutter and Firebase from Scratch: a beginner guide to build a fully functional mobile application using flu",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T20:59:45.582Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-understand-the-core-principles-of-blockchain-technology-and-build-a-basic",
       "title": "Zero to Satoshi: The Street Codex for Forging Your Own Chain",
       "goal": "Understand the core principles of blockchain technology and build a basic cryptocurrency",
@@ -391,6 +411,6 @@
       "edition": "street"
     }
   ],
-  "total": 20,
-  "generatedAt": "2026-07-14T17:46:49.082Z"
+  "total": 21,
+  "generatedAt": "2026-07-14T21:08:40.485Z"
 }
