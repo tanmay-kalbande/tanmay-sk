@@ -34,7 +34,8 @@
 
 .lib-root,
 .reader-root {
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   background: var(--bg);
@@ -272,6 +273,8 @@
   padding: 40px clamp(1.5rem, 5vw, 4rem) 80px;
   display: flex;
   flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
 }
 
 /* Collapsible Hero Block */
@@ -734,6 +737,8 @@
 .reader-main {
   padding: 40px clamp(24px, 4vw, 56px) 80px;
   max-width: 780px;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .reader-header {
@@ -1038,23 +1043,29 @@
    ═══════════════════════════════════════════════════════════════════════════════ */
 
 @media (max-width: 900px) {
+  .lib-root {
+    height: auto;
+    overflow: visible;
+  }
   .lib-layout {
     grid-template-columns: 1fr;
-    min-height: auto;
+    flex: none;
   }
   .lib-sidebar {
-    position: static;
     height: auto;
     border-right: none;
     border-bottom: 1px solid var(--border);
     padding: 24px 20px;
     gap: 20px;
+    overflow-y: visible;
   }
   .lib-sidebar-cta {
     margin-top: 10px;
   }
   .lib-main {
     padding: 24px 20px 60px;
+    height: auto;
+    overflow-y: visible;
   }
   .lib-hero h1 {
     font-size: clamp(2rem, 8vw, 3rem);
@@ -1062,9 +1073,14 @@
 }
 
 @media (max-width: 768px) {
+  .reader-root {
+    height: auto;
+    overflow: visible;
+  }
   /* Reader: stack sidebar below */
   .reader-layout {
     grid-template-columns: 1fr;
+    flex: none;
   }
   .reader-toc {
     position: static;
@@ -1073,9 +1089,12 @@
     border-right: none;
     border-bottom: 1px solid var(--border);
     padding: 20px;
+    overflow-y: auto;
   }
   .reader-main {
     padding: 24px 20px 60px;
+    height: auto;
+    overflow-y: visible;
   }
   .reader-title {
     font-size: 1.6rem;
