@@ -37,6 +37,90 @@
       "generatedAt": "2026-07-14T04:55:21.323Z"
     },
     {
+      "slug": "street-develop-a-highimpact-b2b-cold-email-outreach-system-that-converts-leads-i",
+      "title": "The Inbox Warlord's Playbook: Slaying B2B Leads",
+      "goal": "Develop a high-impact B2B cold email outreach system that converts leads",
+      "category": "business",
+      "tags": [
+        "sales",
+        "marketing",
+        "b2b",
+        "lead-generation"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8331,
+      "moduleCount": 6,
+      "readingTimeMins": 34,
+      "metaDescription": "The Inbox Warlord's Playbook: Slaying B2B Leads: a intermediate guide to develop a high-impact b2b cold email outreach system that converts leads with clea",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:26:03.299Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-develop-an-ethical-and-persuasive-cold-outreach-strategy-to-land-a-dream",
+      "title": "The Street Oracle's Blueprint: Cold Outreach to Crush Your Dream Job",
+      "goal": "Develop an ethical and persuasive cold outreach strategy to land a dream job",
+      "category": "career",
+      "tags": [
+        "job-search",
+        "networking",
+        "personal-branding",
+        "career-growth"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8391,
+      "moduleCount": 6,
+      "readingTimeMins": 34,
+      "metaDescription": "The Street Oracle's Blueprint: Cold Outreach to Crush Your Dream Job: a intermediate guide to develop an ethical and persuasive cold outreach strategy to l",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:46:49.067Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-interpersonal-conflict-resolution-and-mediation-techniques-for-the",
+      "title": "Trench Warfare in Cubicles: How to Broker Peace and Break Egos",
+      "goal": "Master interpersonal conflict resolution and mediation techniques for the workplace",
+      "category": "career",
+      "tags": [
+        "soft-skills",
+        "leadership",
+        "hr",
+        "communication"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8372,
+      "moduleCount": 6,
+      "readingTimeMins": 34,
+      "metaDescription": "Trench Warfare in Cubicles: How to Broker Peace and Break Egos: a intermediate guide to master interpersonal conflict resolution and mediation techniques f",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:42:10.398Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-write-compelling-structured-fictional-narratives-using-the-heros-journey",
+      "title": "From Scrub To Scribe: Weaponizing The Hero's Journey",
+      "goal": "Write compelling, structured fictional narratives using the Hero's Journey framework",
+      "category": "creative-writing",
+      "tags": [
+        "storytelling",
+        "fiction",
+        "screenwriting",
+        "narrative"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8296,
+      "moduleCount": 6,
+      "readingTimeMins": 34,
+      "metaDescription": "From Scrub To Scribe: Weaponizing The Hero's Journey: a intermediate guide to write compelling, structured fictional narratives using the hero's journey fr",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:40:12.473Z",
+      "edition": "street"
+    },
+    {
       "slug": "learn-uiux-design-from-scratch-with-figma-intermediate",
       "title": "Mastering UI/UX Design with Figma: A Practical Guide to Building Digital Products",
       "goal": "Learn UI/UX design from scratch with Figma",
@@ -53,6 +137,27 @@
       "metaDescription": "Mastering UI/UX Design with Figma: A Practical Guide to Building Digital Products: a intermediate guide to learn ui/ux design from scratch with figma with ",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-14T07:11:34.667Z"
+    },
+    {
+      "slug": "street-master-the-fundamentals-of-urban-sketching-using-ink-and-watercolor-washe",
+      "title": "Street Scars: Bleeding Ink and Watercolor Warfare",
+      "goal": "Master the fundamentals of urban sketching using ink and watercolor washes",
+      "category": "design",
+      "tags": [
+        "sketching",
+        "watercolor",
+        "illustration",
+        "art"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8409,
+      "moduleCount": 6,
+      "readingTimeMins": 34,
+      "metaDescription": "Street Scars: Bleeding Ink and Watercolor Warfare: a beginner guide to master the fundamentals of urban sketching using ink and watercolor washes with clea",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:33:48.401Z",
+      "edition": "street"
     },
     {
       "slug": "crack-upsc-cse-prelims-with-systematic-preparation-beginner",
@@ -91,6 +196,48 @@
       "generatedAt": "2026-07-14T14:20:59.862Z"
     },
     {
+      "slug": "street-understand-the-mechanics-of-options-trading-and-execute-basic-vertical-sp",
+      "title": "Blood on the Ticker: The Vertical Spread Warpath",
+      "goal": "Understand the mechanics of options trading and execute basic vertical spreads",
+      "category": "finance",
+      "tags": [
+        "options",
+        "trading",
+        "derivatives",
+        "hedging"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8521,
+      "moduleCount": 6,
+      "readingTimeMins": 35,
+      "metaDescription": "Blood on the Ticker: The Vertical Spread Warpath: a advanced guide to understand the mechanics of options trading and execute basic vertical spreads with c",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:39:10.133Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-build-and-deploy-a-decentralized-autonomous-organization-dao-governance-s",
+      "title": "The DAO War Bible: From Zero to Governance God",
+      "goal": "Build and deploy a decentralized autonomous organization (DAO) governance smart contract",
+      "category": "finance",
+      "tags": [
+        "defi",
+        "web3",
+        "governance",
+        "solidity"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8044,
+      "moduleCount": 6,
+      "readingTimeMins": 33,
+      "metaDescription": "The DAO War Bible: From Zero to Governance God: a advanced guide to build and deploy a decentralized autonomous organization (dao) governance smart contrac",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:33:52.784Z",
+      "edition": "street"
+    },
+    {
       "slug": "learn-stock-market-investing-for-beginners-in-india-beginner",
       "title": "The Foundations of Stock Market Investing in India: A Beginner's Guide",
       "goal": "Learn stock market investing for beginners in India",
@@ -125,6 +272,27 @@
       "metaDescription": "Building a Consistent Gym Routine: A Beginner's Guide: a beginner guide to build a consistent gym workout routine for beginners with clear explanations, ex",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-14T04:59:49.339Z"
+    },
+    {
+      "slug": "street-design-a-personalized-sciencebased-longevity-and-biohacking-protocol-inte",
+      "title": "CHEATING THE REAPER: The Street-Oracle's Blueprint to Immortality",
+      "goal": "Design a personalized, science-based longevity and biohacking protocol",
+      "category": "health",
+      "tags": [
+        "longevity",
+        "biohacking",
+        "wellness",
+        "preventive-medicine"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 7787,
+      "moduleCount": 6,
+      "readingTimeMins": 32,
+      "metaDescription": "CHEATING THE REAPER: The Street-Oracle's Blueprint to Immortality: a intermediate guide to design a personalized, science-based longevity and biohacking pr",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:31:46.709Z",
+      "edition": "street"
     },
     {
       "slug": "improve-spoken-english-fluency-for-indian-speakers-beginner",
@@ -179,8 +347,50 @@
       "metaDescription": "Learn Python Programming from Zero to Real Projects: a beginner guide to learn python programming from zero to real projects with clear explanations, examp",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-14T04:52:02.249Z"
+    },
+    {
+      "slug": "street-understand-the-core-principles-of-blockchain-technology-and-build-a-basic",
+      "title": "Zero to Satoshi: The Street Codex for Forging Your Own Chain",
+      "goal": "Understand the core principles of blockchain technology and build a basic cryptocurrency",
+      "category": "programming",
+      "tags": [
+        "blockchain",
+        "cryptography",
+        "web3",
+        "solidity"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8334,
+      "moduleCount": 6,
+      "readingTimeMins": 34,
+      "metaDescription": "Zero to Satoshi: The Street Codex for Forging Your Own Chain: a advanced guide to understand the core principles of blockchain technology and build a basic",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:22:42.930Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-to-build-an-offgrid-solar-power-system-for-a-small-cabin-or-rv-inte",
+      "title": "Sun Hustle: The Off-Grid Solar Warpath",
+      "goal": "Learn to build an off-grid solar power system for a small cabin or RV",
+      "category": "science",
+      "tags": [
+        "solar-energy",
+        "electrical-engineering",
+        "sustainability",
+        "off-grid"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8349,
+      "moduleCount": 6,
+      "readingTimeMins": 34,
+      "metaDescription": "Sun Hustle: The Off-Grid Solar Warpath: a intermediate guide to learn to build an off-grid solar power system for a small cabin or rv with clear explanatio",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T17:38:19.155Z",
+      "edition": "street"
     }
   ],
-  "total": 10,
-  "generatedAt": "2026-07-14T16:08:28.323Z"
+  "total": 20,
+  "generatedAt": "2026-07-14T17:46:49.082Z"
 }
