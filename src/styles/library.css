@@ -22,6 +22,27 @@ html[data-theme="light"] .reader-root {
   --grid-line: rgba(0, 0, 0, 0.035);
 }
 
+/* Light Theme Navigation Bar Overrides */
+html[data-theme="light"] .lib-nav {
+  background: #f5f5f3 !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09) !important;
+}
+html[data-theme="light"] .lib-nav-back {
+  color: #666666 !important;
+}
+html[data-theme="light"] .lib-nav-back:hover {
+  color: #1a1a1a !important;
+}
+html[data-theme="light"] .lib-nav-brand {
+  color: #1a1a1a !important;
+}
+html[data-theme="light"] .theme-toggle-btn {
+  color: #666666 !important;
+}
+html[data-theme="light"] .theme-toggle-btn:hover {
+  color: #1a1a1a !important;
+}
+
 html[data-theme="dark"] .lib-root,
 html[data-theme="dark"] .reader-root,
 .lib-root,
