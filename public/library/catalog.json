@@ -37,6 +37,24 @@
       "generatedAt": "2026-07-14T04:55:21.323Z"
     },
     {
+      "slug": "learn-uiux-design-from-scratch-with-figma-intermediate",
+      "title": "Mastering UI/UX Design with Figma: A Practical Guide to Building Digital Products",
+      "goal": "Learn UI/UX design from scratch with Figma",
+      "category": "design",
+      "tags": [
+        "uiux",
+        "figma"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8901,
+      "moduleCount": 8,
+      "readingTimeMins": 36,
+      "metaDescription": "Mastering UI/UX Design with Figma: A Practical Guide to Building Digital Products: a intermediate guide to learn ui/ux design from scratch with figma with ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T07:11:34.667Z"
+    },
+    {
       "slug": "crack-upsc-cse-prelims-with-systematic-preparation-beginner",
       "title": "A Systematic Guide to Cracking the UPSC CSE Prelims",
       "goal": "Crack UPSC CSE Prelims with systematic preparation",
@@ -145,6 +163,6 @@
       "generatedAt": "2026-07-14T04:52:02.249Z"
     }
   ],
-  "total": 8,
-  "generatedAt": "2026-07-14T04:59:49.348Z"
+  "total": 9,
+  "generatedAt": "2026-07-14T07:11:34.689Z"
 }
