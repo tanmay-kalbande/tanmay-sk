@@ -44,7 +44,7 @@ const CONFIG = {
   MAX_MODULES:           8,
 
   // ZAI_MODEL allows a controlled model upgrade without changing generator code.
-  PRIMARY_MODEL:         process.env.ZAI_MODEL || 'glm-5.1',
+  PRIMARY_MODEL:         process.env.ZAI_MODEL || 'glm-5.2',
   PRIMARY_API_URL:       'https://api.z.ai/api/paas/v4/chat/completions',
   PRIMARY_API_KEY:       process.env.ZAI_API_KEY || '',
   PRIMARY_PROVIDER:      'zai',
@@ -485,47 +485,20 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
   return 'ok';
 }
 
-// ── Topic seeds (expand to 1000 by adding more base topics) ───────────────────
+// ── Topic seeds (10 highly diverse seeds across fields) ──────────────────────────
 
-const BASE_SEEDS: Omit<TopicSeed, 'complexity'>[] = [
-  { goal: 'Learn Python programming from zero to real projects', category: 'programming', tags: ['python', 'coding'] },
-  { goal: 'Master JavaScript and build modern web applications', category: 'programming', tags: ['javascript', 'web'] },
-  { goal: 'Build production-ready apps with React.js', category: 'programming', tags: ['react', 'frontend'] },
-  { goal: 'Build REST APIs with Node.js and Express', category: 'programming', tags: ['nodejs', 'backend'] },
-  { goal: 'Understand data structures and algorithms for tech interviews', category: 'programming', tags: ['dsa', 'algorithms'] },
-  { goal: 'Learn SQL and relational database design', category: 'programming', tags: ['sql', 'database'] },
-  { goal: 'Master Git and GitHub for professional developers', category: 'programming', tags: ['git', 'devops'] },
-  { goal: 'Learn TypeScript for professional development', category: 'programming', tags: ['typescript'] },
-  { goal: 'Build Android apps with Kotlin from scratch', category: 'programming', tags: ['android', 'kotlin'] },
-  { goal: 'Learn Docker and containerization', category: 'programming', tags: ['docker', 'devops'] },
-  { goal: 'Learn machine learning from scratch with Python', category: 'data-science', tags: ['ml', 'python'] },
-  { goal: 'Master deep learning and neural networks', category: 'data-science', tags: ['deep-learning', 'ai'] },
-  { goal: 'Learn data analysis with pandas and numpy', category: 'data-science', tags: ['pandas', 'data'] },
-  { goal: 'Understand prompt engineering and build LLM apps', category: 'ai', tags: ['llm', 'prompt-engineering'] },
-  { goal: 'Learn stock market investing for beginners in India', category: 'finance', tags: ['stocks', 'india'] },
-  { goal: 'Understand mutual funds and SIP investing', category: 'finance', tags: ['mutual-funds', 'sip'] },
-  { goal: 'Master personal finance management and budgeting', category: 'finance', tags: ['personal-finance'] },
-  { goal: 'Start a freelance business and earn from skills online', category: 'business', tags: ['freelancing'] },
-  { goal: 'Launch a startup from idea to product', category: 'business', tags: ['startup', 'entrepreneurship'] },
-  { goal: 'Master digital marketing for business growth', category: 'business', tags: ['marketing', 'seo'] },
-  { goal: 'Crack UPSC CSE Prelims with systematic preparation', category: 'exams', tags: ['upsc', 'ias'] },
-  { goal: 'Prepare for GATE CSE examination', category: 'exams', tags: ['gate', 'engineering'] },
-  { goal: 'Master quantitative aptitude for placements', category: 'exams', tags: ['aptitude', 'placements'] },
-  { goal: 'Score band 7+ in IELTS writing and speaking', category: 'exams', tags: ['ielts', 'english'] },
-  { goal: 'Improve spoken English fluency for Indian speakers', category: 'language', tags: ['english', 'speaking'] },
-  { goal: 'Learn public speaking and overcome stage fright', category: 'language', tags: ['public-speaking'] },
-  { goal: 'Build a consistent gym workout routine for beginners', category: 'health', tags: ['gym', 'fitness'] },
-  { goal: 'Understand nutrition fundamentals and healthy eating', category: 'health', tags: ['nutrition', 'diet'] },
-  { goal: 'Learn UI/UX design from scratch with Figma', category: 'design', tags: ['uiux', 'figma'] },
-  // Add more seeds here — each generates 3 books (beginner/intermediate/advanced)
+const TOPIC_SEEDS: TopicSeed[] = [
+  { goal: 'Learn Python programming from zero to real projects', category: 'programming', tags: ['python', 'coding'], complexity: 'beginner' },
+  { goal: 'Understand data structures and algorithms for tech interviews', category: 'programming', tags: ['dsa', 'algorithms'], complexity: 'intermediate' },
+  { goal: 'Understand prompt engineering and build LLM apps', category: 'ai', tags: ['llm', 'prompt-engineering'], complexity: 'advanced' },
+  { goal: 'Learn stock market investing for beginners in India', category: 'finance', tags: ['stocks', 'india'], complexity: 'beginner' },
+  { goal: 'Launch a startup from idea to product', category: 'business', tags: ['startup', 'entrepreneurship'], complexity: 'intermediate' },
+  { goal: 'Crack UPSC CSE Prelims with systematic preparation', category: 'exams', tags: ['upsc', 'ias'], complexity: 'beginner' },
+  { goal: 'Score band 7+ in IELTS writing and speaking', category: 'exams', tags: ['ielts', 'english'], complexity: 'advanced' },
+  { goal: 'Improve spoken English fluency for Indian speakers', category: 'language', tags: ['english', 'speaking'], complexity: 'beginner' },
+  { goal: 'Build a consistent gym workout routine for beginners', category: 'health', tags: ['gym', 'fitness'], complexity: 'beginner' },
+  { goal: 'Learn UI/UX design from scratch with Figma', category: 'design', tags: ['uiux', 'figma'], complexity: 'intermediate' }
 ];
-
-// Each base seed × 3 complexity levels = 3x library at zero extra effort
-const TOPIC_SEEDS: TopicSeed[] = BASE_SEEDS.flatMap(s => [
-  { ...s, complexity: 'beginner' },
-  { ...s, complexity: 'intermediate' },
-  { ...s, complexity: 'advanced' },
-]);
 
 // ── Main ───────────────────────────────────────────────────────────────────────
 

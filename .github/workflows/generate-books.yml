@@ -71,7 +71,7 @@ jobs:
         env:
           MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
           ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
-          ZAI_MODEL:         'glm-5.1'
+          ZAI_MODEL:         'glm-5.2'
           SITE_URL:          'https://tanmaysk.in'
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '4' }}
           MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
