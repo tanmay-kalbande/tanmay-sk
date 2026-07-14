@@ -36,6 +36,25 @@ const __dirname = path.dirname(__filename);
 
 const EDITION = (process.env.EDITION || 'stellar') as 'stellar' | 'street';
 
+const SELECTED_PROVIDER = process.env.PROVIDER || 'zai';
+
+let primaryModel = process.env.ZAI_MODEL || 'glm-5.2';
+let primaryApiUrl = 'https://api.z.ai/api/paas/v4/chat/completions';
+let primaryApiKey = process.env.ZAI_API_KEY || '';
+let primaryProviderName = 'zai';
+
+if (SELECTED_PROVIDER === 'mistral') {
+  primaryModel = 'mistral-large-latest';
+  primaryApiUrl = 'https://api.mistral.ai/v1/chat/completions';
+  primaryApiKey = process.env.MISTRAL_API_KEY || '';
+  primaryProviderName = 'mistral';
+} else if (SELECTED_PROVIDER === 'cerebras') {
+  primaryModel = process.env.CEREBRAS_MODEL || 'gemma-4-31b';
+  primaryApiUrl = 'https://api.cerebras.ai/v1/chat/completions';
+  primaryApiKey = process.env.CEREBRAS_API_KEY || '';
+  primaryProviderName = 'cerebras';
+}
+
 const CONFIG = {
   // Read from env so GitHub Actions can override via workflow_dispatch inputs
   CONCURRENCY:           Number(process.env.CONCURRENCY || 8),
@@ -45,11 +64,10 @@ const CONFIG = {
   MODULE_WORD_TARGET:    EDITION === 'street' ? '1200-2200' : '800-1200',
   MAX_MODULES:           EDITION === 'street' ? 6 : 8,
 
-  // ZAI_MODEL allows a controlled model upgrade without changing generator code.
-  PRIMARY_MODEL:         process.env.ZAI_MODEL || 'glm-5.2',
-  PRIMARY_API_URL:       'https://api.z.ai/api/paas/v4/chat/completions',
-  PRIMARY_API_KEY:       process.env.ZAI_API_KEY || '',
-  PRIMARY_PROVIDER:      'zai',
+  PRIMARY_MODEL:         primaryModel,
+  PRIMARY_API_URL:       primaryApiUrl,
+  PRIMARY_API_KEY:       primaryApiKey,
+  PRIMARY_PROVIDER:      primaryProviderName,
 
   // Keep a separate provider available if Z.ai is temporarily unavailable.
   FALLBACK_MODEL:        process.env.MISTRAL_FALLBACK_MODEL || 'mistral-small-2506',
@@ -61,7 +79,6 @@ const CONFIG = {
   CHECKPOINT_FILE:       path.resolve(__dirname, '.library-checkpoint.json'),
   SITE_URL:              process.env.SITE_URL || 'https://tanmaysk.in',
   RETRY_MAX:             5,
-  RETRY_BASE_MS:         3000,
 };
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -238,13 +255,11 @@ function pLimit(concurrency: number) {
 // ── Retry ──────────────────────────────────────────────────────────────────────
 
 async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
+  const delays = [5000, 15000, 30000, 60000, 120000];
   for (let attempt = 1; attempt <= CONFIG.RETRY_MAX; attempt++) {
     try { return await fn(); } catch (e: any) {
       if (attempt === CONFIG.RETRY_MAX) throw e;
-      const is429 = String(e?.message).includes('429') || String(e?.message).includes('rate');
-      const delay = is429
-        ? CONFIG.RETRY_BASE_MS * Math.pow(2, attempt) + Math.random() * 1000
-        : CONFIG.RETRY_BASE_MS * attempt;
+      const delay = delays[attempt - 1] || 120000;
       console.warn(`  ⚠️  ${label} retry ${attempt}/${CONFIG.RETRY_MAX} in ${Math.ceil(delay/1000)}s`);
       await sleep(delay);
     }
@@ -273,7 +288,7 @@ async function callAI(
   const apiKey  = useFallback ? CONFIG.FALLBACK_API_KEY  : CONFIG.PRIMARY_API_KEY;
   const provider = useFallback ? CONFIG.FALLBACK_PROVIDER : CONFIG.PRIMARY_PROVIDER;
 
-  if (!apiKey) throw new Error(`No API key configured for ${useFallback ? 'Mistral fallback' : 'Z.ai primary'}`);
+  if (!apiKey) throw new Error(`No API key configured for ${useFallback ? 'Mistral fallback' : CONFIG.PRIMARY_PROVIDER}`);
 
   const estTotal = estInputTokens + 1400;
   await tokenBudget.acquire(estTotal);
@@ -366,6 +381,12 @@ MISSION SPECS:
 - Create exactly ${CONFIG.MAX_MODULES} progressive modules. Each module builds on the last.
 - Each module: Savage title + a one-line "focus" + 3-5 real objectives + no two modules covering the same ground.
 - Match the energy: Titles should make 'em curious, scared, or hyped - never bored.
+
+JSON FORMATTING & ESCAPING RULES (CRITICAL):
+- Never use unescaped double quotes (") inside any JSON string values (like titles, descriptions, or objectives).
+- If you need to use quotes inside a value (e.g., 'noob'), use single quotes (').
+- Do not add any text before or after the JSON.
+- Ensure the JSON is valid.
 
 Return ONLY valid JSON, no markdown:
 {"title":"Savage Book Title in Street Style","modules":[{"title":"Module Title That Slaps Hard","description":"One line focus","objectives":["Objective 1","Objective 2","Objective 3"]}],"difficultyLevel":"${complexity}"}`;
@@ -679,7 +700,7 @@ Requirements:
 
 async function main() {
   if (!CONFIG.PRIMARY_API_KEY && !CONFIG.FALLBACK_API_KEY) {
-    throw new Error('Missing ZAI_API_KEY and MISTRAL_API_KEY');
+    throw new Error('Missing configured API keys');
   }
 
   ensureDirs();
@@ -701,7 +722,7 @@ async function main() {
   console.log(`🤖 Target books to generate this run: ${countToGenerate}`);
   console.log(`✅ Already done in library: ${completedSet.size}`);
   
-  console.log('🤖 Generating unique topic seeds via Z.ai GLM...');
+  console.log(`🤖 Generating unique topic seeds via ${CONFIG.PRIMARY_PROVIDER.toUpperCase()}...`);
   const pending = await generateSeedsViaAI(countToGenerate, existingBooks);
   
   if (pending.length === 0) {

@@ -16,6 +16,15 @@ on:
           - stellar
           - street
         default: 'stellar'
+      provider:
+        description: 'Model provider to use'
+        required: false
+        type: choice
+        options:
+          - zai
+          - mistral
+          - cerebras
+        default: 'zai'
       concurrency:
         description: 'Number of parallel workers (default: 4)'
         required: false
@@ -69,6 +78,7 @@ jobs:
           echo "📚 Pustakam Library Generator"
           echo "🕐 Started at: $(date -u '+%Y-%m-%d %H:%M UTC')"
           echo "📖 Edition: ${{ github.event.inputs.edition || 'stellar' }}"
+          echo "🤖 Provider: ${{ github.event.inputs.provider || 'zai' }}"
           echo "⚙️  Workers: ${{ github.event.inputs.concurrency || '4' }}"
           echo "📁 Output: public/library/"
           EXISTING=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
@@ -80,9 +90,11 @@ jobs:
         env:
           MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
           ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
+          CEREBRAS_API_KEY:  ${{ secrets.CEREBRAS_API_KEY }}
           ZAI_MODEL:         'glm-5.2'
           SITE_URL:          'https://tanmaysk.in'
           EDITION:           ${{ github.event.inputs.edition || 'stellar' }}
+          PROVIDER:          ${{ github.event.inputs.provider || 'zai' }}
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '4' }}
           MAX_BOOKS:         ${{ github.event.inputs.max_books || '20' }}
           # Tells the script it's running in CI — enables extra logging
