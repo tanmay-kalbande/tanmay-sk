@@ -3,9 +3,13 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "rewrites": [
+    { "source": "/library",            "destination": "/index.html" },
+    { "source": "/library/",           "destination": "/index.html" },
+    { "source": "/library/book/:slug", "destination": "/index.html" },
     {
-      "source": "/((?!api/|assets/|favicon\\.svg).*)",
+      "source": "/((?!api/|assets/|favicon\\.svg|library/).*)",
       "destination": "/index.html"
     }
   ]
 }
+
