@@ -5,4 +5,52 @@
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/understand-prompt-engineering-and-build-llm-apps-advanced</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-14</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/launch-a-startup-from-idea-to-product-intermediate</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-14</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/crack-upsc-cse-prelims-with-systematic-preparation-beginner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-14</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/learn-stock-market-investing-for-beginners-in-india-beginner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-14</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/build-a-consistent-gym-workout-routine-for-beginners-beginner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-14</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/improve-spoken-english-fluency-for-indian-speakers-beginner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-14</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/understand-data-structures-and-algorithms-for-tech-interviews-intermediate</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-14</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/learn-python-programming-from-zero-to-real-projects-beginner</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-14</lastmod>
+  </url>
 </urlset>

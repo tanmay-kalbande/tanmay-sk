@@ -1,5 +1,150 @@
 {
-  "books": [],
-  "total": 0,
-  "generatedAt": "2026-07-14T04:20:00.000Z"
+  "books": [
+    {
+      "slug": "understand-prompt-engineering-and-build-llm-apps-advanced",
+      "title": "Architecting LLM Applications: Advanced Prompt Engineering and System Design",
+      "goal": "Understand prompt engineering and build LLM apps",
+      "category": "ai",
+      "tags": [
+        "llm",
+        "prompt-engineering"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8188,
+      "moduleCount": 8,
+      "readingTimeMins": 33,
+      "metaDescription": "Architecting LLM Applications: Advanced Prompt Engineering and System Design: a advanced guide to understand prompt engineering and build llm apps with cle",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T04:52:37.141Z"
+    },
+    {
+      "slug": "launch-a-startup-from-idea-to-product-intermediate",
+      "title": "From Idea to Product: A Startup Launch Guide",
+      "goal": "Launch a startup from idea to product",
+      "category": "business",
+      "tags": [
+        "startup",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8300,
+      "moduleCount": 8,
+      "readingTimeMins": 34,
+      "metaDescription": "From Idea to Product: A Startup Launch Guide: a intermediate guide to launch a startup from idea to product with clear explanations, examples, and practice",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T04:55:21.323Z"
+    },
+    {
+      "slug": "crack-upsc-cse-prelims-with-systematic-preparation-beginner",
+      "title": "A Systematic Guide to Cracking the UPSC CSE Prelims",
+      "goal": "Crack UPSC CSE Prelims with systematic preparation",
+      "category": "exams",
+      "tags": [
+        "upsc",
+        "ias"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8357,
+      "moduleCount": 8,
+      "readingTimeMins": 34,
+      "metaDescription": "A Systematic Guide to Cracking the UPSC CSE Prelims: a beginner guide to crack upsc cse prelims with systematic preparation with clear explanations, exampl",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T04:56:24.508Z"
+    },
+    {
+      "slug": "learn-stock-market-investing-for-beginners-in-india-beginner",
+      "title": "The Foundations of Stock Market Investing in India: A Beginner's Guide",
+      "goal": "Learn stock market investing for beginners in India",
+      "category": "finance",
+      "tags": [
+        "stocks",
+        "india"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 9184,
+      "moduleCount": 8,
+      "readingTimeMins": 37,
+      "metaDescription": "The Foundations of Stock Market Investing in India: A Beginner's Guide: a beginner guide to learn stock market investing for beginners in india with clear ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T04:51:53.851Z"
+    },
+    {
+      "slug": "build-a-consistent-gym-workout-routine-for-beginners-beginner",
+      "title": "Building a Consistent Gym Routine: A Beginner's Guide",
+      "goal": "Build a consistent gym workout routine for beginners",
+      "category": "health",
+      "tags": [
+        "gym",
+        "fitness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 8747,
+      "moduleCount": 8,
+      "readingTimeMins": 35,
+      "metaDescription": "Building a Consistent Gym Routine: A Beginner's Guide: a beginner guide to build a consistent gym workout routine for beginners with clear explanations, ex",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T04:59:49.339Z"
+    },
+    {
+      "slug": "improve-spoken-english-fluency-for-indian-speakers-beginner",
+      "title": "Spoken English Fundamentals for Indian Speakers",
+      "goal": "Improve spoken English fluency for Indian speakers",
+      "category": "language",
+      "tags": [
+        "english",
+        "speaking"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 7900,
+      "moduleCount": 8,
+      "readingTimeMins": 32,
+      "metaDescription": "Spoken English Fundamentals for Indian Speakers: a beginner guide to improve spoken english fluency for indian speakers with clear explanations, examples, ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T04:56:45.195Z"
+    },
+    {
+      "slug": "understand-data-structures-and-algorithms-for-tech-interviews-intermediate",
+      "title": "A Practical Guide to Data Structures and Algorithms for Technical Interviews",
+      "goal": "Understand data structures and algorithms for tech interviews",
+      "category": "programming",
+      "tags": [
+        "dsa",
+        "algorithms"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8726,
+      "moduleCount": 8,
+      "readingTimeMins": 35,
+      "metaDescription": "A Practical Guide to Data Structures and Algorithms for Technical Interviews: a intermediate guide to understand data structures and algorithms for tech in",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T04:51:09.819Z"
+    },
+    {
+      "slug": "learn-python-programming-from-zero-to-real-projects-beginner",
+      "title": "Learn Python Programming from Zero to Real Projects",
+      "goal": "Learn Python programming from zero to real projects",
+      "category": "programming",
+      "tags": [
+        "python",
+        "coding"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 7950,
+      "moduleCount": 8,
+      "readingTimeMins": 32,
+      "metaDescription": "Learn Python Programming from Zero to Real Projects: a beginner guide to learn python programming from zero to real projects with clear explanations, examp",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T04:52:02.249Z"
+    }
+  ],
+  "total": 8,
+  "generatedAt": "2026-07-14T04:59:49.348Z"
 }
