@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { marked } from 'marked';
 import {
-  ArrowLeft, BookOpen, Clock, FileText,
-  Download, Sparkles, ExternalLink, Check
+  ArrowLeft, Clock, FileText, BookOpen,
+  Download, ExternalLink, Check
 } from 'lucide-react';
 import '../styles/library.css';
 
@@ -56,22 +56,23 @@ function exportToPdf(book: BookFile) {
 <head>
   <meta charset="UTF-8">
   <title>${book.title}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Roboto+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Georgia, serif; max-width: 720px; margin: 0 auto; padding: 40px 24px; color: #1a1a1a; line-height: 1.7; }
-    h1 { font-size: 28px; margin-bottom: 8px; }
-    .meta { color: #666; font-size: 13px; margin-bottom: 48px; }
+    body { font-family: 'Inter', Georgia, serif; max-width: 720px; margin: 0 auto; padding: 40px 24px; color: #1a1a1a; line-height: 1.7; }
+    h1 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 32px; margin-bottom: 8px; }
+    .meta { font-family: 'Roboto Mono', monospace; color: #666; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 48px; }
     .chapter { margin-bottom: 48px; page-break-inside: avoid; }
-    .ch-num { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: #7c6af7; margin-bottom: 4px; }
-    h2 { font-size: 20px; margin: 0 0 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-    h3 { font-size: 16px; }
+    .ch-num { font-family: 'Roboto Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; color: #e05a35; margin-bottom: 4px; }
+    h2 { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 22px; margin: 0 0 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    h3 { font-family: 'Roboto Mono', monospace; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; }
     p { margin: 0 0 14px; }
     ul, ol { padding-left: 20px; margin: 0 0 14px; }
     li { margin-bottom: 6px; }
-    code { background: #f5f5f5; padding: 2px 5px; border-radius: 3px; font-size: 13px; }
-    pre { background: #f5f5f5; padding: 14px; border-radius: 6px; overflow-x: auto; }
-    hr { border: none; border-top: 1px solid #eee; margin: 40px 0; }
-    blockquote { border-left: 3px solid #7c6af7; padding: 8px 16px; background: #fafafa; }
-    .footer { margin-top: 64px; text-align: center; color: #999; font-size: 12px; }
+    code { background: #f5f5f5; padding: 2px 5px; border-radius: 2px; font-size: 13px; font-family: 'Roboto Mono', monospace; }
+    pre { background: #f5f5f5; padding: 14px; border-radius: 2px; overflow-x: auto; }
+    hr { border: none; border-top: 1px dashed #ccc; margin: 40px 0; }
+    blockquote { border-left: 3px solid #e05a35; padding: 8px 16px; background: #fdf5f3; }
+    .footer { margin-top: 64px; text-align: center; font-family: 'Roboto Mono', monospace; color: #999; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
   </style>
 </head>
 <body>
@@ -99,18 +100,9 @@ export default function BookReaderPage() {
   const [activeChapter, setActiveChapter] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [copied, setCopied] = useState(false);
-  const [theme, setTheme] = useState<'light' | 'dark'>('dark');
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-app-page", "landing-v5");
-    
-    const saved = window.localStorage.getItem("theme");
-    const preferDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    const t = preferDark ? "dark" : "light";
-    setTheme(t);
-    document.documentElement.setAttribute("data-theme", t);
-
     if (!slug) return;
     setLoading(true);
     fetch(`/library/books/${slug}.json`)
@@ -128,11 +120,6 @@ export default function BookReaderPage() {
         setLoading(false);
       });
   }, [slug]);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    window.localStorage.setItem("theme", theme);
-  }, [theme]);
 
   // Track which chapter is in view
   useEffect(() => {
@@ -179,12 +166,7 @@ export default function BookReaderPage() {
   if (loading) {
     return (
       <div className="reader-root">
-        {/* Background decoration */}
-        <div className="lp-bg-wrapper">
-          <div className="lp-grain"></div>
-          <div className="lp-grid-original"></div>
-        </div>
-        <div className="lib-loading" style={{ height: '100vh', position: 'relative', zIndex: 10 }}>
+        <div className="lib-loading" style={{ height: '100vh' }}>
           <div className="lib-spinner" />
           Loading book...
         </div>
@@ -195,22 +177,14 @@ export default function BookReaderPage() {
   if (error || !book) {
     return (
       <div className="reader-root">
-        {/* Background decoration */}
-        <div className="lp-bg-wrapper">
-          <div className="lp-grain"></div>
-          <div className="lp-grid-original"></div>
-        </div>
-        <header className="lv5-nav" style={{ position: 'relative', zIndex: 10 }}>
-          <div className="lv5-nav__brand">
-            <Link to="/library" className="lv5-nav__link" style={{ padding: '0.4rem 0' }}>
-              ← LIBRARY
-            </Link>
-          </div>
-        </header>
-        <div className="lib-empty" style={{ paddingTop: 120, position: 'relative', zIndex: 10 }}>
-          <BookOpen size={40} style={{ marginBottom: 16, opacity: 0.3 }} />
+        <nav className="lib-nav">
+          <Link to="/library" className="lib-nav-back">
+            <ArrowLeft size={12} /> Library
+          </Link>
+        </nav>
+        <div className="lib-empty" style={{ paddingTop: 120 }}>
           <h3>{error || 'Book not found'}</h3>
-          <p style={{ marginTop: 8 }}>
+          <p>
             <Link to="/library" style={{ color: 'var(--accent)' }}>← Back to library</Link>
           </p>
         </div>
@@ -220,57 +194,37 @@ export default function BookReaderPage() {
 
   return (
     <div className="reader-root">
-      {/* Background decoration matching landing page */}
-      <div className="lp-bg-wrapper">
-        <div className="lp-grain"></div>
-        <div className="lp-grid-original"></div>
-        <div className="lp-orb lp-orb-a"></div>
-        <div className="lp-orb lp-orb-b"></div>
-        <div className="lp-orb lp-orb-c"></div>
-      </div>
-
       {/* Nav */}
-      <header className="lv5-nav" style={{ position: 'sticky', top: 0, backdropFilter: 'blur(8px)', background: 'rgba(14, 14, 16, 0.4)', zIndex: 100 }}>
-        <div className="lv5-nav__brand">
-          <Link to="/library" className="lv5-nav__link" style={{ padding: '0.4rem 0', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-            ← LIBRARY
-          </Link>
-        </div>
-        <nav className="lv5-nav__links">
+      <nav className="lib-nav">
+        <Link to="/library" className="lib-nav-back">
+          <ArrowLeft size={12} /> Library
+        </Link>
+        <div className="lib-nav-actions">
           <button
             className="btn-secondary"
             onClick={handleCopyLink}
-            style={{ padding: '0.4rem 0.75rem', fontSize: '0.6rem', height: 'auto', border: '1px solid var(--border)' }}
           >
-            {copied ? 'COPIED!' : 'SHARE'}
+            {copied ? <Check size={12} /> : null}
+            {copied ? 'Copied' : 'Share'}
           </button>
           <button
             className="btn-secondary"
             onClick={handlePdf}
             disabled={pdfLoading}
-            style={{ padding: '0.4rem 0.75rem', fontSize: '0.6rem', height: 'auto', border: '1px solid var(--border)', marginLeft: '0.3rem' }}
           >
-            {pdfLoading ? 'PREPARING...' : 'DOWNLOAD PDF'}
+            <Download size={12} />
+            {pdfLoading ? 'Preparing...' : 'PDF'}
           </button>
           <a
             href={generateUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="lv5-nav__cta"
-            style={{ marginLeft: '0.3rem' }}
+            className="btn-primary"
           >
-            GENERATE MY VERSION
+            Generate My Version
           </a>
-          <button
-            className="lv5-nav__theme"
-            onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}
-            aria-label="Toggle theme"
-            style={{ marginLeft: '0.5rem' }}
-          >
-            {theme === "dark" ? "☀" : "☾"}
-          </button>
-        </nav>
-      </header>
+        </div>
+      </nav>
 
       {/* Layout */}
       <div className="reader-layout">
@@ -304,14 +258,14 @@ export default function BookReaderPage() {
             <p className="reader-goal">{book.goal}</p>
 
             <div className="reader-stats">
-              <span className="reader-stat"><Clock size={13} /> {book.readingTimeMins} min read</span>
-              <span className="reader-stat"><FileText size={13} /> {book.moduleCount} chapters</span>
-              <span className="reader-stat"><BookOpen size={13} /> {book.wordCount.toLocaleString()} words</span>
+              <span className="reader-stat"><Clock size={12} /> {book.readingTimeMins} min read</span>
+              <span className="reader-stat"><FileText size={12} /> {book.moduleCount} chapters</span>
+              <span className="reader-stat"><BookOpen size={12} /> {book.wordCount.toLocaleString()} words</span>
             </div>
 
             <div className="reader-action-row">
               <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading}>
-                <Download size={14} />
+                <Download size={13} />
                 {pdfLoading ? 'Preparing PDF...' : 'Download PDF'}
               </button>
               <a
@@ -320,9 +274,8 @@ export default function BookReaderPage() {
                 rel="noopener noreferrer"
                 className="btn-primary"
               >
-                <Sparkles size={14} />
                 Generate My Own Version
-                <ExternalLink size={12} />
+                <ExternalLink size={11} />
               </a>
             </div>
           </div>
@@ -357,7 +310,6 @@ export default function BookReaderPage() {
                 rel="noopener noreferrer"
                 className="btn-primary"
               >
-                <Sparkles size={14} />
                 Generate on Pustakam
               </a>
               <Link to="/library" className="btn-secondary">
