@@ -50,7 +50,7 @@ const CONFIG = {
 
   OUTPUT_DIR:            path.resolve(__dirname, '../public/library'),
   CHECKPOINT_FILE:       path.resolve(__dirname, '.library-checkpoint.json'),
-  SITE_URL:              process.env.SITE_URL || 'https://pustakam.app',
+  SITE_URL:              process.env.SITE_URL || 'https://tanmaysk.in',
   RETRY_MAX:             5,
   RETRY_BASE_MS:         3000,
 };
