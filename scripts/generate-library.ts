@@ -43,7 +43,7 @@ const CONFIG = {
   MAX_MODULES:           8,
 
   // Primary model — Mistral Small (cheapest, fastest, 1B tokens free)
-  PRIMARY_MODEL:         'mistral-small-latest',
+  PRIMARY_MODEL:         'mistral-small-2506',
   PRIMARY_API_URL:       'https://api.mistral.ai/v1/chat/completions',
   PRIMARY_API_KEY:       process.env.MISTRAL_API_KEY || '',
 
