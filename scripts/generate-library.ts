@@ -40,18 +40,20 @@ const EDITION = (process.env.EDITION || 'stellar') as 'stellar' | 'street' | 'de
 
 const SELECTED_PROVIDER = process.env.PROVIDER || 'zai';
 
-let primaryModel = process.env.ZAI_MODEL || 'glm-5.2';
+const SELECTED_MODEL = process.env.MODEL || process.env.MODEL_NAME || '';
+
+let primaryModel = SELECTED_MODEL || process.env.ZAI_MODEL || 'glm-5.2';
 let primaryApiUrl = 'https://api.z.ai/api/paas/v4/chat/completions';
 let primaryApiKey = process.env.ZAI_API_KEY || '';
 let primaryProviderName = 'zai';
 
 if (SELECTED_PROVIDER === 'mistral') {
-  primaryModel = 'mistral-large-latest';
+  primaryModel = SELECTED_MODEL || process.env.MISTRAL_MODEL || 'mistral-large-latest';
   primaryApiUrl = 'https://api.mistral.ai/v1/chat/completions';
   primaryApiKey = process.env.MISTRAL_API_KEY || '';
   primaryProviderName = 'mistral';
 } else if (SELECTED_PROVIDER === 'cerebras') {
-  primaryModel = process.env.CEREBRAS_MODEL || 'gemma-4-31b';
+  primaryModel = SELECTED_MODEL || process.env.CEREBRAS_MODEL || 'gemma-4-31b';
   primaryApiUrl = 'https://api.cerebras.ai/v1/chat/completions';
   primaryApiKey = process.env.CEREBRAS_API_KEY || '';
   primaryProviderName = 'cerebras';
