@@ -1,1 +1,406 @@
-{"books":[],"total":0,"generatedAt":""}
+{
+  "books": [
+    {
+      "slug": "street-develop-a-crisis-management-framework-for-supply-chain-disruptions-interm",
+      "title": "Chaos-Proof: The Supply Chain Survival Playbook",
+      "goal": "Develop a crisis management framework for supply chain disruptions",
+      "category": "business",
+      "tags": [
+        "supply-chain",
+        "risk-management",
+        "logistics"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 30363,
+      "moduleCount": 10,
+      "readingTimeMins": 122,
+      "metaDescription": "Chaos-Proof: The Supply Chain Survival Playbook: a intermediate guide to develop a crisis management framework for supply chain disruptions with clear expl",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:02:49.023Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-develop-a-localized-circular-economy-business-model-from-waste-streams-ad",
+      "title": "From Garbage to Goldmine: The Circular Economy Warpath",
+      "goal": "Develop a localized circular economy business model from waste streams",
+      "category": "business",
+      "tags": [
+        "circular-economy",
+        "sustainability",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 28775,
+      "moduleCount": 10,
+      "readingTimeMins": 116,
+      "metaDescription": "From Garbage to Goldmine: The Circular Economy Warpath: a advanced guide to develop a localized circular economy business model from waste streams with cle",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T17:12:19.569Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-develop-crosscultural-negotiation-strategies-for-international-business-e",
+      "title": "The Global Hustler's Playbook: Cross-Cultural Negotiation Warfare",
+      "goal": "Develop cross-cultural negotiation strategies for international business expansion",
+      "category": "career",
+      "tags": [
+        "negotiation",
+        "cross-cultural",
+        "leadership"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 33442,
+      "moduleCount": 10,
+      "readingTimeMins": 134,
+      "metaDescription": "The Global Hustler's Playbook: Cross-Cultural Negotiation Warfare: a advanced guide to develop cross-cultural negotiation strategies for international busi",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T20:12:19.584Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-the-art-of-brand-storytelling-through-transmedia-narratives-beginn",
+      "title": "The Transmedia Hustle: Building Brands That Own the Block",
+      "goal": "Master the art of brand storytelling through transmedia narratives",
+      "category": "career",
+      "tags": [
+        "marketing",
+        "storytelling",
+        "branding"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26782,
+      "moduleCount": 8,
+      "readingTimeMins": 108,
+      "metaDescription": "The Transmedia Hustle: Building Brands That Own the Block: a beginner guide to master the art of brand storytelling through transmedia narratives with clea",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T18:22:22.826Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-to-write-and-execute-algorithmic-spatial-generative-art-using-p5js",
+      "title": "Code That Bleeds: The p5.js Generative Art Warpath",
+      "goal": "Learn to write and execute algorithmic spatial generative art using p5.js",
+      "category": "design",
+      "tags": [
+        "generative-art",
+        "creative-coding",
+        "p5js"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 36618,
+      "moduleCount": 12,
+      "readingTimeMins": 147,
+      "metaDescription": "Code That Bleeds: The p5.js Generative Art Warpath: a intermediate guide to learn to write and execute algorithmic spatial generative art using p5.js with ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:42:05.127Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-principles-of-biomimicry-in-architectural-design-beginner",
+      "title": "The Concrete Jungle is Dead: Stealing Nature's Blueprint",
+      "goal": "Understand the principles of biomimicry in architectural design",
+      "category": "design",
+      "tags": [
+        "architecture",
+        "biology",
+        "sustainable-design"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25463,
+      "moduleCount": 8,
+      "readingTimeMins": 102,
+      "metaDescription": "The Concrete Jungle is Dead: Stealing Nature's Blueprint: a beginner guide to understand the principles of biomimicry in architectural design with clear ex",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T16:22:09.026Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-design-accessible-user-interfaces-using-neurodivergentfriendly-ux-princip",
+      "title": "The Neuro-Hacker Blueprint: Designing UIs That Don't Melt Minds",
+      "goal": "Design accessible user interfaces using neurodivergent-friendly UX principles",
+      "category": "design",
+      "tags": [
+        "ux",
+        "accessibility",
+        "neurodiversity"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 25486,
+      "moduleCount": 8,
+      "readingTimeMins": 102,
+      "metaDescription": "The Neuro-Hacker Blueprint: Designing UIs That Don't Melt Minds: a intermediate guide to design accessible user interfaces using neurodivergent-friendly ux",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T18:10:18.434Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-the-fundamentals-of-acoustic-ecology-and-soundscape-composition-beg",
+      "title": "The Sound Hustler's Bible: From Deaf to Dangerous in Acoustic Ecology",
+      "goal": "Learn the fundamentals of acoustic ecology and soundscape composition",
+      "category": "design",
+      "tags": [
+        "sound-design",
+        "ecology",
+        "audio"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 32101,
+      "moduleCount": 10,
+      "readingTimeMins": 129,
+      "metaDescription": "The Sound Hustler's Bible: From Deaf to Dangerous in Acoustic Ecology: a beginner guide to learn the fundamentals of acoustic ecology and soundscape compos",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T20:26:53.559Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-analyze-the-socioeconomic-impacts-of-universal-basic-income-ubi-models-in",
+      "title": "The UBI Hustle: Blood, Math, and Free Money",
+      "goal": "Analyze the socio-economic impacts of universal basic income (UBI) models",
+      "category": "finance",
+      "tags": [
+        "economics",
+        "public-policy",
+        "social-impact"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 30162,
+      "moduleCount": 9,
+      "readingTimeMins": 121,
+      "metaDescription": "The UBI Hustle: Blood, Math, and Free Money: a intermediate guide to analyze the socio-economic impacts of universal basic income (ubi) models with clear e",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:16:22.725Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-mechanics-of-volatility-arbitrage-in-options-trading-advan",
+      "title": "The Volatility Arbitrage War Room: Bleeding Edge to Bankroll",
+      "goal": "Understand the mechanics of volatility arbitrage in options trading",
+      "category": "finance",
+      "tags": [
+        "derivatives",
+        "trading",
+        "quantitative-finance"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 35433,
+      "moduleCount": 12,
+      "readingTimeMins": 142,
+      "metaDescription": "The Volatility Arbitrage War Room: Bleeding Edge to Bankroll: a advanced guide to understand the mechanics of volatility arbitrage in options trading with ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T17:41:01.353Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-analyze-the-impact-of-circadian-rhythm-disruption-on-metabolic-health-int",
+      "title": "Broken Clocks, Broken Bodies: The Circadian-Metabolism War",
+      "goal": "Analyze the impact of circadian rhythm disruption on metabolic health",
+      "category": "health",
+      "tags": [
+        "chronobiology",
+        "metabolism",
+        "sleep-science"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 27527,
+      "moduleCount": 9,
+      "readingTimeMins": 111,
+      "metaDescription": "Broken Clocks, Broken Bodies: The Circadian-Metabolism War: a intermediate guide to analyze the impact of circadian rhythm disruption on metabolic health w",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T16:57:35.759Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-to-optimize-gut-microbiome-diversity-through-targeted-prebiotic-die",
+      "title": "Gut Warfare: The Prebiotic Blueprint",
+      "goal": "Learn to optimize gut microbiome diversity through targeted prebiotic diets",
+      "category": "health",
+      "tags": [
+        "nutrition",
+        "microbiome",
+        "gut-health"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 29539,
+      "moduleCount": 10,
+      "readingTimeMins": 119,
+      "metaDescription": "Gut Warfare: The Prebiotic Blueprint: a beginner guide to learn to optimize gut microbiome diversity through targeted prebiotic diets with clear explanatio",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T18:48:36.675Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-syntax-and-grammar-of-international-sign-language-isl-begi",
+      "title": "Hands That Hit Hard: The ISL Grammar Warpath",
+      "goal": "Understand the syntax and grammar of international sign language (ISL)",
+      "category": "languages",
+      "tags": [
+        "sign-language",
+        "communication",
+        "deaf-culture"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 36476,
+      "moduleCount": 12,
+      "readingTimeMins": 146,
+      "metaDescription": "Hands That Hit Hard: The ISL Grammar Warpath: a beginner guide to understand the syntax and grammar of international sign language (isl) with clear explana",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T20:43:42.394Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-explore-the-phonetic-evolution-of-constructed-languages-conlangs-in-media",
+      "title": "The Conlang Trenches: Bleeding for Fake Phonetics",
+      "goal": "Explore the phonetic evolution of constructed languages (conlangs) in media",
+      "category": "languages",
+      "tags": [
+        "linguistics",
+        "conlangs",
+        "phonetics"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21602,
+      "moduleCount": 7,
+      "readingTimeMins": 87,
+      "metaDescription": "The Conlang Trenches: Bleeding for Fake Phonetics: a intermediate guide to explore the phonetic evolution of constructed languages (conlangs) in media with",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T17:23:44.657Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-to-build-and-deploy-decentralized-autonomous-organizations-daos-on",
+      "title": "DAO or Die: The Savage Blueprint to On-Chain Empires",
+      "goal": "Learn to build and deploy decentralized autonomous organizations (DAOs) on Ethereum",
+      "category": "programming",
+      "tags": [
+        "blockchain",
+        "web3",
+        "solidity"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 38981,
+      "moduleCount": 12,
+      "readingTimeMins": 156,
+      "metaDescription": "DAO or Die: The Savage Blueprint to On-Chain Empires: a advanced guide to learn to build and deploy decentralized autonomous organizations (daos) on ethere",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T16:44:12.625Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-application-of-quantum-computing-in-cryptographic-security",
+      "title": "Quantum Crypto Warfare: From Dead Algorithms to Unbreakable Shields",
+      "goal": "Understand the application of quantum computing in cryptographic security",
+      "category": "programming",
+      "tags": [
+        "quantum-computing",
+        "cryptography",
+        "cybersecurity"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 27675,
+      "moduleCount": 10,
+      "readingTimeMins": 111,
+      "metaDescription": "Quantum Crypto Warfare: From Dead Algorithms to Unbreakable Shields: a advanced guide to understand the application of quantum computing in cryptographic s",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T18:35:05.015Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-neurochemistry-of-habit-formation-and-behavioral-loops-beg",
+      "title": "Brain Hackers: Rewiring Your Wetware for Savage Habits",
+      "goal": "Understand the neurochemistry of habit formation and behavioral loops",
+      "category": "science",
+      "tags": [
+        "neuroscience",
+        "psychology",
+        "behavior"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22600,
+      "moduleCount": 7,
+      "readingTimeMins": 91,
+      "metaDescription": "Brain Hackers: Rewiring Your Wetware for Savage Habits: a beginner guide to understand the neurochemistry of habit formation and behavioral loops with clea",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:26:41.623Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-the-use-of-satellite-imagery-and-gis-for-environmental-conservatio",
+      "title": "Eyes in the Sky, Boots on the Ground: The Savage Roadmap to Conservation Tech Dominance",
+      "goal": "Master the use of satellite imagery and GIS for environmental conservation tracking",
+      "category": "science",
+      "tags": [
+        "gis",
+        "remote-sensing",
+        "conservation"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 34222,
+      "moduleCount": 12,
+      "readingTimeMins": 137,
+      "metaDescription": "Eyes in the Sky, Boots on the Ground: The Savage Roadmap to Conservation Tech Dominance: a advanced guide to master the use of satellite imagery and gis fo",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:57:55.558Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-the-basics-of-myceliumbased-packaging-material-cultivation-beginner",
+      "title": "Grow Your Own Armor: The Mycelium Hustle From Scratch",
+      "goal": "Learn the basics of mycelium-based packaging material cultivation",
+      "category": "science",
+      "tags": [
+        "mycology",
+        "materials-science",
+        "ecology"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 32170,
+      "moduleCount": 10,
+      "readingTimeMins": 129,
+      "metaDescription": "Grow Your Own Armor: The Mycelium Hustle From Scratch: a beginner guide to learn the basics of mycelium-based packaging material cultivation with clear exp",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T17:56:54.457Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-the-fundamentals-of-cellular-agriculture-and-labgrown-meat-product",
+      "title": "The Flesh Forge: Zero-to-Savage Cellular Ag War Bible",
+      "goal": "Master the fundamentals of cellular agriculture and lab-grown meat production",
+      "category": "science",
+      "tags": [
+        "biotechnology",
+        "food-science",
+        "sustainability"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 31537,
+      "moduleCount": 10,
+      "readingTimeMins": 127,
+      "metaDescription": "The Flesh Forge: Zero-to-Savage Cellular Ag War Bible: a intermediate guide to master the fundamentals of cellular agriculture and lab-grown meat productio",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T16:08:57.318Z",
+      "edition": "street"
+    }
+  ],
+  "total": 20,
+  "generatedAt": "2026-07-15T20:43:42.448Z"
+}
