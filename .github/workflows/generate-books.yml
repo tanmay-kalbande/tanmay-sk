@@ -33,11 +33,15 @@ on:
         options:
           - glm-5.2
           - glm-5.1
-          - glm-4-flash
+          - glm-5
+          - GLM-4.7-FlashX
           - mistral-large-latest
+          - mistral-medium-latest
+          - mistral-small-latest
           - mistral-small-2506
           - gemma-4-31b
-          - llama-3.3-70b
+          - gpt-oss-120b
+          - zai-glm-4.7
         default: 'glm-5.2'
       concurrency:
         description: '⚡ Processing Channels (Default: 1 for maximum stability)'
