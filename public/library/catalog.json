@@ -315,6 +315,26 @@
       "edition": "street"
     },
     {
+      "slug": "learn-to-identify-forage-and-prepare-wild-edible-plants-safely-in-urban-environm",
+      "title": "The Concrete Pantry: How to Safely Forage and Feast on Urban Wild Edibles",
+      "goal": "Learn to identify, forage, and prepare wild edible plants safely in urban environments",
+      "category": "health",
+      "tags": [
+        "foraging",
+        "survival",
+        "nutrition"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 9945,
+      "moduleCount": 8,
+      "readingTimeMins": 40,
+      "metaDescription": "The Concrete Pantry: How to Safely Forage and Feast on Urban Wild Edibles: a beginner guide to learn to identify, forage, and prepare wild edible plants sa",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T01:47:40.741Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "improve-spoken-english-fluency-for-indian-speakers-beginner",
       "title": "Spoken English Fundamentals for Indian Speakers",
       "goal": "Improve spoken English fluency for Indian speakers",
@@ -490,6 +510,6 @@
       "edition": "street"
     }
   ],
-  "total": 25,
-  "generatedAt": "2026-07-15T00:08:25.085Z"
+  "total": 26,
+  "generatedAt": "2026-07-15T01:52:54.374Z"
 }
