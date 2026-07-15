@@ -58,6 +58,25 @@
       "edition": "street"
     },
     {
+      "slug": "master-the-art-of-psychological-negotiation-and-highstakes-persuasion-intermedia",
+      "title": "The Invisible Lever: Mastering the Hidden Psychology of High-Stakes Agreement",
+      "goal": "Master the art of psychological negotiation and high-stakes persuasion",
+      "category": "business",
+      "tags": [
+        "negotiation",
+        "psychology"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 9378,
+      "moduleCount": 8,
+      "readingTimeMins": 38,
+      "metaDescription": "The Invisible Lever: Mastering the Hidden Psychology of High-Stakes Agreement: a intermediate guide to master the art of psychological negotiation and high",
+      "modelUsed": "gemma-4-31b",
+      "generatedAt": "2026-07-15T04:48:31.928Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-establish-a-nonlinear-career-pivot-strategy-to-transition-into-emerging-t",
       "title": "The Pivot Playbook: How to Crash the Emerging Tech Party",
       "goal": "Establish a non-linear career pivot strategy to transition into emerging tech sectors",
@@ -430,6 +449,25 @@
       "edition": "stellar"
     },
     {
+      "slug": "build-a-custom-operating-system-kernel-from-scratch-in-rust-advanced",
+      "title": "Building a Kernel in Rust: From Bare Metal to a Bootable OS",
+      "goal": "Build a custom operating system kernel from scratch in Rust",
+      "category": "programming",
+      "tags": [
+        "rust",
+        "os-dev"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 6835,
+      "moduleCount": 8,
+      "readingTimeMins": 28,
+      "metaDescription": "Building a Kernel in Rust: From Bare Metal to a Bootable OS: a advanced guide to build a custom operating system kernel from scratch in rust with clear exp",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-15T05:17:05.943Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "learn-python-programming-from-zero-to-real-projects-beginner",
       "title": "Learn Python Programming from Zero to Real Projects",
       "goal": "Learn Python programming from zero to real projects",
@@ -549,6 +587,25 @@
       "edition": "street"
     },
     {
+      "slug": "design-and-implement-a-zeroknowledge-proof-system-for-private-data-verification",
+      "title": "Zero-Knowledge Proofs: Building Private Verification Systems from Scratch",
+      "goal": "Design and implement a zero-knowledge proof system for private data verification",
+      "category": "programming",
+      "tags": [
+        "cryptography",
+        "zk-proofs"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 6915,
+      "moduleCount": 8,
+      "readingTimeMins": 28,
+      "metaDescription": "Zero-Knowledge Proofs: Building Private Verification Systems from Scratch: a advanced guide to design and implement a zero-knowledge proof system for priva",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-15T05:33:03.413Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-learn-to-build-an-offgrid-solar-power-system-for-a-small-cabin-or-rv-inte",
       "title": "Sun Hustle: The Off-Grid Solar Warpath",
       "goal": "Learn to build an off-grid solar power system for a small cabin or RV",
@@ -590,6 +647,6 @@
       "edition": "street"
     }
   ],
-  "total": 30,
-  "generatedAt": "2026-07-15T03:43:04.040Z"
+  "total": 33,
+  "generatedAt": "2026-07-15T05:51:54.784Z"
 }
