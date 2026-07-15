@@ -1,23 +1,24 @@
-name: 📚 Generate Library Books
+name: 🌌 Quantum Archives Synthesizer
 
 on:
-  # ── Automatic: runs every 5 hours ──────────────────────────────────────────
+  # ── Automatic Orbital Cycles: runs every 5 hours ────────────────────────────
   schedule:
     - cron: '0 */5 * * *'
 
-  # ── Manual: trigger from GitHub UI anytime ────────────────────────────────
+  # ── Manual Transmission: Trigger from GitHub Console ───────────────────────
   workflow_dispatch:
     inputs:
       edition:
-        description: 'Book edition style'
+        description: '🔮 Select Codex Dimension (Edition Persona)'
         required: false
         type: choice
         options:
           - stellar
           - street
+          - desi
         default: 'stellar'
       provider:
-        description: 'Model provider to use'
+        description: '🧠 Select Neural Engine Core (AI Provider)'
         required: false
         type: choice
         options:
@@ -26,67 +27,66 @@ on:
           - cerebras
         default: 'zai'
       concurrency:
-        description: 'Number of parallel workers (default: 4)'
+        description: '⚡ Processing Channels (Default: 1 for maximum stability)'
         required: false
-        default: '4'
+        default: '1'
       max_books:
-        description: 'Max books to generate this run (0 = all pending)'
+        description: '📖 Codices to Synthesize (0 = All Unmapped Dimensions)'
         required: false
         default: '0'
 
-# ── Only one run at a time — cancel any queued run if a new one starts ───────
+# ── Orbital Lock: Ensures zero matrix collision during synthesis ───────────
 concurrency:
-  group: library-generation
-  cancel-in-progress: false   # don't cancel mid-run, queue instead
+  group: quantum-library-synthesis
+  cancel-in-progress: false
 
-# ── Grant permission to push commits back to the repo ────────────────────────
+# ── Repository Write Access for Transmission Checkpoint ───────────────────────
 permissions:
   contents: write
 
 jobs:
-  generate:
-    name: Generate books
+  synthesize:
+    name: 🛸 Synthesize Cyber-Codices
     runs-on: ubuntu-latest
-    timeout-minutes: 340      # 5h 40min — stays under GitHub's 6h limit
+    timeout-minutes: 340      # 5h 40min transmission window
 
     steps:
-      # ── 1. Checkout ─────────────────────────────────────────────────────────
-      - name: Checkout repo
+      # ── 1. Orbital Intercept ────────────────────────────────────────────────
+      - name: 🛰️ Accessing Primary Vault
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # fetch-depth 0 gets full history so we can push back
           fetch-depth: 0
 
-      # ── 2. Node setup ───────────────────────────────────────────────────────
-      - name: Setup Node.js
+      # ── 2. Initialize Core Matrix Runtime ──────────────────────────────────
+      - name: 🔮 Calibrating Node Engine Environment
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # ── 3. Install only what the script needs ───────────────────────────────
-      - name: Install dependencies
+      # ── 3. Warp Dependencies ────────────────────────────────────────────────
+      - name: ⚡ Mounting Sub-system Modules
         run: |
           npm install --no-save tsx @types/node
-          echo "✅ Dependencies installed"
+          echo "✨ Quantum Runtime Active"
 
-      # ── 4. Show what we're about to generate ───────────────────────────────
-      - name: Pre-run summary
+      # ── 4. Telemetry Briefing ────────────────────────────────────────────────
+      - name: 📊 Telemetry Pre-Synthesis Telepathy
         run: |
-          echo "──────────────────────────────────────────"
-          echo "📚 Pustakam Library Generator"
-          echo "🕐 Started at: $(date -u '+%Y-%m-%d %H:%M UTC')"
-          echo "📖 Edition: ${{ github.event.inputs.edition || 'stellar' }}"
-          echo "🤖 Provider: ${{ github.event.inputs.provider || 'zai' }}"
-          echo "⚙️  Workers: ${{ github.event.inputs.concurrency || '4' }}"
-          echo "📁 Output: public/library/"
+          echo "🪐 ──────────────────────────────────────────"
+          echo "🌌 Pustakam Universal Generator (V5 Core)"
+          echo "🕐 Telemetry Timestamp: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          echo "📖 Codex Dimension: ${{ github.event.inputs.edition || 'stellar' }}"
+          echo "🤖 Neural Core Engine: ${{ github.event.inputs.provider || 'zai' }}"
+          echo "⚡ Active Channels: ${{ github.event.inputs.concurrency || '1' }}"
+          echo "📁 Target Vault Path: public/library/"
           EXISTING=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
-          echo "📖 Books already generated: $EXISTING"
-          echo "──────────────────────────────────────────"
+          echo "📖 Existing Codices in Vault: $EXISTING"
+          echo "🪐 ──────────────────────────────────────────"
 
-      # ── 5. Run the generator ────────────────────────────────────────────────
-      - name: Generate books
+      # ── 5. Initiate Cosmic Book Synthesis ──────────────────────────────────
+      - name: 🚀 Executing Neural Synthesis Pipeline
         env:
           MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
           ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
@@ -95,52 +95,46 @@ jobs:
           SITE_URL:          'https://tanmaysk.in'
           EDITION:           ${{ github.event.inputs.edition || 'stellar' }}
           PROVIDER:          ${{ github.event.inputs.provider || 'zai' }}
-          CONCURRENCY:       ${{ github.event.inputs.concurrency || '4' }}
-          MAX_BOOKS:         ${{ github.event.inputs.max_books || '20' }}
-          # Tells the script it's running in CI — enables extra logging
+          CONCURRENCY:       ${{ github.event.inputs.concurrency || '1' }}
+          MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
           CI:                'true'
         run: |
           npx tsx scripts/generate-library.ts
 
-      # ── 6. Show what was generated this run ────────────────────────────────
-      - name: Post-run summary
+      # ── 6. Transmission Debrief ──────────────────────────────────────────────
+      - name: 📈 Post-Synthesis Transmission Audit
         run: |
           TOTAL=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
           SITEMAP_URLS=$(grep -c '<url>' public/library/sitemap.xml 2>/dev/null || echo "0")
           CATALOG_SIZE=$(wc -c < public/library/catalog.json 2>/dev/null || echo "0")
-          echo "──────────────────────────────────────────"
-          echo "✅ Run complete"
-          echo "📖 Total books now: $TOTAL"
-          echo "🗺️  Sitemap URLs: $SITEMAP_URLS"
-          echo "📑 catalog.json size: ${CATALOG_SIZE} bytes"
-          echo "──────────────────────────────────────────"
+          echo "🪐 ──────────────────────────────────────────"
+          echo "✅ Quantum Synthesis Complete"
+          echo "📖 Total Codices in Vault: $TOTAL"
+          echo "🗺️  Navigation Vectors Indexed: $SITEMAP_URLS"
+          echo "📑 Index Matrix Size: ${CATALOG_SIZE} Bytes"
+          echo "🪐 ──────────────────────────────────────────"
 
-      # ── 7. Commit generated files back to repo ─────────────────────────────
-      - name: Commit and push generated books
+      # ── 7. Transmit to Galactic Memory (Git Commit & Push) ─────────────────
+      - name: 📡 Transmitting Codices to Global CDN Core
         run: |
-          git config user.name  "Pustakam Library Bot"
-          git config user.email "library-bot@pustakam.app"
+          git config user.name  "Pustakam Quantum Bot"
+          git config user.email "quantum-bot@pustakam.app"
 
           git add public/library/
 
-          # Only commit if there are actual changes
           if git diff --staged --quiet; then
-            echo "ℹ️  No new books generated — nothing to commit"
+            echo "ℹ️  Zero state change detected — matrix fully updated"
           else
             BOOK_COUNT=$(git diff --staged --name-only | grep "books/" | wc -l)
-            git commit -m "📚 Library update: +${BOOK_COUNT} books ($(date -u '+%Y-%m-%d'))"
+            git commit -m "🌌 Quantum Codex Transmission: +${BOOK_COUNT} codices ($(date -u '+%Y-%m-%d'))"
             git push
-            echo "✅ Pushed ${BOOK_COUNT} new books to repo"
-            echo "🚀 Vercel will auto-deploy in ~2 minutes"
+            echo "✅ Successfully transmitted ${BOOK_COUNT} new codices to main memory"
+            echo "🚀 Deployment node active across Vercel edge CDN"
           fi
 
-      # ── 8. Notify on failure (optional — needs SLACK_WEBHOOK secret) ───────
-      - name: Notify on failure
+      # ── 8. Emergency Signal on Disruptions ───────────────────────────────────
+      - name: 🚨 Anomaly Diagnostics
         if: failure()
         run: |
-          echo "❌ Generation job failed or timed out"
-          echo "ℹ️  Checkpoint is saved — next run will resume from where this stopped"
-          # If you add SLACK_WEBHOOK secret, uncomment this:
-          # curl -X POST "${{ secrets.SLACK_WEBHOOK }}" \
-          #   -H 'Content-type: application/json' \
-          #   --data '{"text":"⚠️ Pustakam library generation failed. Will retry next Sunday."}'
+          echo "⚠️ Transmission Interrupted: Diagnostics log captured in checkpoint memory"
+          echo "🔁 Automatic orbital resume will ignite on next scheduled cycle"

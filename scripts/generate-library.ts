@@ -36,7 +36,7 @@ const __dirname = path.dirname(__filename);
 
 // ── Config ─────────────────────────────────────────────────────────────────────
 
-const EDITION = (process.env.EDITION || 'stellar') as 'stellar' | 'street';
+const EDITION = (process.env.EDITION || 'stellar') as 'stellar' | 'street' | 'desi';
 
 const SELECTED_PROVIDER = process.env.PROVIDER || 'zai';
 
@@ -107,7 +107,7 @@ interface BookMeta {
   modelUsed: string;
   generatedAt: string;
   complexity: string;
-  edition: 'stellar' | 'street';
+  edition: 'stellar' | 'street' | 'desi';
 }
 
 interface BookFile extends BookMeta {
@@ -360,6 +360,33 @@ VISUAL ENGAGEMENT RULES (follow these strictly):
 function buildRoadmapPrompt(seed: TopicSeed): string {
   const complexity = seed.complexity || 'beginner';
 
+  if (EDITION === 'desi') {
+    return `Abey sun, hum ek desi blackhole roadmap bana rahe hain for: "${seed.goal}". No bakwaas. Pure street-smart action plan.
+
+PERSONA:
+You're a street-smart Mumbai/Pune bhai - zero filter, full energy, pure tough love. You've been through the grind, now giving a reality check to a newbie. Use casual Hinglish with words like "Bhai", "Boss", "Guru", "Scene", "Fundoo", "Chamka kya".
+
+LANGUAGE: Hinglish (Hindi + English mixed seamlessly, like urban Indian tech-bros talk).
+
+STYLE WARFARE:
+- Headings: Super catchy, punchy, full of attitude.
+- Objectives: Crisp, crystal clear, zero fluff.
+
+CONTEXT:
+- Target Audience: ${complexity} learners who need real talk
+- Category: ${seed.category}
+
+MISSION SPECS:
+- Break the topic into 6 to 14 modules.
+- Each module: Savage Hinglish title + one-line focus + 3-5 objectives.
+
+JSON FORMATTING & ESCAPING RULES (CRITICAL):
+- Never use unescaped double quotes (") inside JSON string values.
+- Use single quotes (') inside values if needed.
+- Return ONLY valid JSON:
+{"title":"Desi Book Title in Hinglish Style","modules":[{"title":"Module Title in Tapori Style","description":"One line focus","objectives":["Objective 1","Objective 2","Objective 3"]}],"difficultyLevel":"${complexity}"}`;
+  }
+
   if (EDITION === 'street') {
     return `Boss, we're building a blackhole roadmap for: "${seed.goal}". No hand-holding. No shortcuts. Just raw strategy.
 
@@ -436,6 +463,50 @@ function buildModulePrompt(
   const continuity = previousModules.length > 0
     ? `This is chapter ${index + 1}. The reader has already completed ${previousModules.length} chapter(s). Continue from where they left off.${coveredBlock}`
     : 'This is the first chapter. Establish only the foundations needed for later chapters.';
+
+  if (EDITION === 'desi') {
+    const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
+      ? 'Include a small, correct code or worked technical example when it helps.'
+      : 'Include a concrete, realistic scenario when it helps.';
+
+    return `Bhai, Chapter ${index + 1} of ${total} shuru kar: "${mod.title}". Full power!
+
+PERSONA:
+You're a street-smart Mumbai/Pune bhai - full attitude, tough love, high energy. Write like a mentor talking over chai at a cutting tapri. Use words like "Bhai", "Boss", "Guru", "Scene", "Fundoo", "Chamka kya", "Pakka", "Maska".
+
+LANGUAGE: Hinglish (Hindi + English mix). Keep swearing clean and minimal (max 10-20% for emphasis).
+
+STYLE WARFARE:
+- Direct opener: Start directly with a hook or relatable Indian scenario (local train delay, cutting chai, late night coding, startup hustle).
+- Rhetorical questions: "Samjha kya?", "Ab aage kya?", "Fundoo hai na?"
+- ${exampleInstruction}
+- High energy: Explain tough concepts using everyday desi analogies.
+
+CONTEXT:
+- Topic: ${seed.goal}
+- Chapter ${index + 1}/${total}: "${mod.title}"
+- Focus: ${mod.description}
+- Objectives: ${mod.objectives.join('; ')}
+
+Full learning path:
+${outline}
+
+${continuity}
+
+${VISUAL_INSTRUCTIONS}
+
+LAYOUT:
+(Do NOT repeat chapter title as heading)
+## Asli Funda (Core Concepts)
+## Practical Scene (Real-world Usage)
+
+DO NOT:
+- Repeat concepts already introduced (see ALREADY INTRODUCED)
+- Include mermaid diagrams
+- Include quiz sections
+
+Write ${CONFIG.MODULE_WORD_TARGET} words in Hinglish. Markdown strict. Tone: High-energy, Mentoring, Desi Street-Smart.`;
+  }
 
   if (EDITION === 'street') {
     const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
@@ -633,7 +704,7 @@ CATEGORY: ${seed.category}
 
 Write 800-1200 words covering: welcome and purpose, what readers will learn, book structure, motivation. Use ### markdown headers for internal sections (this is already wrapped in its own "## Introduction" heading, so don't title any of your own sections "Introduction" - start with something like "### Welcome and Purpose" instead).
 
-${EDITION === 'street' ? 'TONE: Raw, street-smart, motivational — same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, conversational, mentor-like.'}`;
+${EDITION === 'desi' ? 'TONE: Hinglish, street-smart bhai style, motivational — same persona as the rest of the book.' : EDITION === 'street' ? 'TONE: Raw, street-smart, motivational — same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, conversational, mentor-like.'}`;
 
   const result = await withRetry(
     () => callWriter(prompt, 800, 'assemble'),
@@ -657,7 +728,7 @@ ${modules.map(m => `- ${m.title}`).join('\n')}
 
 Write 600-900 words covering: key learning outcomes, important concepts recap, next steps, congratulations. Use ### markdown headers for internal sections (this is already wrapped in its own "## Summary" heading, so don't title any of your own sections "Summary" - start with something like "### Key Learning Outcomes" instead).
 
-${EDITION === 'street' ? 'TONE: Raw, street-smart, wrap-up style — same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, encouraging, forward-looking.'}`;
+${EDITION === 'desi' ? 'TONE: Hinglish, street-smart bhai wrap-up — same persona as the rest of the book.' : EDITION === 'street' ? 'TONE: Raw, street-smart, wrap-up style — same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, encouraging, forward-looking.'}`;
 
   const result = await withRetry(
     () => callWriter(prompt, 600, 'assemble'),
@@ -785,7 +856,7 @@ function parseJSON(raw: string): any {
 // ── Core generator ─────────────────────────────────────────────────────────────
 
 async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' | 'fail'> {
-  const slug = toSlug(`${EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
+  const slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
   const tag = `[W${workerIndex}]`;
   const modelsUsed = new Set<string>();
 
@@ -1038,7 +1109,7 @@ async function main() {
       console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 
       const result = await generateBook(seed, i + 1);
-      const slug = toSlug(`${EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
+      const slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
 
       if (result === 'ok') { checkpoint.completedSlugs.push(slug); done++; }
       else { checkpoint.failedSlugs.push(slug); failed++; }
