@@ -1,8 +1,10 @@
 /**
- * Pustakam Library Generator — File-Based (No Database)
+ * Pustakam Library Generator — Full-Fledged Pipeline (File-Based)
  * ─────────────────────────────────────────────────────────────────
- * Generates books locally as JSON files.
- * No Supabase needed. No storage limits.
+ * Generates books locally as JSON files using the same pipeline
+ * as the Pustakam app: dynamic module count, AI-generated
+ * introduction/summary/glossary, deep chapter continuity via
+ * glossary-term extraction, and post-processing.
  *
  * Output structure:
  *   public/library/
@@ -56,13 +58,18 @@ if (SELECTED_PROVIDER === 'mistral') {
 }
 
 const CONFIG = {
-  // Read from env so GitHub Actions can override via workflow_dispatch inputs
-  CONCURRENCY:           Number(process.env.CONCURRENCY || 8),
+  // Sequential execution: one book at a time to avoid rate-limit storms
+  CONCURRENCY:           Number(process.env.CONCURRENCY || 1),
   MAX_BOOKS:             Number(process.env.MAX_BOOKS   || 0), // 0 = no limit
 
   TOKENS_PER_MIN_LIMIT:  450_000,
-  MODULE_WORD_TARGET:    EDITION === 'street' ? '1200-2200' : '800-1200',
-  MAX_MODULES:           EDITION === 'street' ? 6 : 8,
+
+  // Match Pustakam's word targets (1800-3200 per module)
+  MODULE_WORD_TARGET:    '1800-3200',
+  MIN_MODULE_WORD_COUNT: 800,
+
+  // Match Pustakam's max_tokens (8192 for full chapters)
+  MAX_TOKENS:            8192,
 
   PRIMARY_MODEL:         primaryModel,
   PRIMARY_API_URL:       primaryApiUrl,
@@ -74,6 +81,9 @@ const CONFIG = {
   FALLBACK_API_URL:      'https://api.mistral.ai/v1/chat/completions',
   FALLBACK_API_KEY:      process.env.MISTRAL_API_KEY || '',
   FALLBACK_PROVIDER:     'mistral',
+
+  // Cooldown between sequential module generations (ms)
+  MODULE_COOLDOWN:       primaryProviderName === 'mistral' ? 3000 : 1000,
 
   OUTPUT_DIR:            path.resolve(__dirname, '../public/library'),
   CHECKPOINT_FILE:       path.resolve(__dirname, '.library-checkpoint.json'),
@@ -268,7 +278,7 @@ async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
 }
 
 // ── AI caller (Z.ai primary, Mistral fallback) ───────────────────────────────
-type RequestKind = 'roadmap' | 'chapter';
+type RequestKind = 'roadmap' | 'chapter' | 'assemble' | 'glossary' | 'seeds-generator';
 type Completion = { text: string; model: string };
 
 let primaryConsecutiveFailures = 0;
@@ -290,7 +300,7 @@ async function callAI(
 
   if (!apiKey) throw new Error(`No API key configured for ${useFallback ? 'Mistral fallback' : CONFIG.PRIMARY_PROVIDER}`);
 
-  const estTotal = estInputTokens + 1400;
+  const estTotal = estInputTokens + 2000;
   await tokenBudget.acquire(estTotal);
 
   const res = await fetch(apiUrl, {
@@ -300,7 +310,7 @@ async function callAI(
       model,
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
-      max_tokens: 2048,
+      max_tokens: CONFIG.MAX_TOKENS,
       ...(provider === 'zai' ? { thinking: { type: kind === 'roadmap' ? 'enabled' : 'disabled' } } : {}),
     }),
   });
@@ -335,6 +345,7 @@ async function callWriter(prompt: string, estInputTokens = 500, kind: RequestKin
 // ── Prompts ────────────────────────────────────────────────────────────────────
 
 // ── Visual content instructions (shared across editions) ──────────────────────
+// Mermaid diagrams and quiz sections removed — matching Pustakam's core pipeline
 const VISUAL_INSTRUCTIONS = `
 VISUAL ENGAGEMENT RULES (follow these strictly):
 - Use emoji-prefixed blockquotes for callout boxes. Types:
@@ -342,18 +353,8 @@ VISUAL ENGAGEMENT RULES (follow these strictly):
   > ⚠️ **Common Mistake:** for pitfalls to avoid
   > 🎯 **Key Insight:** for important takeaways
   > ☕ **Real Talk:** for honest, grounded advice
-- For technical/process topics, include ONE mermaid diagram per chapter using fenced code blocks:
-  \`\`\`mermaid
-  graph TD
-      A[Step 1] --> B[Step 2]
-  \`\`\`
-  Only include a diagram when it genuinely clarifies a process, flow, or relationship. Skip it if the chapter is purely conceptual.
-- End EVERY chapter with a "## 🧠 Quick Fire Round" section containing exactly 2 quiz questions. Use this exact format:
-  **Q1: Your question here?**
-  <details>
-  <summary>Reveal Answer</summary>
-  The answer explanation here.
-  </details>
+- Use these callouts naturally throughout the chapter — at least 2-3 per chapter.
+- Do NOT include mermaid diagrams.
 `;
 
 function buildRoadmapPrompt(seed: TopicSeed): string {
@@ -378,7 +379,7 @@ CONTEXT:
 - Category: ${seed.category}
 
 MISSION SPECS:
-- Create exactly ${CONFIG.MAX_MODULES} progressive modules. Each module builds on the last.
+- Break the topic into as many modules as it genuinely needs to be covered well - usually somewhere between 6 and 14. Do not pad with filler modules just to hit a number, and do not cram unrelated ideas into one module just to keep the count low.
 - Each module: Savage title + a one-line "focus" + 3-5 real objectives + no two modules covering the same ground.
 - Match the energy: Titles should make 'em curious, scared, or hyped - never bored.
 
@@ -397,7 +398,7 @@ Return ONLY valid JSON, no markdown:
 Topic: "${seed.goal}"
 Audience: ${complexity} learners. Category: ${seed.category}.
 
-Create exactly ${CONFIG.MAX_MODULES} progressive modules. Start at the learner's current level and end with a usable outcome. Every module must be distinct and build on earlier modules.
+Break the topic into as many modules as it genuinely needs to be covered well - usually somewhere between 6 and 14. Do not pad with filler modules just to hit a number, and do not cram unrelated ideas into one module just to keep the count low. Start at the learner's current level and end with a usable outcome. Every module must be distinct and build on earlier modules.
 
 TITLE RULES:
 - The book title should be compelling and specific, not generic. Make readers curious.
@@ -415,11 +416,25 @@ function buildModulePrompt(
   mod: { title: string; description: string; objectives: string[] },
   index: number,
   total: number,
-  previousChapterMemory: string
+  previousModules: Array<{ title: string; content: string; wordCount: number }>
 ): string {
-  const outline = roadmap.modules.map((item, i) => `${i + 1}. ${item.title}`).join('\n');
-  const continuity = previousChapterMemory
-    ? `Previous chapter memory (continue from it; do not repeat it):\n${previousChapterMemory}`
+  // Full outline with status markers (Pustakam-style continuity)
+  const outline = roadmap.modules.map((item, i) => {
+    const status = i < index ? '✅' : i === index ? '👉' : '  ';
+    return `${status} ${i + 1}. ${item.title}`;
+  }).join('\n');
+
+  // Deep continuity: extract glossary terms from all previous chapters
+  const coveredConcepts = previousModules.length > 0
+    ? extractGlossaryTerms(previousModules).slice(0, 25)
+    : [];
+
+  const coveredBlock = coveredConcepts.length > 0
+    ? `\n\nALREADY INTRODUCED (reference these by name where relevant - don't redefine them from scratch):\n${coveredConcepts.join(', ')}`
+    : '';
+
+  const continuity = previousModules.length > 0
+    ? `This is chapter ${index + 1}. The reader has already completed ${previousModules.length} chapter(s). Continue from where they left off.${coveredBlock}`
     : 'This is the first chapter. Establish only the foundations needed for later chapters.';
 
   if (EDITION === 'street') {
@@ -442,6 +457,7 @@ STYLE WARFARE:
 - Sarcasm as your sidekick: "Oh, sure, skip the basics - because mediocrity's a great look on you."
 - Tough love anthems: "Excuses? Cute. But winners bleed sweat, not stories. Your move."
 - Facts? Ironclad, deep-dive accurate. If you're not sure about a stat or fact, don't invent one.
+- ${exampleInstruction}
 
 CONTEXT:
 - Big Picture: ${seed.goal}
@@ -450,24 +466,23 @@ CONTEXT:
 - Objectives: ${mod.objectives.join('; ')}
 - Audience: ${seed.complexity || 'beginner'} learners
 
-Full learning path:\n${outline}
+Full learning path:
+${outline}
 
 ${continuity}
 
 ${VISUAL_INSTRUCTIONS}
 
-NOTE FOR STREET MODE QUIZ: Write the quiz questions in English street style too. Example:
-**Q1: Bro, what's the real difference between a list and a tuple?**
-<details>
-<summary>Reveal Answer</summary>
-Lists are mutable (you can swap values on the fly), tuples are locked down and immutable. Simple!
-</details>
-
 LAYOUT:
-(Seedha content se shuru kar - chapter ka title dobara mat likh)
+(Start directly with content - do NOT repeat the chapter title as a heading)
 ## Core Carnage (Rip Apart the Essentials)
 ## Street Smarts (How to Wield This in the Wild)
-## 🧠 Quick Fire Round (2 quiz questions, format as shown above)
+
+DO NOT:
+- Repeat or redefine concepts already covered in earlier chapters (see ALREADY INTRODUCED above)
+- Start with a heading that duplicates the chapter title
+- Include mermaid diagrams
+- Include quiz sections
 
 Write ${CONFIG.MODULE_WORD_TARGET} words. Markdown strict. Tone: Raw, Intelligent, Unfiltered.`;
   }
@@ -483,7 +498,8 @@ Chapter ${index + 1}/${total}: "${mod.title}"
 Focus: ${mod.description}
 Required learning objectives: ${mod.objectives.join('; ')}
 
-Full learning path:\n${outline}
+Full learning path:
+${outline}
 
 ${continuity}
 
@@ -498,21 +514,241 @@ WRITING STYLE (follow these carefully):
 
 ${VISUAL_INSTRUCTIONS}
 
-Write ${CONFIG.MODULE_WORD_TARGET} words of clear, engaging prose. Start directly with the hook. Use descriptive ## headings, short paragraphs. Do not add filler, unsupported statistics, generic motivational language, or claims likely to become outdated. Include a short "## Practice" section with one actionable exercise. End with "## Key Takeaways" (exactly 3 bullet points) followed by the "## 🧠 Quick Fire Round" quiz section.`;
+DO NOT:
+- Repeat or redefine concepts already covered in earlier chapters (see ALREADY INTRODUCED above)
+- Start with a heading that duplicates the chapter title
+- Include mermaid diagrams
+- Include quiz sections
+- Add filler, unsupported statistics, generic motivational language, or claims likely to become outdated
+
+Write ${CONFIG.MODULE_WORD_TARGET} words of clear, engaging prose. Start directly with the hook. Use descriptive ## headings, short paragraphs. Include a short "## Practice" section with one actionable exercise. End with "## Key Takeaways" (exactly 3 bullet points).`;
+}
+
+// ── Pustakam pipeline functions (ported from bookService.ts) ──────────────────
+
+/**
+ * Extracts key concepts/terms from completed modules by scanning
+ * bold text, headings, and titles. Used to build the ALREADY INTRODUCED
+ * block so the AI doesn't re-explain concepts.
+ * Ported from Pustakam bookService.ts extractGlossaryTerms()
+ */
+function extractGlossaryTerms(
+  modules: Array<{ title: string; content: string }>,
+  signalLines: string[] = []
+): string[] {
+  const stopTerms = new Set([
+    'introduction', 'summary', 'conclusion', 'key takeaways', 'next steps',
+    'overview', 'example', 'examples', 'exercise', 'exercises', 'quiz',
+    'table of contents', 'chapter summary', 'final thoughts',
+    'core carnage', 'street smarts', 'practice', 'pro tip', 'common mistake',
+    'key insight', 'real talk',
+  ]);
+
+  const candidates = [
+    ...modules.map(module => module.title),
+    ...signalLines,
+    ...modules.flatMap(module =>
+      Array.from(module.content.matchAll(/\*\*([^*\n]{2,80})\*\*/g)).map(match => match[1])
+    ),
+  ];
+
+  return Array.from(new Set(
+    candidates
+      .map(candidate => candidate
+        .replace(/^[-#*\s:]+/, '')
+        .replace(/\*\*/g, '')
+        .replace(/`/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+      )
+      .filter(candidate =>
+        candidate.length >= 3 &&
+        candidate.length <= 60 &&
+        candidate.split(' ').length <= 6 &&
+        !/^\d+$/.test(candidate) &&
+        !stopTerms.has(candidate.toLowerCase())
+      )
+  ));
+}
+
+/**
+ * Strips the leading heading from module content if it duplicates the module title.
+ * Prevents doubled headings like "# Variables" when we already add "# Module 1: Variables".
+ * Ported from Pustakam bookService.ts stripLeadingDuplicateHeading()
+ */
+function stripLeadingDuplicateHeading(content: string, moduleTitle: string): string {
+  const lines = content.split('\n');
+  let i = 0;
+  while (i < lines.length && lines[i].trim() === '') i++;
+  if (i >= lines.length) return content;
+
+  const firstLine = lines[i].trim();
+  const headingMatch = firstLine.match(/^#{1,2}\s+(.+)$/);
+  if (!headingMatch) return content;
+
+  const headingText = headingMatch[1].trim().toLowerCase();
+  const titleText = moduleTitle.trim().toLowerCase();
+  const overlaps = titleText.length > 0 && (
+    headingText.includes(titleText.slice(0, 20)) || titleText.includes(headingText.slice(0, 20))
+  );
+  if (!overlaps) return content;
+
+  lines.splice(i, 1);
+  return lines.join('\n').replace(/^\n+/, '');
+}
+
+/**
+ * Generates an anchor-linked Table of Contents.
+ * Ported from Pustakam bookService.ts generateTableOfContents()
+ */
+function generateTableOfContents(modules: Array<{ title: string }>): string {
+  const items = [
+    `- [Introduction](#introduction)`,
+    ...modules.map((m, i) => {
+      const heading = `Module ${i + 1}: ${m.title}`;
+      const slug = heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+      return `${i + 1}. [${heading}](#${slug})`;
+    }),
+    `- [Summary](#summary)`,
+    `- [Glossary](#glossary)`,
+  ];
+  return items.join('\n');
+}
+
+/**
+ * AI-generated book introduction (800-1200 words).
+ * Ported from Pustakam bookService.ts generateBookIntroduction()
+ */
+async function generateIntroduction(
+  seed: TopicSeed,
+  roadmap: { title?: string; modules: Array<{ title: string }> }
+): Promise<string> {
+  const prompt = `Generate a compelling introduction for: "${seed.goal}"
+
+ROADMAP:
+${roadmap.modules.map(m => `- ${m.title}`).join('\n')}
+
+TARGET: ${seed.complexity || 'beginner'} learners
+CATEGORY: ${seed.category}
+
+Write 800-1200 words covering: welcome and purpose, what readers will learn, book structure, motivation. Use ### markdown headers for internal sections (this is already wrapped in its own "## Introduction" heading, so don't title any of your own sections "Introduction" - start with something like "### Welcome and Purpose" instead).
+
+${EDITION === 'street' ? 'TONE: Raw, street-smart, motivational — same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, conversational, mentor-like.'}`;
+
+  const result = await withRetry(
+    () => callWriter(prompt, 800, 'assemble'),
+    'introduction'
+  );
+  return result.text;
+}
+
+/**
+ * AI-generated book summary (600-900 words).
+ * Ported from Pustakam bookService.ts generateBookSummary()
+ */
+async function generateSummary(
+  seed: TopicSeed,
+  modules: Array<{ title: string }>
+): Promise<string> {
+  const prompt = `Generate a summary for: "${seed.goal}"
+
+MODULES:
+${modules.map(m => `- ${m.title}`).join('\n')}
+
+Write 600-900 words covering: key learning outcomes, important concepts recap, next steps, congratulations. Use ### markdown headers for internal sections (this is already wrapped in its own "## Summary" heading, so don't title any of your own sections "Summary" - start with something like "### Key Learning Outcomes" instead).
+
+${EDITION === 'street' ? 'TONE: Raw, street-smart, wrap-up style — same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, encouraging, forward-looking.'}`;
+
+  const result = await withRetry(
+    () => callWriter(prompt, 600, 'assemble'),
+    'summary'
+  );
+  return result.text;
+}
+
+/**
+ * AI-generated glossary (10-14 terms) with two-tier fallback.
+ * Ported from Pustakam bookService.ts generateGlossary()
+ */
+async function generateGlossarySection(
+  modules: Array<{ title: string; content: string }>
+): Promise<string> {
+  // Extract signal lines from module content
+  const uniqueSignals = Array.from(new Set(
+    modules.flatMap(module =>
+      module.content
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line =>
+          line.length > 0 &&
+          line.length <= 120 &&
+          (line.startsWith('#') || line.startsWith('**') || line.startsWith('- **'))
+        )
+    )
+  ));
+
+  const glossaryTerms = extractGlossaryTerms(modules, uniqueSignals);
+  const compactSignals = uniqueSignals.slice(0, 90).join('\n').substring(0, 6000);
+
+  const primaryPrompt = `Create a concise glossary from these extracted headings and highlighted terms:
+${compactSignals}
+
+Rules:
+- Include 10-14 important terms only
+- Skip duplicates and generic filler terms
+- Keep definitions to one crisp sentence
+- Sort alphabetically
+
+Format:
+**Term**: Definition.`;
+
+  try {
+    const result = await callWriter(primaryPrompt, 1200, 'glossary');
+    return result.text;
+  } catch (primaryError) {
+    console.warn('  ⚠️  Primary glossary prompt failed, retrying with smaller seed set...');
+  }
+
+  // Fallback prompt — simpler
+  const fallbackPrompt = `Create a concise glossary for this book using only the strongest topic signals.
+
+MODULE TITLES:
+${modules.map(module => `- ${module.title}`).join('\n')}
+
+KEY TERMS:
+${glossaryTerms.slice(0, 30).map(term => `- ${term}`).join('\n')}
+
+Rules:
+- Include 8-12 important terms only
+- Skip duplicates and generic filler terms
+- Keep each definition to one crisp sentence
+- Sort alphabetically
+
+Format:
+**Term**: Definition.`;
+
+  try {
+    const result = await callWriter(fallbackPrompt, 800, 'glossary');
+    return result.text;
+  } catch (fallbackError) {
+    console.warn('  ⚠️  Fallback glossary prompt also failed, building local glossary...');
+    // Local fallback: just list the extracted terms
+    return glossaryTerms
+      .slice(0, 14)
+      .sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()))
+      .map(term => `**${term}**: A key concept covered in this guide.`)
+      .join('\n\n');
+  }
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
 function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 function countWords(t: string) { return t.trim().split(/\s+/).filter(Boolean).length; }
-function chapterMemory(content: string): string {
-  // For street mode, look for 'Quick Fire Round' or 'Street Smarts' as the chapter ending
-  const takeaways = content.match(/## (?:Key Takeaways|🧠 Quick Fire Round|Street Smarts)[\s\S]*$/i)?.[0] || content;
-  return takeaways.replace(/\s+/g, ' ').trim().slice(0, 900);
-}
+
 function assertRoadmap(roadmap: any): asserts roadmap is { title?: string; modules: Array<{ title: string; description: string; objectives: string[] }> } {
-  if (!Array.isArray(roadmap?.modules) || roadmap.modules.length !== CONFIG.MAX_MODULES) {
-    throw new Error(`Roadmap must contain exactly ${CONFIG.MAX_MODULES} modules`);
+  if (!Array.isArray(roadmap?.modules) || roadmap.modules.length < 4 || roadmap.modules.length > 16) {
+    throw new Error(`Roadmap must contain 4-16 modules (got ${roadmap?.modules?.length || 0})`);
   }
   for (const module of roadmap.modules) {
     if (!module?.title || !module?.description || !Array.isArray(module?.objectives) || module.objectives.length < 3) {
@@ -520,18 +756,17 @@ function assertRoadmap(roadmap: any): asserts roadmap is { title?: string; modul
     }
   }
 }
+
 function assertChapter(content: string): void {
   const words = countWords(content);
-  if (words < 700) throw new Error(`Chapter too short (${words} words)`);
+  if (words < CONFIG.MIN_MODULE_WORD_COUNT) throw new Error(`Chapter too short (${words} words, min ${CONFIG.MIN_MODULE_WORD_COUNT})`);
   if (!/^##\s+/m.test(content)) throw new Error('Chapter is missing section headings');
-  if (EDITION === 'street') {
-    // Street mode uses different section names
-    if (!/##\s+.*Quick Fire Round/i.test(content)) throw new Error('Chapter is missing the Quick Fire Round quiz');
-  } else {
+  if (EDITION === 'stellar') {
     if (!/##\s+Practice\b/i.test(content)) throw new Error('Chapter is missing a practice section');
     if (!/##\s+Key Takeaways\b/i.test(content)) throw new Error('Chapter is missing key takeaways');
   }
 }
+
 function makeMetaDescription(title: string, seed: TopicSeed): string {
   return `${title}: a ${seed.complexity || 'beginner'} guide to ${seed.goal.toLowerCase()} with clear explanations, examples, and practice.`.slice(0, 155);
 }
@@ -554,7 +789,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
   const tag = `[W${workerIndex}]`;
   const modelsUsed = new Set<string>();
 
-  // Step 1: Roadmap
+  // ─── Step 1: Roadmap ────────────────────────────────────────────────────────
   let roadmap: any;
   try {
     roadmap = await withRetry(
@@ -567,50 +802,96 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
       },
       `${tag} roadmap`
     );
+    console.log(`  📋 ${tag} Roadmap: "${roadmap.title}" — ${roadmap.modules.length} modules`);
   } catch (e: any) {
     console.error(`\n❌ ${tag} roadmap failed: ${slug} — ${String(e.message).slice(0, 80)}`);
     return 'fail';
   }
 
-  // Step 2: Generate chapters sequentially, carrying forward a compact memory.
+  // ─── Step 2: Generate chapters sequentially with deep continuity ────────────
   const modules: Array<{ title: string; content: string; wordCount: number }> = [];
-  let previousChapterMemory = '';
   for (let i = 0; i < roadmap.modules.length; i++) {
     const mod = roadmap.modules[i];
     try {
       const result = await withRetry(
         async () => {
           const completion = await callWriter(
-            buildModulePrompt(seed, roadmap, mod, i, roadmap.modules.length, previousChapterMemory),
-            1200,
+            buildModulePrompt(seed, roadmap, mod, i, roadmap.modules.length, modules),
+            1500,
             'chapter'
           );
           assertChapter(completion.text);
           return completion;
         },
-        `${tag} module ${i + 1}`
+        `${tag} module ${i + 1}/${roadmap.modules.length}`
       );
       modelsUsed.add(result.model);
-      const content = result.text;
+      const content = stripLeadingDuplicateHeading(result.text, mod.title);
       modules.push({ title: mod.title, content, wordCount: countWords(content) });
-      previousChapterMemory = chapterMemory(content);
-      process.stdout.write('.');
+      process.stdout.write(`  📖 ${tag} Chapter ${i + 1}/${roadmap.modules.length}: ${mod.title} (${countWords(content)} words)\n`);
+
+      // Cooldown between modules to avoid rate limiting
+      if (i < roadmap.modules.length - 1) {
+        await sleep(CONFIG.MODULE_COOLDOWN);
+      }
     } catch (error: any) {
       console.error(`\n❌ ${tag} module ${i + 1} failed: ${String(error?.message || error).slice(0, 120)}`);
       return 'fail';
     }
   }
 
-  const totalWords = modules.reduce((s, m) => s + m.wordCount, 0);
-  const finalBook = [
-    `# ${roadmap.title || seed.goal}\n`,
-    `## Contents\n`,
-    modules.map((m, i) => `${i + 1}. ${m.title}`).join('\n'),
-    '\n\n---\n\n',
-    modules.map((m, i) => `# Chapter ${i + 1}: ${m.title}\n\n${m.content}`).join('\n\n---\n\n'),
-  ].join('\n');
+  // ─── Step 3: Assembly (Introduction + Summary + Glossary) ───────────────────
+  console.log(`  🔨 ${tag} Assembling book...`);
 
-  // Step 3: Save to LOCAL FILE (not Supabase)
+  let introduction = '';
+  let summary = '';
+  let glossary = '';
+
+  try {
+    console.log(`  📝 ${tag} Generating introduction...`);
+    introduction = await generateIntroduction(seed, roadmap);
+    introduction = stripLeadingDuplicateHeading(introduction, 'Introduction');
+    await sleep(CONFIG.MODULE_COOLDOWN);
+
+    console.log(`  📝 ${tag} Generating summary...`);
+    summary = await generateSummary(seed, modules);
+    summary = stripLeadingDuplicateHeading(summary, 'Summary');
+    await sleep(CONFIG.MODULE_COOLDOWN);
+
+    console.log(`  📝 ${tag} Generating glossary...`);
+    glossary = await generateGlossarySection(modules);
+  } catch (assemblyError: any) {
+    console.warn(`  ⚠️  ${tag} Assembly partially failed: ${String(assemblyError?.message || assemblyError).slice(0, 100)}`);
+    // Continue with whatever we have — the book still has all its chapters
+  }
+
+  const totalWords = modules.reduce((s, m) => s + m.wordCount, 0)
+    + countWords(introduction) + countWords(summary) + countWords(glossary);
+
+  const modelName = [...modelsUsed].join(', ');
+
+  // Build the final book in Pustakam format
+  const finalBook = [
+    `# ${roadmap.title || seed.goal}\n\n`,
+    `**Generated:** ${new Date().toLocaleDateString()}\n`,
+    `**Words:** ${totalWords.toLocaleString()}\n`,
+    `**Model:** ${modelName}\n\n`,
+    `---\n\n## Table of Contents\n\n`,
+    generateTableOfContents(modules),
+    `\n\n---\n\n`,
+    // Introduction
+    introduction ? `## Introduction\n\n${introduction}\n\n---\n\n` : '',
+    // Chapters
+    ...modules.map((m, i) => {
+      return `# Module ${i + 1}: ${m.title}\n\n${m.content}\n\n${i < modules.length - 1 ? '---\n\n' : ''}`;
+    }),
+    // Summary
+    summary ? `\n---\n\n## Summary\n\n${summary}\n\n` : '',
+    // Glossary
+    glossary ? `---\n\n## Glossary\n\n${glossary}` : '',
+  ].join('');
+
+  // ─── Step 4: Save to LOCAL FILE ─────────────────────────────────────────────
   const bookFile: BookFile = {
     slug,
     title: roadmap.title || seed.goal,
@@ -623,7 +904,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     moduleCount: modules.length,
     readingTimeMins: Math.ceil(totalWords / 250),
     metaDescription: makeMetaDescription(roadmap.title || seed.goal, seed),
-    modelUsed: [...modelsUsed].join(', '),
+    modelUsed: modelName,
     generatedAt: new Date().toISOString(),
     edition: EDITION,
     roadmap,
@@ -632,11 +913,9 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
   };
 
   saveBook(bookFile);
-  console.log(`\n✅ ${tag} ${slug} — ${totalWords.toLocaleString()} words → public/library/books/${slug}.json`);
+  console.log(`\n✅ ${tag} ${slug} — ${totalWords.toLocaleString()} words, ${modules.length} chapters → public/library/books/${slug}.json`);
   return 'ok';
 }
-
-// ── Topic seeds (10 highly diverse seeds across fields) ──────────────────────────
 
 // ── Topic seeds (Fallback/Bootstrap seeds) ─────────────────────────────────────
 
@@ -718,7 +997,7 @@ async function main() {
 
   const countToGenerate = CONFIG.MAX_BOOKS > 0 ? CONFIG.MAX_BOOKS : 20;
 
-  console.log('\n🚀 Pustakam Library Generator (File-Based & AI-Driven)');
+  console.log('\n🚀 Pustakam Library Generator — Full Pipeline (Sequential)');
   console.log(`🤖 Target books to generate this run: ${countToGenerate}`);
   console.log(`✅ Already done in library: ${completedSet.size}`);
   
@@ -732,13 +1011,17 @@ async function main() {
 
   console.log(`⏭️  Topics selected for generation:\n${pending.map((p, idx) => `   ${idx + 1}. ${p.goal} (${p.complexity})`).join('\n')}`);
 
-  const estMinutes = (pending.length * CONFIG.MAX_MODULES * 3) / CONFIG.CONCURRENCY;
-  console.log(`⚙️  Workers: ${CONFIG.CONCURRENCY} parallel`);
+  // Estimate: ~10-17 API calls per book, sequential
+  const avgCalls = 13; // roadmap + ~8 chapters + intro + summary + glossary
+  const estMinutes = (pending.length * avgCalls * 15) / 60; // ~15s per call average
+  console.log(`⚙️  Mode: Sequential (1 book at a time)`);
   console.log(`📁 Output: ${CONFIG.OUTPUT_DIR}`);
   console.log(`🤖 Primary: ${CONFIG.PRIMARY_MODEL}  |  Fallback: ${CONFIG.FALLBACK_MODEL}`);
-  console.log(`📖 Edition: ${EDITION.toUpperCase()} ${EDITION === 'street' ? '🔥 (Desi Tapori Mode)' : '✨ (Premium)'}`);
+  console.log(`📖 Edition: ${EDITION.toUpperCase()} ${EDITION === 'street' ? '🔥 (Street Oracle Mode)' : '✨ (Premium)'}`);
+  console.log(`🔧 Pipeline: Full (Intro + Chapters + Summary + Glossary)`);
+  console.log(`📏 Word target: ${CONFIG.MODULE_WORD_TARGET} per chapter | max_tokens: ${CONFIG.MAX_TOKENS}`);
   console.log(`⏱️  Estimated: ~${estMinutes.toFixed(0)} minutes`);
-  console.log(`💾 Storage: ~${(pending.length * 0.015).toFixed(0)}MB (${pending.length} books × ~15KB each)`);
+  console.log(`💾 Storage: ~${(pending.length * 0.04).toFixed(0)}MB (${pending.length} books × ~40KB each)`);
   console.log('─────────────────────────────────────────\n');
 
   // Apply MAX_BOOKS limit if set (useful for test runs or CI time limits)
@@ -750,18 +1033,20 @@ async function main() {
 
   const tasks = pending.map((seed, i) =>
     limit(async () => {
-      const result = await generateBook(seed, (i % CONFIG.CONCURRENCY) + 1);
-      const slug = toSlug(`${seed.goal} ${seed.complexity || 'beginner'}`);
+      console.log(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+      console.log(`📚 Book ${i + 1}/${pending.length}: "${seed.goal}" (${seed.complexity})`);
+      console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+
+      const result = await generateBook(seed, i + 1);
+      const slug = toSlug(`${EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
 
       if (result === 'ok') { checkpoint.completedSlugs.push(slug); done++; }
       else { checkpoint.failedSlugs.push(slug); failed++; }
 
-      if ((done + failed) % 10 === 0) {
-        saveCheckpoint(checkpoint);
-        const elapsed = (Date.now() - startTime) / 60000;
-        const rate = done / Math.max(elapsed, 0.01);
-        console.log(`\n📊 ${done + failed}/${pending.length} | ✅${done} ❌${failed} | ${rate.toFixed(1)}/min | ~${((pending.length - done - failed) / Math.max(rate, 0.01)).toFixed(0)}min left\n`);
-      }
+      saveCheckpoint(checkpoint);
+      const elapsed = (Date.now() - startTime) / 60000;
+      const rate = done / Math.max(elapsed, 0.01);
+      console.log(`\n📊 Progress: ${done + failed}/${pending.length} | ✅${done} ❌${failed} | ${rate.toFixed(1)} books/min | ~${((pending.length - done - failed) / Math.max(rate, 0.01)).toFixed(0)}min left\n`);
     })
   );
 
@@ -774,7 +1059,7 @@ async function main() {
   generateSitemap(indexData.books);
 
   const totalMin = (Date.now() - startTime) / 60000;
-  const totalSize = done * 0.015;
+  const totalSize = done * 0.04;
 
   console.log('\n═════════════════════════════════════════════════════');
   console.log(`✅ ${done} books generated in ${totalMin.toFixed(1)} minutes`);
