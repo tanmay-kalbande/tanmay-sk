@@ -290,7 +290,8 @@ async function callAI(
   prompt: string,
   estInputTokens = 500,
   kind: RequestKind = 'chapter',
-  forceFallback = false
+  forceFallback = false,
+  systemPrompt?: string
 ): Promise<Completion> {
   const useFallback = forceFallback || (!CONFIG.PRIMARY_API_KEY && Boolean(CONFIG.FALLBACK_API_KEY)) ||
     (primaryConsecutiveFailures >= FALLBACK_THRESHOLD && CONFIG.FALLBACK_API_KEY);
@@ -305,12 +306,16 @@ async function callAI(
   const estTotal = estInputTokens + 2000;
   await tokenBudget.acquire(estTotal);
 
+  const messages = systemPrompt
+    ? [{ role: 'system', content: systemPrompt }, { role: 'user', content: prompt }]
+    : [{ role: 'user', content: prompt }];
+
   const res = await fetch(apiUrl, {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model,
-      messages: [{ role: 'user', content: prompt }],
+      messages,
       temperature: 0.7,
       max_tokens: CONFIG.MAX_TOKENS,
       ...(provider === 'zai' ? { thinking: { type: kind === 'roadmap' ? 'enabled' : 'disabled' } } : {}),
@@ -340,8 +345,13 @@ async function callAI(
 }
 
 // Convenience wrapper — always tries primary first
-async function callWriter(prompt: string, estInputTokens = 500, kind: RequestKind = 'chapter'): Promise<Completion> {
-  return callAI(prompt, estInputTokens, kind);
+async function callWriter(
+  prompt: string,
+  estInputTokens = 500,
+  kind: RequestKind = 'chapter',
+  systemPrompt?: string
+): Promise<Completion> {
+  return callAI(prompt, estInputTokens, kind, false, systemPrompt);
 }
 
 // ── Prompts ────────────────────────────────────────────────────────────────────
@@ -446,7 +456,7 @@ function buildModulePrompt(
   index: number,
   total: number,
   previousModules: Array<{ title: string; content: string; wordCount: number }>
-): string {
+): { systemPrompt: string; userPrompt: string } {
   // Full outline with status markers (Pustakam-style continuity)
   const outline = roadmap.modules.map((item, i) => {
     const status = i < index ? '✅' : i === index ? '👉' : '  ';
@@ -471,12 +481,24 @@ function buildModulePrompt(
       ? 'Include a small, correct code or worked technical example when it helps.'
       : 'Include a concrete, realistic scenario when it helps.';
 
-    return `Bhai, Chapter ${index + 1} of ${total} shuru kar: "${mod.title}". Full power!
-
-PERSONA:
+    const systemPrompt = `PERSONA:
 You're a street-smart Mumbai/Pune bhai - full attitude, tough love, high energy. Write like a mentor talking over chai at a cutting tapri. Use words like "Bhai", "Boss", "Guru", "Scene", "Fundoo", "Chamka kya", "Pakka", "Maska".
 
 LANGUAGE: Hinglish (Hindi + English mix). Keep swearing clean and minimal (max 10-20% for emphasis).
+
+${VISUAL_INSTRUCTIONS}
+
+LAYOUT:
+(Do NOT repeat chapter title as heading)
+## Asli Funda (Core Concepts)
+## Practical Scene (Real-world Usage)
+
+DO NOT:
+- Repeat concepts already introduced (see ALREADY INTRODUCED)
+- Include mermaid diagrams
+- Include quiz sections`;
+
+    const userPrompt = `Bhai, Chapter ${index + 1} of ${total} shuru kar: "${mod.title}". Full power!
 
 STYLE WARFARE:
 - Direct opener: Start directly with a hook or relatable Indian scenario (local train delay, cutting chai, late night coding, startup hustle).
@@ -495,19 +517,9 @@ ${outline}
 
 ${continuity}
 
-${VISUAL_INSTRUCTIONS}
-
-LAYOUT:
-(Do NOT repeat chapter title as heading)
-## Asli Funda (Core Concepts)
-## Practical Scene (Real-world Usage)
-
-DO NOT:
-- Repeat concepts already introduced (see ALREADY INTRODUCED)
-- Include mermaid diagrams
-- Include quiz sections
-
 Write ${CONFIG.MODULE_WORD_TARGET} words in Hinglish. Markdown strict. Tone: High-energy, Mentoring, Desi Street-Smart.`;
+
+    return { systemPrompt, userPrompt };
   }
 
   if (EDITION === 'street') {
@@ -515,12 +527,25 @@ Write ${CONFIG.MODULE_WORD_TARGET} words in Hinglish. Markdown strict. Tone: Hig
       ? 'Include a small, correct code or worked technical example when it helps.'
       : 'Include a concrete, realistic scenario when it helps.';
 
-    return `Boss, drop the hammer on Chapter ${index + 1} of ${total}: "${mod.title}". No mercy.
-
-PERSONA:
+    const systemPrompt = `PERSONA:
 You're the unhinged street oracle - zero filters, all grit. Picture a battle-scarred hustler who's clawed through hell and back, now dragging your lazy ass along for the win. Call 'em "bro," "chief," "dreamer" - whatever snaps 'em awake. Roast their half-assed efforts like a comedian eviscerating a bad date. Sarcasm on steroids, humor that stings, but damn if it doesn't light a fire. You love 'em too much to let 'em flop.
 
 LANGUAGE: Pure English with raw street dialect (bro, chief, slacker, needle mover, reality check, vibes check failed, highkey delusional). Absolutely NO Hindi, Hinglish, or tapori slang.
+
+${VISUAL_INSTRUCTIONS}
+
+LAYOUT:
+(Start directly with content - do NOT repeat the chapter title as a heading)
+## Core Carnage (Rip Apart the Essentials)
+## Street Smarts (How to Wield This in the Wild)
+
+DO NOT:
+- Repeat or redefine concepts already covered in earlier chapters (see ALREADY INTRODUCED above)
+- Start with a heading that duplicates the chapter title
+- Include mermaid diagrams
+- Include quiz sections`;
+
+    const userPrompt = `Boss, drop the hammer on Chapter ${index + 1} of ${total}: "${mod.title}". No mercy.
 
 STYLE WARFARE:
 - Hook 'em like a gut punch: First line? Make 'em gasp, laugh, or nod. Vary the hook every chapter - a scenario, a blunt question, a war story - never the same opener twice.
@@ -544,20 +569,9 @@ ${outline}
 
 ${continuity}
 
-${VISUAL_INSTRUCTIONS}
-
-LAYOUT:
-(Start directly with content - do NOT repeat the chapter title as a heading)
-## Core Carnage (Rip Apart the Essentials)
-## Street Smarts (How to Wield This in the Wild)
-
-DO NOT:
-- Repeat or redefine concepts already covered in earlier chapters (see ALREADY INTRODUCED above)
-- Start with a heading that duplicates the chapter title
-- Include mermaid diagrams
-- Include quiz sections
-
 Write ${CONFIG.MODULE_WORD_TARGET} words. Markdown strict. Tone: Raw, Intelligent, Unfiltered.`;
+
+    return { systemPrompt, userPrompt };
   }
 
   // ── Stellar edition ──
@@ -565,23 +579,11 @@ Write ${CONFIG.MODULE_WORD_TARGET} words. Markdown strict. Tone: Raw, Intelligen
     ? 'Include a small, correct code or worked technical example when it helps.'
     : 'Include a concrete, realistic scenario when it helps.';
 
-  return `Write one chapter of the guide "${roadmap.title || seed.goal}".
-Topic: "${seed.goal}". Audience: ${seed.complexity || 'beginner'} learners.
-Chapter ${index + 1}/${total}: "${mod.title}"
-Focus: ${mod.description}
-Required learning objectives: ${mod.objectives.join('; ')}
-
-Full learning path:
-${outline}
-
-${continuity}
-
-WRITING STYLE (follow these carefully):
+  const systemPrompt = `WRITING STYLE (follow these carefully):
 - OPENING HOOK: Start every chapter with a surprising fact, a relatable problem, or a brief "imagine this" scenario (2-3 sentences). Never start with a dry definition. Make the reader think "I need to read this."
 - CONVERSATIONAL TONE: Write like a smart mentor explaining to a friend over coffee. Use "you" and "your." Be warm but authoritative.
 - WHY BEFORE HOW: Before explaining how something works, always explain *why* it matters. What problem does it solve? What can the reader do after learning it that they couldn't before?
 - ANALOGIES: Use at least one real-world analogy per chapter to explain a complex concept (e.g., "Think of a variable like a labeled jar in your kitchen").
-- ${exampleInstruction}
 - VARY STRUCTURE: Not every section should follow the same pattern. Mix explanations, examples, comparisons, mini-stories, and direct advice.
 - Use callout boxes for tips, warnings, and insights (see VISUAL ENGAGEMENT RULES below).
 
@@ -592,9 +594,23 @@ DO NOT:
 - Start with a heading that duplicates the chapter title
 - Include mermaid diagrams
 - Include quiz sections
-- Add filler, unsupported statistics, generic motivational language, or claims likely to become outdated
+- Add filler, unsupported statistics, generic motivational language, or claims likely to become outdated`;
+
+  const userPrompt = `Write one chapter of the guide "${roadmap.title || seed.goal}".
+Topic: "${seed.goal}". Audience: ${seed.complexity || 'beginner'} learners.
+Chapter ${index + 1}/${total}: "${mod.title}"
+Focus: ${mod.description}
+Required learning objectives: ${mod.objectives.join('; ')}
+${exampleInstruction}
+
+Full learning path:
+${outline}
+
+${continuity}
 
 Write ${CONFIG.MODULE_WORD_TARGET} words of clear, engaging prose. Start directly with the hook. Use descriptive ## headings, short paragraphs. Include a short "## Practice" section with one actionable exercise. End with "## Key Takeaways" (exactly 3 bullet points).`;
+
+  return { systemPrompt, userPrompt };
 }
 
 // ── Pustakam pipeline functions (ported from bookService.ts) ──────────────────
@@ -888,10 +904,12 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     try {
       const result = await withRetry(
         async () => {
+          const promptObj = buildModulePrompt(seed, roadmap, mod, i, roadmap.modules.length, modules);
           const completion = await callWriter(
-            buildModulePrompt(seed, roadmap, mod, i, roadmap.modules.length, modules),
+            promptObj.userPrompt,
             1500,
-            'chapter'
+            'chapter',
+            promptObj.systemPrompt
           );
           assertChapter(completion.text);
           return completion;
