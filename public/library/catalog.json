@@ -216,6 +216,26 @@
       "generatedAt": "2026-07-14T14:20:59.862Z"
     },
     {
+      "slug": "develop-a-highfrequency-trading-algorithm-using-python-and-backtesting-framework",
+      "title": "Algorithmic Edge: Building and Backtesting High-Frequency Trading Systems in Python",
+      "goal": "Develop a high-frequency trading algorithm using Python and backtesting frameworks",
+      "category": "finance",
+      "tags": [
+        "algorithmic-trading",
+        "quantitative-finance",
+        "python"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 6524,
+      "moduleCount": 8,
+      "readingTimeMins": 27,
+      "metaDescription": "Algorithmic Edge: Building and Backtesting High-Frequency Trading Systems in Python: a advanced guide to develop a high-frequency trading algorithm using p",
+      "modelUsed": "mistral-large-latest, mistral-small-2506",
+      "generatedAt": "2026-07-15T03:23:02.821Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-understand-the-mechanics-of-options-trading-and-execute-basic-vertical-sp",
       "title": "Blood on the Ticker: The Vertical Spread Warpath",
       "goal": "Understand the mechanics of options trading and execute basic vertical spreads",
@@ -390,6 +410,26 @@
       "edition": "street"
     },
     {
+      "slug": "design-and-implement-a-restful-api-with-nodejs-express-and-mongodb-intermediate",
+      "title": "Build a Scalable RESTful API: From Zero to Production with Node.js, Express, and MongoDB",
+      "goal": "Design and implement a RESTful API with Node.js, Express, and MongoDB",
+      "category": "programming",
+      "tags": [
+        "backend",
+        "api",
+        "javascript"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 6542,
+      "moduleCount": 8,
+      "readingTimeMins": 27,
+      "metaDescription": "Build a Scalable RESTful API: From Zero to Production with Node.js, Express, and MongoDB: a intermediate guide to design and implement a restful api with n",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-15T03:24:22.185Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "learn-python-programming-from-zero-to-real-projects-beginner",
       "title": "Learn Python Programming from Zero to Real Projects",
       "goal": "Learn Python programming from zero to real projects",
@@ -406,6 +446,46 @@
       "metaDescription": "Learn Python Programming from Zero to Real Projects: a beginner guide to learn python programming from zero to real projects with clear explanations, examp",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-14T04:52:02.249Z"
+    },
+    {
+      "slug": "create-a-data-visualization-dashboard-using-d3js-and-react-advanced",
+      "title": "Mastering Data Visualization: Build Interactive Dashboards with D3.js and React",
+      "goal": "Create a data visualization dashboard using D3.js and React",
+      "category": "programming",
+      "tags": [
+        "data-visualization",
+        "javascript",
+        "react"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 6851,
+      "moduleCount": 8,
+      "readingTimeMins": 28,
+      "metaDescription": "Mastering Data Visualization: Build Interactive Dashboards with D3.js and React: a advanced guide to create a data visualization dashboard using d3.js and ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-15T03:29:41.042Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "develop-a-machine-learning-model-to-predict-stock-prices-using-tensorflow-advanc",
+      "title": "Predictive Edge: Mastering Stock Forecasting with TensorFlow and Machine Learning",
+      "goal": "Develop a machine learning model to predict stock prices using TensorFlow",
+      "category": "programming",
+      "tags": [
+        "machine-learning",
+        "tensorflow",
+        "finance"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 6258,
+      "moduleCount": 8,
+      "readingTimeMins": 26,
+      "metaDescription": "Predictive Edge: Mastering Stock Forecasting with TensorFlow and Machine Learning: a advanced guide to develop a machine learning model to predict stock pr",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-15T03:37:56.276Z",
+      "edition": "stellar"
     },
     {
       "slug": "build-a-fully-functional-mobile-application-using-flutter-and-firebase-without-p",
@@ -510,6 +590,6 @@
       "edition": "street"
     }
   ],
-  "total": 26,
-  "generatedAt": "2026-07-15T01:52:54.374Z"
+  "total": 30,
+  "generatedAt": "2026-07-15T03:43:04.040Z"
 }

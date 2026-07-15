@@ -72,6 +72,12 @@
     <lastmod>2026-07-14</lastmod>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/develop-a-highfrequency-trading-algorithm-using-python-and-backtesting-framework</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-15</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/street-understand-the-mechanics-of-options-trading-and-execute-basic-vertical-sp</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -126,10 +132,28 @@
     <lastmod>2026-07-14</lastmod>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/design-and-implement-a-restful-api-with-nodejs-express-and-mongodb-intermediate</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-15</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/learn-python-programming-from-zero-to-real-projects-beginner</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
     <lastmod>2026-07-14</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/create-a-data-visualization-dashboard-using-d3js-and-react-advanced</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-15</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/develop-a-machine-learning-model-to-predict-stock-prices-using-tensorflow-advanc</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-15</lastmod>
   </url>
   <url>
     <loc>https://tanmaysk.in/library/book/build-a-fully-functional-mobile-application-using-flutter-and-firebase-without-p</loc>
