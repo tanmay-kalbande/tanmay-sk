@@ -58,6 +58,26 @@
       "edition": "street"
     },
     {
+      "slug": "street-establish-a-nonlinear-career-pivot-strategy-to-transition-into-emerging-t",
+      "title": "The Pivot Playbook: How to Crash the Emerging Tech Party",
+      "goal": "Establish a non-linear career pivot strategy to transition into emerging tech sectors",
+      "category": "career",
+      "tags": [
+        "career-pivot",
+        "networking",
+        "strategy"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8683,
+      "moduleCount": 6,
+      "readingTimeMins": 35,
+      "metaDescription": "The Pivot Playbook: How to Crash the Emerging Tech Party: a intermediate guide to establish a non-linear career pivot strategy to transition into emerging ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T00:01:45.470Z",
+      "edition": "street"
+    },
+    {
       "slug": "street-develop-an-ethical-and-persuasive-cold-outreach-strategy-to-land-a-dream",
       "title": "The Street Oracle's Blueprint: Cold Outreach to Crush Your Dream Job",
       "goal": "Develop an ethical and persuasive cold outreach strategy to land a dream job",
@@ -388,6 +408,26 @@
       "edition": "stellar"
     },
     {
+      "slug": "street-build-and-deploy-a-local-privacyfirst-voice-assistant-using-opensource-mo",
+      "title": "The Privacy-First Voice Hustle: Zero Cloud, Zero Excuses",
+      "goal": "Build and deploy a local, privacy-first voice assistant using open-source models",
+      "category": "programming",
+      "tags": [
+        "voice-ai",
+        "raspberry-pi",
+        "open-source"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 8220,
+      "moduleCount": 6,
+      "readingTimeMins": 33,
+      "metaDescription": "The Privacy-First Voice Hustle: Zero Cloud, Zero Excuses: a advanced guide to build and deploy a local, privacy-first voice assistant using open-source mod",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T23:53:36.180Z",
+      "edition": "street"
+    },
+    {
       "slug": "street-understand-the-core-principles-of-blockchain-technology-and-build-a-basic",
       "title": "Zero to Satoshi: The Street Codex for Forging Your Own Chain",
       "goal": "Understand the core principles of blockchain technology and build a basic cryptocurrency",
@@ -428,8 +468,28 @@
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-14T17:38:19.155Z",
       "edition": "street"
+    },
+    {
+      "slug": "street-implement-a-zerotrust-home-network-architecture-to-secure-personal-iot-de",
+      "title": "Zero-Trust Crib: Bulletproofing Your Digital Turf",
+      "goal": "Implement a zero-trust home network architecture to secure personal IoT devices",
+      "category": "science",
+      "tags": [
+        "networking",
+        "cybersecurity",
+        "iot"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 8402,
+      "moduleCount": 6,
+      "readingTimeMins": 34,
+      "metaDescription": "Zero-Trust Crib: Bulletproofing Your Digital Turf: a intermediate guide to implement a zero-trust home network architecture to secure personal iot devices ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-14T23:58:03.340Z",
+      "edition": "street"
     }
   ],
-  "total": 22,
-  "generatedAt": "2026-07-14T22:26:56.131Z"
+  "total": 25,
+  "generatedAt": "2026-07-15T00:08:25.085Z"
 }
