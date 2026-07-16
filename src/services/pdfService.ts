@@ -1692,18 +1692,14 @@ class ProfessionalPdfGenerator {
     const endMatterContent = this.createEndMatterPage(book.goal);
 
     onProgress(85);
-    // Order: Cover (p1) -> Learning overview (p2) -> Table of Contents + chapters
-    // (from the book markdown itself) -> end matter. Both cover and overview
-    // end with an explicit pageBreak:'after', so the TOC always starts cleanly
-    // at the top of its own page.
-    this.content = [...coverContent, ...learningOverviewContent, ...mainContent, ...endMatterContent];
+    this.content = [...coverContent, ...mainContent, ...endMatterContent];
 
     const docDefinition: any = {
       background: (currentPage: number) => {
         if (currentPage === 1) {
-          // Decorative layer only — drawn as a true background, so it never
-          // consumes flow height and can never push page-1 content onto page 2.
-          return { canvas: this.buildCoverBackgroundLayer().filter(l => l.canvas).flatMap((l: any) => l.canvas) };
+          // Decorative layer only — drawn as a true background containing both
+          // canvas shapes (gradient + border) and the noise texture image.
+          return { stack: this.buildCoverBackgroundLayer() };
         }
         return {};
       },
