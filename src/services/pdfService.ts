@@ -894,85 +894,11 @@ class ProfessionalPdfGenerator {
       : 'Structured';
 
     return [
-      // 1. TOP EDGE: Series Label and Title Stack
+      // 1. PIN FOOTER TO PAGE 1: Place absolute positioned elements first so they are bound to page 1
       {
         stack: [
-          // Series Label & Decorative Line
           {
-            text: 'PUSTAKAM STUDY SERIES',
-            font: this.codeFontFamily,
-            fontSize: 7.5,
-            bold: true,
-            color: '#e05a35',
-            characterSpacing: 2,
-            alignment: 'left',
-            margin: [0, 0, 0, 6]
-          },
-          {
-            canvas: [
-              { type: 'rect', x: 0, y: 0, w: 48, h: 1.5, color: '#e05a35' }
-            ],
-            margin: [0, 0, 0, 36]
-          },
-          // Title & Subtitle Stack
-          {
-            text: mainTitle,
-            font: this.fontFamily,
-            fontSize: mainTitle.length > 30 ? 28 : mainTitle.length > 18 ? 32 : 38,
-            bold: true,
-            color: '#f0ede8',
-            alignment: 'left',
-            lineHeight: 1.1,
-            margin: [0, 0, 0, 12]
-          },
-          ...(subTitle ? [{
-            text: subTitle,
-            font: this.fontFamily,
-            fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 20,
-            bold: false,
-            italics: true,
-            color: '#999999',
-            alignment: 'left',
-            lineHeight: 1.3,
-            margin: [0, 0, 0, 0]
-          }] : [])
-        ],
-        absolutePosition: { x: 48, y: 48 } // Pinned securely to top left edge
-      },
-
-      // 2. BOTTOM EDGE: Tagline and Edition
-      {
-        unbreakable: true,
-        stack: [
-          {
-            text: `■  ${levelWord.toUpperCase()} EDITION`,
-            font: this.codeFontFamily,
-            fontSize: 7.5,
-            bold: true,
-            color: '#e05a35',
-            characterSpacing: 1.5,
-            alignment: 'left',
-            margin: [0, 0, 0, 12]
-          },
-          {
-            text: coverMeta.tagline,
-            font: this.fontFamily,
-            fontSize: 11,
-            color: '#999999',
-            lineHeight: 1.5,
-            alignment: 'left',
-            margin: [0, 0, 0, 0]
-          }
-        ],
-        absolutePosition: { x: 48, y: height - 164 } // Pinned safely above the footer
-      },
-
-      // 3. FOOTER EDGE
-      {
-        unbreakable: true,
-        stack: [
-          {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: width - 96, y2: 0, lineWidth: 0.75, lineColor: '#333333' }],
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#333333' }],
             margin: [0, 0, 0, 10]
           },
           {
@@ -996,10 +922,88 @@ class ProfessionalPdfGenerator {
             ]
           }
         ],
-        absolutePosition: { x: 48, y: height - 88 } // Pinned securely inside page boundary
+        absolutePosition: { x: 48, y: height - 88 }
       },
 
-      // 4. Force Page Break
+      // Structural layout lines: absolute-positioned vertical grid line on the left edge
+      {
+        canvas: [
+          { type: 'line', x1: 48, y1: 56, x2: 48, y2: height - 120, lineWidth: 0.75, lineColor: '#2a2a2a' }, // Vertical gray gridline
+          { type: 'line', x1: 48, y1: 56, x2: 80, y2: 56, lineWidth: 1.5, lineColor: '#e05a35' } // Orange accent start
+        ],
+        absolutePosition: { x: 0, y: 0 }
+      },
+
+      // 2. FLOW CONTENT: Left-aligned modern editorial layout
+      { text: '', margin: [0, 56, 0, 0] },
+      
+      // Series Label
+      {
+        text: 'PUSTAKAM STUDY SERIES',
+        font: this.codeFontFamily,
+        fontSize: 7.5,
+        bold: true,
+        color: '#e05a35',
+        characterSpacing: 2,
+        alignment: 'left',
+        margin: [16, 12, 0, 24] // Indented by 16pt from the line
+      },
+
+      // Title & Subtitle Stack (Left aligned, strong hierarchy)
+      {
+        stack: [
+          {
+            text: mainTitle,
+            font: this.fontFamily,
+            fontSize: mainTitle.length > 30 ? 28 : mainTitle.length > 18 ? 32 : 38,
+            bold: true,
+            color: '#f0ede8',
+            alignment: 'left',
+            lineHeight: 1.1,
+            margin: [0, 0, 0, 12]
+          },
+          ...(subTitle ? [{
+            text: subTitle,
+            font: this.fontFamily,
+            fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 20,
+            bold: false,
+            italics: true,
+            color: '#999999',
+            alignment: 'left',
+            lineHeight: 1.3,
+            margin: [0, 0, 0, 0]
+          }] : [])
+        ],
+        margin: [16, 0, 32, 0]
+      },
+
+      // Middle spacing to push elements to the bottom edge ("parted")
+      { text: '', margin: [0, 130, 0, 0] },
+
+      // Badge/Pill
+      {
+        text: `■  ${levelWord.toUpperCase()} EDITION`,
+        font: this.codeFontFamily,
+        fontSize: 7.5,
+        bold: true,
+        color: '#e05a35',
+        characterSpacing: 1.5,
+        alignment: 'left',
+        margin: [16, 0, 0, 12]
+      },
+
+      // Tagline/Hook
+      {
+        text: coverMeta.tagline,
+        font: this.fontFamily,
+        fontSize: 11,
+        color: '#999999',
+        lineHeight: 1.5,
+        alignment: 'left',
+        margin: [16, 0, 32, 0]
+      },
+
+      // Force Page Break after cover
       { text: '', pageBreak: 'after' }
     ];
   }
