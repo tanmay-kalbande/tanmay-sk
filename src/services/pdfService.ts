@@ -269,6 +269,7 @@ interface PDFContent {
   widths?: any;
   image?: string;
   height?: number;
+  columnGap?: number;
 }
 
 interface CoverMetadata {
@@ -280,6 +281,7 @@ interface CoverMetadata {
   audience: string;
   learningPoints: string[];
   accentColor?: string;
+  tags?: string[];
 }
 
 function isNovelProject(project: BookProject & { fiction?: unknown }): boolean {
@@ -668,6 +670,10 @@ class ProfessionalPdfGenerator {
         lines.splice(stripIdx, 1);
         continue;
       }
+      if (/^-{3,}$/.test(t)) {
+        lines.splice(stripIdx, 1);
+        continue;
+      }
       break;
     }
 
@@ -794,6 +800,34 @@ class ProfessionalPdfGenerator {
     return chunks;
   }
 
+  private createBadge(text: string, color: string, bgColor: string, borderColor: string): any {
+    return {
+      table: {
+        widths: ['auto'],
+        body: [[{
+          text: text,
+          font: this.codeFontFamily,
+          fontSize: 6.5,
+          bold: true,
+          color: color,
+          characterSpacing: 0.75,
+          margin: [5, 2, 5, 2]
+        }]]
+      },
+      layout: {
+        hLineWidth: () => 0.5,
+        vLineWidth: () => 0.5,
+        hLineColor: () => borderColor,
+        vLineColor: () => borderColor,
+        paddingLeft: () => 0,
+        paddingRight: () => 0,
+        paddingTop: () => 0,
+        paddingBottom: () => 0,
+        fillColor: () => bgColor
+      }
+    };
+  }
+
   private createGradientBackground(width: number, height: number): any[] {
     const steps = 60;
     const canvas: any[] = [];
@@ -815,6 +849,64 @@ class ProfessionalPdfGenerator {
         color: hex
       });
     }
+
+    // Dynamic watermark grid lines (matches website grid lines)
+    const gridColor = '#eef2f6';
+    const gridLineWidth = 0.5;
+    for (let x = 72; x < width; x += 72) {
+      canvas.push({
+        type: 'line',
+        x1: x, y1: 0,
+        x2: x, y2: height,
+        lineWidth: gridLineWidth,
+        lineColor: gridColor
+      });
+    }
+    for (let y = 72; y < height; y += 72) {
+      canvas.push({
+        type: 'line',
+        x1: 0, y1: y,
+        x2: width, y2: y,
+        lineWidth: gridLineWidth,
+        lineColor: gridColor
+      });
+    }
+
+    // Dynamic publisher concentric geometric seal emblem in bottom right
+    canvas.push({
+      type: 'ellipse',
+      x: width - 80,
+      y: height - 160,
+      rx: 24, ry: 24,
+      lineWidth: 0.5,
+      lineColor: '#cbd5e1'
+    });
+    canvas.push({
+      type: 'ellipse',
+      x: width - 80, y: height - 160,
+      rx: 12, ry: 12,
+      lineWidth: 0.5,
+      lineColor: '#cbd5e1'
+    });
+    canvas.push({
+      type: 'polyline',
+      points: [
+        { x: width - 80, y: height - 176 },
+        { x: width - 80, y: height - 144 }
+      ],
+      lineWidth: 0.5,
+      lineColor: '#cbd5e1'
+    });
+    canvas.push({
+      type: 'polyline',
+      points: [
+        { x: width - 96, y: height - 160 },
+        { x: width - 64, y: height - 160 }
+      ],
+      lineWidth: 0.5,
+      lineColor: '#cbd5e1'
+    });
+
     return canvas;
   }
 
@@ -834,6 +926,16 @@ class ProfessionalPdfGenerator {
         lineColor: '#cbd5e1',
         lineWidth: 0.75,
         r: 12
+      },
+      // Left vertical accent stripe in rust orange
+      {
+        type: 'line',
+        x1: 32,
+        y1: 24,
+        x2: 32,
+        y2: height - 24,
+        lineWidth: 2.5,
+        lineColor: '#c8451a'
       }
     ];
 
@@ -857,6 +959,26 @@ class ProfessionalPdfGenerator {
 
     const noiseDataUrl = generateNoiseDataUrl(width, height);
 
+    // Build top capsules row matching V5 library UI
+    const badges: any[] = [];
+    badges.push(this.createBadge(levelWord.toUpperCase(), '#c8451a', '#fdf2f0', '#fbcbc3'));
+
+    if (coverMeta.subtitle) {
+      const parts = coverMeta.subtitle.split('•');
+      if (parts.length > 1) {
+        const cat = parts[1].replace('EDITION', '').trim();
+        badges.push(this.createBadge(cat.toUpperCase(), '#475569', '#f5f5f3', '#cbd5e1'));
+      }
+    }
+
+    if (coverMeta.tags && coverMeta.tags.length > 0) {
+      coverMeta.tags.slice(0, 2).forEach(t => {
+        badges.push(this.createBadge(t.toUpperCase(), '#475569', '#f5f5f3', '#cbd5e1'));
+      });
+    }
+
+    badges.push(this.createBadge('STREET EDITION', '#e05a35', '#fdf5f2', '#f9d2c4'));
+
     return [
       { canvas: background, absolutePosition: { x: 0, y: 0 } },
       ...(noiseDataUrl ? [{
@@ -869,7 +991,7 @@ class ProfessionalPdfGenerator {
       {
         stack: [
           {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#cbd5e1' }],
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 328, y2: 0, lineWidth: 0.75, lineColor: '#cbd5e1' }],
             margin: [0, 0, 0, 14]
           },
           {
@@ -893,9 +1015,9 @@ class ProfessionalPdfGenerator {
             ]
           }
         ],
-        absolutePosition: { x: 48, y: height - 76 }
+        absolutePosition: { x: 56, y: height - 76 }
       },
-      { text: '', margin: [0, 42, 0, 0] },
+      { text: '', margin: [0, 48, 0, 0] },
       {
         text: 'PUSTAKAM STUDY SERIES',
         font: this.codeFontFamily,
@@ -903,8 +1025,15 @@ class ProfessionalPdfGenerator {
         bold: true,
         color: '#64748b',
         characterSpacing: 1.5,
-        alignment: 'center',
-        margin: [0, 0, 0, 48]
+        alignment: 'left',
+        margin: [8, 0, 0, 20]
+      },
+      // Badges row
+      {
+        columns: badges.map(b => ({ ...b, width: 'auto' })),
+        columnGap: 5,
+        alignment: 'left',
+        margin: [8, 0, 0, 36]
       },
       {
         text: `A Structured ${levelWord} Guide`,
@@ -913,7 +1042,7 @@ class ProfessionalPdfGenerator {
         italics: true,
         color: '#475569',
         alignment: 'left',
-        margin: [0, 0, 0, 6]
+        margin: [8, 0, 0, 6]
       },
       {
         text: mainTitle,
@@ -923,7 +1052,7 @@ class ProfessionalPdfGenerator {
         color: '#c8451a',
         alignment: 'left',
         lineHeight: 1.15,
-        margin: [0, 0, 0, 4]
+        margin: [8, 0, 0, 4]
       },
       ...(subTitle ? [{
         text: subTitle,
@@ -933,11 +1062,11 @@ class ProfessionalPdfGenerator {
         color: '#1e293b',
         alignment: 'left',
         lineHeight: 1.15,
-        margin: [0, 0, 0, 16]
+        margin: [8, 0, 0, 16]
       }] : []),
       {
         canvas: [{ type: 'line', x1: 0, y1: 0, x2: 72, y2: 0, lineWidth: 1.5, lineColor: '#cbd5e1' }],
-        margin: [0, 0, 0, 32]
+        margin: [8, 0, 0, 32]
       },
       {
         text: coverMeta.tagline,
@@ -946,7 +1075,7 @@ class ProfessionalPdfGenerator {
         italics: true,
         color: '#334155',
         lineHeight: 1.45,
-        margin: [0, 0, 0, 36],
+        margin: [8, 0, 0, 36],
         alignment: 'justify'
       },
       { text: '', pageBreak: 'after' }
@@ -1636,18 +1765,18 @@ class ProfessionalPdfGenerator {
       audience: `Designed for ${book.complexity} learners who want clear, actionable insights on ${book.category}.`,
       learningPoints: book.tags.length > 0 
         ? book.tags.map(t => this.capitalizeFirstLetter(t)) 
-        : ['Core Concepts', 'Practical Application', 'Key Takeaways', 'Real-world Context']
+        : ['Core Concepts', 'Practical Application', 'Key Takeaways', 'Real-world Context'],
+      tags: book.tags
     };
 
     const coverContent = this.createCoverPage(book.title, coverMeta);
-    const overviewContent = this.createLearningOverview(coverMeta);
 
     onProgress(60);
     const mainContent = this.parseMarkdownToContent(book.finalBook || '', book);
     const endMatterContent = this.createEndMatterPage(book.goal);
 
     onProgress(85);
-    this.content = [...coverContent, ...overviewContent, ...mainContent, ...endMatterContent];
+    this.content = [...coverContent, ...mainContent, ...endMatterContent];
 
     const docDefinition: any = {
       background: (currentPage: number) => {
