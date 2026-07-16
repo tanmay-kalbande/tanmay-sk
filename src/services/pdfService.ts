@@ -859,7 +859,7 @@ class ProfessionalPdfGenerator {
           y: 24,
           w: width - 48,
           h: height - 48,
-          lineColor: '#334155',
+          lineColor: '#2a2a2a',
           lineWidth: 0.75,
           r: 12
         }],
@@ -898,7 +898,7 @@ class ProfessionalPdfGenerator {
       {
         stack: [
           {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#334155' }],
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#333333' }],
             margin: [0, 0, 0, 10]
           },
           {
@@ -908,7 +908,7 @@ class ProfessionalPdfGenerator {
                 font: this.headingFontFamily,
                 fontSize: 7,
                 bold: true,
-                color: '#94a3b8',
+                color: '#999999',
                 characterSpacing: 1.2,
                 alignment: 'left'
               },
@@ -916,7 +916,7 @@ class ProfessionalPdfGenerator {
                 text: `First digital edition • ${new Date().getFullYear()}`,
                 font: this.fontFamily,
                 fontSize: 7,
-                color: '#94a3b8',
+                color: '#999999',
                 alignment: 'right'
               }
             ]
@@ -934,7 +934,7 @@ class ProfessionalPdfGenerator {
         font: this.codeFontFamily,
         fontSize: 7.5,
         bold: true,
-        color: '#94a3b8',
+        color: '#e05a35',
         characterSpacing: 1.5,
         alignment: 'center',
         margin: [0, 0, 0, 36]
@@ -959,7 +959,7 @@ class ProfessionalPdfGenerator {
             fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 19,
             bold: false,
             italics: true,
-            color: '#cbd5e1',
+            color: '#999999',
             alignment: 'center',
             lineHeight: 1.25,
             margin: [0, 0, 0, 0]
@@ -974,7 +974,7 @@ class ProfessionalPdfGenerator {
         font: this.fontFamily,
         fontSize: 11,
         italics: true,
-        color: '#cbd5e1',
+        color: '#999999',
         lineHeight: 1.45,
         alignment: 'center',
         margin: [24, 24, 24, 0]
@@ -983,7 +983,7 @@ class ProfessionalPdfGenerator {
       // Decorative Emblem / Divider (Centered clean shape)
       {
         canvas: [
-          { type: 'rect', x: 148, y: 0, w: 40, h: 0.75, color: '#334155' }
+          { type: 'rect', x: 148, y: 0, w: 40, h: 0.75, color: '#e05a35' }
         ],
         margin: [0, 24, 0, 24]
       },
