@@ -403,6 +403,10 @@ class ProfessionalPdfGenerator {
   private accentText = '#26352d';
   private accentUnderline = '#a9c9b6';
 
+  // Cached cover background layer (computed once per generate() call, drawn via
+  // docDefinition.background so it never enters the normal content flow).
+  private coverBackgroundLayer: any[] | null = null;
+
   private readonly page = { width: 432, height: 648, contentWidth: 336 };
 
   private hexToHsl(hex: string): [number, number, number] {
@@ -824,24 +828,52 @@ class ProfessionalPdfGenerator {
     return canvas;
   }
 
+  /**
+   * Builds the decorative cover background (gradient wash + paper grain + inset
+   * border) as a single layer meant to be drawn via docDefinition.background,
+   * NOT pushed into normal content. Full-page absolutePosition canvases used to
+   * be pushed directly into the content array; pdfMake still reserves flow
+   * height for them even though they're drawn as an overlay, so three
+   * page-height elements back to back (~3x the page height) silently shoved
+   * every real element after them onto the next page. That's what caused the
+   * cover footer text to reappear jammed against the Table of Contents heading.
+   * Drawing it through docDefinition.background sidesteps the flow entirely.
+   */
+  private buildCoverBackgroundLayer(): any[] {
+    if (this.coverBackgroundLayer) return this.coverBackgroundLayer;
+    const { width, height } = this.page;
+    const gradient = this.createGradientBackground(width, height);
+    const noiseDataUrl = generateNoiseDataUrl(width, height);
+    const layer: any[] = [
+      { canvas: gradient, absolutePosition: { x: 0, y: 0 } },
+      ...(noiseDataUrl ? [{
+        image: noiseDataUrl,
+        width,
+        height,
+        absolutePosition: { x: 0, y: 0 }
+      }] : []),
+      {
+        canvas: [{
+          type: 'rect',
+          x: 24,
+          y: 24,
+          w: width - 48,
+          h: height - 48,
+          lineColor: '#cbd5e1',
+          lineWidth: 0.75,
+          r: 12
+        }],
+        absolutePosition: { x: 0, y: 0 }
+      }
+    ];
+    this.coverBackgroundLayer = layer;
+    return layer;
+  }
+
   private createCoverPage(title: string, coverMeta: CoverMetadata): PDFContent[] {
     const normalizedTitle = this.normalizeDashes(title);
     const displayTitle = coverMeta.coverTitle || normalizedTitle;
     const { width, height } = this.page;
-
-    const background = this.createGradientBackground(width, height);
-    const border = [
-      {
-        type: 'rect',
-        x: 24,
-        y: 24,
-        w: width - 48,
-        h: height - 48,
-        lineColor: '#cbd5e1',
-        lineWidth: 0.75,
-        r: 12
-      }
-    ];
 
     let mainTitle = displayTitle;
     let subTitle = '';
@@ -861,47 +893,11 @@ class ProfessionalPdfGenerator {
       ? this.capitalizeFirstLetter(coverMeta.subtitle.split(' ')[0].toLowerCase())
       : 'Structured';
 
-    const noiseDataUrl = generateNoiseDataUrl(width, height);
-
     return [
-      { canvas: background, absolutePosition: { x: 0, y: 0 } },
-      ...(noiseDataUrl ? [{
-        image: noiseDataUrl,
-        width: width,
-        height: height,
-        absolutePosition: { x: 0, y: 0 }
-      }] : []),
-      { canvas: border, absolutePosition: { x: 0, y: 0 } },
-      {
-        stack: [
-          {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#cbd5e1' }],
-            margin: [0, 0, 0, 14]
-          },
-          {
-            columns: [
-              {
-                text: 'AI-ASSISTED STUDY EDITION',
-                font: this.headingFontFamily,
-                fontSize: 7,
-                bold: true,
-                color: '#64748b',
-                characterSpacing: 1.2,
-                alignment: 'left'
-              },
-              {
-                text: `First digital edition • ${new Date().getFullYear()}`,
-                font: this.fontFamily,
-                fontSize: 7,
-                color: '#64748b',
-                alignment: 'right'
-              }
-            ]
-          }
-        ],
-        absolutePosition: { x: 48, y: height - 76 }
-      },
-      { text: '', margin: [0, 42, 0, 0] },
+      // Everything below is real flow content now (no full-page absolutePosition
+      // elements mixed in), so its height is measured correctly and the footer
+      // block at the end reliably lands near the bottom of THIS page only.
+      { text: '', margin: [0, 58, 0, 0] },
       {
         text: 'PUSTAKAM STUDY SERIES',
         font: this.codeFontFamily,
@@ -943,7 +939,7 @@ class ProfessionalPdfGenerator {
       }] : []),
       {
         canvas: [{ type: 'line', x1: 0, y1: 0, x2: 72, y2: 0, lineWidth: 1.5, lineColor: '#cbd5e1' }],
-        margin: [0, 0, 0, 32]
+        margin: [0, 0, 0, 28]
       },
       {
         text: coverMeta.tagline,
@@ -952,8 +948,49 @@ class ProfessionalPdfGenerator {
         italics: true,
         color: '#334155',
         lineHeight: 1.45,
-        margin: [0, 0, 0, 36],
+        margin: [0, 0, 0, 20],
         alignment: 'justify'
+      },
+      ...(coverMeta.blurb ? [{
+        text: coverMeta.blurb,
+        font: this.fontFamily,
+        fontSize: 9.5,
+        color: '#4b5563',
+        lineHeight: 1.55,
+        margin: [0, 0, 0, 0],
+        alignment: 'justify'
+      }] : []),
+      // Bottom edition strip. Small footprint, real flow content — safe to
+      // pin with absolutePosition since it's no longer competing with
+      // multiple page-height canvases above it for layout space.
+      {
+        stack: [
+          {
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#cbd5e1' }],
+            margin: [0, 0, 0, 14]
+          },
+          {
+            columns: [
+              {
+                text: 'AI-ASSISTED STUDY EDITION',
+                font: this.headingFontFamily,
+                fontSize: 7,
+                bold: true,
+                color: '#64748b',
+                characterSpacing: 1.2,
+                alignment: 'left'
+              },
+              {
+                text: `First digital edition • ${new Date().getFullYear()}`,
+                font: this.fontFamily,
+                fontSize: 7,
+                color: '#64748b',
+                alignment: 'right'
+              }
+            ]
+          }
+        ],
+        absolutePosition: { x: 48, y: height - 76 }
       },
       { text: '', pageBreak: 'after' }
     ];
@@ -1329,7 +1366,8 @@ class ProfessionalPdfGenerator {
         tocDepth = (trimmed.match(/^#+/) || [''])[0].length;
 
         flushParagraph();
-        content.push({ text: 'Table of Contents', style: 'h1Module', alignment: 'left' });
+        content.push({ text: '', pageBreak: 'before' });
+        content.push({ text: 'Table of Contents', style: 'h1Module', alignment: 'left', margin: [0, 50, 0, 18] });
         tocPlaceholderIndex = content.length;
         content.push({ text: '', margin: [0, 0, 0, 0] });
         continue;
@@ -1533,7 +1571,7 @@ class ProfessionalPdfGenerator {
           columns: [
             {
               width: 15,
-              text: '“',
+              text: '"',
               fontSize: 32,
               bold: true,
               color: this.brandGreen,
@@ -1647,22 +1685,25 @@ class ProfessionalPdfGenerator {
     };
 
     const coverContent = this.createCoverPage(book.title, coverMeta);
+    const learningOverviewContent = this.createLearningOverview(coverMeta);
 
     onProgress(60);
     const mainContent = this.parseMarkdownToContent(book.finalBook || '', book);
     const endMatterContent = this.createEndMatterPage(book.goal);
 
     onProgress(85);
-    this.content = [...coverContent, ...mainContent, ...endMatterContent];
+    // Order: Cover (p1) -> Learning overview (p2) -> Table of Contents + chapters
+    // (from the book markdown itself) -> end matter. Both cover and overview
+    // end with an explicit pageBreak:'after', so the TOC always starts cleanly
+    // at the top of its own page.
+    this.content = [...coverContent, ...learningOverviewContent, ...mainContent, ...endMatterContent];
 
     const docDefinition: any = {
       background: (currentPage: number) => {
         if (currentPage === 1) {
-          return {
-            canvas: [
-              { type: 'rect', x: 0, y: 0, w: this.page.width, h: this.page.height, color: '#faf7f0' }
-            ]
-          };
+          // Decorative layer only — drawn as a true background, so it never
+          // consumes flow height and can never push page-1 content onto page 2.
+          return { canvas: this.buildCoverBackgroundLayer().filter(l => l.canvas).flatMap((l: any) => l.canvas) };
         }
         return {};
       },
