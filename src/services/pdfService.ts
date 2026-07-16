@@ -810,10 +810,10 @@ class ProfessionalPdfGenerator {
     const stepHeight = height / steps;
     for (let i = 0; i < steps; i++) {
       const t = i / (steps - 1);
-      // Interpolate from a warm soft cream (#faf8f5) to a cool soft blue-gray (#e9eff2)
-      const r = Math.round(250 + t * (233 - 250));
-      const g = Math.round(248 + t * (239 - 248));
-      const b = Math.round(245 + t * (242 - 245));
+      // Interpolate from a dark charcoal (#1c1c1b) to a very dark black (#0e0e10)
+      const r = Math.round(28 + t * (14 - 28));
+      const g = Math.round(28 + t * (14 - 28));
+      const b = Math.round(27 + t * (16 - 27));
       const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
       
       canvas.push({
@@ -859,7 +859,7 @@ class ProfessionalPdfGenerator {
           y: 24,
           w: width - 48,
           h: height - 48,
-          lineColor: '#cbd5e1',
+          lineColor: '#334155',
           lineWidth: 0.75,
           r: 12
         }],
@@ -898,8 +898,8 @@ class ProfessionalPdfGenerator {
       {
         stack: [
           {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#cbd5e1' }],
-            margin: [0, 0, 0, 14]
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#334155' }],
+            margin: [0, 0, 0, 10]
           },
           {
             columns: [
@@ -908,7 +908,7 @@ class ProfessionalPdfGenerator {
                 font: this.headingFontFamily,
                 fontSize: 7,
                 bold: true,
-                color: '#64748b',
+                color: '#94a3b8',
                 characterSpacing: 1.2,
                 alignment: 'left'
               },
@@ -916,13 +916,13 @@ class ProfessionalPdfGenerator {
                 text: `First digital edition • ${new Date().getFullYear()}`,
                 font: this.fontFamily,
                 fontSize: 7,
-                color: '#64748b',
+                color: '#94a3b8',
                 alignment: 'right'
               }
             ]
           }
         ],
-        absolutePosition: { x: 48, y: height - 76 }
+        absolutePosition: { x: 48, y: height - 88 }
       },
 
       // 2. FLOW CONTENT: Centered elegant editorial layout
@@ -934,10 +934,10 @@ class ProfessionalPdfGenerator {
         font: this.codeFontFamily,
         fontSize: 7.5,
         bold: true,
-        color: '#64748b',
+        color: '#94a3b8',
         characterSpacing: 1.5,
         alignment: 'center',
-        margin: [0, 0, 0, 52]
+        margin: [0, 0, 0, 40]
       },
 
       // Badge/Pill (Clean minimalist edition text)
@@ -946,10 +946,10 @@ class ProfessionalPdfGenerator {
         font: this.codeFontFamily,
         fontSize: 7,
         bold: true,
-        color: '#c8451a',
+        color: '#e05a35',
         characterSpacing: 2,
         alignment: 'center',
-        margin: [0, 0, 0, 32]
+        margin: [0, 0, 0, 24]
       },
 
       // Title & Subtitle Stack (Centered, premium serif display style)
@@ -960,7 +960,7 @@ class ProfessionalPdfGenerator {
             font: this.fontFamily,
             fontSize: mainTitle.length > 30 ? 24 : mainTitle.length > 18 ? 28 : 32,
             bold: true,
-            color: '#1e293b',
+            color: '#f0ede8',
             alignment: 'center',
             lineHeight: 1.15,
             margin: [0, 0, 0, 6]
@@ -971,7 +971,7 @@ class ProfessionalPdfGenerator {
             fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 19,
             bold: false,
             italics: true,
-            color: '#475569',
+            color: '#cbd5e1',
             alignment: 'center',
             lineHeight: 1.25,
             margin: [0, 0, 0, 0]
@@ -983,9 +983,9 @@ class ProfessionalPdfGenerator {
       // Decorative Emblem / Divider (Centered clean shape)
       {
         canvas: [
-          { type: 'rect', x: 148, y: 0, w: 40, h: 0.75, color: '#cbd5e1' }
+          { type: 'rect', x: 148, y: 0, w: 40, h: 0.75, color: '#334155' }
         ],
-        margin: [0, 32, 0, 28]
+        margin: [0, 24, 0, 20]
       },
 
       // Tagline/Hook (Centered, elegant italics, focused)
@@ -994,7 +994,7 @@ class ProfessionalPdfGenerator {
         font: this.fontFamily,
         fontSize: 11,
         italics: true,
-        color: '#475569',
+        color: '#cbd5e1',
         lineHeight: 1.45,
         alignment: 'center',
         margin: [24, 0, 24, 0]
