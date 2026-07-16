@@ -1,5 +1,15 @@
-// src/services/pdfService.ts - EXACT PUBLISHED BOOK RENDERER (PORTED FROM PUSTAKAM)
+// src/services/pdfService.ts - FIXED VERSION WITH EMOJIS & HYPHENS
 import type { BookFile } from '../components/BookReaderPage';
+
+export type BookProject = BookFile & { bookType?: string; fiction?: boolean; id?: string };
+
+// Stub bookService to prevent compile errors for generateCoverMetadata.
+// PDF generation is client-side and doesn't need to call AI for cover.
+export const bookService = {
+  async generateForPdf(prompt: string, bookId?: string): Promise<string> {
+    throw new Error('AI cover generation not available on client side');
+  }
+};
 
 let isGenerating = false;
 let pdfMake: any = null;
@@ -27,6 +37,7 @@ async function loadPdfMake() {
     pdfMake = pdfMakeModule.default || pdfMakeModule;
     const fontsAny: any = pdfFontsModule.default || pdfFontsModule;
 
+    // Robust VFS Detection across ESM / Vite bundled module exports
     let vfs: any = null;
     if (fontsAny?.pdfMake?.vfs) {
       vfs = fontsAny.pdfMake.vfs;
@@ -70,11 +81,92 @@ async function loadPdfMake() {
     (window as any).pdfMake = pdfMake;
     (window as any).pdfMake.vfs = vfs;
 
+    // Dynamically match font keys in VFS to handle any path variations
     const vfsKeys = Object.keys(vfs);
     const regKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-regular.ttf')) || 'Roboto-Regular.ttf';
     const medKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-medium.ttf') || k.toLowerCase().endsWith('roboto-bold.ttf')) || 'Roboto-Medium.ttf';
     const italicKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-italic.ttf')) || 'Roboto-Italic.ttf';
     const medItalicKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-mediumitalic.ttf') || k.toLowerCase().endsWith('roboto-bolditalic.ttf')) || 'Roboto-MediumItalic.ttf';
+
+    // Auto-load Aptos-Mono and Rubik fonts
+    const basePath = '/fonts/';
+    const aptosMonoFonts = [
+      { name: 'Aptos-Mono.ttf', key: 'Aptos-Mono.ttf' },
+      { name: 'Aptos-Mono-Bold.ttf', key: 'Aptos-Mono-Bold.ttf' },
+      { name: 'Aptos-Mono-Bold-Italic.ttf', key: 'Aptos-Mono-Bold-Italic.ttf' }
+    ];
+
+    const rubikFonts = [
+      { name: 'Rubik-Regular.ttf', key: 'Rubik-Regular.ttf' },
+      { name: 'Rubik-Bold.ttf', key: 'Rubik-Bold.ttf' },
+      { name: 'Rubik-Black.ttf', key: 'Rubik-Black.ttf' }
+    ];
+
+    const sourceSerifFonts = [
+      { name: 'SourceSerif4-Regular.ttf', key: 'SourceSerif4-Regular.ttf' },
+      { name: 'SourceSerif4-Semibold.ttf', key: 'SourceSerif4-Semibold.ttf' },
+      { name: 'SourceSerif4-It.ttf', key: 'SourceSerif4-It.ttf' }
+    ];
+
+    for (const font of aptosMonoFonts) {
+      try {
+        const response = await fetch(`${basePath}${font.name}`);
+        if (response.ok) {
+          const arrayBuffer = await response.arrayBuffer();
+          const base64 = btoa(
+            new Uint8Array(arrayBuffer).reduce(
+              (data, byte) => data + String.fromCharCode(byte),
+              ''
+            )
+          );
+          pdfMake.vfs[font.key] = base64;
+        }
+      } catch (error) {
+        // Silent fail
+      }
+    }
+
+    for (const font of rubikFonts) {
+      try {
+        const response = await fetch(`${basePath}${font.name}`);
+        if (response.ok) {
+          const arrayBuffer = await response.arrayBuffer();
+          const base64 = btoa(
+            new Uint8Array(arrayBuffer).reduce(
+              (data, byte) => data + String.fromCharCode(byte),
+              ''
+            )
+          );
+          pdfMake.vfs[font.key] = base64;
+        }
+      } catch (error) {
+        // Silent fail
+      }
+    }
+
+    for (const font of sourceSerifFonts) {
+      try {
+        const response = await fetch(`${basePath}${font.name}`);
+        if (response.ok) {
+          const arrayBuffer = await response.arrayBuffer();
+          const base64 = btoa(
+            new Uint8Array(arrayBuffer).reduce(
+              (data, byte) => data + String.fromCharCode(byte),
+              ''
+            )
+          );
+          pdfMake.vfs[font.key] = base64;
+        }
+      } catch (error) {
+        // Graceful fallback to Roboto
+      }
+    }
+
+    // Helper to validate font data
+    const isValidFont = (key: string) => {
+      const data = pdfMake.vfs[key];
+      return data && typeof data === 'string' && data.length > 1000;
+    };
 
     const fontConfig: any = {
       Roboto: {
@@ -84,6 +176,37 @@ async function loadPdfMake() {
         bolditalics: medItalicKey
       }
     };
+
+    // Add Rubik if available (for PDF titles)
+    if (isValidFont('Rubik-Regular.ttf') && isValidFont('Rubik-Black.ttf')) {
+      fontConfig['Rubik'] = {
+        normal: 'Rubik-Regular.ttf',
+        bold: 'Rubik-Black.ttf',
+        italics: 'Rubik-Regular.ttf',
+        bolditalics: 'Rubik-Black.ttf'
+      };
+    }
+
+    // Add Aptos-Mono if available (for code blocks)
+    if (isValidFont('Aptos-Mono.ttf') && isValidFont('Aptos-Mono-Bold.ttf')) {
+      const hasBoldItalic = isValidFont('Aptos-Mono-Bold-Italic.ttf');
+      fontConfig['Aptos-Mono'] = {
+        normal: 'Aptos-Mono.ttf',
+        bold: 'Aptos-Mono-Bold.ttf',
+        italics: hasBoldItalic ? 'Aptos-Mono-Bold-Italic.ttf' : 'Aptos-Mono.ttf',
+        bolditalics: hasBoldItalic ? 'Aptos-Mono-Bold-Italic.ttf' : 'Aptos-Mono-Bold.ttf'
+      };
+    }
+
+    if (isValidFont('SourceSerif4-Regular.ttf') && isValidFont('SourceSerif4-Semibold.ttf')) {
+      const hasItalic = isValidFont('SourceSerif4-It.ttf');
+      fontConfig['SourceSerif'] = {
+        normal: 'SourceSerif4-Regular.ttf',
+        bold: 'SourceSerif4-Semibold.ttf',
+        italics: hasItalic ? 'SourceSerif4-It.ttf' : 'SourceSerif4-Regular.ttf',
+        bolditalics: hasItalic ? 'SourceSerif4-It.ttf' : 'SourceSerif4-Semibold.ttf'
+      };
+    }
 
     pdfMake.fonts = fontConfig;
     fontsLoaded = true;
@@ -141,6 +264,83 @@ interface CoverMetadata {
   epigraph: { quote: string; author: string };
   audience: string;
   learningPoints: string[];
+  accentColor?: string;
+}
+
+function isNovelProject(project: BookProject & { fiction?: unknown }): boolean {
+  return project.bookType === 'novel' || Boolean(project.fiction);
+}
+
+async function generateCoverMetadata(project: BookProject): Promise<CoverMetadata | null> {
+  const isNovel = isNovelProject(project);
+  const chapterList = project.modules
+    .map((m, i) => `${i + 1}. ${m.title}`)
+    .join('\n');
+  const totalWords = project.modules.reduce((s, m) => s + m.wordCount, 0);
+
+  const prompt = isNovel
+    ? `You are an editorial book designer. Given a novel's details, generate cover metadata.
+
+RULES:
+- coverTitle: Maximum 8 words. Clear and memorable. The BIG text on the front cover.
+- subtitle: Maximum 12 words. A catchy subtitle or genre description.
+- tagline: One short sentence (maximum 12 words) hooking the reader.
+- blurb: Maximum 2 short sentences (under 30 words total) summarizing the premise.
+- epigraph: A real, famous quote relevant to the story's theme with the author. Keep it short.
+- audience: One short sentence (under 15 words) describing the target reader.
+- learningPoints: Exactly 4 short, punchy bullet points of key themes or motifs (each under 8 words).
+- accentColor: A single dark, rich hex color that matches the novel's mood.
+- Return ONLY valid JSON. No markdown, no backticks, no explanation.
+- Start your response with { and end with }.
+
+Book Title: "${project.title}"
+Premise: "${project.goal}"
+Chapters (${project.modules.length}):
+${chapterList}
+Total Words: ${totalWords.toLocaleString()}
+
+{"coverTitle":"...","subtitle":"...","tagline":"...","blurb":"...","epigraph":{"quote":"...","author":"..."},"audience":"...","learningPoints":["...","...","...","..."],"accentColor":"#......"}`
+    : `You are an editorial learning-book designer. Given a book's details, generate cover metadata for an educational, practical book.
+
+RULES:
+- coverTitle: Maximum 8 words. Clear, memorable, and education-focused. The BIG text on the front cover.
+- subtitle: Maximum 12 words. State the practical learning outcome.
+- tagline: One short sentence (maximum 12 words) explaining the main learner benefit.
+- blurb: Maximum 2 short sentences (under 30 words total) summarizing the book's value.
+- epigraph: A real, famous quote relevant to the topic with the author. Keep it short.
+- audience: One short sentence (under 15 words) describing the target reader.
+- learningPoints: Exactly 4 short, punchy bullet points of key takeaways (each under 8 words).
+- accentColor: A single dark, rich hex color (like #1b4332, #1a1b4b, #4a1942, #2d1810) that matches the book's subject. Must be dark enough for white text on top. Technology=deep blue/teal, Science=dark teal, Finance=dark navy, Health=dark emerald, History=dark burgundy, Cooking=dark sienna, Art=deep purple, Math=dark indigo. Be creative but keep it DARK and sophisticated.
+- Return ONLY valid JSON. No markdown, no backticks, no explanation.
+- Start your response with { and end with }.
+
+Book Title: "${project.title}"
+Topic: "${project.goal}"
+Level: ${(project as any).roadmap?.difficultyLevel || project.complexity || 'intermediate'}
+Chapters (${project.modules.length}):
+${chapterList}
+Total Words: ${totalWords.toLocaleString()}
+
+{"coverTitle":"...","subtitle":"...","tagline":"...","blurb":"...","epigraph":{"quote":"...","author":"..."},"audience":"...","learningPoints":["...","...","...","..."],"accentColor":"#......"}`;
+
+  try {
+    const raw = await bookService.generateForPdf(prompt, project.id);
+    
+    // Find the first { and last } to extract JSON block robustly
+    const firstBrace = raw.indexOf('{');
+    const lastBrace = raw.lastIndexOf('}');
+    if (firstBrace === -1 || lastBrace === -1 || lastBrace < firstBrace) {
+      throw new Error('Could not find JSON block in AI response');
+    }
+    const jsonString = raw.substring(firstBrace, lastBrace + 1);
+    
+    const parsed = JSON.parse(jsonString);
+    if (!parsed.coverTitle || !parsed.subtitle) return null;
+    return parsed as CoverMetadata;
+  } catch (e) {
+    console.warn('[PDF] Cover metadata AI call failed:', e);
+    return null;
+  }
 }
 
 class ProfessionalPdfGenerator {
@@ -162,8 +362,70 @@ class ProfessionalPdfGenerator {
   private accentText = '#26352d';
   private accentUnderline = '#a9c9b6';
 
-  // 6 × 9 inches standard non-fiction book size (72 pt/inch)
   private readonly page = { width: 432, height: 648, contentWidth: 336 };
+
+  private hexToHsl(hex: string): [number, number, number] {
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    const max = Math.max(r, g, b), min = Math.min(r, g, b);
+    let h = 0, s = 0;
+    const l = (max + min) / 2;
+    if (max !== min) {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        case b: h = ((r - g) / d + 4) / 6; break;
+      }
+    }
+    return [h * 360, s * 100, l * 100];
+  }
+
+  private hslToHex(h: number, s: number, l: number): string {
+    h /= 360; s /= 100; l /= 100;
+    const hue2rgb = (p: number, q: number, t: number) => {
+      if (t < 0) t += 1; if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+    let r: number, g: number, b: number;
+    if (s === 0) { r = g = b = l; } else {
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1/3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1/3);
+    }
+    const toHex = (c: number) => Math.round(c * 255).toString(16).padStart(2, '0');
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+  }
+
+  private tint(h: number, s: number, lightness: number): string {
+    return this.hslToHex(h, Math.min(s, 30), lightness);
+  }
+
+  private applyAccentColor(hex: string | undefined): void {
+    if (!hex || !/^#[0-9a-fA-F]{6}$/.test(hex)) return; // keep defaults
+    const [h, s, l] = this.hexToHsl(hex);
+    if (l > 35) return;
+    this.brandGreen = hex;
+    this.brandGreenDeep = this.hslToHex(h, s, Math.max(l - 6, 5));
+    this.rowTint = this.tint(h, s, 94);
+    this.codeBg = this.tint(h, s / 2, 95);
+    this.accentLight = this.tint(h, s, 93);
+    this.accentSubtle = this.tint(h, s, 87);
+    this.accentMid = this.tint(h, s, 85);
+    this.accentFaint = this.tint(h, s, 95);
+    this.accentText = this.hslToHex(h, Math.min(s, 25), 18);
+    this.accentUnderline = this.tint(h, s, 72);
+    if (this.styles?.partLabel) {
+      this.styles.partLabel.color = hex;
+    }
+  }
 
   private readonly CODE_KEYWORDS = new Set([
     'select', 'from', 'where', 'order', 'by', 'group', 'having', 'join', 'left', 'right', 'inner', 'outer',
@@ -309,6 +571,28 @@ class ProfessionalPdfGenerator {
         lineHeight: 1.2,
         alignment: 'left'
       },
+      disclaimerTitle: {
+        fontSize: 24,
+        bold: true,
+        alignment: 'center',
+        color: '#4a5568',
+        margin: [0, 0, 0, 20]
+      },
+      disclaimerText: {
+        fontSize: 10,
+        lineHeight: 1.65,
+        alignment: 'justify',
+        color: '#2d3748',
+        margin: [0, 0, 0, 12],
+        characterSpacing: 0
+      },
+      disclaimerNote: {
+        fontSize: 9,
+        lineHeight: 1.5,
+        alignment: 'justify',
+        color: '#4a5568',
+        margin: [0, 8, 0, 8]
+      },
       partLabel: {
         fontSize: 12,
         bold: true,
@@ -332,6 +616,7 @@ class ProfessionalPdfGenerator {
 
   private preprocessMarkdown(markdown: string): string {
     const lines = markdown.split('\n');
+
     let stripIdx = 0;
     while (stripIdx < lines.length) {
       const t = lines[stripIdx].trim();
@@ -377,6 +662,21 @@ class ProfessionalPdfGenerator {
       .replace(/\u2260/g, '!=');
   }
 
+  private cleanText(text: string): string {
+    text = this.normalizeDashes(text);
+    return text
+      .replace(/\*\*\*(.+?)\*\*\*/g, '$1')
+      .replace(/\*\*(.+?)\*\*/g, '$1')
+      .replace(/\*(.+?)\*/g, '$1')
+      .replace(/__(.+?)__/g, '$1')
+      .replace(/_(.+?)_/g, '$1')
+      .replace(/~~(.+?)~~/g, '$1')
+      .replace(/`(.+?)`/g, '$1')
+      .replace(/\[(.+?)\]\(.+?\)/g, '$1')
+      .replace(/!\[.*?\]\(.+?\)/g, '')
+      .trim();
+  }
+
   private preventHyphenGap(text: string): string {
     return text.replace(/([A-Za-z0-9])-([A-Za-z0-9])/g, '$1\u2011$2');
   }
@@ -402,11 +702,15 @@ class ProfessionalPdfGenerator {
       }
 
       if (match[13]) {
-        parts.push({ text: match[13], fontSize: 11, characterSpacing: 0.5 });
+        parts.push({
+          text: match[13],
+          fontSize: 11,
+          characterSpacing: 0.5
+        });
       } else if (match[11]) {
         parts.push({ text: match[11], link: match[12], color: '#2563eb', decoration: 'underline', decorationColor: '#93c5fd' });
       } else if (match[9] !== undefined) {
-        // Drop inline image syntax
+        // no-op
       } else if (match[2]) {
         parts.push({ text: match[2], bold: true, italics: true });
       } else if (match[3]) {
@@ -443,9 +747,11 @@ class ProfessionalPdfGenerator {
   private splitCodeBlock(code: string, maxLines: number = 40): string[] {
     const lines = code.split('\n');
     const chunks: string[] = [];
+
     for (let i = 0; i < lines.length; i += maxLines) {
       chunks.push(lines.slice(i, i + maxLines).join('\n'));
     }
+
     return chunks;
   }
 
@@ -595,7 +901,7 @@ class ProfessionalPdfGenerator {
     ];
   }
 
-  private parseMarkdownToContent(markdown: string, book?: BookFile): PDFContent[] {
+  private parseMarkdownToContent(markdown: string, project?: BookProject): PDFContent[] {
     markdown = this.preprocessMarkdown(markdown);
     markdown = this.normalizeDashes(markdown);
 
@@ -723,6 +1029,7 @@ class ProfessionalPdfGenerator {
 
     const flushCodeBlock = () => {
       if (codeBuffer.length === 0 || skipToC) return;
+
       const fullCode = codeBuffer.join('\n');
       const fontSize = 9;
       const lineHeight = 1.5;
@@ -807,6 +1114,7 @@ class ProfessionalPdfGenerator {
           if (colCount <= 2) {
             return Array(colCount).fill('*');
           }
+          
           const colMaxLengths = Array(colCount).fill(0);
           for (let col = 0; col < colCount; col++) {
             let maxLen = tableHeaders[col]?.length || 0;
@@ -831,6 +1139,7 @@ class ProfessionalPdfGenerator {
           const availableWidth = this.page.contentWidth - (colCount * paddingPerCol);
           
           let allocatedWidths = weights.map(w => (w / totalWeight) * availableWidth);
+          
           const minWidth = 40;
           allocatedWidths = allocatedWidths.map(w => Math.max(w, minWidth));
           
@@ -984,18 +1293,25 @@ class ProfessionalPdfGenerator {
            content.push({ text: this.parseInlineMarkdown(title), style: 'h1Module', alignment: 'left', id: headingId, keepWithNext: true, headlineLevel: 1 });
             
             let subtitle = 'A focused, practical chapter to help you understand the ideas and apply them with confidence.';
-            if (book?.modules) {
+            const modules = project?.modules || (project as any)?.roadmap?.modules;
+            if (modules) {
               const numMatch = label.match(/\d+/);
               const index = numMatch ? parseInt(numMatch[0], 10) - 1 : -1;
               let foundModule = null;
-              if (index >= 0 && index < book.modules.length) {
-                foundModule = book.modules[index];
+              if (index >= 0 && index < modules.length) {
+                foundModule = modules[index];
               }
               const normalizedTitle = title.toLowerCase().replace(/[^a-z0-9]/g, '');
               if (!foundModule || foundModule.title.toLowerCase().replace(/[^a-z0-9]/g, '') !== normalizedTitle) {
-                const matched = book.modules.find(m => m.title.toLowerCase().replace(/[^a-z0-9]/g, '') === normalizedTitle);
+                const matched = modules.find((m: any) => m.title.toLowerCase().replace(/[^a-z0-9]/g, '') === normalizedTitle);
                 if (matched) {
                   foundModule = matched;
+                }
+              }
+              if (foundModule) {
+                const possibleDesc = foundModule.description || foundModule.focus;
+                if (possibleDesc && possibleDesc.trim()) {
+                  subtitle = possibleDesc.trim();
                 }
               }
             }
@@ -1182,6 +1498,11 @@ class ProfessionalPdfGenerator {
     onProgress(10);
     const pdfMakeLib = await loadPdfMake();
 
+    const availableFonts = pdfMakeLib.fonts || {};
+    this.fontFamily = availableFonts['SourceSerif'] ? 'SourceSerif' : 'Roboto';
+    this.codeFontFamily = availableFonts['Aptos-Mono'] ? 'Aptos-Mono' : 'Roboto';
+    this.headingFontFamily = availableFonts['Rubik'] ? 'Rubik' : 'Roboto';
+
     onProgress(30);
     const coverMeta: CoverMetadata = {
       coverTitle: book.title,
@@ -1219,7 +1540,7 @@ class ProfessionalPdfGenerator {
       content: this.content,
       styles: this.styles,
       defaultStyle: {
-        font: 'Roboto',
+        font: this.fontFamily,
         fontSize: 10,
         color: '#1a1a1a',
         lineHeight: 1.5,
