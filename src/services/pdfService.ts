@@ -1457,7 +1457,7 @@ class ProfessionalPdfGenerator {
       if (trimmed.startsWith('# ')) {
         flushParagraph();
         let text = trimmed.substring(2);
-        inSkipSubheadingsSection = /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer)$/i.test(text.trim());
+        inSkipSubheadingsSection = /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer|instruction|instructions)$/i.test(text.trim());
         
         const partMatch = text.match(/^(PART\s+\d+)\s*[—:-]\s*(.+)$/i) || 
                           text.match(/^(CHAPTER\s+\d+)\s*[—:-]\s*(.+)$/i) ||
@@ -1538,9 +1538,12 @@ class ProfessionalPdfGenerator {
         let text = trimmed.substring(3);
         text = this.capitalizeFirstLetter(text);
         
-        const isPrimarySectionStart = /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer)$/i.test(text.trim());
+        const isPrimarySectionStart = /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer|instruction|instructions)$/i.test(text.trim());
         if (isPrimarySectionStart) {
           inSkipSubheadingsSection = true;
+          if (content.length > 0) {
+            content.push({ text: '', pageBreak: 'before' });
+          }
         }
         
         const headingId = `tocTarget${headingIdCounter++}`;
@@ -1618,7 +1621,7 @@ class ProfessionalPdfGenerator {
       const tocRows = tocEntries.map((entry) => {
         const isChapter = entry.level === 1;
         const isPrimarySection = isChapter || 
-          /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer)$/i.test(entry.title.trim());
+          /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer|instruction|instructions)$/i.test(entry.title.trim());
           
         return [
           {
