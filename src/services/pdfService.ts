@@ -267,6 +267,8 @@ interface PDFContent {
   keepWithNext?: boolean;
   headlineLevel?: number;
   widths?: any;
+  image?: string;
+  height?: number;
 }
 
 interface CoverMetadata {
@@ -353,6 +355,30 @@ Total Words: ${totalWords.toLocaleString()}
   } catch (e) {
     console.warn('[PDF] Cover metadata AI call failed:', e);
     return null;
+  }
+}
+
+function generateNoiseDataUrl(w = 256, h = 256): string {
+  if (typeof document === 'undefined') return '';
+  try {
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return '';
+    const imgData = ctx.createImageData(w, h);
+    const data = imgData.data;
+    for (let i = 0; i < data.length; i += 4) {
+      const val = Math.floor(Math.random() * 255);
+      data[i] = val;
+      data[i+1] = val;
+      data[i+2] = val;
+      data[i+3] = 10; // Subtle noise opacity
+    }
+    ctx.putImageData(imgData, 0, 0);
+    return canvas.toDataURL('image/png');
+  } catch (e) {
+    return '';
   }
 }
 
@@ -638,7 +664,7 @@ class ProfessionalPdfGenerator {
         lines.splice(stripIdx, 1);
         continue;
       }
-      if (/^\*\*\s*(Generated|Words|Provider)\s*[:.]\*\*/i.test(t)) {
+      if (/^\*\*\s*(Generated|Words|Provider|Model)\s*[:.]\*\*/i.test(t)) {
         lines.splice(stripIdx, 1);
         continue;
       }
@@ -829,9 +855,46 @@ class ProfessionalPdfGenerator {
       ? this.capitalizeFirstLetter(coverMeta.subtitle.split(' ')[0].toLowerCase())
       : 'Structured';
 
+    const noiseDataUrl = generateNoiseDataUrl(width, height);
+
     return [
       { canvas: background, absolutePosition: { x: 0, y: 0 } },
+      ...(noiseDataUrl ? [{
+        image: noiseDataUrl,
+        width: width,
+        height: height,
+        absolutePosition: { x: 0, y: 0 }
+      }] : []),
       { canvas: border, absolutePosition: { x: 0, y: 0 } },
+      {
+        stack: [
+          {
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#cbd5e1' }],
+            margin: [0, 0, 0, 14]
+          },
+          {
+            columns: [
+              {
+                text: 'AI-ASSISTED STUDY EDITION',
+                font: this.headingFontFamily,
+                fontSize: 7,
+                bold: true,
+                color: '#64748b',
+                characterSpacing: 1.2,
+                alignment: 'left'
+              },
+              {
+                text: `First digital edition • ${new Date().getFullYear()}`,
+                font: this.fontFamily,
+                fontSize: 7,
+                color: '#64748b',
+                alignment: 'right'
+              }
+            ]
+          }
+        ],
+        absolutePosition: { x: 48, y: height - 76 }
+      },
       { text: '', margin: [0, 42, 0, 0] },
       {
         text: 'PUSTAKAM STUDY SERIES',
@@ -885,35 +948,6 @@ class ProfessionalPdfGenerator {
         lineHeight: 1.45,
         margin: [0, 0, 0, 36],
         alignment: 'justify'
-      },
-      {
-        stack: [
-          {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#cbd5e1' }],
-            margin: [0, 0, 0, 14]
-          },
-          {
-            columns: [
-              {
-                text: 'AI-ASSISTED STUDY EDITION',
-                font: this.headingFontFamily,
-                fontSize: 7,
-                bold: true,
-                color: '#64748b',
-                characterSpacing: 1.2,
-                alignment: 'left'
-              },
-              {
-                text: `First digital edition • ${new Date().getFullYear()}`,
-                font: this.fontFamily,
-                fontSize: 7,
-                color: '#64748b',
-                alignment: 'right'
-              }
-            ]
-          }
-        ],
-        absolutePosition: { x: 48, y: height - 76 }
       },
       { text: '', pageBreak: 'after' }
     ];
