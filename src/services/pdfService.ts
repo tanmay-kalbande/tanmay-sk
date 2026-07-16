@@ -28,56 +28,68 @@ async function loadPdfMake() {
       import('pdfmake/build/vfs_fonts')
     ]);
     pdfMake = pdfMakeModule.default || pdfMakeModule;
-    const fonts = pdfFontsModule.default || pdfFontsModule;
+    const fontsAny: any = pdfFontsModule.default || pdfFontsModule;
 
-    // VFS Detection
-    let vfs = null;
-    const fontsAny: any = fonts;
+    // Robust VFS Detection across ESM / Vite bundled module exports
+    let vfs: any = null;
     if (fontsAny?.pdfMake?.vfs) {
       vfs = fontsAny.pdfMake.vfs;
     } else if (fontsAny?.vfs) {
       vfs = fontsAny.vfs;
-    } else if (typeof fontsAny === 'object' && fontsAny !== null) {
-      const possibleVfs: any = {};
-      for (const key in fontsAny) {
-        if (key.includes('.ttf') || key.includes('Roboto')) {
-          possibleVfs[key] = fontsAny[key];
+    } else if (fontsAny && typeof fontsAny === 'object') {
+      // Direct vfs map check
+      if (fontsAny['Roboto-Regular.ttf'] || Object.keys(fontsAny).some(k => k.includes('Roboto'))) {
+        vfs = fontsAny;
+      } else {
+        // Deep key search for an object containing Roboto fonts
+        for (const k of Object.keys(fontsAny)) {
+          const val = fontsAny[k];
+          if (val && typeof val === 'object' && (val['Roboto-Regular.ttf'] || Object.keys(val).some(sk => sk.includes('Roboto')))) {
+            vfs = val;
+            break;
+          }
         }
       }
-      if (Object.keys(possibleVfs).length > 0) {
-        vfs = possibleVfs;
-      }
     }
+
     if (!vfs && (pdfFontsModule as any)?.pdfMake?.vfs) {
       vfs = (pdfFontsModule as any).pdfMake.vfs;
     }
-    if (!vfs && (pdfFontsModule as any)?.default?.pdfMake?.vfs) {
-      vfs = (pdfFontsModule as any).default.pdfMake.vfs;
+
+    if (!vfs && (window as any).pdfMake?.vfs) {
+      vfs = (window as any).pdfMake.vfs;
     }
-    if (!vfs && typeof fontsAny === 'object') {
-      const findVfs = (obj: any, depth = 0): any => {
-        if (depth > 3) return null;
-        if (obj?.vfs && typeof obj.vfs === 'object') return obj.vfs;
-        if (typeof obj !== 'object' || obj === null) return null;
-        for (const key in obj) {
-          const result = findVfs(obj[key], depth + 1);
-          if (result) return result;
-        }
-        return null;
-      };
-      vfs = findVfs(fontsAny);
+
+    if (!vfs && (window as any).pdfFonts?.pdfMake?.vfs) {
+      vfs = (window as any).pdfFonts.pdfMake.vfs;
     }
+
     if (!vfs) {
+      console.error('[PDF] Could not resolve pdfMake VFS fonts module:', pdfFontsModule);
       throw new Error('FONT_VFS_NOT_FOUND');
     }
+
+    // Set vfs across all scope references used by pdfmake/pdfkit internals
     pdfMake.vfs = vfs;
+    if ((pdfMakeModule as any).default) {
+      (pdfMakeModule as any).default.vfs = vfs;
+    }
+    (window as any).pdfMake = pdfMake;
+    (window as any).pdfMake.vfs = vfs;
+
+    // Dynamically match font keys in VFS to handle any path variations
+    const vfsKeys = Object.keys(vfs);
+    const regKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-regular.ttf')) || 'Roboto-Regular.ttf';
+    const medKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-medium.ttf') || k.toLowerCase().endsWith('roboto-bold.ttf')) || 'Roboto-Medium.ttf';
+    const italicKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-italic.ttf')) || 'Roboto-Italic.ttf';
+    const medItalicKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-mediumitalic.ttf') || k.toLowerCase().endsWith('roboto-bolditalic.ttf')) || 'Roboto-MediumItalic.ttf';
 
     const fontConfig: any = {
       Roboto: {
-        normal: 'Roboto-Regular.ttf',
-        bold: 'Roboto-Medium.ttf',
-        italics: 'Roboto-Italic.ttf',
-        bolditalics: 'Roboto-MediumItalic.ttf'
+        normal: regKey,
+        bold: medKey,
+        italics: italicKey,
+        bolditalics: medItalicKey
       }
     };
 
