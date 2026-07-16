@@ -942,6 +942,7 @@ class ProfessionalPdfGenerator {
 
       // 2. BOTTOM EDGE: Tagline and Edition
       {
+        unbreakable: true,
         stack: [
           {
             text: `■  ${levelWord.toUpperCase()} EDITION`,
@@ -963,11 +964,12 @@ class ProfessionalPdfGenerator {
             margin: [0, 0, 0, 0]
           }
         ],
-        absolutePosition: { x: 48, y: height - 180 } // Pinned above the footer
+        absolutePosition: { x: 48, y: height - 164 } // Pinned safely above the footer
       },
 
       // 3. FOOTER EDGE
       {
+        unbreakable: true,
         stack: [
           {
             canvas: [{ type: 'line', x1: 0, y1: 0, x2: width - 96, y2: 0, lineWidth: 0.75, lineColor: '#333333' }],
@@ -994,7 +996,7 @@ class ProfessionalPdfGenerator {
             ]
           }
         ],
-        absolutePosition: { x: 48, y: height - 64 } // Pinned securely to bottom edge
+        absolutePosition: { x: 48, y: height - 88 } // Pinned securely inside page boundary
       },
 
       // 4. Force Page Break
