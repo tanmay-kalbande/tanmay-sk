@@ -642,7 +642,7 @@ class ProfessionalPdfGenerator {
         fontSize: 12,
         bold: true,
         color: '#1b4332',
-        margin: [0, 0, 0, 4],
+        margin: [0, 0, 0, 0],
         characterSpacing: 2
       },
       tocChapter: {
@@ -1377,7 +1377,7 @@ class ProfessionalPdfGenerator {
         if (content.length > 0) {
           content.push({ text: '', pageBreak: 'before' });
         }
-        content.push({ text: 'Table of Contents', style: 'h1Module', alignment: 'left', margin: [0, 50, 0, 18] });
+        content.push({ text: 'Table of Contents', style: 'h1Module', alignment: 'left', margin: [0, 15, 0, 18] });
         tocPlaceholderIndex = content.length;
         content.push({ text: '', margin: [0, 0, 0, 0] });
         continue;
@@ -1466,7 +1466,7 @@ class ProfessionalPdfGenerator {
              content.push({ text: '', pageBreak: 'before' });
            }
            isFirstModule = false;
-           content.push({ text: '', margin: [0, 50, 0, 0] });
+           content.push({ text: '', margin: [0, 15, 0, 0] });
            const headingId = `tocTarget${headingIdCounter++}`;
            content.push({ text: label, style: 'partLabel' });
            content.push({ text: this.parseInlineMarkdown(title), style: 'h1Module', alignment: 'left', id: headingId, keepWithNext: true, headlineLevel: 1 });
