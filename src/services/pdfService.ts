@@ -925,79 +925,78 @@ class ProfessionalPdfGenerator {
         absolutePosition: { x: 48, y: height - 88 }
       },
 
-      // 2. FLOW CONTENT: Centered elegant editorial layout
-      { text: '', margin: [0, 36, 0, 0] },
+      // 2. FLOW CONTENT: Left-aligned modern editorial layout
+      { text: '', margin: [0, 56, 0, 0] },
       
-      // Series Label
+      // Series Label & Decorative Line
       {
         text: 'PUSTAKAM STUDY SERIES',
         font: this.codeFontFamily,
         fontSize: 7.5,
         bold: true,
         color: '#e05a35',
-        characterSpacing: 1.5,
-        alignment: 'center',
-        margin: [0, 0, 0, 36]
+        characterSpacing: 2,
+        alignment: 'left',
+        margin: [32, 0, 0, 6]
+      },
+      {
+        canvas: [
+          { type: 'rect', x: 32, y: 0, w: 48, h: 1.5, color: '#e05a35' }
+        ],
+        margin: [0, 0, 0, 48]
       },
 
-      // Title & Subtitle Stack (Centered, premium serif display style)
+      // Title & Subtitle Stack (Left aligned, strong hierarchy)
       {
         stack: [
           {
             text: mainTitle,
             font: this.fontFamily,
-            fontSize: mainTitle.length > 30 ? 24 : mainTitle.length > 18 ? 28 : 32,
+            fontSize: mainTitle.length > 30 ? 28 : mainTitle.length > 18 ? 32 : 38,
             bold: true,
             color: '#f0ede8',
-            alignment: 'center',
-            lineHeight: 1.15,
-            margin: [0, 0, 0, 6]
+            alignment: 'left',
+            lineHeight: 1.1,
+            margin: [0, 0, 0, 12]
           },
           ...(subTitle ? [{
             text: subTitle,
             font: this.fontFamily,
-            fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 19,
+            fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 20,
             bold: false,
             italics: true,
             color: '#999999',
-            alignment: 'center',
-            lineHeight: 1.25,
+            alignment: 'left',
+            lineHeight: 1.3,
             margin: [0, 0, 0, 0]
           }] : [])
         ],
-        margin: [16, 0, 16, 0]
+        margin: [32, 0, 32, 0]
       },
 
-      // Tagline/Hook (Centered, elegant italics, focused)
+      { text: '', margin: [0, 64, 0, 0] },
+
+      // Badge/Pill
+      {
+        text: `■  ${levelWord.toUpperCase()} EDITION`,
+        font: this.codeFontFamily,
+        fontSize: 7.5,
+        bold: true,
+        color: '#e05a35',
+        characterSpacing: 1.5,
+        alignment: 'left',
+        margin: [32, 0, 0, 12]
+      },
+
+      // Tagline/Hook
       {
         text: coverMeta.tagline,
         font: this.fontFamily,
         fontSize: 11,
-        italics: true,
         color: '#999999',
-        lineHeight: 1.45,
-        alignment: 'center',
-        margin: [24, 24, 24, 0]
-      },
-
-      // Decorative Emblem / Divider (Centered clean shape)
-      {
-        canvas: [
-          { type: 'rect', x: 148, y: 0, w: 40, h: 0.75, color: '#e05a35' }
-        ],
-        margin: [0, 24, 0, 24]
-      },
-
-      // Badge/Pill (Clean minimalist edition text)
-      {
-        text: `—  ${levelWord.toUpperCase()} EDITION  —`,
-        font: this.codeFontFamily,
-        fontSize: 7,
-        bold: true,
-        color: '#e05a35',
-        characterSpacing: 2,
-        alignment: 'center',
-        margin: [0, 0, 0, 0]
+        lineHeight: 1.5,
+        alignment: 'left',
+        margin: [32, 0, 64, 0]
       },
 
       // Force Page Break after cover
