@@ -17,6 +17,14 @@ on:
           - street
           - desi
         default: 'stellar'
+      street_lang:
+        description: '🗣️ Street Edition Language (only applies when edition = street)'
+        required: false
+        type: choice
+        options:
+          - english
+          - hinglish
+        default: 'english'
       provider:
         description: '🧠 Select Neural Engine Core (AI Provider)'
         required: false
@@ -115,6 +123,7 @@ jobs:
           PROVIDER:          ${{ github.event.inputs.provider || 'mistral' }}
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '1' }}
           MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
+          STREET_LANG:       ${{ github.event.inputs.street_lang || 'english' }}
           CI:                'true'
         run: |
           npx tsx scripts/generate-library.ts
