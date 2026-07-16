@@ -894,11 +894,83 @@ class ProfessionalPdfGenerator {
       : 'Structured';
 
     return [
-      // 1. PIN FOOTER TO PAGE 1: Place absolute positioned elements first so they are bound to page 1
+      // 1. TOP EDGE: Series Label and Title Stack
+      {
+        stack: [
+          // Series Label & Decorative Line
+          {
+            text: 'PUSTAKAM STUDY SERIES',
+            font: this.codeFontFamily,
+            fontSize: 7.5,
+            bold: true,
+            color: '#e05a35',
+            characterSpacing: 2,
+            alignment: 'left',
+            margin: [0, 0, 0, 6]
+          },
+          {
+            canvas: [
+              { type: 'rect', x: 0, y: 0, w: 48, h: 1.5, color: '#e05a35' }
+            ],
+            margin: [0, 0, 0, 36]
+          },
+          // Title & Subtitle Stack
+          {
+            text: mainTitle,
+            font: this.fontFamily,
+            fontSize: mainTitle.length > 30 ? 28 : mainTitle.length > 18 ? 32 : 38,
+            bold: true,
+            color: '#f0ede8',
+            alignment: 'left',
+            lineHeight: 1.1,
+            margin: [0, 0, 0, 12]
+          },
+          ...(subTitle ? [{
+            text: subTitle,
+            font: this.fontFamily,
+            fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 20,
+            bold: false,
+            italics: true,
+            color: '#999999',
+            alignment: 'left',
+            lineHeight: 1.3,
+            margin: [0, 0, 0, 0]
+          }] : [])
+        ],
+        absolutePosition: { x: 48, y: 48 } // Pinned securely to top left edge
+      },
+
+      // 2. BOTTOM EDGE: Tagline and Edition
       {
         stack: [
           {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#333333' }],
+            text: `■  ${levelWord.toUpperCase()} EDITION`,
+            font: this.codeFontFamily,
+            fontSize: 7.5,
+            bold: true,
+            color: '#e05a35',
+            characterSpacing: 1.5,
+            alignment: 'left',
+            margin: [0, 0, 0, 12]
+          },
+          {
+            text: coverMeta.tagline,
+            font: this.fontFamily,
+            fontSize: 11,
+            color: '#999999',
+            lineHeight: 1.5,
+            alignment: 'left',
+            margin: [0, 0, 0, 0]
+          }
+        ],
+        absolutePosition: { x: 48, y: height - 180 } // Pinned above the footer
+      },
+
+      // 3. FOOTER EDGE
+      {
+        stack: [
+          {
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: width - 96, y2: 0, lineWidth: 0.75, lineColor: '#333333' }],
             margin: [0, 0, 0, 10]
           },
           {
@@ -922,84 +994,12 @@ class ProfessionalPdfGenerator {
             ]
           }
         ],
-        absolutePosition: { x: 48, y: height - 88 }
+        absolutePosition: { x: 48, y: height - 64 } // Pinned securely to bottom edge
       },
 
-      // 2. FLOW CONTENT: Left-aligned modern editorial layout
-      { text: '', margin: [0, 56, 0, 0] },
-      
-      // Series Label & Decorative Line
-      {
-        text: 'PUSTAKAM STUDY SERIES',
-        font: this.codeFontFamily,
-        fontSize: 7.5,
-        bold: true,
-        color: '#e05a35',
-        characterSpacing: 2,
-        alignment: 'left',
-        margin: [32, 0, 0, 6]
-      },
-      {
-        canvas: [
-          { type: 'rect', x: 32, y: 0, w: 48, h: 1.5, color: '#e05a35' }
-        ],
-        margin: [0, 0, 0, 48]
-      },
-
-      // Title & Subtitle Stack (Left aligned, strong hierarchy)
-      {
-        stack: [
-          {
-            text: mainTitle,
-            font: this.fontFamily,
-            fontSize: mainTitle.length > 30 ? 28 : mainTitle.length > 18 ? 32 : 38,
-            bold: true,
-            color: '#f0ede8',
-            alignment: 'left',
-            lineHeight: 1.1,
-            margin: [0, 0, 0, 12]
-          },
-          ...(subTitle ? [{
-            text: subTitle,
-            font: this.fontFamily,
-            fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 20,
-            bold: false,
-            italics: true,
-            color: '#999999',
-            alignment: 'left',
-            lineHeight: 1.3,
-            margin: [0, 0, 0, 0]
-          }] : [])
-        ],
-        margin: [32, 0, 32, 0]
-      },
-
-      { text: '', margin: [0, 64, 0, 0] },
-
-      // Badge/Pill
-      {
-        text: `■  ${levelWord.toUpperCase()} EDITION`,
-        font: this.codeFontFamily,
-        fontSize: 7.5,
-        bold: true,
-        color: '#e05a35',
-        characterSpacing: 1.5,
-        alignment: 'left',
-        margin: [32, 0, 0, 12]
-      },
-
-      // Tagline/Hook
-      {
-        text: coverMeta.tagline,
-        font: this.fontFamily,
-        fontSize: 11,
-        color: '#999999',
-        lineHeight: 1.5,
-        alignment: 'left',
-        margin: [32, 0, 64, 0]
-      },
-
-      // Force Page Break after cover
+      // 4. Force Page Layout and Break
+      // A dummy element to ensure pdfmake renders a full-height page before breaking
+      { text: '', margin: [0, height - 20, 0, 0] },
       { text: '', pageBreak: 'after' }
     ];
   }
