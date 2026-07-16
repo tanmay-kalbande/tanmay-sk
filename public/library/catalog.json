@@ -661,6 +661,27 @@
       "edition": "stellar"
     },
     {
+      "slug": "street-design-and-deploy-a-fully-autonomous-solarpowered-iot-sensor-network-for",
+      "title": "BLACKHOLE ROADMAP: BUILD A SOLAR-POWERED AIR QUALITY ARMY OR GET LEFT IN THE DUST",
+      "goal": "Design and deploy a fully autonomous, solar-powered IoT sensor network for real-time urban air quality monitoring using low-cost hardware and open-source tools",
+      "category": "science",
+      "tags": [
+        "IoT",
+        "environmental science",
+        "sustainability",
+        "embedded systems"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 34911,
+      "moduleCount": 9,
+      "readingTimeMins": 140,
+      "metaDescription": "BLACKHOLE ROADMAP: BUILD A SOLAR-POWERED AIR QUALITY ARMY OR GET LEFT IN THE DUST: a intermediate guide to design and deploy a fully autonomous, solar-powe",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T14:53:32.517Z",
+      "edition": "street"
+    },
+    {
       "slug": "street-understand-the-neurochemistry-of-habit-formation-and-behavioral-loops-beg",
       "title": "Brain Hackers: Rewiring Your Wetware for Savage Habits",
       "goal": "Understand the neurochemistry of habit formation and behavioral loops",
@@ -801,6 +822,6 @@
       "edition": "street"
     }
   ],
-  "total": 40,
-  "generatedAt": "2026-07-16T14:34:06.048Z"
+  "total": 41,
+  "generatedAt": "2026-07-16T14:53:32.601Z"
 }
