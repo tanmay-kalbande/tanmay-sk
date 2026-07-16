@@ -894,75 +894,7 @@ class ProfessionalPdfGenerator {
       : 'Structured';
 
     return [
-      // Everything below is real flow content now (no full-page absolutePosition
-      // elements mixed in), so its height is measured correctly and the footer
-      // block at the end reliably lands near the bottom of THIS page only.
-      { text: '', margin: [0, 58, 0, 0] },
-      {
-        text: 'PUSTAKAM STUDY SERIES',
-        font: this.codeFontFamily,
-        fontSize: 7.5,
-        bold: true,
-        color: '#64748b',
-        characterSpacing: 1.5,
-        alignment: 'center',
-        margin: [0, 0, 0, 48]
-      },
-      {
-        text: `A Structured ${levelWord} Guide`,
-        font: this.fontFamily,
-        fontSize: 13,
-        italics: true,
-        color: '#475569',
-        alignment: 'left',
-        margin: [0, 0, 0, 6]
-      },
-      {
-        text: mainTitle,
-        font: this.fontFamily,
-        fontSize: mainTitle.length > 30 ? 24 : mainTitle.length > 18 ? 28 : 32,
-        bold: true,
-        color: '#c8451a',
-        alignment: 'left',
-        lineHeight: 1.15,
-        margin: [0, 0, 0, 4]
-      },
-      ...(subTitle ? [{
-        text: subTitle,
-        font: this.fontFamily,
-        fontSize: subTitle.length > 50 ? 18 : subTitle.length > 30 ? 21 : 24,
-        bold: true,
-        color: '#1e293b',
-        alignment: 'left',
-        lineHeight: 1.15,
-        margin: [0, 0, 0, 16]
-      }] : []),
-      {
-        canvas: [{ type: 'line', x1: 0, y1: 0, x2: 72, y2: 0, lineWidth: 1.5, lineColor: '#cbd5e1' }],
-        margin: [0, 0, 0, 28]
-      },
-      {
-        text: coverMeta.tagline,
-        font: this.fontFamily,
-        fontSize: 11,
-        italics: true,
-        color: '#334155',
-        lineHeight: 1.45,
-        margin: [0, 0, 0, 20],
-        alignment: 'justify'
-      },
-      ...(coverMeta.blurb ? [{
-        text: coverMeta.blurb,
-        font: this.fontFamily,
-        fontSize: 9.5,
-        color: '#4b5563',
-        lineHeight: 1.55,
-        margin: [0, 0, 0, 0],
-        alignment: 'justify'
-      }] : []),
-      // Bottom edition strip. Small footprint, real flow content — safe to
-      // pin with absolutePosition since it's no longer competing with
-      // multiple page-height canvases above it for layout space.
+      // 1. PIN FOOTER TO PAGE 1: Place absolute positioned elements first so they are bound to page 1
       {
         stack: [
           {
@@ -992,6 +924,83 @@ class ProfessionalPdfGenerator {
         ],
         absolutePosition: { x: 48, y: height - 76 }
       },
+
+      // 2. FLOW CONTENT: Centered elegant editorial layout
+      { text: '', margin: [0, 36, 0, 0] },
+      
+      // Series Label
+      {
+        text: 'PUSTAKAM STUDY SERIES',
+        font: this.codeFontFamily,
+        fontSize: 7.5,
+        bold: true,
+        color: '#64748b',
+        characterSpacing: 1.5,
+        alignment: 'center',
+        margin: [0, 0, 0, 52]
+      },
+
+      // Badge/Pill (Clean minimalist edition text)
+      {
+        text: `—  ${levelWord.toUpperCase()} EDITION  —`,
+        font: this.codeFontFamily,
+        fontSize: 7,
+        bold: true,
+        color: '#c8451a',
+        characterSpacing: 2,
+        alignment: 'center',
+        margin: [0, 0, 0, 32]
+      },
+
+      // Title & Subtitle Stack (Centered, premium serif display style)
+      {
+        stack: [
+          {
+            text: mainTitle,
+            font: this.fontFamily,
+            fontSize: mainTitle.length > 30 ? 24 : mainTitle.length > 18 ? 28 : 32,
+            bold: true,
+            color: '#1e293b',
+            alignment: 'center',
+            lineHeight: 1.15,
+            margin: [0, 0, 0, 6]
+          },
+          ...(subTitle ? [{
+            text: subTitle,
+            font: this.fontFamily,
+            fontSize: subTitle.length > 50 ? 15 : subTitle.length > 30 ? 17 : 19,
+            bold: false,
+            italics: true,
+            color: '#475569',
+            alignment: 'center',
+            lineHeight: 1.25,
+            margin: [0, 0, 0, 0]
+          }] : [])
+        ],
+        margin: [16, 0, 16, 0]
+      },
+
+      // Decorative Emblem / Divider (Centered clean shape)
+      {
+        canvas: [
+          { type: 'rect', x: 148, y: 0, w: 40, h: 0.75, color: '#cbd5e1' }
+        ],
+        margin: [0, 32, 0, 28]
+      },
+
+      // Tagline/Hook (Centered, elegant italics, focused)
+      {
+        text: coverMeta.tagline,
+        font: this.fontFamily,
+        fontSize: 11,
+        italics: true,
+        color: '#475569',
+        lineHeight: 1.45,
+        alignment: 'center',
+        margin: [24, 0, 24, 0]
+      },
+
+      // Force Page Break after cover
       { text: '', pageBreak: 'after' }
     ];
   }
