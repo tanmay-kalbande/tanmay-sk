@@ -877,14 +877,14 @@ class ProfessionalPdfGenerator {
       type: 'ellipse',
       x: width - 80,
       y: height - 160,
-      rx: 24, ry: 24,
+      r1: 24, r2: 24,
       lineWidth: 0.5,
       lineColor: '#cbd5e1'
     });
     canvas.push({
       type: 'ellipse',
       x: width - 80, y: height - 160,
-      rx: 12, ry: 12,
+      r1: 12, r2: 12,
       lineWidth: 0.5,
       lineColor: '#cbd5e1'
     });
