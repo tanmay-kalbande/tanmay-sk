@@ -81,6 +81,10 @@ async function loadPdfMake() {
     (window as any).pdfMake = pdfMake;
     (window as any).pdfMake.vfs = vfs;
 
+    if (typeof pdfMake.addVirtualFileSystem === 'function') {
+      pdfMake.addVirtualFileSystem(vfs);
+    }
+
     // Dynamically match font keys in VFS to handle any path variations
     const vfsKeys = Object.keys(vfs);
     const regKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-regular.ttf')) || 'Roboto-Regular.ttf';
@@ -120,6 +124,9 @@ async function loadPdfMake() {
             )
           );
           pdfMake.vfs[font.key] = base64;
+          if (typeof pdfMake.addVirtualFileSystem === 'function') {
+            pdfMake.addVirtualFileSystem({ [font.key]: base64 });
+          }
         }
       } catch (error) {
         // Silent fail
@@ -138,6 +145,9 @@ async function loadPdfMake() {
             )
           );
           pdfMake.vfs[font.key] = base64;
+          if (typeof pdfMake.addVirtualFileSystem === 'function') {
+            pdfMake.addVirtualFileSystem({ [font.key]: base64 });
+          }
         }
       } catch (error) {
         // Silent fail
@@ -156,6 +166,9 @@ async function loadPdfMake() {
             )
           );
           pdfMake.vfs[font.key] = base64;
+          if (typeof pdfMake.addVirtualFileSystem === 'function') {
+            pdfMake.addVirtualFileSystem({ [font.key]: base64 });
+          }
         }
       } catch (error) {
         // Graceful fallback to Roboto
