@@ -1,4 +1,4 @@
-// src/services/pdfService.ts - HIGH-END EDITORIAL PDF GENERATOR FOR TANMAY-SK-MAIN
+// src/services/pdfService.ts - EXACT PUBLISHED BOOK RENDERER (PORTED FROM PUSTAKAM)
 import type { BookFile } from '../components/BookReaderPage';
 
 let isGenerating = false;
@@ -8,13 +8,10 @@ let fontsLoaded = false;
 function formatGeneratedDate(dateStr?: string) {
   if (!dateStr) return '';
   const d = new Date(dateStr);
-  return d.toLocaleDateString(undefined, { 
+  return d.toLocaleDateString('en-US', { 
     month: 'short', 
     day: 'numeric', 
     year: 'numeric' 
-  }) + ' ' + d.toLocaleTimeString(undefined, { 
-    hour: '2-digit', 
-    minute: '2-digit' 
   });
 }
 
@@ -30,7 +27,6 @@ async function loadPdfMake() {
     pdfMake = pdfMakeModule.default || pdfMakeModule;
     const fontsAny: any = pdfFontsModule.default || pdfFontsModule;
 
-    // Robust VFS Detection across ESM / Vite bundled module exports
     let vfs: any = null;
     if (fontsAny?.pdfMake?.vfs) {
       vfs = fontsAny.pdfMake.vfs;
@@ -67,7 +63,6 @@ async function loadPdfMake() {
       throw new Error('FONT_VFS_NOT_FOUND');
     }
 
-    // Set vfs across all scope references used by pdfmake/pdfkit internals
     pdfMake.vfs = vfs;
     if ((pdfMakeModule as any).default) {
       (pdfMakeModule as any).default.vfs = vfs;
@@ -75,7 +70,6 @@ async function loadPdfMake() {
     (window as any).pdfMake = pdfMake;
     (window as any).pdfMake.vfs = vfs;
 
-    // Dynamically match font keys in VFS to handle any path variations
     const vfsKeys = Object.keys(vfs);
     const regKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-regular.ttf')) || 'Roboto-Regular.ttf';
     const medKey = vfsKeys.find(k => k.toLowerCase().endsWith('roboto-medium.ttf') || k.toLowerCase().endsWith('roboto-bold.ttf')) || 'Roboto-Medium.ttf';
@@ -139,6 +133,16 @@ interface PDFContent {
   widths?: any;
 }
 
+interface CoverMetadata {
+  coverTitle: string;
+  subtitle: string;
+  tagline: string;
+  blurb: string;
+  epigraph: { quote: string; author: string };
+  audience: string;
+  learningPoints: string[];
+}
+
 class ProfessionalPdfGenerator {
   private content: PDFContent[] = [];
   private styles: any;
@@ -152,9 +156,13 @@ class ProfessionalPdfGenerator {
   private rowTint = '#eef2ec';
   private codeBg = '#f6f2ea';
   private accentLight = '#eaf2ed';
+  private accentSubtle = '#d9eadf';
   private accentMid = '#d8ddd6';
+  private accentFaint = '#f0f5f1';
+  private accentText = '#26352d';
+  private accentUnderline = '#a9c9b6';
 
-  // 6 x 9 inch trim size, 72 pt per inch
+  // 6 × 9 inches standard non-fiction book size (72 pt/inch)
   private readonly page = { width: 432, height: 648, contentWidth: 336 };
 
   private readonly CODE_KEYWORDS = new Set([
@@ -398,7 +406,7 @@ class ProfessionalPdfGenerator {
       } else if (match[11]) {
         parts.push({ text: match[11], link: match[12], color: '#2563eb', decoration: 'underline', decorationColor: '#93c5fd' });
       } else if (match[9] !== undefined) {
-        // Drop image markup silently
+        // Drop inline image syntax
       } else if (match[2]) {
         parts.push({ text: match[2], bold: true, italics: true });
       } else if (match[3]) {
@@ -441,82 +449,149 @@ class ProfessionalPdfGenerator {
     return chunks;
   }
 
-  private createCoverCardPage(book: BookFile): PDFContent[] {
-    const totalWords = book.wordCount.toLocaleString();
-    const editionLabel = book.edition === 'street' ? '🔥 STREET EDITION' : book.edition === 'desi' ? '🇮🇳 DESI EDITION' : '✨ STELLAR EDITION';
+  private createCoverAccent(): any[] {
+    const { width, height } = this.page;
+    const marginX = 48;
+    return [
+      { type: 'rect', x: 0, y: 0, w: 7, h: height, color: this.brandGreen },
+      { type: 'rect', x: 7, y: 0, w: 2, h: height, color: this.brandTan },
+      { type: 'line', x1: marginX, y1: 92, x2: width - marginX, y2: 92, lineWidth: 1, lineColor: this.brandGreen },
+      {
+        type: 'polyline',
+        points: [
+          { x: width - 28, y: height },
+          { x: width, y: height },
+          { x: width, y: height - 28 }
+        ],
+        lineWidth: 1.5,
+        lineColor: this.brandTan
+      }
+    ];
+  }
+
+  private createCoverPage(title: string, coverMeta: CoverMetadata): PDFContent[] {
+    const normalizedTitle = this.normalizeDashes(title);
+    const displayTitle = coverMeta.coverTitle || normalizedTitle;
+    const titleSize = displayTitle.length > 120 ? 20 : displayTitle.length > 90 ? 23 : displayTitle.length > 62 ? 27 : displayTitle.length > 42 ? 31 : 36;
+    const darkText = this.brandGreenDeep;
+    const subtleText = '#6b6459';
+    const accent = this.createCoverAccent();
+    const coverTagline = coverMeta.tagline;
+    const seriesText = 'PUSTAKAM STUDY SERIES';
+    const editionText = 'AI-ASSISTED LEARNING EDITION';
+
+    const titleFirstChar = displayTitle.charAt(0);
+    const titleRest = displayTitle.slice(1);
+    const titleRuns = titleFirstChar
+      ? [{ text: titleFirstChar, color: this.brandTan }, { text: titleRest }]
+      : displayTitle;
 
     return [
-      { text: '', margin: [0, 30, 0, 0] },
+      { canvas: accent, absolutePosition: { x: 0, y: 0 } },
+      { text: '', margin: [0, 60, 0, 0] },
+      { text: seriesText, font: this.headingFontFamily, fontSize: 7.5, bold: true, color: this.brandGreen, characterSpacing: 1.4, alignment: 'left', margin: [0, 0, 0, 14] },
+      { text: titleRuns, font: this.fontFamily, fontSize: titleSize, bold: true, color: darkText, lineHeight: 1.12, alignment: 'left', margin: [0, 0, 18, coverMeta.subtitle ? 8 : 16] },
+      ...(coverMeta.subtitle ? [{ text: coverMeta.subtitle, font: this.fontFamily, fontSize: 12, color: subtleText, lineHeight: 1.4, alignment: 'left', margin: [0, 0, 24, 16] }] : []),
+      { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 64, y2: 0, lineWidth: 1.5, lineColor: this.brandTan }], margin: [0, 0, 0, 16] },
       {
         table: {
           widths: ['*'],
-          body: [[
-            {
-              stack: [
-                {
-                  text: [
-                    { text: book.complexity.toUpperCase(), color: book.complexity === 'beginner' ? '#34d399' : book.complexity === 'intermediate' ? '#fbbf24' : '#f87171', bold: true },
-                    { text: '   |   ', color: '#555' },
-                    { text: book.category.toUpperCase(), color: '#888' },
-                    ...(book.tags.length > 0 ? [{ text: '   |   ' + book.tags.slice(0, 3).map((t: string) => t.toUpperCase()).join('  •  '), color: '#888' }] : []),
-                    { text: '   |   ' + editionLabel, color: '#e05a35', bold: true },
-                    ...(book.modelUsed ? [{ text: '   |   🤖 ' + book.modelUsed.toUpperCase(), color: '#aaa' }] : [])
-                  ],
-                  fontSize: 7.5,
-                  margin: [0, 0, 0, 16]
-                },
-                {
-                  text: book.title,
-                  font: this.headingFontFamily,
-                  fontSize: 26,
-                  bold: true,
-                  color: '#f0ede8',
-                  lineHeight: 1.15,
-                  margin: [0, 0, 0, 12]
-                },
-                {
-                  text: book.goal,
-                  font: this.codeFontFamily,
-                  fontSize: 9.5,
-                  color: '#999999',
-                  lineHeight: 1.5,
-                  margin: [0, 0, 0, 20]
-                },
-                {
-                  canvas: [{ type: 'line', x1: 0, y1: 0, x2: 270, y2: 0, lineWidth: 1, lineColor: '#333333' }],
-                  margin: [0, 0, 0, 16]
-                },
-                {
-                  text: [
-                    { text: `⏱ ${book.readingTimeMins} MIN READ   •   `, color: '#777' },
-                    { text: `📖 ${book.moduleCount} CHAPTERS   •   `, color: '#777' },
-                    { text: `📚 ${totalWords} WORDS`, color: '#777' },
-                    ...(book.generatedAt ? [{ text: `   •   📅 ${formatGeneratedDate(book.generatedAt).toUpperCase()}`, color: '#666' }] : [])
-                  ],
-                  fontSize: 7.5,
-                  font: this.codeFontFamily
-                }
-              ],
-              fillColor: '#1c1c1b',
-              margin: [18, 20, 18, 20]
-            }
-          ]]
+          body: [[{
+            stack: [
+              { text: coverTagline, font: this.fontFamily, fontSize: 11.5, italics: true, color: '#ffffff', lineHeight: 1.45, margin: [0, 0, 0, 10] },
+              { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 34, y2: 0, lineWidth: 1, lineColor: this.accentSubtle }], margin: [0, 0, 0, 8] },
+              { text: editionText, font: this.headingFontFamily, fontSize: 7, bold: true, characterSpacing: 1.2, color: this.accentSubtle, margin: [0, 0, 0, 3] },
+              { text: `First digital edition - ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} - (c) ${new Date().getFullYear()} Pustakam`, fontSize: 7.2, color: this.accentSubtle }
+            ],
+            alignment: 'left'
+          }]]
         },
         layout: {
-          hLineWidth: () => 1,
-          vLineWidth: () => 1,
-          hLineColor: () => '#333333',
-          vLineColor: () => '#333333'
+          hLineWidth: () => 0,
+          vLineWidth: () => 0,
+          hLineColor: () => 'transparent',
+          vLineColor: () => 'transparent',
+          paddingLeft: () => 22,
+          paddingRight: () => 22,
+          paddingTop: () => 14,
+          paddingBottom: () => 14,
+          fillColor: () => this.brandGreen
         },
-        margin: [0, 0, 0, 24]
-      },
-      {
-        columns: [
-          { text: 'AUTHOR: TANMAY KALBANDE (LINKEDIN)', link: 'https://linkedin.com/in/tanmay-kalbande', fontSize: 8, color: '#2563eb', decoration: 'underline', font: this.codeFontFamily },
-          { text: 'PUSTAKAM.TANMAYSK.IN', fontSize: 8, color: '#666666', font: this.codeFontFamily, alignment: 'right' }
-        ]
+        margin: [0, 0, 0, 0],
+        unbreakable: true
       },
       { text: '', pageBreak: 'after' }
+    ];
+  }
+
+  private createLearningOverview(coverMeta: CoverMetadata): PDFContent[] {
+    return [
+      { text: '', margin: [0, 10, 0, 0] },
+      { text: 'OVERVIEW', style: 'partLabel', margin: [0, 0, 0, 4] },
+      { text: 'Your Learning Path', font: this.headingFontFamily, fontSize: 19, bold: true, color: this.brandGreenDeep, lineHeight: 1.2, margin: [0, 0, 0, 6] },
+      { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 70, y2: 0, lineWidth: 1.5, lineColor: this.brandGreen }], margin: [0, 0, 0, 14] },
+      ...(coverMeta.epigraph?.quote ? [
+        {
+          table: {
+            widths: ['*'],
+            body: [[{
+              stack: [
+                { text: `"${coverMeta.epigraph.quote}"`, font: this.fontFamily, fontSize: 11, italics: true, color: this.accentText, lineHeight: 1.55, margin: [0, 0, 0, 8] },
+                { text: `— ${coverMeta.epigraph.author}`, font: this.headingFontFamily, fontSize: 9, bold: true, color: this.brandGreen, alignment: 'right' }
+              ],
+              fillColor: this.accentFaint,
+              margin: [14, 10, 14, 10]
+            }]]
+          },
+          layout: {
+            hLineWidth: () => 0,
+            vLineWidth: (i: number) => i === 0 ? 3 : 0,
+            vLineColor: () => this.brandGreen
+          },
+          margin: [0, 0, 0, 14]
+        }
+      ] : []),
+      ...(coverMeta.blurb ? [{ text: coverMeta.blurb, font: this.fontFamily, fontSize: 10.75, color: '#4c514c', lineHeight: 1.6, margin: [0, 0, 0, 14] }] : []),
+      ...(coverMeta.audience ? [
+        { text: 'WHO THIS BOOK IS FOR', font: this.headingFontFamily, fontSize: 9, bold: true, color: this.brandGreen, characterSpacing: 1, margin: [0, 0, 0, 6] },
+        { text: coverMeta.audience, font: this.fontFamily, fontSize: 10.75, color: '#4c514c', lineHeight: 1.55, margin: [0, 0, 0, 14] }
+      ] : []),
+      ...(coverMeta.learningPoints?.length ? [
+        { text: 'WHAT YOU WILL LEARN', font: this.headingFontFamily, fontSize: 9, bold: true, color: this.brandGreen, characterSpacing: 1, margin: [0, 0, 0, 6] },
+        ...coverMeta.learningPoints.map((point) => ({
+          text: [{ text: '\u2022  ', bold: true, color: this.brandTan }, { text: point, font: this.fontFamily }],
+          fontSize: 10.75,
+          color: this.accentText,
+          lineHeight: 1.5,
+          margin: [4, 0, 0, 4]
+        }))
+      ] : []),
+      { text: '', pageBreak: 'after' }
+    ];
+  }
+
+  private createEndMatterPage(goal: string): PDFContent[] {
+    const highStakes = /(medical|health|legal|law|financial|finance|investment|tax)/i.test(goal);
+    const note = highStakes
+      ? 'This edition is an educational learning companion, not professional advice. Verify important information with current, qualified sources before making health, legal, financial, or other high-stakes decisions.'
+      : 'This edition is designed as a learning companion. Verify important claims with current, independent sources before relying on them in academic, professional, or consequential work.';
+
+    return [
+      { text: '', pageBreak: 'before' },
+      { text: '', margin: [0, 180, 0, 0] },
+      { text: 'About This Edition', font: this.headingFontFamily, fontSize: 20, bold: true, color: this.brandGreenDeep, alignment: 'center', margin: [20, 0, 20, 16] },
+      { canvas: [{ type: 'line', x1: 145, y1: 0, x2: 191, y2: 0, lineWidth: 1.5, lineColor: this.brandGreen }], margin: [0, 0, 0, 18] },
+      { text: note, font: this.fontFamily, fontSize: 10.5, color: '#4c514c', lineHeight: 1.55, alignment: 'center', margin: [35, 0, 35, 20] },
+      {
+        text: [
+          { text: 'Connect with the creator: ', color: '#6b6459' },
+          { text: 'Tanmay Kalbande', link: 'https://linkedin.com/in/tanmay-kalbande', color: this.brandGreen, bold: true, decoration: 'underline', decorationColor: this.accentUnderline }
+        ],
+        fontSize: 9.5,
+        alignment: 'center',
+        margin: [20, 0, 20, 16]
+      },
+      { text: 'Pustakam', font: this.headingFontFamily, fontSize: 10, bold: true, color: this.brandGreen, alignment: 'center' }
     ];
   }
 
@@ -1108,15 +1183,39 @@ class ProfessionalPdfGenerator {
     const pdfMakeLib = await loadPdfMake();
 
     onProgress(30);
-    const coverContent = this.createCoverCardPage(book);
+    const coverMeta: CoverMetadata = {
+      coverTitle: book.title,
+      subtitle: `${book.complexity.toUpperCase()} LEVEL • ${book.category.toUpperCase()} EDITION`,
+      tagline: book.goal,
+      blurb: book.metaDescription || book.goal,
+      epigraph: { quote: 'Learning is a treasure that will follow its owner everywhere.', author: 'Chinese Proverb' },
+      audience: `Designed for ${book.complexity} learners who want clear, actionable insights on ${book.category}.`,
+      learningPoints: book.tags.length > 0 
+        ? book.tags.map(t => this.capitalizeFirstLetter(t)) 
+        : ['Core Concepts', 'Practical Application', 'Key Takeaways', 'Real-world Context']
+    };
+
+    const coverContent = this.createCoverPage(book.title, coverMeta);
+    const overviewContent = this.createLearningOverview(coverMeta);
 
     onProgress(60);
     const mainContent = this.parseMarkdownToContent(book.finalBook || '', book);
+    const endMatterContent = this.createEndMatterPage(book.goal);
 
     onProgress(85);
-    this.content = [...coverContent, ...mainContent];
+    this.content = [...coverContent, ...overviewContent, ...mainContent, ...endMatterContent];
 
     const docDefinition: any = {
+      background: (currentPage: number) => {
+        if (currentPage === 1) {
+          return {
+            canvas: [
+              { type: 'rect', x: 0, y: 0, w: this.page.width, h: this.page.height, color: '#faf7f0' }
+            ]
+          };
+        }
+        return {};
+      },
       content: this.content,
       styles: this.styles,
       defaultStyle: {
