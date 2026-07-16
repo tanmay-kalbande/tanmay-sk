@@ -41,6 +41,66 @@
       "edition": "street"
     },
     {
+      "slug": "build-a-profitable-business-around-hyperlocalized-aigenerated-urban-art-installa",
+      "title": "The AI Artpreneur: Monetizing Hyper-Local Urban Installations with Artificial Intelligence",
+      "goal": "Build a profitable business around hyper-localized, AI-generated urban art installations",
+      "category": "business",
+      "tags": [
+        "AI",
+        "art",
+        "localization"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 13764,
+      "moduleCount": 10,
+      "readingTimeMins": 56,
+      "metaDescription": "The AI Artpreneur: Monetizing Hyper-Local Urban Installations with Artificial Intelligence: a beginner guide to build a profitable business around hyper-lo",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:16:46.593Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "launch-a-subscriptionbased-service-for-aigenerated-hyperpersonalized-fitness-pla",
+      "title": "The AI Fitness Blueprint: How to Build a Subscription Service That Actually Fits Your Customers",
+      "goal": "Launch a subscription-based service for AI-generated, hyper-personalized fitness plans",
+      "category": "business",
+      "tags": [
+        "AI",
+        "fitness",
+        "subscription"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 14293,
+      "moduleCount": 10,
+      "readingTimeMins": 58,
+      "metaDescription": "The AI Fitness Blueprint: How to Build a Subscription Service That Actually Fits Your Customers: a beginner guide to launch a subscription-based service fo",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:33:12.640Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "create-a-scalable-business-model-around-aigenerated-personalized-nutrition-plans",
+      "title": "The AI Nutrition Blueprint: How to Build a Scalable, Personalized Health Business",
+      "goal": "Create a scalable business model around AI-generated, personalized nutrition plans",
+      "category": "business",
+      "tags": [
+        "AI",
+        "nutrition",
+        "personalization"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 16615,
+      "moduleCount": 12,
+      "readingTimeMins": 67,
+      "metaDescription": "The AI Nutrition Blueprint: How to Build a Scalable, Personalized Health Business: a intermediate guide to create a scalable business model around ai-gener",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:20:56.534Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "launch-a-hyperlocal-drone-delivery-service-navigating-faa-part-107-regulations-i",
       "title": "The Last 500 Feet: Launching a Compliant Hyper-Local Drone Delivery Business",
       "goal": "Launch a hyper-local drone delivery service navigating FAA Part 107 regulations",
@@ -321,6 +381,46 @@
       "edition": "street"
     },
     {
+      "slug": "master-the-art-of-highfrequency-trading-using-machine-learning-algorithms-advanc",
+      "title": "Algorithmic Edge: Mastering High-Frequency Trading with Machine Learning",
+      "goal": "Master the art of high-frequency trading using machine learning algorithms",
+      "category": "finance",
+      "tags": [
+        "machine-learning",
+        "trading",
+        "algorithms"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 12946,
+      "moduleCount": 9,
+      "readingTimeMins": 52,
+      "metaDescription": "Algorithmic Edge: Mastering High-Frequency Trading with Machine Learning: a advanced guide to master the art of high-frequency trading using machine learni",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:25:37.329Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-the-art-of-highfrequency-trading-using-quantum-computing-algorithms-advan",
+      "title": "Quantum Edge: High-Frequency Trading with Quantum Algorithms",
+      "goal": "Master the art of high-frequency trading using quantum computing algorithms",
+      "category": "finance",
+      "tags": [
+        "quantum-computing",
+        "trading",
+        "algorithms"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 13366,
+      "moduleCount": 10,
+      "readingTimeMins": 54,
+      "metaDescription": "Quantum Edge: High-Frequency Trading with Quantum Algorithms: a advanced guide to master the art of high-frequency trading using quantum computing algorith",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:33:17.664Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "utilize-dark-pool-liquidity-and-order-flow-analysis-to-track-institutional-whale",
       "title": "Shadows and Flow: Tracking Institutional Whales Through Dark Pools and Order Flow",
       "goal": "Utilize dark pool liquidity and order flow analysis to track institutional whale movements",
@@ -338,6 +438,26 @@
       "metaDescription": "Shadows and Flow: Tracking Institutional Whales Through Dark Pools and Order Flow: a advanced guide to utilize dark pool liquidity and order flow analysis ",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-16T02:38:08.926Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "decipher-and-exploit-the-hidden-patterns-in-highfrequency-trading-data-advanced",
+      "title": "The Hidden Code: Decoding and Exploiting Patterns in High-Frequency Trading",
+      "goal": "Decipher and exploit the hidden patterns in high-frequency trading data",
+      "category": "finance",
+      "tags": [
+        "algorithmic-trading",
+        "data-science",
+        "quantitative-finance"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 16251,
+      "moduleCount": 11,
+      "readingTimeMins": 66,
+      "metaDescription": "The Hidden Code: Decoding and Exploiting Patterns in High-Frequency Trading: a advanced guide to decipher and exploit the hidden patterns in high-frequency",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:17:49.232Z",
       "edition": "stellar"
     },
     {
@@ -401,6 +521,26 @@
       "edition": "street"
     },
     {
+      "slug": "optimize-your-bodys-performance-using-biohacking-techniques-for-extreme-enduranc",
+      "title": "Biohack Your Body: The Science-Backed Guide to Extreme Endurance",
+      "goal": "Optimize your body's performance using biohacking techniques for extreme endurance",
+      "category": "health",
+      "tags": [
+        "biohacking",
+        "performance",
+        "endurance"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 15924,
+      "moduleCount": 12,
+      "readingTimeMins": 64,
+      "metaDescription": "Biohack Your Body: The Science-Backed Guide to Extreme Endurance: a intermediate guide to optimize your body's performance using biohacking techniques for ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:17:31.443Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-analyze-the-impact-of-circadian-rhythm-disruption-on-metabolic-health-int",
       "title": "Broken Clocks, Broken Bodies: The Circadian-Metabolism War",
       "goal": "Analyze the impact of circadian rhythm disruption on metabolic health",
@@ -439,6 +579,86 @@
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-15T18:48:36.675Z",
       "edition": "street"
+    },
+    {
+      "slug": "optimize-your-cognitive-performance-using-advanced-neurofeedback-techniques-inte",
+      "title": "Neurofeedback Mastery: Train Your Brain for Peak Performance",
+      "goal": "Optimize your cognitive performance using advanced neurofeedback techniques",
+      "category": "health",
+      "tags": [
+        "cognition",
+        "neurofeedback",
+        "optimization"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 15157,
+      "moduleCount": 10,
+      "readingTimeMins": 61,
+      "metaDescription": "Neurofeedback Mastery: Train Your Brain for Peak Performance: a intermediate guide to optimize your cognitive performance using advanced neurofeedback tech",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:34:04.182Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "develop-a-comprehensive-plan-for-achieving-optimal-mental-health-through-neuropl",
+      "title": "Rewire Your Brain: A Beginner's Guide to Boosting Mental Health Through Neuroplasticity",
+      "goal": "Develop a comprehensive plan for achieving optimal mental health through neuroplasticity",
+      "category": "health",
+      "tags": [
+        "mental-health",
+        "neuroplasticity",
+        "wellness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18466,
+      "moduleCount": 12,
+      "readingTimeMins": 74,
+      "metaDescription": "Rewire Your Brain: A Beginner's Guide to Boosting Mental Health Through Neuroplasticity: a beginner guide to develop a comprehensive plan for achieving opt",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:22:58.162Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "optimize-your-sleep-patterns-using-advanced-biofeedback-techniques-intermediate",
+      "title": "The Biofeedback Sleep Code: Hack Your Rest with Science-Backed Techniques",
+      "goal": "Optimize your sleep patterns using advanced biofeedback techniques",
+      "category": "health",
+      "tags": [
+        "sleep",
+        "biofeedback",
+        "optimization"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 14840,
+      "moduleCount": 10,
+      "readingTimeMins": 60,
+      "metaDescription": "The Biofeedback Sleep Code: Hack Your Rest with Science-Backed Techniques: a intermediate guide to optimize your sleep patterns using advanced biofeedback ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:26:10.286Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "develop-a-comprehensive-plan-for-achieving-optimal-physical-health-through-bioha",
+      "title": "The Biohacker's Blueprint: A Science-Backed Plan to Optimize Your Body and Mind",
+      "goal": "Develop a comprehensive plan for achieving optimal physical health through biohacking",
+      "category": "health",
+      "tags": [
+        "biohacking",
+        "fitness",
+        "wellness"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 15807,
+      "moduleCount": 10,
+      "readingTimeMins": 64,
+      "metaDescription": "The Biohacker's Blueprint: A Science-Backed Plan to Optimize Your Body and Mind: a intermediate guide to develop a comprehensive plan for achieving optimal",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:29:37.879Z",
+      "edition": "stellar"
     },
     {
       "slug": "master-the-wim-hof-method-combined-with-intermittent-hypoxia-to-trigger-extreme",
@@ -601,6 +821,46 @@
       "edition": "street"
     },
     {
+      "slug": "design-and-implement-a-decentralized-identity-system-for-the-metaverse-advanced",
+      "title": "Decentralized Identity in the Metaverse: A Programmer's Guide to Self-Sovereign Control",
+      "goal": "Design and implement a decentralized identity system for the metaverse",
+      "category": "programming",
+      "tags": [
+        "blockchain",
+        "identity",
+        "metaverse"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 12412,
+      "moduleCount": 10,
+      "readingTimeMins": 50,
+      "metaDescription": "Decentralized Identity in the Metaverse: A Programmer's Guide to Self-Sovereign Control: a advanced guide to design and implement a decentralized identity ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:20:54.920Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-the-art-of-designing-and-deploying-aipowered-chatbots-for-enterprise-work",
+      "title": "Enterprise Chatbots Unlocked: Design, Deploy, and Optimize AI-Powered Workflows",
+      "goal": "Master the art of designing and deploying AI-powered chatbots for enterprise workflows",
+      "category": "programming",
+      "tags": [
+        "AI",
+        "automation",
+        "enterprise"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 16170,
+      "moduleCount": 11,
+      "readingTimeMins": 65,
+      "metaDescription": "Enterprise Chatbots Unlocked: Design, Deploy, and Optimize AI-Powered Workflows: a intermediate guide to master the art of designing and deploying ai-power",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:18:33.791Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-understand-the-application-of-quantum-computing-in-cryptographic-security",
       "title": "Quantum Crypto Warfare: From Dead Algorithms to Unbreakable Shields",
       "goal": "Understand the application of quantum computing in cryptographic security",
@@ -619,6 +879,66 @@
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-15T18:35:05.015Z",
       "edition": "street"
+    },
+    {
+      "slug": "build-a-realtime-aidriven-system-for-detecting-and-mitigating-cyber-threats-inte",
+      "title": "Real-Time Cyber Threat Detection: Building AI-Powered Defenses from Scratch",
+      "goal": "Build a real-time, AI-driven system for detecting and mitigating cyber threats",
+      "category": "programming",
+      "tags": [
+        "AI",
+        "cybersecurity",
+        "real-time"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 14059,
+      "moduleCount": 10,
+      "readingTimeMins": 57,
+      "metaDescription": "Real-Time Cyber Threat Detection: Building AI-Powered Defenses from Scratch: a intermediate guide to build a real-time, ai-driven system for detecting and ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:23:56.895Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "build-a-realtime-aidriven-system-for-detecting-and-mitigating-financial-fraud-ad",
+      "title": "Real-Time Fraud Detection: Building AI Systems That Outsmart Financial Crime",
+      "goal": "Build a real-time, AI-driven system for detecting and mitigating financial fraud",
+      "category": "programming",
+      "tags": [
+        "AI",
+        "fraud-detection",
+        "finance"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 13841,
+      "moduleCount": 10,
+      "readingTimeMins": 56,
+      "metaDescription": "Real-Time Fraud Detection: Building AI Systems That Outsmart Financial Crime: a advanced guide to build a real-time, ai-driven system for detecting and mit",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:30:09.808Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "design-and-implement-a-decentralized-autonomous-organization-dao-for-community-g",
+      "title": "The Decentralized Revolution: Build a DAO That Actually Works",
+      "goal": "Design and implement a decentralized autonomous organization (DAO) for community governance",
+      "category": "programming",
+      "tags": [
+        "blockchain",
+        "DAO",
+        "governance"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 12208,
+      "moduleCount": 9,
+      "readingTimeMins": 49,
+      "metaDescription": "The Decentralized Revolution: Build a DAO That Actually Works: a intermediate guide to design and implement a decentralized autonomous organization (dao) f",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:27:10.380Z",
+      "edition": "stellar"
     },
     {
       "slug": "build-a-highfrequency-statistical-arbitrage-algorithm-using-python-and-c-integra",
@@ -822,6 +1142,6 @@
       "edition": "street"
     }
   ],
-  "total": 41,
-  "generatedAt": "2026-07-16T14:53:32.601Z"
+  "total": 57,
+  "generatedAt": "2026-07-16T18:34:04.275Z"
 }
