@@ -937,19 +937,7 @@ class ProfessionalPdfGenerator {
         color: '#94a3b8',
         characterSpacing: 1.5,
         alignment: 'center',
-        margin: [0, 0, 0, 40]
-      },
-
-      // Badge/Pill (Clean minimalist edition text)
-      {
-        text: `—  ${levelWord.toUpperCase()} EDITION  —`,
-        font: this.codeFontFamily,
-        fontSize: 7,
-        bold: true,
-        color: '#e05a35',
-        characterSpacing: 2,
-        alignment: 'center',
-        margin: [0, 0, 0, 24]
+        margin: [0, 0, 0, 36]
       },
 
       // Title & Subtitle Stack (Centered, premium serif display style)
@@ -980,14 +968,6 @@ class ProfessionalPdfGenerator {
         margin: [16, 0, 16, 0]
       },
 
-      // Decorative Emblem / Divider (Centered clean shape)
-      {
-        canvas: [
-          { type: 'rect', x: 148, y: 0, w: 40, h: 0.75, color: '#334155' }
-        ],
-        margin: [0, 24, 0, 20]
-      },
-
       // Tagline/Hook (Centered, elegant italics, focused)
       {
         text: coverMeta.tagline,
@@ -997,7 +977,27 @@ class ProfessionalPdfGenerator {
         color: '#cbd5e1',
         lineHeight: 1.45,
         alignment: 'center',
-        margin: [24, 0, 24, 0]
+        margin: [24, 24, 24, 0]
+      },
+
+      // Decorative Emblem / Divider (Centered clean shape)
+      {
+        canvas: [
+          { type: 'rect', x: 148, y: 0, w: 40, h: 0.75, color: '#334155' }
+        ],
+        margin: [0, 24, 0, 24]
+      },
+
+      // Badge/Pill (Clean minimalist edition text)
+      {
+        text: `—  ${levelWord.toUpperCase()} EDITION  —`,
+        font: this.codeFontFamily,
+        fontSize: 7,
+        bold: true,
+        color: '#e05a35',
+        characterSpacing: 2,
+        alignment: 'center',
+        margin: [0, 0, 0, 0]
       },
 
       // Force Page Break after cover
@@ -1375,7 +1375,9 @@ class ProfessionalPdfGenerator {
         tocDepth = (trimmed.match(/^#+/) || [''])[0].length;
 
         flushParagraph();
-        content.push({ text: '', pageBreak: 'before' });
+        if (content.length > 0) {
+          content.push({ text: '', pageBreak: 'before' });
+        }
         content.push({ text: 'Table of Contents', style: 'h1Module', alignment: 'left', margin: [0, 50, 0, 18] });
         tocPlaceholderIndex = content.length;
         content.push({ text: '', margin: [0, 0, 0, 0] });
@@ -1461,7 +1463,9 @@ class ProfessionalPdfGenerator {
         if (partMatch) {
            const label = partMatch[1].toUpperCase();
            const title = this.capitalizeFirstLetter(partMatch[2].trim());
-           content.push({ text: '', pageBreak: 'before' });
+           if (content.length > 0) {
+             content.push({ text: '', pageBreak: 'before' });
+           }
            isFirstModule = false;
            content.push({ text: '', margin: [0, 50, 0, 0] });
            const headingId = `tocTarget${headingIdCounter++}`;
@@ -1510,7 +1514,9 @@ class ProfessionalPdfGenerator {
            text = this.capitalizeFirstLetter(text);
            const formattedText = this.parseInlineMarkdown(text);
            if (isModuleHeading) {
-             content.push({ text: '', pageBreak: 'before' });
+             if (content.length > 0) {
+               content.push({ text: '', pageBreak: 'before' });
+             }
              isFirstModule = false;
              content.push({ text: '', margin: [0, 50, 0, 0] });
            }
