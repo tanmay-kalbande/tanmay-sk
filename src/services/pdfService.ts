@@ -925,94 +925,48 @@ class ProfessionalPdfGenerator {
         absolutePosition: { x: 48, y: height - 88 }
       },
 
-      // 2. FLOW CONTENT: Asymmetric Split Columns Layout
+      // 2. FLOW CONTENT: Brutalist Grid Layout
       { text: '', margin: [0, 64, 0, 0] }, // Spacer from top
 
       {
         table: {
-          widths: [80, 1, '*'],
+          widths: [110, '*'],
           body: [
+            // Row 1: Header (Series & Date)
             [
-              // Column 0: Left metadata stack
               {
-                stack: [
-                  {
-                    text: 'SERIES',
-                    font: this.codeFontFamily,
-                    fontSize: 6.5,
-                    bold: true,
-                    color: '#999999',
-                    characterSpacing: 1.5,
-                    margin: [0, 0, 0, 4]
-                  },
-                  {
-                    text: 'PUSTAKAM',
-                    font: this.codeFontFamily,
-                    fontSize: 7.5,
-                    bold: true,
-                    color: '#e05a35',
-                    characterSpacing: 1,
-                    margin: [0, 0, 0, 24]
-                  },
-                  {
-                    text: 'EDITION',
-                    font: this.codeFontFamily,
-                    fontSize: 6.5,
-                    bold: true,
-                    color: '#999999',
-                    characterSpacing: 1.5,
-                    margin: [0, 0, 0, 4]
-                  },
-                  {
-                    text: `${levelWord.toUpperCase()}`,
-                    font: this.codeFontFamily,
-                    fontSize: 7.5,
-                    bold: true,
-                    color: '#f0ede8',
-                    margin: [0, 0, 0, 24]
-                  },
-                  {
-                    text: 'PUBLISHED',
-                    font: this.codeFontFamily,
-                    fontSize: 6.5,
-                    bold: true,
-                    color: '#999999',
-                    characterSpacing: 1.5,
-                    margin: [0, 0, 0, 4]
-                  },
-                  {
-                    text: `${new Date().getFullYear()}`,
-                    font: this.codeFontFamily,
-                    fontSize: 7.5,
-                    bold: true,
-                    color: '#f0ede8',
-                    margin: [0, 0, 0, 0]
-                  }
-                ],
-                margin: [0, 20, 0, 0] // Align with top of right column
+                text: 'PUSTAKAM STUDY SERIES',
+                font: this.codeFontFamily,
+                fontSize: 7.5,
+                bold: true,
+                color: '#e05a35',
+                characterSpacing: 1.5,
+                margin: [0, 8, 0, 8]
               },
-              // Column 1: Vertical line spacer
-              { text: '' },
-              // Column 2: Right content stack
               {
+                text: `EST. ${new Date().getFullYear()}`,
+                font: this.codeFontFamily,
+                fontSize: 7.5,
+                bold: true,
+                color: '#999999',
+                alignment: 'right',
+                margin: [0, 8, 0, 8]
+              }
+            ],
+            // Row 2: Main Title & Subtitle (Spans across)
+            [
+              {
+                colSpan: 2,
                 stack: [
-                  // Orange horizontal accent line
-                  {
-                    canvas: [{ type: 'line', x1: 0, y1: 0, x2: 36, y2: 0, lineWidth: 1.5, lineColor: '#e05a35' }],
-                    margin: [0, 0, 0, 20]
-                  },
-                  // Title
                   {
                     text: mainTitle,
                     font: this.fontFamily,
                     fontSize: mainTitle.length > 30 ? 24 : mainTitle.length > 18 ? 28 : 34,
                     bold: true,
                     color: '#f0ede8',
-                    alignment: 'left',
                     lineHeight: 1.1,
-                    margin: [0, 0, 0, 12]
+                    margin: [0, 16, 0, 8]
                   },
-                  // Subtitle
                   ...(subTitle ? [{
                     text: subTitle,
                     font: this.fontFamily,
@@ -1020,32 +974,42 @@ class ProfessionalPdfGenerator {
                     bold: false,
                     italics: true,
                     color: '#999999',
-                    alignment: 'left',
                     lineHeight: 1.3,
-                    margin: [0, 0, 0, 24]
-                  }] : []),
-                  // Tagline
-                  {
-                    text: coverMeta.tagline,
-                    font: this.fontFamily,
-                    fontSize: 10.5,
-                    color: '#999999',
-                    lineHeight: 1.5,
-                    alignment: 'left',
-                    margin: [0, 0, 0, 0]
-                  }
-                ],
-                margin: [16, 0, 8, 0]
+                    margin: [0, 0, 0, 16]
+                  }] : [{ text: '', margin: [0, 0, 0, 16] }])
+                ]
+              },
+              {} // colSpan spacer
+            ],
+            // Row 3: Footer (Edition & Tagline)
+            [
+              {
+                text: `■  ${levelWord.toUpperCase()} EDITION`,
+                font: this.codeFontFamily,
+                fontSize: 7.5,
+                bold: true,
+                color: '#e05a35',
+                characterSpacing: 1.5,
+                margin: [0, 12, 0, 12]
+              },
+              {
+                text: coverMeta.tagline,
+                font: this.fontFamily,
+                fontSize: 10,
+                color: '#999999',
+                lineHeight: 1.4,
+                margin: [16, 12, 0, 12]
               }
             ]
           ]
         },
         layout: {
-          hLineWidth: () => 0,
-          vLineWidth: (i) => i === 1 ? 0.75 : 0,
+          hLineWidth: (i, node) => (i === 0 || i === node.table.body.length || i === 1 || i === 2) ? 0.75 : 0.75,
+          vLineWidth: (i, node) => (i === 0 || i === node.table.widths.length || i === 1) ? 0.75 : 0.75,
+          hLineColor: () => '#2a2a2a',
           vLineColor: () => '#2a2a2a',
-          paddingLeft: (i) => i === 2 ? 16 : 0,
-          paddingRight: (i) => i === 0 ? 16 : 0,
+          paddingLeft: (i) => i === 1 ? 16 : 12,
+          paddingRight: (i) => i === 0 ? 16 : 12,
           paddingTop: () => 0,
           paddingBottom: () => 0
         }
