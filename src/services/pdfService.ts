@@ -1244,15 +1244,16 @@ class ProfessionalPdfGenerator {
         return {
           columns: [
             {
-              text: 'Author: Tanmay Kalbande (LinkedIn)',
-              link: 'https://linkedin.com/in/tanmay-kalbande',
+              text: 'Pustakam Injin',
+              font: this.codeFontFamily,
               fontSize: 7.5,
-              color: '#2563eb',
-              decoration: 'underline',
+              color: '#888888',
               alignment: 'left'
             },
             {
-              text: 'pustakam.tanmaysk.in',
+              text: 'https://www.linkedin.com/in/tanmay-kalbande/',
+              link: 'https://www.linkedin.com/in/tanmay-kalbande/',
+              font: this.codeFontFamily,
               fontSize: 7.5,
               color: '#888888',
               alignment: 'right'
