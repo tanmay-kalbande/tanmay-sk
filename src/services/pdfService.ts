@@ -997,9 +997,7 @@ class ProfessionalPdfGenerator {
         absolutePosition: { x: 48, y: height - 64 } // Pinned securely to bottom edge
       },
 
-      // 4. Force Page Layout and Break
-      // A dummy element to ensure pdfmake renders a full-height page before breaking
-      { text: '', margin: [0, height - 20, 0, 0] },
+      // 4. Force Page Break
       { text: '', pageBreak: 'after' }
     ];
   }
