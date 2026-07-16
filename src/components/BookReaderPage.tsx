@@ -15,7 +15,7 @@ interface BookModule {
   wordCount: number;
 }
 
-interface BookFile {
+export interface BookFile {
   slug: string;
   title: string;
   goal: string;
@@ -807,6 +807,7 @@ export default function BookReaderPage() {
   const [error, setError] = useState('');
   const [activeChapter, setActiveChapter] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [pdfProgress, setPdfProgress] = useState(0);
   const [copied, setCopied] = useState(false);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const introRef = useRef<HTMLDivElement | null>(null);
@@ -899,13 +900,22 @@ export default function BookReaderPage() {
     chapterRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handlePdf = () => {
+  const handlePdf = async () => {
     if (!book) return;
     setPdfLoading(true);
-    setTimeout(() => {
+    setPdfProgress(5);
+    try {
+      const { pdfService } = await import('../services/pdfService');
+      await pdfService.generatePdf(book, (progress) => {
+        setPdfProgress(progress);
+      });
+    } catch (err) {
+      console.warn('pdfService error, falling back to print template:', err);
       exportToPdf(book);
+    } finally {
       setPdfLoading(false);
-    }, 100);
+      setPdfProgress(0);
+    }
   };
 
   const handleCopyLink = () => {
@@ -991,7 +1001,7 @@ export default function BookReaderPage() {
             disabled={pdfLoading}
           >
             <Download size={12} />
-            {pdfLoading ? 'Preparing...' : 'PDF'}
+            {pdfProgress > 0 ? `${pdfProgress}%` : pdfLoading ? 'Preparing...' : 'PDF'}
           </button>
           <a
             href={generateUrl}
@@ -1079,7 +1089,7 @@ export default function BookReaderPage() {
             <div className="reader-action-row">
               <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading}>
                 <Download size={13} />
-                {pdfLoading ? 'Preparing PDF...' : 'Download PDF'}
+                {pdfProgress > 0 ? `Generating... ${pdfProgress}%` : pdfLoading ? 'Preparing PDF...' : 'Download PDF'}
               </button>
               <a
                 href={generateUrl}
