@@ -768,76 +768,152 @@ class ProfessionalPdfGenerator {
     return chunks;
   }
 
-  private createCoverAccent(): any[] {
-    const { width, height } = this.page;
-    const marginX = 48;
-    return [
-      { type: 'rect', x: 0, y: 0, w: 7, h: height, color: this.brandGreen },
-      { type: 'rect', x: 7, y: 0, w: 2, h: height, color: this.brandTan },
-      { type: 'line', x1: marginX, y1: 92, x2: width - marginX, y2: 92, lineWidth: 1, lineColor: this.brandGreen },
-      {
-        type: 'polyline',
-        points: [
-          { x: width - 28, y: height },
-          { x: width, y: height },
-          { x: width, y: height - 28 }
-        ],
-        lineWidth: 1.5,
-        lineColor: this.brandTan
-      }
-    ];
+  private createGradientBackground(width: number, height: number): any[] {
+    const steps = 60;
+    const canvas: any[] = [];
+    const stepHeight = height / steps;
+    for (let i = 0; i < steps; i++) {
+      const t = i / (steps - 1);
+      // Interpolate from a warm soft cream (#faf8f5) to a cool soft blue-gray (#e9eff2)
+      const r = Math.round(250 + t * (233 - 250));
+      const g = Math.round(248 + t * (239 - 248));
+      const b = Math.round(245 + t * (242 - 245));
+      const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+      
+      canvas.push({
+        type: 'rect',
+        x: 0,
+        y: i * stepHeight,
+        w: width,
+        h: stepHeight + 0.5,
+        color: hex
+      });
+    }
+    return canvas;
   }
 
   private createCoverPage(title: string, coverMeta: CoverMetadata): PDFContent[] {
     const normalizedTitle = this.normalizeDashes(title);
     const displayTitle = coverMeta.coverTitle || normalizedTitle;
-    const titleSize = displayTitle.length > 120 ? 20 : displayTitle.length > 90 ? 23 : displayTitle.length > 62 ? 27 : displayTitle.length > 42 ? 31 : 36;
-    const darkText = this.brandGreenDeep;
-    const subtleText = '#6b6459';
-    const accent = this.createCoverAccent();
-    const coverTagline = coverMeta.tagline;
-    const seriesText = 'PUSTAKAM STUDY SERIES';
-    const editionText = 'AI-ASSISTED LEARNING EDITION';
+    const { width, height } = this.page;
 
-    const titleFirstChar = displayTitle.charAt(0);
-    const titleRest = displayTitle.slice(1);
-    const titleRuns = titleFirstChar
-      ? [{ text: titleFirstChar, color: this.brandTan }, { text: titleRest }]
-      : displayTitle;
+    const background = this.createGradientBackground(width, height);
+    const border = [
+      {
+        type: 'rect',
+        x: 24,
+        y: 24,
+        w: width - 48,
+        h: height - 48,
+        lineColor: '#cbd5e1',
+        lineWidth: 0.75,
+        r: 12
+      }
+    ];
+
+    let mainTitle = displayTitle;
+    let subTitle = '';
+    const colonIndex = displayTitle.indexOf(':');
+    if (colonIndex !== -1) {
+      mainTitle = displayTitle.substring(0, colonIndex).trim();
+      subTitle = displayTitle.substring(colonIndex + 1).trim();
+    } else {
+      const words = displayTitle.split(' ');
+      if (words.length > 3) {
+        mainTitle = words.slice(0, 2).join(' ');
+        subTitle = words.slice(2).join(' ');
+      }
+    }
+
+    const levelWord = coverMeta.subtitle
+      ? this.capitalizeFirstLetter(coverMeta.subtitle.split(' ')[0].toLowerCase())
+      : 'Structured';
 
     return [
-      { canvas: accent, absolutePosition: { x: 0, y: 0 } },
-      { text: '', margin: [0, 60, 0, 0] },
-      { text: seriesText, font: this.headingFontFamily, fontSize: 7.5, bold: true, color: this.brandGreen, characterSpacing: 1.4, alignment: 'left', margin: [0, 0, 0, 14] },
-      { text: titleRuns, font: this.fontFamily, fontSize: titleSize, bold: true, color: darkText, lineHeight: 1.12, alignment: 'left', margin: [0, 0, 18, coverMeta.subtitle ? 8 : 16] },
-      ...(coverMeta.subtitle ? [{ text: coverMeta.subtitle, font: this.fontFamily, fontSize: 12, color: subtleText, lineHeight: 1.4, alignment: 'left', margin: [0, 0, 24, 16] }] : []),
-      { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 64, y2: 0, lineWidth: 1.5, lineColor: this.brandTan }], margin: [0, 0, 0, 16] },
+      { canvas: background, absolutePosition: { x: 0, y: 0 } },
+      { canvas: border, absolutePosition: { x: 0, y: 0 } },
+      { text: '', margin: [0, 42, 0, 0] },
       {
-        table: {
-          widths: ['*'],
-          body: [[{
-            stack: [
-              { text: coverTagline, font: this.fontFamily, fontSize: 11.5, italics: true, color: '#ffffff', lineHeight: 1.45, margin: [0, 0, 0, 10] },
-              { canvas: [{ type: 'line', x1: 0, y1: 0, x2: 34, y2: 0, lineWidth: 1, lineColor: this.accentSubtle }], margin: [0, 0, 0, 8] },
-              { text: editionText, font: this.headingFontFamily, fontSize: 7, bold: true, characterSpacing: 1.2, color: this.accentSubtle, margin: [0, 0, 0, 3] },
-              { text: `First digital edition - ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })} - (c) ${new Date().getFullYear()} Pustakam`, fontSize: 7.2, color: this.accentSubtle }
-            ],
-            alignment: 'left'
-          }]]
-        },
-        layout: {
-          hLineWidth: () => 0,
-          vLineWidth: () => 0,
-          hLineColor: () => 'transparent',
-          vLineColor: () => 'transparent',
-          paddingLeft: () => 22,
-          paddingRight: () => 22,
-          paddingTop: () => 14,
-          paddingBottom: () => 14,
-          fillColor: () => this.brandGreen
-        },
-        margin: [0, 0, 0, 0],
-        unbreakable: true
+        text: 'PUSTAKAM STUDY SERIES',
+        font: this.codeFontFamily,
+        fontSize: 7.5,
+        bold: true,
+        color: '#64748b',
+        characterSpacing: 1.5,
+        alignment: 'center',
+        margin: [0, 0, 0, 48]
+      },
+      {
+        text: `A Structured ${levelWord} Guide`,
+        font: this.fontFamily,
+        fontSize: 13,
+        italics: true,
+        color: '#475569',
+        alignment: 'left',
+        margin: [0, 0, 0, 6]
+      },
+      {
+        text: mainTitle,
+        font: this.fontFamily,
+        fontSize: mainTitle.length > 30 ? 24 : mainTitle.length > 18 ? 28 : 32,
+        bold: true,
+        color: '#c8451a',
+        alignment: 'left',
+        lineHeight: 1.15,
+        margin: [0, 0, 0, 4]
+      },
+      ...(subTitle ? [{
+        text: subTitle,
+        font: this.fontFamily,
+        fontSize: subTitle.length > 50 ? 18 : subTitle.length > 30 ? 21 : 24,
+        bold: true,
+        color: '#1e293b',
+        alignment: 'left',
+        lineHeight: 1.15,
+        margin: [0, 0, 0, 16]
+      }] : []),
+      {
+        canvas: [{ type: 'line', x1: 0, y1: 0, x2: 72, y2: 0, lineWidth: 1.5, lineColor: '#cbd5e1' }],
+        margin: [0, 0, 0, 32]
+      },
+      {
+        text: coverMeta.tagline,
+        font: this.fontFamily,
+        fontSize: 11,
+        italics: true,
+        color: '#334155',
+        lineHeight: 1.45,
+        margin: [0, 0, 0, 36],
+        alignment: 'justify'
+      },
+      {
+        stack: [
+          {
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#cbd5e1' }],
+            margin: [0, 0, 0, 14]
+          },
+          {
+            columns: [
+              {
+                text: 'AI-ASSISTED STUDY EDITION',
+                font: this.headingFontFamily,
+                fontSize: 7,
+                bold: true,
+                color: '#64748b',
+                characterSpacing: 1.2,
+                alignment: 'left'
+              },
+              {
+                text: `First digital edition • ${new Date().getFullYear()}`,
+                font: this.fontFamily,
+                fontSize: 7,
+                color: '#64748b',
+                alignment: 'right'
+              }
+            ]
+          }
+        ],
+        absolutePosition: { x: 48, y: height - 76 }
       },
       { text: '', pageBreak: 'after' }
     ];
@@ -1582,7 +1658,8 @@ class ProfessionalPdfGenerator {
               font: this.codeFontFamily,
               fontSize: 7.5,
               color: '#888888',
-              alignment: 'left'
+              alignment: 'left',
+              width: 'auto'
             },
             {
               text: 'https://www.linkedin.com/in/tanmay-kalbande/',
@@ -1590,7 +1667,8 @@ class ProfessionalPdfGenerator {
               font: this.codeFontFamily,
               fontSize: 7.5,
               color: '#888888',
-              alignment: 'right'
+              alignment: 'right',
+              width: '*'
             }
           ],
           margin: [48, 15, 48, 0]
