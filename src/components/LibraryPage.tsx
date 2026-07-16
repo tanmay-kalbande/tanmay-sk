@@ -17,6 +17,7 @@ interface BookMeta {
   metaDescription: string;
   modelUsed?: string;
   generatedAt: string;
+  edition?: 'stellar' | 'street' | 'desi';
 }
 
 interface LibraryIndex {
@@ -408,8 +409,8 @@ export default function LibraryPage() {
                           {book.tags.slice(0, 3).map(t => (
                             <span key={t} className="lib-tag">{t}</span>
                           ))}
-                          <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)', color: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)' }}>
-                            {(book as any).edition === 'street' ? '🔥 Street' : ((book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? '✨ Stellar' : 'Street')}
+                          <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)', color: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)' }}>
+                            {book.edition === 'street' ? '🔥 Street' : book.edition === 'desi' ? '🇮🇳 Desi' : '✨ Stellar'}
                           </span>
                           {book.modelUsed && (
                             <span className="lib-tag model-tag" style={{ borderStyle: 'solid', borderColor: 'var(--ink-3)', color: 'var(--ink-2)', opacity: 0.8 }}>

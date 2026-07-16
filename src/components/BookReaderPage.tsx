@@ -28,7 +28,23 @@ interface BookFile {
   metaDescription: string;
   modelUsed?: string;
   generatedAt: string;
+  edition?: 'stellar' | 'street' | 'desi';
   modules: BookModule[];
+  finalBook?: string;
+}
+
+/**
+ * Extract a named section (Introduction, Summary, Glossary) from the finalBook markdown.
+ * Looks for ## SectionName and captures until the next ## heading or end of string.
+ */
+function extractSection(finalBook: string | undefined, sectionName: string): string | null {
+  if (!finalBook) return null;
+  const regex = new RegExp(`## ${sectionName}\\s*\n([\\s\\S]*?)(?=\n## |$)`, 'i');
+  const match = finalBook.match(regex);
+  if (!match || !match[1]) return null;
+  const content = match[1].trim();
+  // Skip if too short (likely empty or just a placeholder)
+  return content.length > 50 ? content : null;
 }
 
 const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
@@ -68,16 +84,29 @@ function exportToPdf(book: BookFile) {
 
   const totalWords = book.wordCount.toLocaleString();
 
+  // Extract intro/summary/glossary for PDF
+  const introContent = extractSection(book.finalBook, 'Introduction');
+  const summaryContent = extractSection(book.finalBook, 'Summary');
+  const glossaryContent = extractSection(book.finalBook, 'Glossary');
+
   // TOC list HTML
-  const tocHtml = book.modules
-    .map((mod, i) => `
-      <div class="toc-item">
-        <span class="toc-item-title">${i + 1}. ${mod.title}</span>
-        <span class="toc-item-dots"></span>
-        <span class="toc-item-page">${i + 3}</span>
+  const tocItems: string[] = [];
+  if (introContent) tocItems.push(`<div class="toc-item"><span class="toc-item-title">Introduction</span><span class="toc-item-dots"></span></div>`);
+  book.modules.forEach((mod, i) => {
+    tocItems.push(`<div class="toc-item"><span class="toc-item-title">${i + 1}. ${mod.title}</span><span class="toc-item-dots"></span><span class="toc-item-page">${i + 3}</span></div>`);
+  });
+  if (summaryContent) tocItems.push(`<div class="toc-item"><span class="toc-item-title">Summary</span><span class="toc-item-dots"></span></div>`);
+  if (glossaryContent) tocItems.push(`<div class="toc-item"><span class="toc-item-title">Glossary</span><span class="toc-item-dots"></span></div>`);
+  const tocHtml = tocItems.join('');
+
+  // Introduction HTML
+  const introHtml = introContent ? `
+    <div class="chapter-page">
+      <div class="chapter-header">
+        <h2 class="chapter-title">Introduction</h2>
       </div>
-    `)
-    .join('');
+      <div class="chapter-body">${renderMd(introContent)}</div>
+    </div>` : '';
 
   // Chapter content HTML
   const chaptersHtml = book.modules
@@ -91,6 +120,18 @@ function exportToPdf(book: BookFile) {
       </div>
     `)
     .join('');
+
+  // Summary + Glossary HTML
+  const summaryHtml = summaryContent ? `
+    <div class="chapter-page">
+      <div class="chapter-header"><h2 class="chapter-title">Summary</h2></div>
+      <div class="chapter-body">${renderMd(summaryContent)}</div>
+    </div>` : '';
+  const glossaryHtml = glossaryContent ? `
+    <div class="chapter-page">
+      <div class="chapter-header"><h2 class="chapter-title">Glossary</h2></div>
+      <div class="chapter-body">${renderMd(glossaryContent)}</div>
+    </div>` : '';
 
   printWindow.document.write(`<!DOCTYPE html>
 <html>
@@ -444,8 +485,15 @@ function exportToPdf(book: BookFile) {
     </div>
   </div>
 
+  <!-- INTRODUCTION -->
+  ${introHtml}
+
   <!-- CHAPTER CONTENT -->
   ${chaptersHtml}
+
+  <!-- SUMMARY & GLOSSARY -->
+  ${summaryHtml}
+  ${glossaryHtml}
 </body>
 </html>`);
 
@@ -465,6 +513,9 @@ export default function BookReaderPage() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const introRef = useRef<HTMLDivElement | null>(null);
+  const summaryRef = useRef<HTMLDivElement | null>(null);
+  const glossaryRef = useRef<HTMLDivElement | null>(null);
 
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
@@ -673,6 +724,14 @@ export default function BookReaderPage() {
         {/* TOC Sidebar */}
         <aside className="reader-toc">
           <h3>Contents</h3>
+          {extractSection(book.finalBook, 'Introduction') && (
+            <button
+              className={`reader-toc-item ${activeChapter === -1 ? 'active' : ''}`}
+              onClick={() => introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            >
+              Introduction
+            </button>
+          )}
           {book.modules.map((mod, i) => (
             <button
               key={i}
@@ -682,6 +741,22 @@ export default function BookReaderPage() {
               {i + 1}. {mod.title}
             </button>
           ))}
+          {extractSection(book.finalBook, 'Summary') && (
+            <button
+              className="reader-toc-item"
+              onClick={() => summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            >
+              Summary
+            </button>
+          )}
+          {extractSection(book.finalBook, 'Glossary') && (
+            <button
+              className="reader-toc-item"
+              onClick={() => glossaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+            >
+              Glossary
+            </button>
+          )}
         </aside>
 
         {/* Main */}
@@ -694,8 +769,8 @@ export default function BookReaderPage() {
               {book.tags.slice(0, 2).map(t => (
                 <span key={t} className="lib-tag">{t}</span>
               ))}
-              <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)', color: (book as any).edition === 'street' ? '#ff5722' : 'var(--accent)' }}>
-                {(book as any).edition === 'street' ? '🔥 Street Edition' : ((book.modelUsed?.includes('large') || book.modelUsed?.includes('glm')) ? '✨ Stellar Edition' : 'Street Edition')}
+              <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)', color: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)' }}>
+                {book.edition === 'street' ? '🔥 Street Edition' : book.edition === 'desi' ? '🇮🇳 Desi Edition' : '✨ Stellar Edition'}
               </span>
               {book.modelUsed && (
                 <span className="lib-tag model-tag" style={{ borderStyle: 'solid', borderColor: 'var(--ink-3)', color: 'var(--ink-2)' }}>
@@ -733,6 +808,21 @@ export default function BookReaderPage() {
             </div>
           </div>
 
+          {/* Introduction */}
+          {(() => {
+            const intro = extractSection(book.finalBook, 'Introduction');
+            if (!intro) return null;
+            return (
+              <div className="reader-chapter reader-section-intro" ref={introRef}>
+                <p className="reader-chapter-number">Introduction</p>
+                <div
+                  className="reader-chapter-body"
+                  dangerouslySetInnerHTML={{ __html: renderMd(intro) }}
+                />
+              </div>
+            );
+          })()}
+
           {/* Chapters */}
           {book.modules.map((mod, i) => (
             <div
@@ -748,6 +838,36 @@ export default function BookReaderPage() {
               />
             </div>
           ))}
+
+          {/* Summary */}
+          {(() => {
+            const summary = extractSection(book.finalBook, 'Summary');
+            if (!summary) return null;
+            return (
+              <div className="reader-chapter reader-section-summary" ref={summaryRef}>
+                <p className="reader-chapter-number">Summary</p>
+                <div
+                  className="reader-chapter-body"
+                  dangerouslySetInnerHTML={{ __html: renderMd(summary) }}
+                />
+              </div>
+            );
+          })()}
+
+          {/* Glossary */}
+          {(() => {
+            const glossary = extractSection(book.finalBook, 'Glossary');
+            if (!glossary) return null;
+            return (
+              <div className="reader-chapter reader-section-glossary" ref={glossaryRef}>
+                <p className="reader-chapter-number">Glossary</p>
+                <div
+                  className="reader-chapter-body"
+                  dangerouslySetInnerHTML={{ __html: renderMd(glossary) }}
+                />
+              </div>
+            );
+          })()}
 
           {/* CTA at bottom */}
           <div className="reader-cta-box">

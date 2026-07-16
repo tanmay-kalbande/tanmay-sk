@@ -38,11 +38,11 @@ const __dirname = path.dirname(__filename);
 
 const EDITION = (process.env.EDITION || 'stellar') as 'stellar' | 'street' | 'desi';
 
-const SELECTED_PROVIDER = process.env.PROVIDER || 'zai';
+const SELECTED_PROVIDER = process.env.PROVIDER || 'mistral';
 
 const SELECTED_MODEL = process.env.MODEL || process.env.MODEL_NAME || '';
 
-let primaryModel = SELECTED_MODEL || process.env.ZAI_MODEL || 'glm-5.2';
+let primaryModel = SELECTED_MODEL || process.env.ZAI_MODEL || 'mistral-large-latest';
 let primaryApiUrl = 'https://api.z.ai/api/paas/v4/chat/completions';
 let primaryApiKey = process.env.ZAI_API_KEY || '';
 let primaryProviderName = 'zai';

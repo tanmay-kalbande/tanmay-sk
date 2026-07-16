@@ -25,7 +25,7 @@ on:
           - zai
           - mistral
           - cerebras
-        default: 'zai'
+        default: 'mistral'
       model:
         description: '🚀 Select AI Model Engine Override'
         required: false
@@ -42,7 +42,7 @@ on:
           - gemma-4-31b
           - gpt-oss-120b
           - zai-glm-4.7
-        default: 'glm-5.2'
+        default: 'mistral-large-latest'
       concurrency:
         description: '⚡ Processing Channels (Default: 1 for maximum stability)'
         required: false
@@ -94,8 +94,8 @@ jobs:
           echo "🪐 ──────────────────────────────────────────"
           echo "🌌 Pustakam Universal Generator (V5 Core)"
           echo "🕐 Telemetry Timestamp: $(date -u '+%Y-%m-%d %H:%M UTC')"
-          echo "📖 Codex Dimension: ${{ github.event.inputs.edition || 'stellar' }}"
-          echo "🤖 Neural Core Engine: ${{ github.event.inputs.provider || 'zai' }} (${{ github.event.inputs.model || 'glm-5.2' }})"
+          echo "📖 Codex Dimension: ${{ github.event.inputs.edition || 'street' }}"
+          echo "🤖 Neural Core Engine: ${{ github.event.inputs.provider || 'mistral' }} (${{ github.event.inputs.model || 'mistral-large-latest' }})"
           echo "⚡ Active Channels: ${{ github.event.inputs.concurrency || '1' }}"
           echo "📁 Target Vault Path: public/library/"
           EXISTING=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
@@ -108,11 +108,11 @@ jobs:
           MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
           ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
           CEREBRAS_API_KEY:  ${{ secrets.CEREBRAS_API_KEY }}
-          ZAI_MODEL:         'glm-5.2'
-          MODEL:             ${{ github.event.inputs.model || 'glm-5.2' }}
+          ZAI_MODEL:         'mistral-large-latest'
+          MODEL:             ${{ github.event.inputs.model || 'mistral-large-latest' }}
           SITE_URL:          'https://tanmaysk.in'
-          EDITION:           ${{ github.event.inputs.edition || 'stellar' }}
-          PROVIDER:          ${{ github.event.inputs.provider || 'zai' }}
+          EDITION:           ${{ github.event.inputs.edition || 'street' }}
+          PROVIDER:          ${{ github.event.inputs.provider || 'mistral' }}
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '1' }}
           MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
           CI:                'true'
