@@ -41,6 +41,66 @@
       "edition": "street"
     },
     {
+      "slug": "launch-a-hyperlocal-drone-delivery-service-navigating-faa-part-107-regulations-i",
+      "title": "The Last 500 Feet: Launching a Compliant Hyper-Local Drone Delivery Business",
+      "goal": "Launch a hyper-local drone delivery service navigating FAA Part 107 regulations",
+      "category": "business",
+      "tags": [
+        "aviation",
+        "logistics",
+        "startup"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22379,
+      "moduleCount": 8,
+      "readingTimeMins": 90,
+      "metaDescription": "The Last 500 Feet: Launching a Compliant Hyper-Local Drone Delivery Business: a intermediate guide to launch a hyper-local drone delivery service navigatin",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T02:24:43.228Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "bootstrap-a-profitable-ghost-kitchen-empire-using-hyperoptimized-cloud-infrastru",
+      "title": "The Serverless Restaurant: Bootstrapping a Profitable Ghost Kitchen Empire",
+      "goal": "Bootstrap a profitable ghost kitchen empire using hyper-optimized cloud infrastructure",
+      "category": "business",
+      "tags": [
+        "food-industry",
+        "cloud-computing",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22883,
+      "moduleCount": 8,
+      "readingTimeMins": 92,
+      "metaDescription": "The Serverless Restaurant: Bootstrapping a Profitable Ghost Kitchen Empire: a beginner guide to bootstrap a profitable ghost kitchen empire using hyper-opt",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T04:39:47.577Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "reverseengineer-corporate-competitors-by-scraping-and-analyzing-opensource-intel",
+      "title": "The Silent Audit: Reverse-Engineering Competitors with Open-Source Intelligence",
+      "goal": "Reverse-engineer corporate competitors by scraping and analyzing open-source intelligence",
+      "category": "business",
+      "tags": [
+        "market-research",
+        "data-scraping",
+        "espionage"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 24571,
+      "moduleCount": 8,
+      "readingTimeMins": 99,
+      "metaDescription": "The Silent Audit: Reverse-Engineering Competitors with Open-Source Intelligence: a intermediate guide to reverse-engineer corporate competitors by scraping",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:05:01.336Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-develop-crosscultural-negotiation-strategies-for-international-business-e",
       "title": "The Global Hustler's Playbook: Cross-Cultural Negotiation Warfare",
       "goal": "Develop cross-cultural negotiation strategies for international business expansion",
@@ -59,6 +119,46 @@
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-15T20:12:19.584Z",
       "edition": "street"
+    },
+    {
+      "slug": "forge-a-lucrative-career-as-a-prompt-engineer-for-enterprisegrade-llm-finetuning",
+      "title": "The Prompt Engineer's Ascent: Building a Career in Enterprise LLM Fine-Tuning",
+      "goal": "Forge a lucrative career as a prompt engineer for enterprise-grade LLM fine-tuning",
+      "category": "career",
+      "tags": [
+        "AI",
+        "career-pivot",
+        "machine-learning"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25501,
+      "moduleCount": 9,
+      "readingTimeMins": 103,
+      "metaDescription": "The Prompt Engineer's Ascent: Building a Career in Enterprise LLM Fine-Tuning: a beginner guide to forge a lucrative career as a prompt engineer for enterp",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T03:28:28.025Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "construct-a-survivalstate-psychological-profile-to-dominate-highstakes-hostage-n",
+      "title": "The Survival-State Playbook: Profiling the Dysregulated Mind to Dominate High-Stakes Negotiations",
+      "goal": "Construct a survival-state psychological profile to dominate high-stakes hostage negotiations",
+      "category": "career",
+      "tags": [
+        "crisis-management",
+        "psychology",
+        "law-enforcement"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 23013,
+      "moduleCount": 8,
+      "readingTimeMins": 93,
+      "metaDescription": "The Survival-State Playbook: Profiling the Dysregulated Mind to Dominate High-Stakes Negotiations: a advanced guide to construct a survival-state psycholog",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T00:52:34.586Z",
+      "edition": "stellar"
     },
     {
       "slug": "street-master-the-art-of-brand-storytelling-through-transmedia-narratives-beginn",
@@ -101,6 +201,26 @@
       "edition": "street"
     },
     {
+      "slug": "design-brutalistinspired-kinetic-typography-animations-using-css-and-webgl-inter",
+      "title": "Raw Canvas: Engineering Brutalist Kinetic Typography with CSS and WebGL",
+      "goal": "Design brutalist-inspired kinetic typography animations using CSS and WebGL",
+      "category": "design",
+      "tags": [
+        "web-animation",
+        "typography",
+        "front-end"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21799,
+      "moduleCount": 8,
+      "readingTimeMins": 88,
+      "metaDescription": "Raw Canvas: Engineering Brutalist Kinetic Typography with CSS and WebGL: a intermediate guide to design brutalist-inspired kinetic typography animations us",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T02:10:52.895Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-understand-the-principles-of-biomimicry-in-architectural-design-beginner",
       "title": "The Concrete Jungle is Dead: Stealing Nature's Blueprint",
       "goal": "Understand the principles of biomimicry in architectural design",
@@ -141,6 +261,46 @@
       "edition": "street"
     },
     {
+      "slug": "engineer-synthetic-voices-from-scratch-using-lowresource-texttospeech-ai-models",
+      "title": "The Phantom Voice: Designing High-Fidelity TTS with Minimal Data",
+      "goal": "Engineer synthetic voices from scratch using low-resource text-to-speech AI models",
+      "category": "design",
+      "tags": [
+        "audio-engineering",
+        "machine-learning",
+        "sound-design"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 22921,
+      "moduleCount": 8,
+      "readingTimeMins": 92,
+      "metaDescription": "The Phantom Voice: Designing High-Fidelity TTS with Minimal Data: a advanced guide to engineer synthetic voices from scratch using low-resource text-to-spe",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:17:37.152Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "engineer-hyperlocal-bacterial-cellulose-textiles-from-kombucha-scoby-waste-inter",
+      "title": "The SCOBY Loom: Engineering Hyper-Local Textiles from Kombucha Waste",
+      "goal": "Engineer hyper-local bacterial cellulose textiles from kombucha SCOBY waste",
+      "category": "design",
+      "tags": [
+        "sustainable-fashion",
+        "bio-design",
+        "material-science"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22912,
+      "moduleCount": 8,
+      "readingTimeMins": 92,
+      "metaDescription": "The SCOBY Loom: Engineering Hyper-Local Textiles from Kombucha Waste: a intermediate guide to engineer hyper-local bacterial cellulose textiles from kombuc",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T04:29:18.451Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-learn-the-fundamentals-of-acoustic-ecology-and-soundscape-composition-beg",
       "title": "The Sound Hustler's Bible: From Deaf to Dangerous in Acoustic Ecology",
       "goal": "Learn the fundamentals of acoustic ecology and soundscape composition",
@@ -159,6 +319,46 @@
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-15T20:26:53.559Z",
       "edition": "street"
+    },
+    {
+      "slug": "utilize-dark-pool-liquidity-and-order-flow-analysis-to-track-institutional-whale",
+      "title": "Shadows and Flow: Tracking Institutional Whales Through Dark Pools and Order Flow",
+      "goal": "Utilize dark pool liquidity and order flow analysis to track institutional whale movements",
+      "category": "finance",
+      "tags": [
+        "trading",
+        "market-microstructure",
+        "data-analysis"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 20816,
+      "moduleCount": 7,
+      "readingTimeMins": 84,
+      "metaDescription": "Shadows and Flow: Tracking Institutional Whales Through Dark Pools and Order Flow: a advanced guide to utilize dark pool liquidity and order flow analysis ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T02:38:08.926Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "exploit-corporate-tax-loopholes-legally-using-offshore-intellectual-property-hol",
+      "title": "The Invisible Asset: Engineering Legal Offshore IP Structures for Corporate Tax Optimization",
+      "goal": "Exploit corporate tax loopholes legally using offshore intellectual property holding structures",
+      "category": "finance",
+      "tags": [
+        "tax-strategy",
+        "wealth-preservation",
+        "corporate-law"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 25922,
+      "moduleCount": 9,
+      "readingTimeMins": 104,
+      "metaDescription": "The Invisible Asset: Engineering Legal Offshore IP Structures for Corporate Tax Optimization: a advanced guide to exploit corporate tax loopholes legally u",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T00:42:18.184Z",
+      "edition": "stellar"
     },
     {
       "slug": "street-analyze-the-socioeconomic-impacts-of-universal-basic-income-ubi-models-in",
@@ -241,6 +441,46 @@
       "edition": "street"
     },
     {
+      "slug": "master-the-wim-hof-method-combined-with-intermittent-hypoxia-to-trigger-extreme",
+      "title": "The Oxygen Debt Protocol: Using Wim Hof Breathing and Intermittent Hypoxia to Reset Your Immune System",
+      "goal": "Master the Wim Hof method combined with intermittent hypoxia to trigger extreme anti-inflammatory responses",
+      "category": "health",
+      "tags": [
+        "biohacking",
+        "breathwork",
+        "longevity"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22622,
+      "moduleCount": 8,
+      "readingTimeMins": 91,
+      "metaDescription": "The Oxygen Debt Protocol: Using Wim Hof Breathing and Intermittent Hypoxia to Reset Your Immune System: a beginner guide to master the wim hof method combi",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:43:20.687Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "manipulate-the-autonomic-nervous-system-to-induce-targeted-torpor-for-extreme-tr",
+      "title": "The Torpor Protocol: Rewiring the Autonomic Nervous System to Survive Lethal Trauma",
+      "goal": "Manipulate the autonomic nervous system to induce targeted torpor for extreme trauma survival",
+      "category": "health",
+      "tags": [
+        "emergency-medicine",
+        "survival",
+        "physiology"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 27390,
+      "moduleCount": 10,
+      "readingTimeMins": 110,
+      "metaDescription": "The Torpor Protocol: Rewiring the Autonomic Nervous System to Survive Lethal Trauma: a advanced guide to manipulate the autonomic nervous system to induce ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T03:11:43.314Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-understand-the-syntax-and-grammar-of-international-sign-language-isl-begi",
       "title": "Hands That Hit Hard: The ISL Grammar Warpath",
       "goal": "Understand the syntax and grammar of international sign language (ISL)",
@@ -261,6 +501,26 @@
       "edition": "street"
     },
     {
+      "slug": "decode-and-speak-toki-pona-to-radically-simplify-thought-patterns-and-cognitive",
+      "title": "The 120-Word Mindset: How Toki Pona Declutters Your Thoughts",
+      "goal": "Decode and speak Toki Pona to radically simplify thought patterns and cognitive load",
+      "category": "languages",
+      "tags": [
+        "constructed-language",
+        "minimalism",
+        "cognitive-science"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21925,
+      "moduleCount": 8,
+      "readingTimeMins": 88,
+      "metaDescription": "The 120-Word Mindset: How Toki Pona Declutters Your Thoughts: a beginner guide to decode and speak toki pona to radically simplify thought patterns and cog",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:57:01.166Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-explore-the-phonetic-evolution-of-constructed-languages-conlangs-in-media",
       "title": "The Conlang Trenches: Bleeding for Fake Phonetics",
       "goal": "Explore the phonetic evolution of constructed languages (conlangs) in media",
@@ -279,6 +539,46 @@
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-15T17:23:44.657Z",
       "edition": "street"
+    },
+    {
+      "slug": "master-the-art-of-diplomatic-interpreting-in-highstakes-geopolitical-summits-adv",
+      "title": "The Summit Interpreter: Navigating Power, Protocol, and Precision in High-Stakes Diplomacy",
+      "goal": "Master the art of diplomatic interpreting in high-stakes geopolitical summits",
+      "category": "languages",
+      "tags": [
+        "translation",
+        "diplomacy",
+        "real-time"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 25949,
+      "moduleCount": 8,
+      "readingTimeMins": 104,
+      "metaDescription": "The Summit Interpreter: Navigating Power, Protocol, and Precision in High-Stakes Diplomacy: a advanced guide to master the art of diplomatic interpreting i",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T04:17:55.876Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "build-and-deploy-a-decentralized-microblogging-protocol-on-nostr-intermediate",
+      "title": "Censorship-Resistant Feeds: Building a Decentralized Microblogging Client on Nostr",
+      "goal": "Build and deploy a decentralized microblogging protocol on Nostr",
+      "category": "programming",
+      "tags": [
+        "web3",
+        "networking",
+        "cryptography"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19995,
+      "moduleCount": 7,
+      "readingTimeMins": 80,
+      "metaDescription": "Censorship-Resistant Feeds: Building a Decentralized Microblogging Client on Nostr: a intermediate guide to build and deploy a decentralized microblogging ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T00:30:51.998Z",
+      "edition": "stellar"
     },
     {
       "slug": "street-learn-to-build-and-deploy-decentralized-autonomous-organizations-daos-on",
@@ -321,6 +621,46 @@
       "edition": "street"
     },
     {
+      "slug": "build-a-highfrequency-statistical-arbitrage-algorithm-using-python-and-c-integra",
+      "title": "The Microsecond Spread: Architecting High-Frequency Stat Arb with Python and C++",
+      "goal": "Build a high-frequency statistical arbitrage algorithm using Python and C++ integration",
+      "category": "programming",
+      "tags": [
+        "algorithmic-trading",
+        "C++",
+        "python"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 28029,
+      "moduleCount": 10,
+      "readingTimeMins": 113,
+      "metaDescription": "The Microsecond Spread: Architecting High-Frequency Stat Arb with Python and C++: a advanced guide to build a high-frequency statistical arbitrage algorith",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T03:47:55.668Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "develop-a-localized-disasterresilient-mesh-network-using-lowcost-lorawan-hardwar",
+      "title": "When the Grid Fails: Building a Resilient LoRa Mesh Network from Scratch",
+      "goal": "Develop a localized disaster-resilient mesh network using low-cost LoRaWAN hardware",
+      "category": "programming",
+      "tags": [
+        "IoT",
+        "networking",
+        "hardware"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 25292,
+      "moduleCount": 9,
+      "readingTimeMins": 102,
+      "metaDescription": "When the Grid Fails: Building a Resilient LoRa Mesh Network from Scratch: a intermediate guide to develop a localized disaster-resilient mesh network using",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:31:15.955Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-understand-the-neurochemistry-of-habit-formation-and-behavioral-loops-beg",
       "title": "Brain Hackers: Rewiring Your Wetware for Savage Habits",
       "goal": "Understand the neurochemistry of habit formation and behavioral loops",
@@ -339,6 +679,26 @@
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-15T19:26:41.623Z",
       "edition": "street"
+    },
+    {
+      "slug": "master-the-synthesis-of-novel-proteins-using-aidriven-structural-prediction-mode",
+      "title": "Designing the Unseen: From AI Structural Models to Synthetic Proteins",
+      "goal": "Master the synthesis of novel proteins using AI-driven structural prediction models",
+      "category": "science",
+      "tags": [
+        "biotechnology",
+        "AI",
+        "biochemistry"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 24606,
+      "moduleCount": 8,
+      "readingTimeMins": 99,
+      "metaDescription": "Designing the Unseen: From AI Structural Models to Synthetic Proteins: a advanced guide to master the synthesis of novel proteins using ai-driven structura",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T00:22:35.456Z",
+      "edition": "stellar"
     },
     {
       "slug": "street-master-the-use-of-satellite-imagery-and-gis-for-environmental-conservatio",
@@ -381,6 +741,46 @@
       "edition": "street"
     },
     {
+      "slug": "construct-mechanical-prosthetic-enhancements-using-3d-printing-and-basic-biomech",
+      "title": "Plastic Tendons: Building Mechanical Prosthetics with 3D Printing and Biomechanics",
+      "goal": "Construct mechanical prosthetic enhancements using 3D printing and basic biomechanics",
+      "category": "science",
+      "tags": [
+        "biomechanics",
+        "3d-printing",
+        "transhumanism"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19900,
+      "moduleCount": 7,
+      "readingTimeMins": 80,
+      "metaDescription": "Plastic Tendons: Building Mechanical Prosthetics with 3D Printing and Biomechanics: a beginner guide to construct mechanical prosthetic enhancements using ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T02:51:33.308Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "revitalize-dead-urban-soil-using-phytoremediation-and-heavymetal-extracting-plan",
+      "title": "Roots That Eat Rust: Healing Dead Urban Soil with Phytoremediation",
+      "goal": "Revitalize dead urban soil using phytoremediation and heavy-metal extracting plants",
+      "category": "science",
+      "tags": [
+        "ecology",
+        "urban-planning",
+        "botany"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22816,
+      "moduleCount": 8,
+      "readingTimeMins": 92,
+      "metaDescription": "Roots That Eat Rust: Healing Dead Urban Soil with Phytoremediation: a intermediate guide to revitalize dead urban soil using phytoremediation and heavy-met",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T04:03:39.896Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-master-the-fundamentals-of-cellular-agriculture-and-labgrown-meat-product",
       "title": "The Flesh Forge: Zero-to-Savage Cellular Ag War Bible",
       "goal": "Master the fundamentals of cellular agriculture and lab-grown meat production",
@@ -401,6 +801,6 @@
       "edition": "street"
     }
   ],
-  "total": 20,
-  "generatedAt": "2026-07-15T20:43:42.448Z"
+  "total": 40,
+  "generatedAt": "2026-07-16T04:39:47.655Z"
 }
