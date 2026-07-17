@@ -1,6 +1,49 @@
 {
   "books": [
     {
+      "slug": "desi-build-and-deploy-a-realtime-ai-audio-deepfake-detector-using-python-and-pyt",
+      "title": "Bheja Fry Mat Kar, Real-Time Audio Deepfake Detector Bana De!",
+      "goal": "Build and deploy a real-time AI audio deepfake detector using Python and PyTorch",
+      "category": "programming",
+      "tags": [
+        "machine learning",
+        "audio processing",
+        "cybersecurity",
+        "pytorch"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 19525,
+      "moduleCount": 8,
+      "readingTimeMins": 79,
+      "metaDescription": "Bheja Fry Mat Kar, Real-Time Audio Deepfake Detector Bana De!: a advanced guide to build and deploy a real-time ai audio deepfake detector using python and",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T21:18:03.831Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-an-aipowered-graph-database-from-scratch-for-advanced-fraud-detecti",
+      "title": "Zero to Graph God: Building an AI Fraud-Detection Database from the Trenches",
+      "goal": "Build an AI-powered graph database from scratch for advanced fraud detection and network analysis",
+      "category": "programming",
+      "tags": [
+        "graph database",
+        "ai",
+        "fraud detection",
+        "network analysis",
+        "python"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 44631,
+      "moduleCount": 12,
+      "readingTimeMins": 179,
+      "metaDescription": "Zero to Graph God: Building an AI Fraud-Detection Database from the Trenches: a advanced guide to build an ai-powered graph database from scratch for advan",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T21:05:31.998Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-master-algorithmic-trading-strategy-development-with-python-and-pandas-inte",
       "title": "Desi Algo Trading Roadmap: Bhai Ka Code Market Ka Dimaag",
       "goal": "Master algorithmic trading strategy development with Python and pandas",
@@ -1715,6 +1758,6 @@
       "edition": "street"
     }
   ],
-  "total": 85,
-  "generatedAt": "2026-07-17T16:46:17.892Z"
+  "total": 87,
+  "generatedAt": "2026-07-17T21:18:03.991Z"
 }
