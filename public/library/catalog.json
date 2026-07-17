@@ -1,43 +1,65 @@
 {
   "books": [
     {
-      "slug": "street-design-and-launch-a-profitable-aipowered-subscription-service-for-persona",
-      "title": "BLACKHOLE ROADMAP: How to Build a Profitable AI-Powered Meditation Empire (Without Being a Noob)",
-      "goal": "Design and launch a profitable AI-powered subscription service for personalized meditation and mental wellness",
-      "category": "business",
+      "slug": "desi-build-a-decentralized-prediction-market-smart-contract-with-solidity-and-ch",
+      "title": "Desi Blackhole Roadmap: Prediction Market Aur Chainlink Ka Khel",
+      "goal": "Build a decentralized prediction market smart contract with Solidity and Chainlink oracles",
+      "category": "programming",
       "tags": [
-        "ai",
-        "subscription-model",
-        "wellness"
+        "solidity",
+        "blockchain",
+        "chainlink",
+        "smart contracts",
+        "web3"
       ],
       "language": "en",
-      "complexity": "beginner",
-      "wordCount": 22622,
+      "complexity": "advanced",
+      "wordCount": 19666,
       "moduleCount": 7,
+      "readingTimeMins": 79,
+      "metaDescription": "Desi Blackhole Roadmap: Prediction Market Aur Chainlink Ka Khel: a advanced guide to build a decentralized prediction market smart contract with solidity a",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T05:51:37.641Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-develop-a-constructed-language-conlang-optimized-for-ai-communication-and",
+      "title": "BLACKHOLE CONLANG: BUILD A LANGUAGE THAT BENDS AI TO YOUR WILL OR DIE TRYING",
+      "goal": "Develop a constructed language (conlang) optimized for AI communication and human-machine collaboration",
+      "category": "languages",
+      "tags": [
+        "conlang",
+        "ai",
+        "linguistics"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 22526,
+      "moduleCount": 8,
       "readingTimeMins": 91,
-      "metaDescription": "BLACKHOLE ROADMAP: How to Build a Profitable AI-Powered Meditation Empire (Without Being a Noob): a beginner guide to design and launch a profitable ai-pow",
+      "metaDescription": "BLACKHOLE CONLANG: BUILD A LANGUAGE THAT BENDS AI TO YOUR WILL OR DIE TRYING: a advanced guide to develop a constructed language (conlang) optimized for ai",
       "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T21:17:06.181Z",
+      "generatedAt": "2026-07-17T01:48:29.903Z",
       "edition": "street"
     },
     {
-      "slug": "street-launch-a-hyperlocal-aioptimized-vertical-farming-business-to-disrupt-trad",
-      "title": "BLACKHOLE ROADMAP: How to Build a Vertical Farming Empire That Buries Traditional Ag Like Yesterday's Trash",
-      "goal": "Launch a hyper-local, AI-optimized vertical farming business to disrupt traditional agriculture supply chains",
-      "category": "business",
+      "slug": "street-master-the-science-of-polyphasic-sleep-to-maximize-productivity-and-cogni",
+      "title": "POLYPHASIC SLEEP: HACK YOUR BRAIN OR DIE TRYING (NO EXCUSES EDITION)",
+      "goal": "Master the science of polyphasic sleep to maximize productivity and cognitive performance with minimal sleep",
+      "category": "health",
       "tags": [
-        "agritech",
-        "ai",
-        "sustainability"
+        "sleep-optimization",
+        "productivity",
+        "neuroscience"
       ],
       "language": "en",
-      "complexity": "beginner",
-      "wordCount": 36282,
-      "moduleCount": 10,
-      "readingTimeMins": 146,
-      "metaDescription": "BLACKHOLE ROADMAP: How to Build a Vertical Farming Empire That Buries Traditional Ag Like Yesterday's Trash: a beginner guide to launch a hyper-local, ai-o",
+      "complexity": "intermediate",
+      "wordCount": 27625,
+      "moduleCount": 8,
+      "readingTimeMins": 111,
+      "metaDescription": "POLYPHASIC SLEEP: HACK YOUR BRAIN OR DIE TRYING (NO EXCUSES EDITION): a intermediate guide to master the science of polyphasic sleep to maximize productivi",
       "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T22:41:12.661Z",
+      "generatedAt": "2026-07-17T01:37:45.404Z",
       "edition": "street"
     },
     {
@@ -61,306 +83,6 @@
       "edition": "street"
     },
     {
-      "slug": "street-develop-a-crisis-management-framework-for-supply-chain-disruptions-interm",
-      "title": "Chaos-Proof: The Supply Chain Survival Playbook",
-      "goal": "Develop a crisis management framework for supply chain disruptions",
-      "category": "business",
-      "tags": [
-        "supply-chain",
-        "risk-management",
-        "logistics"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 30363,
-      "moduleCount": 10,
-      "readingTimeMins": 122,
-      "metaDescription": "Chaos-Proof: The Supply Chain Survival Playbook: a intermediate guide to develop a crisis management framework for supply chain disruptions with clear expl",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T19:02:49.023Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-develop-a-localized-circular-economy-business-model-from-waste-streams-ad",
-      "title": "From Garbage to Goldmine: The Circular Economy Warpath",
-      "goal": "Develop a localized circular economy business model from waste streams",
-      "category": "business",
-      "tags": [
-        "circular-economy",
-        "sustainability",
-        "entrepreneurship"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 28775,
-      "moduleCount": 10,
-      "readingTimeMins": 116,
-      "metaDescription": "From Garbage to Goldmine: The Circular Economy Warpath: a advanced guide to develop a localized circular economy business model from waste streams with cle",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T17:12:19.569Z",
-      "edition": "street"
-    },
-    {
-      "slug": "build-a-profitable-business-around-hyperlocalized-aigenerated-urban-art-installa",
-      "title": "The AI Artpreneur: Monetizing Hyper-Local Urban Installations with Artificial Intelligence",
-      "goal": "Build a profitable business around hyper-localized, AI-generated urban art installations",
-      "category": "business",
-      "tags": [
-        "AI",
-        "art",
-        "localization"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 13764,
-      "moduleCount": 10,
-      "readingTimeMins": 56,
-      "metaDescription": "The AI Artpreneur: Monetizing Hyper-Local Urban Installations with Artificial Intelligence: a beginner guide to build a profitable business around hyper-lo",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:16:46.593Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "launch-a-subscriptionbased-service-for-aigenerated-hyperpersonalized-fitness-pla",
-      "title": "The AI Fitness Blueprint: How to Build a Subscription Service That Actually Fits Your Customers",
-      "goal": "Launch a subscription-based service for AI-generated, hyper-personalized fitness plans",
-      "category": "business",
-      "tags": [
-        "AI",
-        "fitness",
-        "subscription"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 14293,
-      "moduleCount": 10,
-      "readingTimeMins": 58,
-      "metaDescription": "The AI Fitness Blueprint: How to Build a Subscription Service That Actually Fits Your Customers: a beginner guide to launch a subscription-based service fo",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:33:12.640Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "create-a-scalable-business-model-around-aigenerated-personalized-nutrition-plans",
-      "title": "The AI Nutrition Blueprint: How to Build a Scalable, Personalized Health Business",
-      "goal": "Create a scalable business model around AI-generated, personalized nutrition plans",
-      "category": "business",
-      "tags": [
-        "AI",
-        "nutrition",
-        "personalization"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 16615,
-      "moduleCount": 12,
-      "readingTimeMins": 67,
-      "metaDescription": "The AI Nutrition Blueprint: How to Build a Scalable, Personalized Health Business: a intermediate guide to create a scalable business model around ai-gener",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:20:56.534Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "launch-a-hyperlocal-drone-delivery-service-navigating-faa-part-107-regulations-i",
-      "title": "The Last 500 Feet: Launching a Compliant Hyper-Local Drone Delivery Business",
-      "goal": "Launch a hyper-local drone delivery service navigating FAA Part 107 regulations",
-      "category": "business",
-      "tags": [
-        "aviation",
-        "logistics",
-        "startup"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 22379,
-      "moduleCount": 8,
-      "readingTimeMins": 90,
-      "metaDescription": "The Last 500 Feet: Launching a Compliant Hyper-Local Drone Delivery Business: a intermediate guide to launch a hyper-local drone delivery service navigatin",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T02:24:43.228Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "bootstrap-a-profitable-ghost-kitchen-empire-using-hyperoptimized-cloud-infrastru",
-      "title": "The Serverless Restaurant: Bootstrapping a Profitable Ghost Kitchen Empire",
-      "goal": "Bootstrap a profitable ghost kitchen empire using hyper-optimized cloud infrastructure",
-      "category": "business",
-      "tags": [
-        "food-industry",
-        "cloud-computing",
-        "entrepreneurship"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 22883,
-      "moduleCount": 8,
-      "readingTimeMins": 92,
-      "metaDescription": "The Serverless Restaurant: Bootstrapping a Profitable Ghost Kitchen Empire: a beginner guide to bootstrap a profitable ghost kitchen empire using hyper-opt",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T04:39:47.577Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "reverseengineer-corporate-competitors-by-scraping-and-analyzing-opensource-intel",
-      "title": "The Silent Audit: Reverse-Engineering Competitors with Open-Source Intelligence",
-      "goal": "Reverse-engineer corporate competitors by scraping and analyzing open-source intelligence",
-      "category": "business",
-      "tags": [
-        "market-research",
-        "data-scraping",
-        "espionage"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 24571,
-      "moduleCount": 8,
-      "readingTimeMins": 99,
-      "metaDescription": "The Silent Audit: Reverse-Engineering Competitors with Open-Source Intelligence: a intermediate guide to reverse-engineer corporate competitors by scraping",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T01:05:01.336Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-create-a-career-in-ai-ethics-by-developing-frameworks-to-audit-and-mitiga",
-      "title": "BLACKHOLE ROADMAP: HOW TO OWN AI ETHICS LIKE A BOSS (OR DIE TRYING)",
-      "goal": "Create a career in AI ethics by developing frameworks to audit and mitigate bias in large language models (LLMs)",
-      "category": "career",
-      "tags": [
-        "ai",
-        "ethics",
-        "bias-mitigation"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 25552,
-      "moduleCount": 8,
-      "readingTimeMins": 103,
-      "metaDescription": "BLACKHOLE ROADMAP: HOW TO OWN AI ETHICS LIKE A BOSS (OR DIE TRYING): a intermediate guide to create a career in ai ethics by developing frameworks to audit",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T23:27:02.750Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-master-the-art-of-persuasive-communication-by-reverseengineering-the-ling",
-      "title": "BLACKHOLE ROADMAP: HOW TO TALK LIKE YOU OWN THE ROOM (OR GET OWNED TRYING)",
-      "goal": "Master the art of persuasive communication by reverse-engineering the linguistic patterns of elite negotiators and influencers",
-      "category": "career",
-      "tags": [
-        "communication",
-        "negotiation",
-        "linguistics"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 28978,
-      "moduleCount": 10,
-      "readingTimeMins": 116,
-      "metaDescription": "BLACKHOLE ROADMAP: HOW TO TALK LIKE YOU OWN THE ROOM (OR GET OWNED TRYING): a intermediate guide to master the art of persuasive communication by reverse-e",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-17T00:26:47.366Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-develop-crosscultural-negotiation-strategies-for-international-business-e",
-      "title": "The Global Hustler's Playbook: Cross-Cultural Negotiation Warfare",
-      "goal": "Develop cross-cultural negotiation strategies for international business expansion",
-      "category": "career",
-      "tags": [
-        "negotiation",
-        "cross-cultural",
-        "leadership"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 33442,
-      "moduleCount": 10,
-      "readingTimeMins": 134,
-      "metaDescription": "The Global Hustler's Playbook: Cross-Cultural Negotiation Warfare: a advanced guide to develop cross-cultural negotiation strategies for international busi",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T20:12:19.584Z",
-      "edition": "street"
-    },
-    {
-      "slug": "forge-a-lucrative-career-as-a-prompt-engineer-for-enterprisegrade-llm-finetuning",
-      "title": "The Prompt Engineer's Ascent: Building a Career in Enterprise LLM Fine-Tuning",
-      "goal": "Forge a lucrative career as a prompt engineer for enterprise-grade LLM fine-tuning",
-      "category": "career",
-      "tags": [
-        "AI",
-        "career-pivot",
-        "machine-learning"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 25501,
-      "moduleCount": 9,
-      "readingTimeMins": 103,
-      "metaDescription": "The Prompt Engineer's Ascent: Building a Career in Enterprise LLM Fine-Tuning: a beginner guide to forge a lucrative career as a prompt engineer for enterp",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T03:28:28.025Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "construct-a-survivalstate-psychological-profile-to-dominate-highstakes-hostage-n",
-      "title": "The Survival-State Playbook: Profiling the Dysregulated Mind to Dominate High-Stakes Negotiations",
-      "goal": "Construct a survival-state psychological profile to dominate high-stakes hostage negotiations",
-      "category": "career",
-      "tags": [
-        "crisis-management",
-        "psychology",
-        "law-enforcement"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 23013,
-      "moduleCount": 8,
-      "readingTimeMins": 93,
-      "metaDescription": "The Survival-State Playbook: Profiling the Dysregulated Mind to Dominate High-Stakes Negotiations: a advanced guide to construct a survival-state psycholog",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T00:52:34.586Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-master-the-art-of-brand-storytelling-through-transmedia-narratives-beginn",
-      "title": "The Transmedia Hustle: Building Brands That Own the Block",
-      "goal": "Master the art of brand storytelling through transmedia narratives",
-      "category": "career",
-      "tags": [
-        "marketing",
-        "storytelling",
-        "branding"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 26782,
-      "moduleCount": 8,
-      "readingTimeMins": 108,
-      "metaDescription": "The Transmedia Hustle: Building Brands That Own the Block: a beginner guide to master the art of brand storytelling through transmedia narratives with clea",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T18:22:22.826Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-create-a-generative-ai-tool-that-designs-hyperpersonalized-fashion-collec",
-      "title": "BLACKHOLE FASHION: How to Build a Generative AI That Eats Biometrics & Sh*ts Couture",
-      "goal": "Create a generative AI tool that designs hyper-personalized fashion collections based on user biometrics and preferences",
-      "category": "design",
-      "tags": [
-        "ai",
-        "fashion",
-        "generative-design"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 32522,
-      "moduleCount": 10,
-      "readingTimeMins": 131,
-      "metaDescription": "BLACKHOLE FASHION: How to Build a Generative AI That Eats Biometrics & Sh*ts Couture: a intermediate guide to create a generative ai tool that designs hype",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T21:59:52.262Z",
-      "edition": "street"
-    },
-    {
       "slug": "street-design-a-zerowaste-modular-housing-system-using-myceliumbased-materials-a",
       "title": "BLACKHOLE ROADMAP: BUILD A MYCELIUM FORTRESS OR DIE TRYING (NO EXCUSES, NO BULLSHIT)",
       "goal": "Design a zero-waste, modular housing system using mycelium-based materials and 3D-printed structural components",
@@ -378,706 +100,6 @@
       "metaDescription": "BLACKHOLE ROADMAP: BUILD A MYCELIUM FORTRESS OR DIE TRYING (NO EXCUSES, NO BULLSHIT): a advanced guide to design a zero-waste, modular housing system using",
       "modelUsed": "mistral-large-latest",
       "generatedAt": "2026-07-17T01:10:09.457Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-design-a-wearable-device-that-uses-haptic-feedback-to-enhance-spatial-awa",
-      "title": "BLACKHOLE ROADMAP: HAPTIC WEARABLES FOR THE BLIND - DON'T DIE TRYING",
-      "goal": "Design a wearable device that uses haptic feedback to enhance spatial awareness for the visually impaired",
-      "category": "design",
-      "tags": [
-        "wearables",
-        "accessibility",
-        "haptics"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 35099,
-      "moduleCount": 13,
-      "readingTimeMins": 141,
-      "metaDescription": "BLACKHOLE ROADMAP: HAPTIC WEARABLES FOR THE BLIND - DON'T DIE TRYING: a intermediate guide to design a wearable device that uses haptic feedback to enhance",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T23:56:27.971Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-learn-to-write-and-execute-algorithmic-spatial-generative-art-using-p5js",
-      "title": "Code That Bleeds: The p5.js Generative Art Warpath",
-      "goal": "Learn to write and execute algorithmic spatial generative art using p5.js",
-      "category": "design",
-      "tags": [
-        "generative-art",
-        "creative-coding",
-        "p5js"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 36618,
-      "moduleCount": 12,
-      "readingTimeMins": 147,
-      "metaDescription": "Code That Bleeds: The p5.js Generative Art Warpath: a intermediate guide to learn to write and execute algorithmic spatial generative art using p5.js with ",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T19:42:05.127Z",
-      "edition": "street"
-    },
-    {
-      "slug": "design-brutalistinspired-kinetic-typography-animations-using-css-and-webgl-inter",
-      "title": "Raw Canvas: Engineering Brutalist Kinetic Typography with CSS and WebGL",
-      "goal": "Design brutalist-inspired kinetic typography animations using CSS and WebGL",
-      "category": "design",
-      "tags": [
-        "web-animation",
-        "typography",
-        "front-end"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 21799,
-      "moduleCount": 8,
-      "readingTimeMins": 88,
-      "metaDescription": "Raw Canvas: Engineering Brutalist Kinetic Typography with CSS and WebGL: a intermediate guide to design brutalist-inspired kinetic typography animations us",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T02:10:52.895Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-understand-the-principles-of-biomimicry-in-architectural-design-beginner",
-      "title": "The Concrete Jungle is Dead: Stealing Nature's Blueprint",
-      "goal": "Understand the principles of biomimicry in architectural design",
-      "category": "design",
-      "tags": [
-        "architecture",
-        "biology",
-        "sustainable-design"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 25463,
-      "moduleCount": 8,
-      "readingTimeMins": 102,
-      "metaDescription": "The Concrete Jungle is Dead: Stealing Nature's Blueprint: a beginner guide to understand the principles of biomimicry in architectural design with clear ex",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T16:22:09.026Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-design-accessible-user-interfaces-using-neurodivergentfriendly-ux-princip",
-      "title": "The Neuro-Hacker Blueprint: Designing UIs That Don't Melt Minds",
-      "goal": "Design accessible user interfaces using neurodivergent-friendly UX principles",
-      "category": "design",
-      "tags": [
-        "ux",
-        "accessibility",
-        "neurodiversity"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 25486,
-      "moduleCount": 8,
-      "readingTimeMins": 102,
-      "metaDescription": "The Neuro-Hacker Blueprint: Designing UIs That Don't Melt Minds: a intermediate guide to design accessible user interfaces using neurodivergent-friendly ux",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T18:10:18.434Z",
-      "edition": "street"
-    },
-    {
-      "slug": "engineer-synthetic-voices-from-scratch-using-lowresource-texttospeech-ai-models",
-      "title": "The Phantom Voice: Designing High-Fidelity TTS with Minimal Data",
-      "goal": "Engineer synthetic voices from scratch using low-resource text-to-speech AI models",
-      "category": "design",
-      "tags": [
-        "audio-engineering",
-        "machine-learning",
-        "sound-design"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 22921,
-      "moduleCount": 8,
-      "readingTimeMins": 92,
-      "metaDescription": "The Phantom Voice: Designing High-Fidelity TTS with Minimal Data: a advanced guide to engineer synthetic voices from scratch using low-resource text-to-spe",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T01:17:37.152Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "engineer-hyperlocal-bacterial-cellulose-textiles-from-kombucha-scoby-waste-inter",
-      "title": "The SCOBY Loom: Engineering Hyper-Local Textiles from Kombucha Waste",
-      "goal": "Engineer hyper-local bacterial cellulose textiles from kombucha SCOBY waste",
-      "category": "design",
-      "tags": [
-        "sustainable-fashion",
-        "bio-design",
-        "material-science"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 22912,
-      "moduleCount": 8,
-      "readingTimeMins": 92,
-      "metaDescription": "The SCOBY Loom: Engineering Hyper-Local Textiles from Kombucha Waste: a intermediate guide to engineer hyper-local bacterial cellulose textiles from kombuc",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T04:29:18.451Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-learn-the-fundamentals-of-acoustic-ecology-and-soundscape-composition-beg",
-      "title": "The Sound Hustler's Bible: From Deaf to Dangerous in Acoustic Ecology",
-      "goal": "Learn the fundamentals of acoustic ecology and soundscape composition",
-      "category": "design",
-      "tags": [
-        "sound-design",
-        "ecology",
-        "audio"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 32101,
-      "moduleCount": 10,
-      "readingTimeMins": 129,
-      "metaDescription": "The Sound Hustler's Bible: From Deaf to Dangerous in Acoustic Ecology: a beginner guide to learn the fundamentals of acoustic ecology and soundscape compos",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T20:26:53.559Z",
-      "edition": "street"
-    },
-    {
-      "slug": "master-the-art-of-highfrequency-trading-using-machine-learning-algorithms-advanc",
-      "title": "Algorithmic Edge: Mastering High-Frequency Trading with Machine Learning",
-      "goal": "Master the art of high-frequency trading using machine learning algorithms",
-      "category": "finance",
-      "tags": [
-        "machine-learning",
-        "trading",
-        "algorithms"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 12946,
-      "moduleCount": 9,
-      "readingTimeMins": 52,
-      "metaDescription": "Algorithmic Edge: Mastering High-Frequency Trading with Machine Learning: a advanced guide to master the art of high-frequency trading using machine learni",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:25:37.329Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-build-a-lowlatency-aipowered-trading-bot-that-exploits-microsecond-ineffi",
-      "title": "BLACKHOLE ROADMAP: How to Build a Microsecond-Slaying AI Forex Bot Before the Market Eats You Alive",
-      "goal": "Build a low-latency, AI-powered trading bot that exploits microsecond inefficiencies in global forex markets",
-      "category": "finance",
-      "tags": [
-        "algorithmic-trading",
-        "ai",
-        "forex"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 24760,
-      "moduleCount": 8,
-      "readingTimeMins": 100,
-      "metaDescription": "BLACKHOLE ROADMAP: How to Build a Microsecond-Slaying AI Forex Bot Before the Market Eats You Alive: a advanced guide to build a low-latency, ai-powered tr",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T23:39:10.517Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-master-the-art-of-algorithmic-stablecoin-arbitrage-across-decentralized-e",
-      "title": "BLACKHOLE ROADMAP: HOW TO STEAL MONEY FROM STABLECOINS LIKE A GHOST IN THE MACHINE",
-      "goal": "Master the art of algorithmic stablecoin arbitrage across decentralized exchanges (DEXs) and centralized exchanges (CEXs)",
-      "category": "finance",
-      "tags": [
-        "crypto",
-        "arbitrage",
-        "defi"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 20849,
-      "moduleCount": 7,
-      "readingTimeMins": 84,
-      "metaDescription": "BLACKHOLE ROADMAP: HOW TO STEAL MONEY FROM STABLECOINS LIKE A GHOST IN THE MACHINE: a advanced guide to master the art of algorithmic stablecoin arbitrage ",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T21:28:23.196Z",
-      "edition": "street"
-    },
-    {
-      "slug": "master-the-art-of-highfrequency-trading-using-quantum-computing-algorithms-advan",
-      "title": "Quantum Edge: High-Frequency Trading with Quantum Algorithms",
-      "goal": "Master the art of high-frequency trading using quantum computing algorithms",
-      "category": "finance",
-      "tags": [
-        "quantum-computing",
-        "trading",
-        "algorithms"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 13366,
-      "moduleCount": 10,
-      "readingTimeMins": 54,
-      "metaDescription": "Quantum Edge: High-Frequency Trading with Quantum Algorithms: a advanced guide to master the art of high-frequency trading using quantum computing algorith",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:33:17.664Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "utilize-dark-pool-liquidity-and-order-flow-analysis-to-track-institutional-whale",
-      "title": "Shadows and Flow: Tracking Institutional Whales Through Dark Pools and Order Flow",
-      "goal": "Utilize dark pool liquidity and order flow analysis to track institutional whale movements",
-      "category": "finance",
-      "tags": [
-        "trading",
-        "market-microstructure",
-        "data-analysis"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 20816,
-      "moduleCount": 7,
-      "readingTimeMins": 84,
-      "metaDescription": "Shadows and Flow: Tracking Institutional Whales Through Dark Pools and Order Flow: a advanced guide to utilize dark pool liquidity and order flow analysis ",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T02:38:08.926Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "decipher-and-exploit-the-hidden-patterns-in-highfrequency-trading-data-advanced",
-      "title": "The Hidden Code: Decoding and Exploiting Patterns in High-Frequency Trading",
-      "goal": "Decipher and exploit the hidden patterns in high-frequency trading data",
-      "category": "finance",
-      "tags": [
-        "algorithmic-trading",
-        "data-science",
-        "quantitative-finance"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 16251,
-      "moduleCount": 11,
-      "readingTimeMins": 66,
-      "metaDescription": "The Hidden Code: Decoding and Exploiting Patterns in High-Frequency Trading: a advanced guide to decipher and exploit the hidden patterns in high-frequency",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:17:49.232Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "exploit-corporate-tax-loopholes-legally-using-offshore-intellectual-property-hol",
-      "title": "The Invisible Asset: Engineering Legal Offshore IP Structures for Corporate Tax Optimization",
-      "goal": "Exploit corporate tax loopholes legally using offshore intellectual property holding structures",
-      "category": "finance",
-      "tags": [
-        "tax-strategy",
-        "wealth-preservation",
-        "corporate-law"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 25922,
-      "moduleCount": 9,
-      "readingTimeMins": 104,
-      "metaDescription": "The Invisible Asset: Engineering Legal Offshore IP Structures for Corporate Tax Optimization: a advanced guide to exploit corporate tax loopholes legally u",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T00:42:18.184Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-analyze-the-socioeconomic-impacts-of-universal-basic-income-ubi-models-in",
-      "title": "The UBI Hustle: Blood, Math, and Free Money",
-      "goal": "Analyze the socio-economic impacts of universal basic income (UBI) models",
-      "category": "finance",
-      "tags": [
-        "economics",
-        "public-policy",
-        "social-impact"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 30162,
-      "moduleCount": 9,
-      "readingTimeMins": 121,
-      "metaDescription": "The UBI Hustle: Blood, Math, and Free Money: a intermediate guide to analyze the socio-economic impacts of universal basic income (ubi) models with clear e",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T19:16:22.725Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-understand-the-mechanics-of-volatility-arbitrage-in-options-trading-advan",
-      "title": "The Volatility Arbitrage War Room: Bleeding Edge to Bankroll",
-      "goal": "Understand the mechanics of volatility arbitrage in options trading",
-      "category": "finance",
-      "tags": [
-        "derivatives",
-        "trading",
-        "quantitative-finance"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 35433,
-      "moduleCount": 12,
-      "readingTimeMins": 142,
-      "metaDescription": "The Volatility Arbitrage War Room: Bleeding Edge to Bankroll: a advanced guide to understand the mechanics of volatility arbitrage in options trading with ",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T17:41:01.353Z",
-      "edition": "street"
-    },
-    {
-      "slug": "optimize-your-bodys-performance-using-biohacking-techniques-for-extreme-enduranc",
-      "title": "Biohack Your Body: The Science-Backed Guide to Extreme Endurance",
-      "goal": "Optimize your body's performance using biohacking techniques for extreme endurance",
-      "category": "health",
-      "tags": [
-        "biohacking",
-        "performance",
-        "endurance"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 15924,
-      "moduleCount": 12,
-      "readingTimeMins": 64,
-      "metaDescription": "Biohack Your Body: The Science-Backed Guide to Extreme Endurance: a intermediate guide to optimize your body's performance using biohacking techniques for ",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:17:31.443Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-engineer-a-diy-biohacking-lab-to-optimize-cognitive-performance-using-noo",
-      "title": "BLACKHOLE ROADMAP: Build Your Own Biohacking Lab or Get Left in the Dust, Chief",
-      "goal": "Engineer a DIY biohacking lab to optimize cognitive performance using nootropics and neurofeedback",
-      "category": "health",
-      "tags": [
-        "biohacking",
-        "neuroscience",
-        "performance"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 28733,
-      "moduleCount": 8,
-      "readingTimeMins": 115,
-      "metaDescription": "BLACKHOLE ROADMAP: Build Your Own Biohacking Lab or Get Left in the Dust, Chief: a intermediate guide to engineer a diy biohacking lab to optimize cognitiv",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T21:43:43.272Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-analyze-the-impact-of-circadian-rhythm-disruption-on-metabolic-health-int",
-      "title": "Broken Clocks, Broken Bodies: The Circadian-Metabolism War",
-      "goal": "Analyze the impact of circadian rhythm disruption on metabolic health",
-      "category": "health",
-      "tags": [
-        "chronobiology",
-        "metabolism",
-        "sleep-science"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 27527,
-      "moduleCount": 9,
-      "readingTimeMins": 111,
-      "metaDescription": "Broken Clocks, Broken Bodies: The Circadian-Metabolism War: a intermediate guide to analyze the impact of circadian rhythm disruption on metabolic health w",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T16:57:35.759Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-master-the-science-of-chrononutrition-to-optimize-metabolic-health-and-en",
-      "title": "CHRONONUTRITION UNLEASHED: The No-BS Roadmap to Hack Your Metabolism Like a Boss",
-      "goal": "Master the science of chrononutrition to optimize metabolic health and energy levels through timed eating patterns",
-      "category": "health",
-      "tags": [
-        "nutrition",
-        "circadian-rhythm",
-        "metabolism"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 28238,
-      "moduleCount": 11,
-      "readingTimeMins": 113,
-      "metaDescription": "CHRONONUTRITION UNLEASHED: The No-BS Roadmap to Hack Your Metabolism Like a Boss: a beginner guide to master the science of chrononutrition to optimize met",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T23:13:57.220Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-learn-to-optimize-gut-microbiome-diversity-through-targeted-prebiotic-die",
-      "title": "Gut Warfare: The Prebiotic Blueprint",
-      "goal": "Learn to optimize gut microbiome diversity through targeted prebiotic diets",
-      "category": "health",
-      "tags": [
-        "nutrition",
-        "microbiome",
-        "gut-health"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 29539,
-      "moduleCount": 10,
-      "readingTimeMins": 119,
-      "metaDescription": "Gut Warfare: The Prebiotic Blueprint: a beginner guide to learn to optimize gut microbiome diversity through targeted prebiotic diets with clear explanatio",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T18:48:36.675Z",
-      "edition": "street"
-    },
-    {
-      "slug": "optimize-your-cognitive-performance-using-advanced-neurofeedback-techniques-inte",
-      "title": "Neurofeedback Mastery: Train Your Brain for Peak Performance",
-      "goal": "Optimize your cognitive performance using advanced neurofeedback techniques",
-      "category": "health",
-      "tags": [
-        "cognition",
-        "neurofeedback",
-        "optimization"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 15157,
-      "moduleCount": 10,
-      "readingTimeMins": 61,
-      "metaDescription": "Neurofeedback Mastery: Train Your Brain for Peak Performance: a intermediate guide to optimize your cognitive performance using advanced neurofeedback tech",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:34:04.182Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-master-the-science-of-polyphasic-sleep-to-maximize-productivity-and-cogni",
-      "title": "POLYPHASIC SLEEP: HACK YOUR BRAIN OR DIE TRYING (NO EXCUSES EDITION)",
-      "goal": "Master the science of polyphasic sleep to maximize productivity and cognitive performance with minimal sleep",
-      "category": "health",
-      "tags": [
-        "sleep-optimization",
-        "productivity",
-        "neuroscience"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 27625,
-      "moduleCount": 8,
-      "readingTimeMins": 111,
-      "metaDescription": "POLYPHASIC SLEEP: HACK YOUR BRAIN OR DIE TRYING (NO EXCUSES EDITION): a intermediate guide to master the science of polyphasic sleep to maximize productivi",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-17T01:37:45.404Z",
-      "edition": "street"
-    },
-    {
-      "slug": "develop-a-comprehensive-plan-for-achieving-optimal-mental-health-through-neuropl",
-      "title": "Rewire Your Brain: A Beginner's Guide to Boosting Mental Health Through Neuroplasticity",
-      "goal": "Develop a comprehensive plan for achieving optimal mental health through neuroplasticity",
-      "category": "health",
-      "tags": [
-        "mental-health",
-        "neuroplasticity",
-        "wellness"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 18466,
-      "moduleCount": 12,
-      "readingTimeMins": 74,
-      "metaDescription": "Rewire Your Brain: A Beginner's Guide to Boosting Mental Health Through Neuroplasticity: a beginner guide to develop a comprehensive plan for achieving opt",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:22:58.162Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "optimize-your-sleep-patterns-using-advanced-biofeedback-techniques-intermediate",
-      "title": "The Biofeedback Sleep Code: Hack Your Rest with Science-Backed Techniques",
-      "goal": "Optimize your sleep patterns using advanced biofeedback techniques",
-      "category": "health",
-      "tags": [
-        "sleep",
-        "biofeedback",
-        "optimization"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 14840,
-      "moduleCount": 10,
-      "readingTimeMins": 60,
-      "metaDescription": "The Biofeedback Sleep Code: Hack Your Rest with Science-Backed Techniques: a intermediate guide to optimize your sleep patterns using advanced biofeedback ",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:26:10.286Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "develop-a-comprehensive-plan-for-achieving-optimal-physical-health-through-bioha",
-      "title": "The Biohacker's Blueprint: A Science-Backed Plan to Optimize Your Body and Mind",
-      "goal": "Develop a comprehensive plan for achieving optimal physical health through biohacking",
-      "category": "health",
-      "tags": [
-        "biohacking",
-        "fitness",
-        "wellness"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 15807,
-      "moduleCount": 10,
-      "readingTimeMins": 64,
-      "metaDescription": "The Biohacker's Blueprint: A Science-Backed Plan to Optimize Your Body and Mind: a intermediate guide to develop a comprehensive plan for achieving optimal",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:29:37.879Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "master-the-wim-hof-method-combined-with-intermittent-hypoxia-to-trigger-extreme",
-      "title": "The Oxygen Debt Protocol: Using Wim Hof Breathing and Intermittent Hypoxia to Reset Your Immune System",
-      "goal": "Master the Wim Hof method combined with intermittent hypoxia to trigger extreme anti-inflammatory responses",
-      "category": "health",
-      "tags": [
-        "biohacking",
-        "breathwork",
-        "longevity"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 22622,
-      "moduleCount": 8,
-      "readingTimeMins": 91,
-      "metaDescription": "The Oxygen Debt Protocol: Using Wim Hof Breathing and Intermittent Hypoxia to Reset Your Immune System: a beginner guide to master the wim hof method combi",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T01:43:20.687Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "manipulate-the-autonomic-nervous-system-to-induce-targeted-torpor-for-extreme-tr",
-      "title": "The Torpor Protocol: Rewiring the Autonomic Nervous System to Survive Lethal Trauma",
-      "goal": "Manipulate the autonomic nervous system to induce targeted torpor for extreme trauma survival",
-      "category": "health",
-      "tags": [
-        "emergency-medicine",
-        "survival",
-        "physiology"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 27390,
-      "moduleCount": 10,
-      "readingTimeMins": 110,
-      "metaDescription": "The Torpor Protocol: Rewiring the Autonomic Nervous System to Survive Lethal Trauma: a advanced guide to manipulate the autonomic nervous system to induce ",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T03:11:43.314Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-develop-a-constructed-language-conlang-optimized-for-ai-communication-and",
-      "title": "BLACKHOLE CONLANG: BUILD A LANGUAGE THAT BENDS AI TO YOUR WILL OR DIE TRYING",
-      "goal": "Develop a constructed language (conlang) optimized for AI communication and human-machine collaboration",
-      "category": "languages",
-      "tags": [
-        "conlang",
-        "ai",
-        "linguistics"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 22526,
-      "moduleCount": 8,
-      "readingTimeMins": 91,
-      "metaDescription": "BLACKHOLE CONLANG: BUILD A LANGUAGE THAT BENDS AI TO YOUR WILL OR DIE TRYING: a advanced guide to develop a constructed language (conlang) optimized for ai",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-17T01:48:29.903Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-understand-the-syntax-and-grammar-of-international-sign-language-isl-begi",
-      "title": "Hands That Hit Hard: The ISL Grammar Warpath",
-      "goal": "Understand the syntax and grammar of international sign language (ISL)",
-      "category": "languages",
-      "tags": [
-        "sign-language",
-        "communication",
-        "deaf-culture"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 36476,
-      "moduleCount": 12,
-      "readingTimeMins": 146,
-      "metaDescription": "Hands That Hit Hard: The ISL Grammar Warpath: a beginner guide to understand the syntax and grammar of international sign language (isl) with clear explana",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T20:43:42.394Z",
-      "edition": "street"
-    },
-    {
-      "slug": "decode-and-speak-toki-pona-to-radically-simplify-thought-patterns-and-cognitive",
-      "title": "The 120-Word Mindset: How Toki Pona Declutters Your Thoughts",
-      "goal": "Decode and speak Toki Pona to radically simplify thought patterns and cognitive load",
-      "category": "languages",
-      "tags": [
-        "constructed-language",
-        "minimalism",
-        "cognitive-science"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 21925,
-      "moduleCount": 8,
-      "readingTimeMins": 88,
-      "metaDescription": "The 120-Word Mindset: How Toki Pona Declutters Your Thoughts: a beginner guide to decode and speak toki pona to radically simplify thought patterns and cog",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T01:57:01.166Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-explore-the-phonetic-evolution-of-constructed-languages-conlangs-in-media",
-      "title": "The Conlang Trenches: Bleeding for Fake Phonetics",
-      "goal": "Explore the phonetic evolution of constructed languages (conlangs) in media",
-      "category": "languages",
-      "tags": [
-        "linguistics",
-        "conlangs",
-        "phonetics"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 21602,
-      "moduleCount": 7,
-      "readingTimeMins": 87,
-      "metaDescription": "The Conlang Trenches: Bleeding for Fake Phonetics: a intermediate guide to explore the phonetic evolution of constructed languages (conlangs) in media with",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T17:23:44.657Z",
-      "edition": "street"
-    },
-    {
-      "slug": "master-the-art-of-diplomatic-interpreting-in-highstakes-geopolitical-summits-adv",
-      "title": "The Summit Interpreter: Navigating Power, Protocol, and Precision in High-Stakes Diplomacy",
-      "goal": "Master the art of diplomatic interpreting in high-stakes geopolitical summits",
-      "category": "languages",
-      "tags": [
-        "translation",
-        "diplomacy",
-        "real-time"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 25949,
-      "moduleCount": 8,
-      "readingTimeMins": 104,
-      "metaDescription": "The Summit Interpreter: Navigating Power, Protocol, and Precision in High-Stakes Diplomacy: a advanced guide to master the art of diplomatic interpreting i",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T04:17:55.876Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-develop-a-decentralized-autonomous-organization-dao-to-fund-and-govern-op",
-      "title": "BLACKHOLE DAO: THE NO-BS ROADMAP TO OWNING SCIENCE LIKE A GANGSTER",
-      "goal": "Develop a decentralized autonomous organization (DAO) to fund and govern open-source scientific research projects",
-      "category": "programming",
-      "tags": [
-        "web3",
-        "dao",
-        "open-science"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 29159,
-      "moduleCount": 10,
-      "readingTimeMins": 117,
-      "metaDescription": "BLACKHOLE DAO: THE NO-BS ROADMAP TO OWNING SCIENCE LIKE A GANGSTER: a advanced guide to develop a decentralized autonomous organization (dao) to fund and g",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-17T00:12:29.512Z",
       "edition": "street"
     },
     {
@@ -1101,23 +123,143 @@
       "edition": "street"
     },
     {
-      "slug": "street-build-and-deploy-a-decentralized-censorshipresistant-video-streaming-plat",
-      "title": "BLACKHOLE ROADMAP: BUILD A VIDEO STREAMING PLATFORM THAT EVEN THE GOV CAN'T SHUT DOWN",
-      "goal": "Build and deploy a decentralized, censorship-resistant video streaming platform using IPFS and blockchain",
-      "category": "programming",
+      "slug": "street-engineer-a-diy-bioreactor-to-grow-labgrown-meat-at-home-using-cellular-ag",
+      "title": "BUILD A BLACKHOLE: DIY Bioreactor for Lab Meat - The No-BS War Plan",
+      "goal": "Engineer a DIY bioreactor to grow lab-grown meat at home using cellular agriculture techniques",
+      "category": "science",
       "tags": [
-        "web3",
-        "decentralization",
-        "media"
+        "biotech",
+        "cellular-agriculture",
+        "diy"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 28324,
+      "moduleCount": 10,
+      "readingTimeMins": 114,
+      "metaDescription": "BUILD A BLACKHOLE: DIY Bioreactor for Lab Meat - The No-BS War Plan: a beginner guide to engineer a diy bioreactor to grow lab-grown meat at home using cel",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-17T00:40:34.690Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-the-art-of-persuasive-communication-by-reverseengineering-the-ling",
+      "title": "BLACKHOLE ROADMAP: HOW TO TALK LIKE YOU OWN THE ROOM (OR GET OWNED TRYING)",
+      "goal": "Master the art of persuasive communication by reverse-engineering the linguistic patterns of elite negotiators and influencers",
+      "category": "career",
+      "tags": [
+        "communication",
+        "negotiation",
+        "linguistics"
       ],
       "language": "en",
       "complexity": "intermediate",
-      "wordCount": 32689,
+      "wordCount": 28978,
       "moduleCount": 10,
-      "readingTimeMins": 131,
-      "metaDescription": "BLACKHOLE ROADMAP: BUILD A VIDEO STREAMING PLATFORM THAT EVEN THE GOV CAN'T SHUT DOWN: a intermediate guide to build and deploy a decentralized, censorship",
+      "readingTimeMins": 116,
+      "metaDescription": "BLACKHOLE ROADMAP: HOW TO TALK LIKE YOU OWN THE ROOM (OR GET OWNED TRYING): a intermediate guide to master the art of persuasive communication by reverse-e",
       "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T21:03:36.476Z",
+      "generatedAt": "2026-07-17T00:26:47.366Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-develop-a-decentralized-autonomous-organization-dao-to-fund-and-govern-op",
+      "title": "BLACKHOLE DAO: THE NO-BS ROADMAP TO OWNING SCIENCE LIKE A GANGSTER",
+      "goal": "Develop a decentralized autonomous organization (DAO) to fund and govern open-source scientific research projects",
+      "category": "programming",
+      "tags": [
+        "web3",
+        "dao",
+        "open-science"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 29159,
+      "moduleCount": 10,
+      "readingTimeMins": 117,
+      "metaDescription": "BLACKHOLE DAO: THE NO-BS ROADMAP TO OWNING SCIENCE LIKE A GANGSTER: a advanced guide to develop a decentralized autonomous organization (dao) to fund and g",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-17T00:12:29.512Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-design-a-wearable-device-that-uses-haptic-feedback-to-enhance-spatial-awa",
+      "title": "BLACKHOLE ROADMAP: HAPTIC WEARABLES FOR THE BLIND - DON'T DIE TRYING",
+      "goal": "Design a wearable device that uses haptic feedback to enhance spatial awareness for the visually impaired",
+      "category": "design",
+      "tags": [
+        "wearables",
+        "accessibility",
+        "haptics"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 35099,
+      "moduleCount": 13,
+      "readingTimeMins": 141,
+      "metaDescription": "BLACKHOLE ROADMAP: HAPTIC WEARABLES FOR THE BLIND - DON'T DIE TRYING: a intermediate guide to design a wearable device that uses haptic feedback to enhance",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T23:56:27.971Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-build-a-lowlatency-aipowered-trading-bot-that-exploits-microsecond-ineffi",
+      "title": "BLACKHOLE ROADMAP: How to Build a Microsecond-Slaying AI Forex Bot Before the Market Eats You Alive",
+      "goal": "Build a low-latency, AI-powered trading bot that exploits microsecond inefficiencies in global forex markets",
+      "category": "finance",
+      "tags": [
+        "algorithmic-trading",
+        "ai",
+        "forex"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 24760,
+      "moduleCount": 8,
+      "readingTimeMins": 100,
+      "metaDescription": "BLACKHOLE ROADMAP: How to Build a Microsecond-Slaying AI Forex Bot Before the Market Eats You Alive: a advanced guide to build a low-latency, ai-powered tr",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T23:39:10.517Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-create-a-career-in-ai-ethics-by-developing-frameworks-to-audit-and-mitiga",
+      "title": "BLACKHOLE ROADMAP: HOW TO OWN AI ETHICS LIKE A BOSS (OR DIE TRYING)",
+      "goal": "Create a career in AI ethics by developing frameworks to audit and mitigate bias in large language models (LLMs)",
+      "category": "career",
+      "tags": [
+        "ai",
+        "ethics",
+        "bias-mitigation"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 25552,
+      "moduleCount": 8,
+      "readingTimeMins": 103,
+      "metaDescription": "BLACKHOLE ROADMAP: HOW TO OWN AI ETHICS LIKE A BOSS (OR DIE TRYING): a intermediate guide to create a career in ai ethics by developing frameworks to audit",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T23:27:02.750Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-the-science-of-chrononutrition-to-optimize-metabolic-health-and-en",
+      "title": "CHRONONUTRITION UNLEASHED: The No-BS Roadmap to Hack Your Metabolism Like a Boss",
+      "goal": "Master the science of chrononutrition to optimize metabolic health and energy levels through timed eating patterns",
+      "category": "health",
+      "tags": [
+        "nutrition",
+        "circadian-rhythm",
+        "metabolism"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 28238,
+      "moduleCount": 11,
+      "readingTimeMins": 113,
+      "metaDescription": "CHRONONUTRITION UNLEASHED: The No-BS Roadmap to Hack Your Metabolism Like a Boss: a beginner guide to master the science of chrononutrition to optimize met",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T23:13:57.220Z",
       "edition": "street"
     },
     {
@@ -1141,145 +283,223 @@
       "edition": "street"
     },
     {
-      "slug": "build-and-deploy-a-decentralized-microblogging-protocol-on-nostr-intermediate",
-      "title": "Censorship-Resistant Feeds: Building a Decentralized Microblogging Client on Nostr",
-      "goal": "Build and deploy a decentralized microblogging protocol on Nostr",
-      "category": "programming",
+      "slug": "street-launch-a-hyperlocal-aioptimized-vertical-farming-business-to-disrupt-trad",
+      "title": "BLACKHOLE ROADMAP: How to Build a Vertical Farming Empire That Buries Traditional Ag Like Yesterday's Trash",
+      "goal": "Launch a hyper-local, AI-optimized vertical farming business to disrupt traditional agriculture supply chains",
+      "category": "business",
       "tags": [
-        "web3",
-        "networking",
-        "cryptography"
+        "agritech",
+        "ai",
+        "sustainability"
       ],
       "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 19995,
-      "moduleCount": 7,
-      "readingTimeMins": 80,
-      "metaDescription": "Censorship-Resistant Feeds: Building a Decentralized Microblogging Client on Nostr: a intermediate guide to build and deploy a decentralized microblogging ",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T00:30:51.998Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "street-learn-to-build-and-deploy-decentralized-autonomous-organizations-daos-on",
-      "title": "DAO or Die: The Savage Blueprint to On-Chain Empires",
-      "goal": "Learn to build and deploy decentralized autonomous organizations (DAOs) on Ethereum",
-      "category": "programming",
-      "tags": [
-        "blockchain",
-        "web3",
-        "solidity"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 38981,
-      "moduleCount": 12,
-      "readingTimeMins": 156,
-      "metaDescription": "DAO or Die: The Savage Blueprint to On-Chain Empires: a advanced guide to learn to build and deploy decentralized autonomous organizations (daos) on ethere",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T16:44:12.625Z",
+      "complexity": "beginner",
+      "wordCount": 36282,
+      "moduleCount": 10,
+      "readingTimeMins": 146,
+      "metaDescription": "BLACKHOLE ROADMAP: How to Build a Vertical Farming Empire That Buries Traditional Ag Like Yesterday's Trash: a beginner guide to launch a hyper-local, ai-o",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T22:41:12.661Z",
       "edition": "street"
     },
     {
-      "slug": "design-and-implement-a-decentralized-identity-system-for-the-metaverse-advanced",
-      "title": "Decentralized Identity in the Metaverse: A Programmer's Guide to Self-Sovereign Control",
-      "goal": "Design and implement a decentralized identity system for the metaverse",
-      "category": "programming",
+      "slug": "street-build-a-scalable-aidriven-platform-for-realtime-urban-noise-pollution-map",
+      "title": "BLACKHOLE ROADMAP: How to Build a Noise-Slaying AI Beast Without Getting Played by Reality",
+      "goal": "Build a scalable, AI-driven platform for real-time urban noise pollution mapping and mitigation strategies",
+      "category": "science",
       "tags": [
-        "blockchain",
-        "identity",
-        "metaverse"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 12412,
-      "moduleCount": 10,
-      "readingTimeMins": 50,
-      "metaDescription": "Decentralized Identity in the Metaverse: A Programmer's Guide to Self-Sovereign Control: a advanced guide to design and implement a decentralized identity ",
-      "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:20:54.920Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "desi-build-a-decentralized-prediction-market-smart-contract-with-solidity-and-ch",
-      "title": "Desi Blackhole Roadmap: Prediction Market Aur Chainlink Ka Khel",
-      "goal": "Build a decentralized prediction market smart contract with Solidity and Chainlink oracles",
-      "category": "programming",
-      "tags": [
-        "solidity",
-        "blockchain",
-        "chainlink",
-        "smart contracts",
-        "web3"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 19666,
-      "moduleCount": 7,
-      "readingTimeMins": 79,
-      "metaDescription": "Desi Blackhole Roadmap: Prediction Market Aur Chainlink Ka Khel: a advanced guide to build a decentralized prediction market smart contract with solidity a",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-17T05:51:37.641Z",
-      "edition": "desi"
-    },
-    {
-      "slug": "master-the-art-of-designing-and-deploying-aipowered-chatbots-for-enterprise-work",
-      "title": "Enterprise Chatbots Unlocked: Design, Deploy, and Optimize AI-Powered Workflows",
-      "goal": "Master the art of designing and deploying AI-powered chatbots for enterprise workflows",
-      "category": "programming",
-      "tags": [
-        "AI",
-        "automation",
-        "enterprise"
+        "ai",
+        "environmental-science",
+        "acoustics"
       ],
       "language": "en",
       "complexity": "intermediate",
-      "wordCount": 16170,
-      "moduleCount": 11,
-      "readingTimeMins": 65,
-      "metaDescription": "Enterprise Chatbots Unlocked: Design, Deploy, and Optimize AI-Powered Workflows: a intermediate guide to master the art of designing and deploying ai-power",
+      "wordCount": 23955,
+      "moduleCount": 8,
+      "readingTimeMins": 96,
+      "metaDescription": "BLACKHOLE ROADMAP: How to Build a Noise-Slaying AI Beast Without Getting Played by Reality: a intermediate guide to build a scalable, ai-driven platform fo",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T22:22:43.004Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-develop-a-career-in-synthetic-biology-by-mastering-crispr-gene-editing-an",
+      "title": "CRISPR HUSTLE: THE NO-BS ROADMAP TO OWNING SYNTHETIC BIOLOGY LIKE A BOSS",
+      "goal": "Develop a career in synthetic biology by mastering CRISPR gene editing and lab automation techniques",
+      "category": "science",
+      "tags": [
+        "biotech",
+        "genetics",
+        "lab-automation"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 21831,
+      "moduleCount": 7,
+      "readingTimeMins": 88,
+      "metaDescription": "CRISPR HUSTLE: THE NO-BS ROADMAP TO OWNING SYNTHETIC BIOLOGY LIKE A BOSS: a advanced guide to develop a career in synthetic biology by mastering crispr gen",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T22:11:10.194Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-create-a-generative-ai-tool-that-designs-hyperpersonalized-fashion-collec",
+      "title": "BLACKHOLE FASHION: How to Build a Generative AI That Eats Biometrics & Sh*ts Couture",
+      "goal": "Create a generative AI tool that designs hyper-personalized fashion collections based on user biometrics and preferences",
+      "category": "design",
+      "tags": [
+        "ai",
+        "fashion",
+        "generative-design"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 32522,
+      "moduleCount": 10,
+      "readingTimeMins": 131,
+      "metaDescription": "BLACKHOLE FASHION: How to Build a Generative AI That Eats Biometrics & Sh*ts Couture: a intermediate guide to create a generative ai tool that designs hype",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T21:59:52.262Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-engineer-a-diy-biohacking-lab-to-optimize-cognitive-performance-using-noo",
+      "title": "BLACKHOLE ROADMAP: Build Your Own Biohacking Lab or Get Left in the Dust, Chief",
+      "goal": "Engineer a DIY biohacking lab to optimize cognitive performance using nootropics and neurofeedback",
+      "category": "health",
+      "tags": [
+        "biohacking",
+        "neuroscience",
+        "performance"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 28733,
+      "moduleCount": 8,
+      "readingTimeMins": 115,
+      "metaDescription": "BLACKHOLE ROADMAP: Build Your Own Biohacking Lab or Get Left in the Dust, Chief: a intermediate guide to engineer a diy biohacking lab to optimize cognitiv",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T21:43:43.272Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-the-art-of-algorithmic-stablecoin-arbitrage-across-decentralized-e",
+      "title": "BLACKHOLE ROADMAP: HOW TO STEAL MONEY FROM STABLECOINS LIKE A GHOST IN THE MACHINE",
+      "goal": "Master the art of algorithmic stablecoin arbitrage across decentralized exchanges (DEXs) and centralized exchanges (CEXs)",
+      "category": "finance",
+      "tags": [
+        "crypto",
+        "arbitrage",
+        "defi"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 20849,
+      "moduleCount": 7,
+      "readingTimeMins": 84,
+      "metaDescription": "BLACKHOLE ROADMAP: HOW TO STEAL MONEY FROM STABLECOINS LIKE A GHOST IN THE MACHINE: a advanced guide to master the art of algorithmic stablecoin arbitrage ",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T21:28:23.196Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-design-and-launch-a-profitable-aipowered-subscription-service-for-persona",
+      "title": "BLACKHOLE ROADMAP: How to Build a Profitable AI-Powered Meditation Empire (Without Being a Noob)",
+      "goal": "Design and launch a profitable AI-powered subscription service for personalized meditation and mental wellness",
+      "category": "business",
+      "tags": [
+        "ai",
+        "subscription-model",
+        "wellness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22622,
+      "moduleCount": 7,
+      "readingTimeMins": 91,
+      "metaDescription": "BLACKHOLE ROADMAP: How to Build a Profitable AI-Powered Meditation Empire (Without Being a Noob): a beginner guide to design and launch a profitable ai-pow",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T21:17:06.181Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-build-and-deploy-a-decentralized-censorshipresistant-video-streaming-plat",
+      "title": "BLACKHOLE ROADMAP: BUILD A VIDEO STREAMING PLATFORM THAT EVEN THE GOV CAN'T SHUT DOWN",
+      "goal": "Build and deploy a decentralized, censorship-resistant video streaming platform using IPFS and blockchain",
+      "category": "programming",
+      "tags": [
+        "web3",
+        "decentralization",
+        "media"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 32689,
+      "moduleCount": 10,
+      "readingTimeMins": 131,
+      "metaDescription": "BLACKHOLE ROADMAP: BUILD A VIDEO STREAMING PLATFORM THAT EVEN THE GOV CAN'T SHUT DOWN: a intermediate guide to build and deploy a decentralized, censorship",
+      "modelUsed": "mistral-large-latest",
+      "generatedAt": "2026-07-16T21:03:36.476Z",
+      "edition": "street"
+    },
+    {
+      "slug": "optimize-your-cognitive-performance-using-advanced-neurofeedback-techniques-inte",
+      "title": "Neurofeedback Mastery: Train Your Brain for Peak Performance",
+      "goal": "Optimize your cognitive performance using advanced neurofeedback techniques",
+      "category": "health",
+      "tags": [
+        "cognition",
+        "neurofeedback",
+        "optimization"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 15157,
+      "moduleCount": 10,
+      "readingTimeMins": 61,
+      "metaDescription": "Neurofeedback Mastery: Train Your Brain for Peak Performance: a intermediate guide to optimize your cognitive performance using advanced neurofeedback tech",
       "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:18:33.791Z",
+      "generatedAt": "2026-07-16T18:34:04.182Z",
       "edition": "stellar"
     },
     {
-      "slug": "street-understand-the-application-of-quantum-computing-in-cryptographic-security",
-      "title": "Quantum Crypto Warfare: From Dead Algorithms to Unbreakable Shields",
-      "goal": "Understand the application of quantum computing in cryptographic security",
-      "category": "programming",
+      "slug": "master-the-art-of-highfrequency-trading-using-quantum-computing-algorithms-advan",
+      "title": "Quantum Edge: High-Frequency Trading with Quantum Algorithms",
+      "goal": "Master the art of high-frequency trading using quantum computing algorithms",
+      "category": "finance",
       "tags": [
         "quantum-computing",
-        "cryptography",
-        "cybersecurity"
+        "trading",
+        "algorithms"
       ],
       "language": "en",
       "complexity": "advanced",
-      "wordCount": 27675,
+      "wordCount": 13366,
       "moduleCount": 10,
-      "readingTimeMins": 111,
-      "metaDescription": "Quantum Crypto Warfare: From Dead Algorithms to Unbreakable Shields: a advanced guide to understand the application of quantum computing in cryptographic s",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T18:35:05.015Z",
-      "edition": "street"
+      "readingTimeMins": 54,
+      "metaDescription": "Quantum Edge: High-Frequency Trading with Quantum Algorithms: a advanced guide to master the art of high-frequency trading using quantum computing algorith",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:33:17.664Z",
+      "edition": "stellar"
     },
     {
-      "slug": "build-a-realtime-aidriven-system-for-detecting-and-mitigating-cyber-threats-inte",
-      "title": "Real-Time Cyber Threat Detection: Building AI-Powered Defenses from Scratch",
-      "goal": "Build a real-time, AI-driven system for detecting and mitigating cyber threats",
-      "category": "programming",
+      "slug": "launch-a-subscriptionbased-service-for-aigenerated-hyperpersonalized-fitness-pla",
+      "title": "The AI Fitness Blueprint: How to Build a Subscription Service That Actually Fits Your Customers",
+      "goal": "Launch a subscription-based service for AI-generated, hyper-personalized fitness plans",
+      "category": "business",
       "tags": [
         "AI",
-        "cybersecurity",
-        "real-time"
+        "fitness",
+        "subscription"
       ],
       "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 14059,
+      "complexity": "beginner",
+      "wordCount": 14293,
       "moduleCount": 10,
-      "readingTimeMins": 57,
-      "metaDescription": "Real-Time Cyber Threat Detection: Building AI-Powered Defenses from Scratch: a intermediate guide to build a real-time, ai-driven system for detecting and ",
+      "readingTimeMins": 58,
+      "metaDescription": "The AI Fitness Blueprint: How to Build a Subscription Service That Actually Fits Your Customers: a beginner guide to launch a subscription-based service fo",
       "modelUsed": "mistral-small-2506",
-      "generatedAt": "2026-07-16T18:23:56.895Z",
+      "generatedAt": "2026-07-16T18:33:12.640Z",
       "edition": "stellar"
     },
     {
@@ -1303,6 +523,26 @@
       "edition": "stellar"
     },
     {
+      "slug": "develop-a-comprehensive-plan-for-achieving-optimal-physical-health-through-bioha",
+      "title": "The Biohacker's Blueprint: A Science-Backed Plan to Optimize Your Body and Mind",
+      "goal": "Develop a comprehensive plan for achieving optimal physical health through biohacking",
+      "category": "health",
+      "tags": [
+        "biohacking",
+        "fitness",
+        "wellness"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 15807,
+      "moduleCount": 10,
+      "readingTimeMins": 64,
+      "metaDescription": "The Biohacker's Blueprint: A Science-Backed Plan to Optimize Your Body and Mind: a intermediate guide to develop a comprehensive plan for achieving optimal",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:29:37.879Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "design-and-implement-a-decentralized-autonomous-organization-dao-for-community-g",
       "title": "The Decentralized Revolution: Build a DAO That Actually Works",
       "goal": "Design and implement a decentralized autonomous organization (DAO) for community governance",
@@ -1323,43 +563,203 @@
       "edition": "stellar"
     },
     {
-      "slug": "build-a-highfrequency-statistical-arbitrage-algorithm-using-python-and-c-integra",
-      "title": "The Microsecond Spread: Architecting High-Frequency Stat Arb with Python and C++",
-      "goal": "Build a high-frequency statistical arbitrage algorithm using Python and C++ integration",
-      "category": "programming",
+      "slug": "optimize-your-sleep-patterns-using-advanced-biofeedback-techniques-intermediate",
+      "title": "The Biofeedback Sleep Code: Hack Your Rest with Science-Backed Techniques",
+      "goal": "Optimize your sleep patterns using advanced biofeedback techniques",
+      "category": "health",
       "tags": [
-        "algorithmic-trading",
-        "C++",
-        "python"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 28029,
-      "moduleCount": 10,
-      "readingTimeMins": 113,
-      "metaDescription": "The Microsecond Spread: Architecting High-Frequency Stat Arb with Python and C++: a advanced guide to build a high-frequency statistical arbitrage algorith",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T03:47:55.668Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "develop-a-localized-disasterresilient-mesh-network-using-lowcost-lorawan-hardwar",
-      "title": "When the Grid Fails: Building a Resilient LoRa Mesh Network from Scratch",
-      "goal": "Develop a localized disaster-resilient mesh network using low-cost LoRaWAN hardware",
-      "category": "programming",
-      "tags": [
-        "IoT",
-        "networking",
-        "hardware"
+        "sleep",
+        "biofeedback",
+        "optimization"
       ],
       "language": "en",
       "complexity": "intermediate",
-      "wordCount": 25292,
+      "wordCount": 14840,
+      "moduleCount": 10,
+      "readingTimeMins": 60,
+      "metaDescription": "The Biofeedback Sleep Code: Hack Your Rest with Science-Backed Techniques: a intermediate guide to optimize your sleep patterns using advanced biofeedback ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:26:10.286Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-the-art-of-highfrequency-trading-using-machine-learning-algorithms-advanc",
+      "title": "Algorithmic Edge: Mastering High-Frequency Trading with Machine Learning",
+      "goal": "Master the art of high-frequency trading using machine learning algorithms",
+      "category": "finance",
+      "tags": [
+        "machine-learning",
+        "trading",
+        "algorithms"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 12946,
       "moduleCount": 9,
-      "readingTimeMins": 102,
-      "metaDescription": "When the Grid Fails: Building a Resilient LoRa Mesh Network from Scratch: a intermediate guide to develop a localized disaster-resilient mesh network using",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T01:31:15.955Z",
+      "readingTimeMins": 52,
+      "metaDescription": "Algorithmic Edge: Mastering High-Frequency Trading with Machine Learning: a advanced guide to master the art of high-frequency trading using machine learni",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:25:37.329Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "build-a-realtime-aidriven-system-for-detecting-and-mitigating-cyber-threats-inte",
+      "title": "Real-Time Cyber Threat Detection: Building AI-Powered Defenses from Scratch",
+      "goal": "Build a real-time, AI-driven system for detecting and mitigating cyber threats",
+      "category": "programming",
+      "tags": [
+        "AI",
+        "cybersecurity",
+        "real-time"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 14059,
+      "moduleCount": 10,
+      "readingTimeMins": 57,
+      "metaDescription": "Real-Time Cyber Threat Detection: Building AI-Powered Defenses from Scratch: a intermediate guide to build a real-time, ai-driven system for detecting and ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:23:56.895Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "develop-a-comprehensive-plan-for-achieving-optimal-mental-health-through-neuropl",
+      "title": "Rewire Your Brain: A Beginner's Guide to Boosting Mental Health Through Neuroplasticity",
+      "goal": "Develop a comprehensive plan for achieving optimal mental health through neuroplasticity",
+      "category": "health",
+      "tags": [
+        "mental-health",
+        "neuroplasticity",
+        "wellness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18466,
+      "moduleCount": 12,
+      "readingTimeMins": 74,
+      "metaDescription": "Rewire Your Brain: A Beginner's Guide to Boosting Mental Health Through Neuroplasticity: a beginner guide to develop a comprehensive plan for achieving opt",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:22:58.162Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "create-a-scalable-business-model-around-aigenerated-personalized-nutrition-plans",
+      "title": "The AI Nutrition Blueprint: How to Build a Scalable, Personalized Health Business",
+      "goal": "Create a scalable business model around AI-generated, personalized nutrition plans",
+      "category": "business",
+      "tags": [
+        "AI",
+        "nutrition",
+        "personalization"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 16615,
+      "moduleCount": 12,
+      "readingTimeMins": 67,
+      "metaDescription": "The AI Nutrition Blueprint: How to Build a Scalable, Personalized Health Business: a intermediate guide to create a scalable business model around ai-gener",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:20:56.534Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "design-and-implement-a-decentralized-identity-system-for-the-metaverse-advanced",
+      "title": "Decentralized Identity in the Metaverse: A Programmer's Guide to Self-Sovereign Control",
+      "goal": "Design and implement a decentralized identity system for the metaverse",
+      "category": "programming",
+      "tags": [
+        "blockchain",
+        "identity",
+        "metaverse"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 12412,
+      "moduleCount": 10,
+      "readingTimeMins": 50,
+      "metaDescription": "Decentralized Identity in the Metaverse: A Programmer's Guide to Self-Sovereign Control: a advanced guide to design and implement a decentralized identity ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:20:54.920Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-the-art-of-designing-and-deploying-aipowered-chatbots-for-enterprise-work",
+      "title": "Enterprise Chatbots Unlocked: Design, Deploy, and Optimize AI-Powered Workflows",
+      "goal": "Master the art of designing and deploying AI-powered chatbots for enterprise workflows",
+      "category": "programming",
+      "tags": [
+        "AI",
+        "automation",
+        "enterprise"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 16170,
+      "moduleCount": 11,
+      "readingTimeMins": 65,
+      "metaDescription": "Enterprise Chatbots Unlocked: Design, Deploy, and Optimize AI-Powered Workflows: a intermediate guide to master the art of designing and deploying ai-power",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:18:33.791Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "decipher-and-exploit-the-hidden-patterns-in-highfrequency-trading-data-advanced",
+      "title": "The Hidden Code: Decoding and Exploiting Patterns in High-Frequency Trading",
+      "goal": "Decipher and exploit the hidden patterns in high-frequency trading data",
+      "category": "finance",
+      "tags": [
+        "algorithmic-trading",
+        "data-science",
+        "quantitative-finance"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 16251,
+      "moduleCount": 11,
+      "readingTimeMins": 66,
+      "metaDescription": "The Hidden Code: Decoding and Exploiting Patterns in High-Frequency Trading: a advanced guide to decipher and exploit the hidden patterns in high-frequency",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:17:49.232Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "optimize-your-bodys-performance-using-biohacking-techniques-for-extreme-enduranc",
+      "title": "Biohack Your Body: The Science-Backed Guide to Extreme Endurance",
+      "goal": "Optimize your body's performance using biohacking techniques for extreme endurance",
+      "category": "health",
+      "tags": [
+        "biohacking",
+        "performance",
+        "endurance"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 15924,
+      "moduleCount": 12,
+      "readingTimeMins": 64,
+      "metaDescription": "Biohack Your Body: The Science-Backed Guide to Extreme Endurance: a intermediate guide to optimize your body's performance using biohacking techniques for ",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:17:31.443Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "build-a-profitable-business-around-hyperlocalized-aigenerated-urban-art-installa",
+      "title": "The AI Artpreneur: Monetizing Hyper-Local Urban Installations with Artificial Intelligence",
+      "goal": "Build a profitable business around hyper-localized, AI-generated urban art installations",
+      "category": "business",
+      "tags": [
+        "AI",
+        "art",
+        "localization"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 13764,
+      "moduleCount": 10,
+      "readingTimeMins": 56,
+      "metaDescription": "The AI Artpreneur: Monetizing Hyper-Local Urban Installations with Artificial Intelligence: a beginner guide to build a profitable business around hyper-lo",
+      "modelUsed": "mistral-small-2506",
+      "generatedAt": "2026-07-16T18:16:46.593Z",
       "edition": "stellar"
     },
     {
@@ -1384,163 +784,63 @@
       "edition": "street"
     },
     {
-      "slug": "street-build-a-scalable-aidriven-platform-for-realtime-urban-noise-pollution-map",
-      "title": "BLACKHOLE ROADMAP: How to Build a Noise-Slaying AI Beast Without Getting Played by Reality",
-      "goal": "Build a scalable, AI-driven platform for real-time urban noise pollution mapping and mitigation strategies",
-      "category": "science",
+      "slug": "bootstrap-a-profitable-ghost-kitchen-empire-using-hyperoptimized-cloud-infrastru",
+      "title": "The Serverless Restaurant: Bootstrapping a Profitable Ghost Kitchen Empire",
+      "goal": "Bootstrap a profitable ghost kitchen empire using hyper-optimized cloud infrastructure",
+      "category": "business",
       "tags": [
-        "ai",
-        "environmental-science",
-        "acoustics"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 23955,
-      "moduleCount": 8,
-      "readingTimeMins": 96,
-      "metaDescription": "BLACKHOLE ROADMAP: How to Build a Noise-Slaying AI Beast Without Getting Played by Reality: a intermediate guide to build a scalable, ai-driven platform fo",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T22:22:43.004Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-understand-the-neurochemistry-of-habit-formation-and-behavioral-loops-beg",
-      "title": "Brain Hackers: Rewiring Your Wetware for Savage Habits",
-      "goal": "Understand the neurochemistry of habit formation and behavioral loops",
-      "category": "science",
-      "tags": [
-        "neuroscience",
-        "psychology",
-        "behavior"
+        "food-industry",
+        "cloud-computing",
+        "entrepreneurship"
       ],
       "language": "en",
       "complexity": "beginner",
-      "wordCount": 22600,
-      "moduleCount": 7,
-      "readingTimeMins": 91,
-      "metaDescription": "Brain Hackers: Rewiring Your Wetware for Savage Habits: a beginner guide to understand the neurochemistry of habit formation and behavioral loops with clea",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T19:26:41.623Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-engineer-a-diy-bioreactor-to-grow-labgrown-meat-at-home-using-cellular-ag",
-      "title": "BUILD A BLACKHOLE: DIY Bioreactor for Lab Meat - The No-BS War Plan",
-      "goal": "Engineer a DIY bioreactor to grow lab-grown meat at home using cellular agriculture techniques",
-      "category": "science",
-      "tags": [
-        "biotech",
-        "cellular-agriculture",
-        "diy"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 28324,
-      "moduleCount": 10,
-      "readingTimeMins": 114,
-      "metaDescription": "BUILD A BLACKHOLE: DIY Bioreactor for Lab Meat - The No-BS War Plan: a beginner guide to engineer a diy bioreactor to grow lab-grown meat at home using cel",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-17T00:40:34.690Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-develop-a-career-in-synthetic-biology-by-mastering-crispr-gene-editing-an",
-      "title": "CRISPR HUSTLE: THE NO-BS ROADMAP TO OWNING SYNTHETIC BIOLOGY LIKE A BOSS",
-      "goal": "Develop a career in synthetic biology by mastering CRISPR gene editing and lab automation techniques",
-      "category": "science",
-      "tags": [
-        "biotech",
-        "genetics",
-        "lab-automation"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 21831,
-      "moduleCount": 7,
-      "readingTimeMins": 88,
-      "metaDescription": "CRISPR HUSTLE: THE NO-BS ROADMAP TO OWNING SYNTHETIC BIOLOGY LIKE A BOSS: a advanced guide to develop a career in synthetic biology by mastering crispr gen",
-      "modelUsed": "mistral-large-latest",
-      "generatedAt": "2026-07-16T22:11:10.194Z",
-      "edition": "street"
-    },
-    {
-      "slug": "master-the-synthesis-of-novel-proteins-using-aidriven-structural-prediction-mode",
-      "title": "Designing the Unseen: From AI Structural Models to Synthetic Proteins",
-      "goal": "Master the synthesis of novel proteins using AI-driven structural prediction models",
-      "category": "science",
-      "tags": [
-        "biotechnology",
-        "AI",
-        "biochemistry"
-      ],
-      "language": "en",
-      "complexity": "advanced",
-      "wordCount": 24606,
+      "wordCount": 22883,
       "moduleCount": 8,
-      "readingTimeMins": 99,
-      "metaDescription": "Designing the Unseen: From AI Structural Models to Synthetic Proteins: a advanced guide to master the synthesis of novel proteins using ai-driven structura",
+      "readingTimeMins": 92,
+      "metaDescription": "The Serverless Restaurant: Bootstrapping a Profitable Ghost Kitchen Empire: a beginner guide to bootstrap a profitable ghost kitchen empire using hyper-opt",
       "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T00:22:35.456Z",
+      "generatedAt": "2026-07-16T04:39:47.577Z",
       "edition": "stellar"
     },
     {
-      "slug": "street-master-the-use-of-satellite-imagery-and-gis-for-environmental-conservatio",
-      "title": "Eyes in the Sky, Boots on the Ground: The Savage Roadmap to Conservation Tech Dominance",
-      "goal": "Master the use of satellite imagery and GIS for environmental conservation tracking",
-      "category": "science",
+      "slug": "engineer-hyperlocal-bacterial-cellulose-textiles-from-kombucha-scoby-waste-inter",
+      "title": "The SCOBY Loom: Engineering Hyper-Local Textiles from Kombucha Waste",
+      "goal": "Engineer hyper-local bacterial cellulose textiles from kombucha SCOBY waste",
+      "category": "design",
       "tags": [
-        "gis",
-        "remote-sensing",
-        "conservation"
+        "sustainable-fashion",
+        "bio-design",
+        "material-science"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22912,
+      "moduleCount": 8,
+      "readingTimeMins": 92,
+      "metaDescription": "The SCOBY Loom: Engineering Hyper-Local Textiles from Kombucha Waste: a intermediate guide to engineer hyper-local bacterial cellulose textiles from kombuc",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T04:29:18.451Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-the-art-of-diplomatic-interpreting-in-highstakes-geopolitical-summits-adv",
+      "title": "The Summit Interpreter: Navigating Power, Protocol, and Precision in High-Stakes Diplomacy",
+      "goal": "Master the art of diplomatic interpreting in high-stakes geopolitical summits",
+      "category": "languages",
+      "tags": [
+        "translation",
+        "diplomacy",
+        "real-time"
       ],
       "language": "en",
       "complexity": "advanced",
-      "wordCount": 34222,
-      "moduleCount": 12,
-      "readingTimeMins": 137,
-      "metaDescription": "Eyes in the Sky, Boots on the Ground: The Savage Roadmap to Conservation Tech Dominance: a advanced guide to master the use of satellite imagery and gis fo",
+      "wordCount": 25949,
+      "moduleCount": 8,
+      "readingTimeMins": 104,
+      "metaDescription": "The Summit Interpreter: Navigating Power, Protocol, and Precision in High-Stakes Diplomacy: a advanced guide to master the art of diplomatic interpreting i",
       "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T19:57:55.558Z",
-      "edition": "street"
-    },
-    {
-      "slug": "street-learn-the-basics-of-myceliumbased-packaging-material-cultivation-beginner",
-      "title": "Grow Your Own Armor: The Mycelium Hustle From Scratch",
-      "goal": "Learn the basics of mycelium-based packaging material cultivation",
-      "category": "science",
-      "tags": [
-        "mycology",
-        "materials-science",
-        "ecology"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 32170,
-      "moduleCount": 10,
-      "readingTimeMins": 129,
-      "metaDescription": "Grow Your Own Armor: The Mycelium Hustle From Scratch: a beginner guide to learn the basics of mycelium-based packaging material cultivation with clear exp",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-15T17:56:54.457Z",
-      "edition": "street"
-    },
-    {
-      "slug": "construct-mechanical-prosthetic-enhancements-using-3d-printing-and-basic-biomech",
-      "title": "Plastic Tendons: Building Mechanical Prosthetics with 3D Printing and Biomechanics",
-      "goal": "Construct mechanical prosthetic enhancements using 3D printing and basic biomechanics",
-      "category": "science",
-      "tags": [
-        "biomechanics",
-        "3d-printing",
-        "transhumanism"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 19900,
-      "moduleCount": 7,
-      "readingTimeMins": 80,
-      "metaDescription": "Plastic Tendons: Building Mechanical Prosthetics with 3D Printing and Biomechanics: a beginner guide to construct mechanical prosthetic enhancements using ",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-16T02:51:33.308Z",
+      "generatedAt": "2026-07-16T04:17:55.876Z",
       "edition": "stellar"
     },
     {
@@ -1564,6 +864,706 @@
       "edition": "stellar"
     },
     {
+      "slug": "build-a-highfrequency-statistical-arbitrage-algorithm-using-python-and-c-integra",
+      "title": "The Microsecond Spread: Architecting High-Frequency Stat Arb with Python and C++",
+      "goal": "Build a high-frequency statistical arbitrage algorithm using Python and C++ integration",
+      "category": "programming",
+      "tags": [
+        "algorithmic-trading",
+        "C++",
+        "python"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 28029,
+      "moduleCount": 10,
+      "readingTimeMins": 113,
+      "metaDescription": "The Microsecond Spread: Architecting High-Frequency Stat Arb with Python and C++: a advanced guide to build a high-frequency statistical arbitrage algorith",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T03:47:55.668Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "forge-a-lucrative-career-as-a-prompt-engineer-for-enterprisegrade-llm-finetuning",
+      "title": "The Prompt Engineer's Ascent: Building a Career in Enterprise LLM Fine-Tuning",
+      "goal": "Forge a lucrative career as a prompt engineer for enterprise-grade LLM fine-tuning",
+      "category": "career",
+      "tags": [
+        "AI",
+        "career-pivot",
+        "machine-learning"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25501,
+      "moduleCount": 9,
+      "readingTimeMins": 103,
+      "metaDescription": "The Prompt Engineer's Ascent: Building a Career in Enterprise LLM Fine-Tuning: a beginner guide to forge a lucrative career as a prompt engineer for enterp",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T03:28:28.025Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "manipulate-the-autonomic-nervous-system-to-induce-targeted-torpor-for-extreme-tr",
+      "title": "The Torpor Protocol: Rewiring the Autonomic Nervous System to Survive Lethal Trauma",
+      "goal": "Manipulate the autonomic nervous system to induce targeted torpor for extreme trauma survival",
+      "category": "health",
+      "tags": [
+        "emergency-medicine",
+        "survival",
+        "physiology"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 27390,
+      "moduleCount": 10,
+      "readingTimeMins": 110,
+      "metaDescription": "The Torpor Protocol: Rewiring the Autonomic Nervous System to Survive Lethal Trauma: a advanced guide to manipulate the autonomic nervous system to induce ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T03:11:43.314Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "construct-mechanical-prosthetic-enhancements-using-3d-printing-and-basic-biomech",
+      "title": "Plastic Tendons: Building Mechanical Prosthetics with 3D Printing and Biomechanics",
+      "goal": "Construct mechanical prosthetic enhancements using 3D printing and basic biomechanics",
+      "category": "science",
+      "tags": [
+        "biomechanics",
+        "3d-printing",
+        "transhumanism"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19900,
+      "moduleCount": 7,
+      "readingTimeMins": 80,
+      "metaDescription": "Plastic Tendons: Building Mechanical Prosthetics with 3D Printing and Biomechanics: a beginner guide to construct mechanical prosthetic enhancements using ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T02:51:33.308Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "utilize-dark-pool-liquidity-and-order-flow-analysis-to-track-institutional-whale",
+      "title": "Shadows and Flow: Tracking Institutional Whales Through Dark Pools and Order Flow",
+      "goal": "Utilize dark pool liquidity and order flow analysis to track institutional whale movements",
+      "category": "finance",
+      "tags": [
+        "trading",
+        "market-microstructure",
+        "data-analysis"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 20816,
+      "moduleCount": 7,
+      "readingTimeMins": 84,
+      "metaDescription": "Shadows and Flow: Tracking Institutional Whales Through Dark Pools and Order Flow: a advanced guide to utilize dark pool liquidity and order flow analysis ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T02:38:08.926Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "launch-a-hyperlocal-drone-delivery-service-navigating-faa-part-107-regulations-i",
+      "title": "The Last 500 Feet: Launching a Compliant Hyper-Local Drone Delivery Business",
+      "goal": "Launch a hyper-local drone delivery service navigating FAA Part 107 regulations",
+      "category": "business",
+      "tags": [
+        "aviation",
+        "logistics",
+        "startup"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22379,
+      "moduleCount": 8,
+      "readingTimeMins": 90,
+      "metaDescription": "The Last 500 Feet: Launching a Compliant Hyper-Local Drone Delivery Business: a intermediate guide to launch a hyper-local drone delivery service navigatin",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T02:24:43.228Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "design-brutalistinspired-kinetic-typography-animations-using-css-and-webgl-inter",
+      "title": "Raw Canvas: Engineering Brutalist Kinetic Typography with CSS and WebGL",
+      "goal": "Design brutalist-inspired kinetic typography animations using CSS and WebGL",
+      "category": "design",
+      "tags": [
+        "web-animation",
+        "typography",
+        "front-end"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21799,
+      "moduleCount": 8,
+      "readingTimeMins": 88,
+      "metaDescription": "Raw Canvas: Engineering Brutalist Kinetic Typography with CSS and WebGL: a intermediate guide to design brutalist-inspired kinetic typography animations us",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T02:10:52.895Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "decode-and-speak-toki-pona-to-radically-simplify-thought-patterns-and-cognitive",
+      "title": "The 120-Word Mindset: How Toki Pona Declutters Your Thoughts",
+      "goal": "Decode and speak Toki Pona to radically simplify thought patterns and cognitive load",
+      "category": "languages",
+      "tags": [
+        "constructed-language",
+        "minimalism",
+        "cognitive-science"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21925,
+      "moduleCount": 8,
+      "readingTimeMins": 88,
+      "metaDescription": "The 120-Word Mindset: How Toki Pona Declutters Your Thoughts: a beginner guide to decode and speak toki pona to radically simplify thought patterns and cog",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:57:01.166Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-the-wim-hof-method-combined-with-intermittent-hypoxia-to-trigger-extreme",
+      "title": "The Oxygen Debt Protocol: Using Wim Hof Breathing and Intermittent Hypoxia to Reset Your Immune System",
+      "goal": "Master the Wim Hof method combined with intermittent hypoxia to trigger extreme anti-inflammatory responses",
+      "category": "health",
+      "tags": [
+        "biohacking",
+        "breathwork",
+        "longevity"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22622,
+      "moduleCount": 8,
+      "readingTimeMins": 91,
+      "metaDescription": "The Oxygen Debt Protocol: Using Wim Hof Breathing and Intermittent Hypoxia to Reset Your Immune System: a beginner guide to master the wim hof method combi",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:43:20.687Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "develop-a-localized-disasterresilient-mesh-network-using-lowcost-lorawan-hardwar",
+      "title": "When the Grid Fails: Building a Resilient LoRa Mesh Network from Scratch",
+      "goal": "Develop a localized disaster-resilient mesh network using low-cost LoRaWAN hardware",
+      "category": "programming",
+      "tags": [
+        "IoT",
+        "networking",
+        "hardware"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 25292,
+      "moduleCount": 9,
+      "readingTimeMins": 102,
+      "metaDescription": "When the Grid Fails: Building a Resilient LoRa Mesh Network from Scratch: a intermediate guide to develop a localized disaster-resilient mesh network using",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:31:15.955Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "engineer-synthetic-voices-from-scratch-using-lowresource-texttospeech-ai-models",
+      "title": "The Phantom Voice: Designing High-Fidelity TTS with Minimal Data",
+      "goal": "Engineer synthetic voices from scratch using low-resource text-to-speech AI models",
+      "category": "design",
+      "tags": [
+        "audio-engineering",
+        "machine-learning",
+        "sound-design"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 22921,
+      "moduleCount": 8,
+      "readingTimeMins": 92,
+      "metaDescription": "The Phantom Voice: Designing High-Fidelity TTS with Minimal Data: a advanced guide to engineer synthetic voices from scratch using low-resource text-to-spe",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:17:37.152Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "reverseengineer-corporate-competitors-by-scraping-and-analyzing-opensource-intel",
+      "title": "The Silent Audit: Reverse-Engineering Competitors with Open-Source Intelligence",
+      "goal": "Reverse-engineer corporate competitors by scraping and analyzing open-source intelligence",
+      "category": "business",
+      "tags": [
+        "market-research",
+        "data-scraping",
+        "espionage"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 24571,
+      "moduleCount": 8,
+      "readingTimeMins": 99,
+      "metaDescription": "The Silent Audit: Reverse-Engineering Competitors with Open-Source Intelligence: a intermediate guide to reverse-engineer corporate competitors by scraping",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T01:05:01.336Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "construct-a-survivalstate-psychological-profile-to-dominate-highstakes-hostage-n",
+      "title": "The Survival-State Playbook: Profiling the Dysregulated Mind to Dominate High-Stakes Negotiations",
+      "goal": "Construct a survival-state psychological profile to dominate high-stakes hostage negotiations",
+      "category": "career",
+      "tags": [
+        "crisis-management",
+        "psychology",
+        "law-enforcement"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 23013,
+      "moduleCount": 8,
+      "readingTimeMins": 93,
+      "metaDescription": "The Survival-State Playbook: Profiling the Dysregulated Mind to Dominate High-Stakes Negotiations: a advanced guide to construct a survival-state psycholog",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T00:52:34.586Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "exploit-corporate-tax-loopholes-legally-using-offshore-intellectual-property-hol",
+      "title": "The Invisible Asset: Engineering Legal Offshore IP Structures for Corporate Tax Optimization",
+      "goal": "Exploit corporate tax loopholes legally using offshore intellectual property holding structures",
+      "category": "finance",
+      "tags": [
+        "tax-strategy",
+        "wealth-preservation",
+        "corporate-law"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 25922,
+      "moduleCount": 9,
+      "readingTimeMins": 104,
+      "metaDescription": "The Invisible Asset: Engineering Legal Offshore IP Structures for Corporate Tax Optimization: a advanced guide to exploit corporate tax loopholes legally u",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T00:42:18.184Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "build-and-deploy-a-decentralized-microblogging-protocol-on-nostr-intermediate",
+      "title": "Censorship-Resistant Feeds: Building a Decentralized Microblogging Client on Nostr",
+      "goal": "Build and deploy a decentralized microblogging protocol on Nostr",
+      "category": "programming",
+      "tags": [
+        "web3",
+        "networking",
+        "cryptography"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19995,
+      "moduleCount": 7,
+      "readingTimeMins": 80,
+      "metaDescription": "Censorship-Resistant Feeds: Building a Decentralized Microblogging Client on Nostr: a intermediate guide to build and deploy a decentralized microblogging ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T00:30:51.998Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-the-synthesis-of-novel-proteins-using-aidriven-structural-prediction-mode",
+      "title": "Designing the Unseen: From AI Structural Models to Synthetic Proteins",
+      "goal": "Master the synthesis of novel proteins using AI-driven structural prediction models",
+      "category": "science",
+      "tags": [
+        "biotechnology",
+        "AI",
+        "biochemistry"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 24606,
+      "moduleCount": 8,
+      "readingTimeMins": 99,
+      "metaDescription": "Designing the Unseen: From AI Structural Models to Synthetic Proteins: a advanced guide to master the synthesis of novel proteins using ai-driven structura",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-16T00:22:35.456Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "street-understand-the-syntax-and-grammar-of-international-sign-language-isl-begi",
+      "title": "Hands That Hit Hard: The ISL Grammar Warpath",
+      "goal": "Understand the syntax and grammar of international sign language (ISL)",
+      "category": "languages",
+      "tags": [
+        "sign-language",
+        "communication",
+        "deaf-culture"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 36476,
+      "moduleCount": 12,
+      "readingTimeMins": 146,
+      "metaDescription": "Hands That Hit Hard: The ISL Grammar Warpath: a beginner guide to understand the syntax and grammar of international sign language (isl) with clear explana",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T20:43:42.394Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-the-fundamentals-of-acoustic-ecology-and-soundscape-composition-beg",
+      "title": "The Sound Hustler's Bible: From Deaf to Dangerous in Acoustic Ecology",
+      "goal": "Learn the fundamentals of acoustic ecology and soundscape composition",
+      "category": "design",
+      "tags": [
+        "sound-design",
+        "ecology",
+        "audio"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 32101,
+      "moduleCount": 10,
+      "readingTimeMins": 129,
+      "metaDescription": "The Sound Hustler's Bible: From Deaf to Dangerous in Acoustic Ecology: a beginner guide to learn the fundamentals of acoustic ecology and soundscape compos",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T20:26:53.559Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-develop-crosscultural-negotiation-strategies-for-international-business-e",
+      "title": "The Global Hustler's Playbook: Cross-Cultural Negotiation Warfare",
+      "goal": "Develop cross-cultural negotiation strategies for international business expansion",
+      "category": "career",
+      "tags": [
+        "negotiation",
+        "cross-cultural",
+        "leadership"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 33442,
+      "moduleCount": 10,
+      "readingTimeMins": 134,
+      "metaDescription": "The Global Hustler's Playbook: Cross-Cultural Negotiation Warfare: a advanced guide to develop cross-cultural negotiation strategies for international busi",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T20:12:19.584Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-the-use-of-satellite-imagery-and-gis-for-environmental-conservatio",
+      "title": "Eyes in the Sky, Boots on the Ground: The Savage Roadmap to Conservation Tech Dominance",
+      "goal": "Master the use of satellite imagery and GIS for environmental conservation tracking",
+      "category": "science",
+      "tags": [
+        "gis",
+        "remote-sensing",
+        "conservation"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 34222,
+      "moduleCount": 12,
+      "readingTimeMins": 137,
+      "metaDescription": "Eyes in the Sky, Boots on the Ground: The Savage Roadmap to Conservation Tech Dominance: a advanced guide to master the use of satellite imagery and gis fo",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:57:55.558Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-to-write-and-execute-algorithmic-spatial-generative-art-using-p5js",
+      "title": "Code That Bleeds: The p5.js Generative Art Warpath",
+      "goal": "Learn to write and execute algorithmic spatial generative art using p5.js",
+      "category": "design",
+      "tags": [
+        "generative-art",
+        "creative-coding",
+        "p5js"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 36618,
+      "moduleCount": 12,
+      "readingTimeMins": 147,
+      "metaDescription": "Code That Bleeds: The p5.js Generative Art Warpath: a intermediate guide to learn to write and execute algorithmic spatial generative art using p5.js with ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:42:05.127Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-neurochemistry-of-habit-formation-and-behavioral-loops-beg",
+      "title": "Brain Hackers: Rewiring Your Wetware for Savage Habits",
+      "goal": "Understand the neurochemistry of habit formation and behavioral loops",
+      "category": "science",
+      "tags": [
+        "neuroscience",
+        "psychology",
+        "behavior"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22600,
+      "moduleCount": 7,
+      "readingTimeMins": 91,
+      "metaDescription": "Brain Hackers: Rewiring Your Wetware for Savage Habits: a beginner guide to understand the neurochemistry of habit formation and behavioral loops with clea",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:26:41.623Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-analyze-the-socioeconomic-impacts-of-universal-basic-income-ubi-models-in",
+      "title": "The UBI Hustle: Blood, Math, and Free Money",
+      "goal": "Analyze the socio-economic impacts of universal basic income (UBI) models",
+      "category": "finance",
+      "tags": [
+        "economics",
+        "public-policy",
+        "social-impact"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 30162,
+      "moduleCount": 9,
+      "readingTimeMins": 121,
+      "metaDescription": "The UBI Hustle: Blood, Math, and Free Money: a intermediate guide to analyze the socio-economic impacts of universal basic income (ubi) models with clear e",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:16:22.725Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-develop-a-crisis-management-framework-for-supply-chain-disruptions-interm",
+      "title": "Chaos-Proof: The Supply Chain Survival Playbook",
+      "goal": "Develop a crisis management framework for supply chain disruptions",
+      "category": "business",
+      "tags": [
+        "supply-chain",
+        "risk-management",
+        "logistics"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 30363,
+      "moduleCount": 10,
+      "readingTimeMins": 122,
+      "metaDescription": "Chaos-Proof: The Supply Chain Survival Playbook: a intermediate guide to develop a crisis management framework for supply chain disruptions with clear expl",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T19:02:49.023Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-to-optimize-gut-microbiome-diversity-through-targeted-prebiotic-die",
+      "title": "Gut Warfare: The Prebiotic Blueprint",
+      "goal": "Learn to optimize gut microbiome diversity through targeted prebiotic diets",
+      "category": "health",
+      "tags": [
+        "nutrition",
+        "microbiome",
+        "gut-health"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 29539,
+      "moduleCount": 10,
+      "readingTimeMins": 119,
+      "metaDescription": "Gut Warfare: The Prebiotic Blueprint: a beginner guide to learn to optimize gut microbiome diversity through targeted prebiotic diets with clear explanatio",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T18:48:36.675Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-application-of-quantum-computing-in-cryptographic-security",
+      "title": "Quantum Crypto Warfare: From Dead Algorithms to Unbreakable Shields",
+      "goal": "Understand the application of quantum computing in cryptographic security",
+      "category": "programming",
+      "tags": [
+        "quantum-computing",
+        "cryptography",
+        "cybersecurity"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 27675,
+      "moduleCount": 10,
+      "readingTimeMins": 111,
+      "metaDescription": "Quantum Crypto Warfare: From Dead Algorithms to Unbreakable Shields: a advanced guide to understand the application of quantum computing in cryptographic s",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T18:35:05.015Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-master-the-art-of-brand-storytelling-through-transmedia-narratives-beginn",
+      "title": "The Transmedia Hustle: Building Brands That Own the Block",
+      "goal": "Master the art of brand storytelling through transmedia narratives",
+      "category": "career",
+      "tags": [
+        "marketing",
+        "storytelling",
+        "branding"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26782,
+      "moduleCount": 8,
+      "readingTimeMins": 108,
+      "metaDescription": "The Transmedia Hustle: Building Brands That Own the Block: a beginner guide to master the art of brand storytelling through transmedia narratives with clea",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T18:22:22.826Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-design-accessible-user-interfaces-using-neurodivergentfriendly-ux-princip",
+      "title": "The Neuro-Hacker Blueprint: Designing UIs That Don't Melt Minds",
+      "goal": "Design accessible user interfaces using neurodivergent-friendly UX principles",
+      "category": "design",
+      "tags": [
+        "ux",
+        "accessibility",
+        "neurodiversity"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 25486,
+      "moduleCount": 8,
+      "readingTimeMins": 102,
+      "metaDescription": "The Neuro-Hacker Blueprint: Designing UIs That Don't Melt Minds: a intermediate guide to design accessible user interfaces using neurodivergent-friendly ux",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T18:10:18.434Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-the-basics-of-myceliumbased-packaging-material-cultivation-beginner",
+      "title": "Grow Your Own Armor: The Mycelium Hustle From Scratch",
+      "goal": "Learn the basics of mycelium-based packaging material cultivation",
+      "category": "science",
+      "tags": [
+        "mycology",
+        "materials-science",
+        "ecology"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 32170,
+      "moduleCount": 10,
+      "readingTimeMins": 129,
+      "metaDescription": "Grow Your Own Armor: The Mycelium Hustle From Scratch: a beginner guide to learn the basics of mycelium-based packaging material cultivation with clear exp",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T17:56:54.457Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-mechanics-of-volatility-arbitrage-in-options-trading-advan",
+      "title": "The Volatility Arbitrage War Room: Bleeding Edge to Bankroll",
+      "goal": "Understand the mechanics of volatility arbitrage in options trading",
+      "category": "finance",
+      "tags": [
+        "derivatives",
+        "trading",
+        "quantitative-finance"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 35433,
+      "moduleCount": 12,
+      "readingTimeMins": 142,
+      "metaDescription": "The Volatility Arbitrage War Room: Bleeding Edge to Bankroll: a advanced guide to understand the mechanics of volatility arbitrage in options trading with ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T17:41:01.353Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-explore-the-phonetic-evolution-of-constructed-languages-conlangs-in-media",
+      "title": "The Conlang Trenches: Bleeding for Fake Phonetics",
+      "goal": "Explore the phonetic evolution of constructed languages (conlangs) in media",
+      "category": "languages",
+      "tags": [
+        "linguistics",
+        "conlangs",
+        "phonetics"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21602,
+      "moduleCount": 7,
+      "readingTimeMins": 87,
+      "metaDescription": "The Conlang Trenches: Bleeding for Fake Phonetics: a intermediate guide to explore the phonetic evolution of constructed languages (conlangs) in media with",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T17:23:44.657Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-develop-a-localized-circular-economy-business-model-from-waste-streams-ad",
+      "title": "From Garbage to Goldmine: The Circular Economy Warpath",
+      "goal": "Develop a localized circular economy business model from waste streams",
+      "category": "business",
+      "tags": [
+        "circular-economy",
+        "sustainability",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 28775,
+      "moduleCount": 10,
+      "readingTimeMins": 116,
+      "metaDescription": "From Garbage to Goldmine: The Circular Economy Warpath: a advanced guide to develop a localized circular economy business model from waste streams with cle",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T17:12:19.569Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-analyze-the-impact-of-circadian-rhythm-disruption-on-metabolic-health-int",
+      "title": "Broken Clocks, Broken Bodies: The Circadian-Metabolism War",
+      "goal": "Analyze the impact of circadian rhythm disruption on metabolic health",
+      "category": "health",
+      "tags": [
+        "chronobiology",
+        "metabolism",
+        "sleep-science"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 27527,
+      "moduleCount": 9,
+      "readingTimeMins": 111,
+      "metaDescription": "Broken Clocks, Broken Bodies: The Circadian-Metabolism War: a intermediate guide to analyze the impact of circadian rhythm disruption on metabolic health w",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T16:57:35.759Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-learn-to-build-and-deploy-decentralized-autonomous-organizations-daos-on",
+      "title": "DAO or Die: The Savage Blueprint to On-Chain Empires",
+      "goal": "Learn to build and deploy decentralized autonomous organizations (DAOs) on Ethereum",
+      "category": "programming",
+      "tags": [
+        "blockchain",
+        "web3",
+        "solidity"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 38981,
+      "moduleCount": 12,
+      "readingTimeMins": 156,
+      "metaDescription": "DAO or Die: The Savage Blueprint to On-Chain Empires: a advanced guide to learn to build and deploy decentralized autonomous organizations (daos) on ethere",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T16:44:12.625Z",
+      "edition": "street"
+    },
+    {
+      "slug": "street-understand-the-principles-of-biomimicry-in-architectural-design-beginner",
+      "title": "The Concrete Jungle is Dead: Stealing Nature's Blueprint",
+      "goal": "Understand the principles of biomimicry in architectural design",
+      "category": "design",
+      "tags": [
+        "architecture",
+        "biology",
+        "sustainable-design"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25463,
+      "moduleCount": 8,
+      "readingTimeMins": 102,
+      "metaDescription": "The Concrete Jungle is Dead: Stealing Nature's Blueprint: a beginner guide to understand the principles of biomimicry in architectural design with clear ex",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-15T16:22:09.026Z",
+      "edition": "street"
+    },
+    {
       "slug": "street-master-the-fundamentals-of-cellular-agriculture-and-labgrown-meat-product",
       "title": "The Flesh Forge: Zero-to-Savage Cellular Ag War Bible",
       "goal": "Master the fundamentals of cellular agriculture and lab-grown meat production",
@@ -1585,5 +1585,5 @@
     }
   ],
   "total": 79,
-  "generatedAt": "2026-07-17T05:51:37.780Z"
+  "generatedAt": "2026-07-17T07:07:48.627Z"
 }
