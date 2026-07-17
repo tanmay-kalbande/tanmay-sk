@@ -1,6 +1,51 @@
 {
   "books": [
     {
+      "slug": "desi-build-a-swarm-robotics-system-with-ros2-for-autonomous-search-and-rescue-na",
+      "title": "Bhai ka Swarm Robotics Roadmap: ROS2 Se Rescue Tak",
+      "goal": "Build a swarm robotics system with ROS2 for autonomous search and rescue navigation",
+      "category": "programming",
+      "tags": [
+        "robotics",
+        "ros2",
+        "swarm intelligence",
+        "autonomous navigation"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 30574,
+      "moduleCount": 12,
+      "readingTimeMins": 123,
+      "metaDescription": "Bhai ka Swarm Robotics Roadmap: ROS2 Se Rescue Tak: a advanced guide to build a swarm robotics system with ros2 for autonomous search and rescue navigation",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T12:02:14.434Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-profitable-edgecomputing-iot-vision-system-to-detect-manufacturin",
+      "title": "Vision to Profit: The No-BS Blueprint for Edge IoT Defect Detection",
+      "goal": "Build a profitable edge-computing IoT vision system to detect manufacturing defects on the assembly line using Raspberry Pi and OpenCV",
+      "category": "programming",
+      "tags": [
+        "edge computing",
+        "iot",
+        "computer vision",
+        "opencv",
+        "raspberry pi",
+        "defect detection",
+        "automation"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 35786,
+      "moduleCount": 10,
+      "readingTimeMins": 144,
+      "metaDescription": "Vision to Profit: The No-BS Blueprint for Edge IoT Defect Detection: a intermediate guide to build a profitable edge-computing iot vision system to detect ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T11:39:47.165Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-a-satellite-ground-station-with-sdr-to-intercept-live-weather-data-fr",
       "title": "Antariksh ka Data Chura: SDR Ground Station ka Khel",
       "goal": "Build a satellite ground station with SDR to intercept live weather data from space",
@@ -1627,6 +1672,6 @@
       "edition": "street"
     }
   ],
-  "total": 81,
-  "generatedAt": "2026-07-17T08:13:50.770Z"
+  "total": 83,
+  "generatedAt": "2026-07-17T12:02:14.580Z"
 }

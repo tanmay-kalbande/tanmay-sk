@@ -6,6 +6,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/desi-build-a-swarm-robotics-system-with-ros2-for-autonomous-search-and-rescue-na</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-17</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/street-build-a-profitable-edgecomputing-iot-vision-system-to-detect-manufacturin</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-17</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/desi-build-a-satellite-ground-station-with-sdr-to-intercept-live-weather-data-fr</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
