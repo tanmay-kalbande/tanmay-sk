@@ -6,6 +6,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/desi-build-a-satellite-ground-station-with-sdr-to-intercept-live-weather-data-fr</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-17</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/street-build-a-swarm-of-autonomous-ai-agents-to-scrape-analyze-and-flip-underval</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-17</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/desi-build-a-decentralized-prediction-market-smart-contract-with-solidity-and-ch</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

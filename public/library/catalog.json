@@ -1,6 +1,49 @@
 {
   "books": [
     {
+      "slug": "desi-build-a-satellite-ground-station-with-sdr-to-intercept-live-weather-data-fr",
+      "title": "Antariksh ka Data Chura: SDR Ground Station ka Khel",
+      "goal": "Build a satellite ground station with SDR to intercept live weather data from space",
+      "category": "science",
+      "tags": [
+        "satellite tracking",
+        "software defined radio",
+        "rtl-sdr",
+        "noaa apt",
+        "space data"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 32729,
+      "moduleCount": 12,
+      "readingTimeMins": 131,
+      "metaDescription": "Antariksh ka Data Chura: SDR Ground Station ka Khel: a intermediate guide to build a satellite ground station with sdr to intercept live weather data from ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T08:13:50.673Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-swarm-of-autonomous-ai-agents-to-scrape-analyze-and-flip-underval",
+      "title": "Domain War Machine: Building an AI Swarm to Hunt, Flip, and Stack Cash",
+      "goal": "Build a swarm of autonomous AI agents to scrape, analyze, and flip undervalued domain names for profit",
+      "category": "business",
+      "tags": [
+        "domain flipping",
+        "ai agents",
+        "web scraping",
+        "automation"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 33750,
+      "moduleCount": 9,
+      "readingTimeMins": 135,
+      "metaDescription": "Domain War Machine: Building an AI Swarm to Hunt, Flip, and Stack Cash: a advanced guide to build a swarm of autonomous ai agents to scrape, analyze, and f",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T07:40:45.695Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-a-decentralized-prediction-market-smart-contract-with-solidity-and-ch",
       "title": "Desi Blackhole Roadmap: Prediction Market Aur Chainlink Ka Khel",
       "goal": "Build a decentralized prediction market smart contract with Solidity and Chainlink oracles",
@@ -1584,6 +1627,6 @@
       "edition": "street"
     }
   ],
-  "total": 79,
-  "generatedAt": "2026-07-17T07:07:48.627Z"
+  "total": 81,
+  "generatedAt": "2026-07-17T08:13:50.770Z"
 }
