@@ -874,11 +874,8 @@ class ProfessionalPdfGenerator {
     };
   }
 
-  private createCoverPage(title: string, coverMeta: CoverMetadata): PDFContent[] {
-    const normalizedTitle = this.normalizeDashes(title);
-    const displayTitle = coverMeta.coverTitle || normalizedTitle;
+  private createCoverBackground(coverMeta: CoverMetadata): any {
     const { width, height } = this.page;
-
     const background = this.createGradientBackground(width, height, this.accentFaint);
     const border = [
       {
@@ -892,6 +889,69 @@ class ProfessionalPdfGenerator {
         r: 12
       }
     ];
+    const noiseDataUrl = generateNoiseDataUrl(width, height);
+
+    const statsParts: string[] = [];
+    if (coverMeta.readTimeMinutes) statsParts.push(`${coverMeta.readTimeMinutes} MIN READ`);
+    if (coverMeta.chapterCount) statsParts.push(`${coverMeta.chapterCount} CHAPTER${coverMeta.chapterCount === 1 ? '' : 'S'}`);
+    if (coverMeta.wordCount) statsParts.push(`${coverMeta.wordCount.toLocaleString()} WORDS`);
+
+    return {
+      stack: [
+        { canvas: background, absolutePosition: { x: 0, y: 0 } },
+        ...(noiseDataUrl ? [{
+          image: noiseDataUrl,
+          width: width,
+          height: height,
+          absolutePosition: { x: 0, y: 0 }
+        }] : []),
+        { canvas: border, absolutePosition: { x: 0, y: 0 } },
+        {
+          stack: [
+            {
+              canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: this.accentUnderline }],
+              margin: [0, 0, 0, 10]
+            },
+            ...(statsParts.length ? [{
+              text: statsParts.join('   \u00b7   '),
+              font: this.codeFontFamily,
+              fontSize: 6.5,
+              bold: true,
+              color: this.brandGreen,
+              characterSpacing: 0.6,
+              alignment: 'center',
+              margin: [0, 0, 0, 8]
+            }] : []),
+            {
+              columns: [
+                {
+                  text: 'AI-ASSISTED STUDY EDITION',
+                  font: this.headingFontFamily,
+                  fontSize: 7,
+                  bold: true,
+                  color: '#64748b',
+                  characterSpacing: 1.2,
+                  alignment: 'left'
+                },
+                {
+                  text: `First digital edition • ${new Date().getFullYear()}`,
+                  font: this.fontFamily,
+                  fontSize: 7,
+                  color: '#64748b',
+                  alignment: 'right'
+                }
+              ]
+            }
+          ],
+          absolutePosition: { x: 48, y: height - 92 }
+        }
+      ]
+    };
+  }
+
+  private createCoverPage(title: string, coverMeta: CoverMetadata): PDFContent[] {
+    const normalizedTitle = this.normalizeDashes(title);
+    const displayTitle = coverMeta.coverTitle || normalizedTitle;
 
     let mainTitle = displayTitle;
     let subTitle = '';
@@ -911,64 +971,10 @@ class ProfessionalPdfGenerator {
       ? this.capitalizeFirstLetter(coverMeta.subtitle.split(' ')[0].toLowerCase())
       : 'Structured';
 
-    const noiseDataUrl = generateNoiseDataUrl(width, height);
-
     const chips = [coverMeta.complexity, coverMeta.category, ...(coverMeta.tags || [])]
       .filter((c): c is string => Boolean(c && c.trim()));
 
-    const statsParts: string[] = [];
-    if (coverMeta.readTimeMinutes) statsParts.push(`${coverMeta.readTimeMinutes} MIN READ`);
-    if (coverMeta.chapterCount) statsParts.push(`${coverMeta.chapterCount} CHAPTER${coverMeta.chapterCount === 1 ? '' : 'S'}`);
-    if (coverMeta.wordCount) statsParts.push(`${coverMeta.wordCount.toLocaleString()} WORDS`);
-
     return [
-      { canvas: background, absolutePosition: { x: 0, y: 0 } },
-      ...(noiseDataUrl ? [{
-        image: noiseDataUrl,
-        width: width,
-        height: height,
-        absolutePosition: { x: 0, y: 0 }
-      }] : []),
-      { canvas: border, absolutePosition: { x: 0, y: 0 } },
-      {
-        stack: [
-          {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: this.accentUnderline }],
-            margin: [0, 0, 0, 10]
-          },
-          ...(statsParts.length ? [{
-            text: statsParts.join('   \u00b7   '),
-            font: this.codeFontFamily,
-            fontSize: 6.5,
-            bold: true,
-            color: this.brandGreen,
-            characterSpacing: 0.6,
-            alignment: 'center',
-            margin: [0, 0, 0, 8]
-          }] : []),
-          {
-            columns: [
-              {
-                text: 'AI-ASSISTED STUDY EDITION',
-                font: this.headingFontFamily,
-                fontSize: 7,
-                bold: true,
-                color: '#64748b',
-                characterSpacing: 1.2,
-                alignment: 'left'
-              },
-              {
-                text: `First digital edition • ${new Date().getFullYear()}`,
-                font: this.fontFamily,
-                fontSize: 7,
-                color: '#64748b',
-                alignment: 'right'
-              }
-            ]
-          }
-        ],
-        absolutePosition: { x: 48, y: height - 92 }
-      },
       { text: '', margin: [0, 30, 0, 0] },
       ...(chips.length ? [this.buildCoverChips(chips)] : []),
       {
@@ -1764,11 +1770,7 @@ class ProfessionalPdfGenerator {
     const docDefinition: any = {
       background: (currentPage: number) => {
         if (currentPage === 1) {
-          return {
-            canvas: [
-              { type: 'rect', x: 0, y: 0, w: this.page.width, h: this.page.height, color: '#faf7f0' }
-            ]
-          };
+          return this.createCoverBackground(coverMeta);
         }
         return {};
       },
