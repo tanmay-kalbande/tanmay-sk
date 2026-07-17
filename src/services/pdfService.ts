@@ -1398,9 +1398,10 @@ class ProfessionalPdfGenerator {
         tocDepth = (trimmed.match(/^#+/) || [''])[0].length;
 
         flushParagraph();
-        // Always start the ToC on its own fresh page so it never packs directly
-        // underneath the cover/overview content that came before it.
-        content.push({ text: '', pageBreak: 'before', margin: [0, 20, 0, 0] });
+        // NOTE: no forced pageBreak here — the cover page already ends with its
+        // own pageBreak:'after', so the ToC naturally lands on a fresh page.
+        // Adding another break here would insert a blank page in between.
+        content.push({ text: '', margin: [0, 20, 0, 0] });
         content.push({ text: 'CONTENTS', style: 'partLabel', margin: [0, 0, 0, 4] });
         content.push({ text: 'Table of Contents', style: 'h1Module', alignment: 'left', margin: [0, 0, 0, 26] });
         tocPlaceholderIndex = content.length;
@@ -1752,14 +1753,13 @@ class ProfessionalPdfGenerator {
     };
 
     const coverContent = this.createCoverPage(book.title, coverMeta);
-    const overviewContent = this.createLearningOverview(coverMeta);
 
     onProgress(60);
     const mainContent = this.parseMarkdownToContent(book.finalBook || '', book);
     const endMatterContent = this.createEndMatterPage(book.goal);
 
     onProgress(85);
-    this.content = [...coverContent, ...overviewContent, ...mainContent, ...endMatterContent];
+    this.content = [...coverContent, ...mainContent, ...endMatterContent];
 
     const docDefinition: any = {
       background: (currentPage: number) => {
