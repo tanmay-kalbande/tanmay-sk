@@ -841,35 +841,19 @@ class ProfessionalPdfGenerator {
   }
 
   private buildCoverChips(chips: string[]): PDFContent {
-    const items = chips.filter(Boolean).slice(0, 4).map((label) => ({
-      table: {
-        widths: ['auto'],
-        body: [[{
-          text: label.toUpperCase(),
-          font: this.headingFontFamily,
-          fontSize: 7,
-          bold: true,
-          color: this.accentText,
-          characterSpacing: 0.8,
-          margin: [8, 4, 8, 4]
-        }]]
-      },
-      layout: {
-        hLineWidth: () => 0.75,
-        vLineWidth: () => 0.75,
-        hLineColor: () => this.accentUnderline,
-        vLineColor: () => this.accentUnderline,
-        paddingLeft: () => 0,
-        paddingRight: () => 0,
-        paddingTop: () => 0,
-        paddingBottom: () => 0
-      },
-      width: 'auto'
-    }));
+    const formattedChips = chips
+      .filter(Boolean)
+      .slice(0, 4)
+      .map(c => c.toUpperCase());
 
     return {
-      columns: items,
-      columnGap: 6,
+      text: formattedChips.join('   \u00b7   '),
+      font: this.codeFontFamily,
+      fontSize: 7,
+      bold: true,
+      color: this.accentText,
+      characterSpacing: 0.8,
+      alignment: 'left',
       margin: [0, 0, 0, 22]
     };
   }
@@ -885,8 +869,7 @@ class ProfessionalPdfGenerator {
         w: width - 48,
         h: height - 48,
         lineColor: this.accentMid,
-        lineWidth: 0.75,
-        r: 12
+        lineWidth: 0.75
       }
     ];
     const noiseDataUrl = generateNoiseDataUrl(width, height);
@@ -907,38 +890,45 @@ class ProfessionalPdfGenerator {
         }] : []),
         { canvas: border, absolutePosition: { x: 0, y: 0 } },
         {
-          stack: [
+          columns: [
             {
-              canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: this.accentUnderline }],
-              margin: [0, 0, 0, 10]
-            },
-            ...(statsParts.length ? [{
-              text: statsParts.join('   \u00b7   '),
-              font: this.codeFontFamily,
-              fontSize: 6.5,
-              bold: true,
-              color: this.brandGreen,
-              characterSpacing: 0.6,
-              alignment: 'center',
-              margin: [0, 0, 0, 8]
-            }] : []),
-            {
-              columns: [
+              width: 336,
+              stack: [
                 {
-                  text: 'AI-ASSISTED STUDY EDITION',
-                  font: this.headingFontFamily,
-                  fontSize: 7,
-                  bold: true,
-                  color: '#64748b',
-                  characterSpacing: 1.2,
-                  alignment: 'left'
+                  canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: this.accentUnderline }],
+                  margin: [0, 0, 0, 10]
                 },
+                ...(statsParts.length ? [{
+                  text: statsParts.join('   \u00b7   '),
+                  font: this.codeFontFamily,
+                  fontSize: 6.5,
+                  bold: true,
+                  color: this.brandGreen,
+                  characterSpacing: 0.6,
+                  alignment: 'center',
+                  margin: [0, 0, 0, 8]
+                }] : []),
                 {
-                  text: `First digital edition • ${new Date().getFullYear()}`,
-                  font: this.fontFamily,
-                  fontSize: 7,
-                  color: '#64748b',
-                  alignment: 'right'
+                  columns: [
+                    {
+                      text: 'AI-ASSISTED STUDY EDITION',
+                      font: this.headingFontFamily,
+                      fontSize: 7,
+                      bold: true,
+                      color: '#64748b',
+                      characterSpacing: 1.2,
+                      alignment: 'left',
+                      width: 'auto'
+                    },
+                    {
+                      text: `First digital edition • ${new Date().getFullYear()}`,
+                      font: this.fontFamily,
+                      fontSize: 7,
+                      color: '#64748b',
+                      alignment: 'right',
+                      width: '*'
+                    }
+                  ]
                 }
               ]
             }

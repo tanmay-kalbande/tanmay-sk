@@ -458,10 +458,9 @@ function buildModulePrompt(
   total: number,
   previousModules: Array<{ title: string; content: string; wordCount: number }>
 ): { systemPrompt: string; userPrompt: string } {
-  // Full outline with status markers (Pustakam-style continuity)
-  const outline = roadmap.modules.map((item, i) => {
-    const status = i < index ? '✅' : i === index ? '👉' : '  ';
-    return `${status} ${i + 1}. ${item.title}`;
+  // Static outline for caching (no dynamic markers like ✅ or 👉)
+  const staticOutline = roadmap.modules.map((item, i) => {
+    return `- Module ${i + 1}: ${item.title} (${item.description})`;
   }).join('\n');
 
   // Deep continuity: extract glossary terms from all previous chapters
@@ -490,7 +489,7 @@ LANGUAGE: Hardcore Hinglish — Hindi + English mila ke likh. 70% Hindi vibe, 30
 TONE RULES:
 - Har cheez ko desi analogy se explain kar (chai, autorickshaw, jugaad, local train, sharma ji ka beta, arranged marriage, IPL)
 - Complex concepts ko roadside conversation jaisa bana — "Dekh bhai, ye aise samajh..."
-- Rhetorical questions pelega: "Samjha? Nahi samjha? Padh dubara, dimag lagaa."
+- Rhetorical questions pelega: "Samjha? Nahi samajh? Padh dubara, dimag lagaa."
 - Reader ko kabhi bore mat hone de. Agar boring lag raha hai, gaali de aur aage badh.
 
 ${VISUAL_INSTRUCTIONS}
@@ -504,7 +503,10 @@ DO NOT:
 - Concepts already covered repeat mat kar (ALREADY INTRODUCED dekh)
 - Mermaid diagrams mat daal
 - Quiz sections mat daal
-- Generic motivational bakwaas mat likh — be specific, be savage, be useful`;
+- Generic motivational bakwaas mat likh — be specific, be savage, be useful
+
+BOOK STRUCTURE (Full Learning Path):
+${staticOutline}`;
 
     const userPrompt = `Abe saale, Chapter ${index + 1} of ${total} shuru kar: "${mod.title}". Full power daal, nahi toh tera chapter delete kar dunga.
 
@@ -521,9 +523,6 @@ CONTEXT:
 - Chapter ${index + 1}/${total}: "${mod.title}"
 - Focus: ${mod.description}
 - Objectives: ${mod.objectives.join('; ')}
-
-Full learning path:
-${outline}
 
 ${continuity}
 
@@ -561,7 +560,10 @@ DO NOT:
 - Start with a heading that duplicates the chapter title
 - Include mermaid diagrams
 - Include quiz sections
-- Be generic or motivational-poster-fake. Be REAL. If something sucks, say it sucks.`;
+- Be generic or motivational-poster-fake. Be REAL. If something sucks, say it sucks.
+
+BOOK STRUCTURE (Full Learning Path):
+${staticOutline}`;
 
     const userPrompt = `Listen up genius, it's time for Chapter ${index + 1} of ${total}: "${mod.title}". Make it hurt so good.
 
@@ -588,9 +590,6 @@ CONTEXT:
 - Objectives: ${mod.objectives.join('; ')}
 - Audience: ${seed.complexity || 'beginner'} learners
 
-Full learning path:
-${outline}
-
 ${continuity}
 
 Write ${CONFIG.MODULE_WORD_TARGET} words. Markdown strict. Tone: Savage, Brilliant, Unhinged, Caring-but-Brutal.`;
@@ -610,7 +609,7 @@ Write ${CONFIG.MODULE_WORD_TARGET} words. Markdown strict. Tone: Savage, Brillia
 - DEPTH OVER BREADTH: Go deep on fewer concepts rather than skimming many. One well-explained idea beats five glossed-over ones. Include the history, the reasoning, the edge cases.
 - REAL-WORLD ANCHORS: Every abstract concept needs a concrete anchor — a company that uses it, a disaster caused by ignoring it, a daily-life parallel. Make knowledge STICKY.
 - ANALOGIES: Use at least 2 vivid analogies per chapter. Not clichéd ones — surprising, memorable ones that make the reader go "ohh, NOW I get it."
-- VARY STRUCTURE: Mix explanations with mini-stories, comparisons, "what would happen if" scenarios, expert quotes (real ones only), and direct actionable advice.
+- VARY STRUCTURE: Mix explanations, examples, comparisons, "what would happen if" scenarios, expert quotes (real ones only), and direct actionable advice.
 - Use callout boxes for tips, warnings, and insights (see VISUAL ENGAGEMENT RULES below).
 
 ${VISUAL_INSTRUCTIONS}
@@ -621,7 +620,10 @@ DO NOT:
 - Include mermaid diagrams
 - Include quiz sections
 - Add filler, unsupported statistics, generic motivational language, or claims likely to become outdated
-- Use phrases like "In today's world", "It's important to note", "Let's dive in" — these are AI-sounding clichés`;
+- Use phrases like "In today's world", "It's important to note", "Let's dive in" — these are AI-sounding clichés
+
+BOOK STRUCTURE (Full Learning Path):
+${staticOutline}`;
 
   const userPrompt = `Write one chapter of the guide "${roadmap.title || seed.goal}".
 Topic: "${seed.goal}". Audience: ${seed.complexity || 'beginner'} learners.
@@ -1067,7 +1069,8 @@ Requirements:
 1. Ensure topics span diverse categories (e.g., programming, business, finance, health, design, science, career, languages).
 2. Choose a mix of complexities: 'beginner', 'intermediate', 'advanced'.
 3. Each guide must have a specific learning goal.
-4. Return ONLY a valid JSON array matching this format (no markdown, no wrap):
+4. Ensure the goals are highly search-friendly (SEO optimized) and reflect terms people actually search for when wanting to learn a skill (e.g., 'Master personal finance and budgeting for beginners', 'Learn React from scratch', 'Crack code interviews with C++'). Avoid overly abstract, poetic, or academic titles.
+5. Return ONLY a valid JSON array matching this format (no markdown, no wrap):
 [
   {
     "goal": "Clear learning goal (e.g. Master personal finance and budgeting)",

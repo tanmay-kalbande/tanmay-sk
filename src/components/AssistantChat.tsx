@@ -1072,6 +1072,50 @@ export default function AssistantChat({ variant }: AssistantChatProps) {
   const [isProcessing, setProcessing] = useState(false);
   const [suppressInputFocusStyle, setSuppressInputFocusStyle] = useState(true);
   const sessionIdRef = useRef(uid());
+  const isLoadedRef = useRef(false);
+
+  useEffect(() => {
+    try {
+      const savedExchanges = window.localStorage.getItem("tanmay_ai_chat_exchanges");
+      if (savedExchanges) {
+        setExchanges(JSON.parse(savedExchanges));
+      }
+      
+      const savedInput = window.localStorage.getItem("tanmay_ai_chat_input");
+      if (savedInput) {
+        setInput(savedInput);
+      }
+
+      let sid = window.localStorage.getItem("tanmay_ai_chat_session_id");
+      if (!sid) {
+        sid = uid();
+        window.localStorage.setItem("tanmay_ai_chat_session_id", sid);
+      }
+      sessionIdRef.current = sid;
+    } catch (e) {
+      console.warn("Failed to load state from localStorage:", e);
+    } finally {
+      isLoadedRef.current = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!isLoadedRef.current) return;
+    try {
+      window.localStorage.setItem("tanmay_ai_chat_exchanges", JSON.stringify(exchanges));
+    } catch (e) {
+      console.warn("Failed to save exchanges:", e);
+    }
+  }, [exchanges]);
+
+  useEffect(() => {
+    if (!isLoadedRef.current) return;
+    try {
+      window.localStorage.setItem("tanmay_ai_chat_input", input);
+    } catch (e) {
+      console.warn("Failed to save input:", e);
+    }
+  }, [input]);
   const narrationTimerRef = useRef<number | null>(null);
   const endRef = useRef<HTMLDivElement>(null);
   const sendButtonRef = useRef<HTMLButtonElement>(null);
