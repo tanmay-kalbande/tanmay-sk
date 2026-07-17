@@ -116,17 +116,24 @@ jobs:
           MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
           ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
           CEREBRAS_API_KEY:  ${{ secrets.CEREBRAS_API_KEY }}
-          ZAI_MODEL:         'mistral-large-latest'
-          MODEL:             ${{ github.event.inputs.model || 'mistral-large-latest' }}
+          ZAI_MODEL:         'glm-5.2'
+          MODEL:             ${{ github.event.inputs.model || 'glm-5.2' }}
           SITE_URL:          'https://tanmaysk.in'
-          EDITION:           ${{ github.event.inputs.edition || 'street' }}
-          PROVIDER:          ${{ github.event.inputs.provider || 'mistral' }}
+          PROVIDER:          ${{ github.event.inputs.provider || 'zai' }}
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '1' }}
           MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
           STREET_LANG:       ${{ github.event.inputs.street_lang || 'english' }}
           CI:                'true'
         run: |
-          npx tsx scripts/generate-library.ts
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Running manual dispatch for edition: ${{ github.event.inputs.edition }}"
+            EDITION="${{ github.event.inputs.edition || 'stellar' }}" npx tsx scripts/generate-library.ts
+          else
+            echo "Running scheduled run: generating 1 of each edition (stellar, street, desi) sequentially"
+            MAX_BOOKS="1" EDITION="stellar" npx tsx scripts/generate-library.ts
+            MAX_BOOKS="1" EDITION="street" npx tsx scripts/generate-library.ts
+            MAX_BOOKS="1" EDITION="desi" npx tsx scripts/generate-library.ts
+          fi
 
       # ── 6. Transmission Debrief ──────────────────────────────────────────────
       - name: 📈 Post-Synthesis Transmission Audit

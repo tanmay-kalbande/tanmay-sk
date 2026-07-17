@@ -166,8 +166,8 @@ function rebuildIndex(): void {
     return meta;
   });
 
-  // Sort by category then title
-  index.sort((a, b) => a.category.localeCompare(b.category) || a.title.localeCompare(b.title));
+  // Sort by generatedAt descending (newest first)
+  index.sort((a, b) => new Date(b.generatedAt).getTime() - new Date(a.generatedAt).getTime());
 
   fs.writeFileSync(
     path.join(CONFIG.OUTPUT_DIR, 'catalog.json'),
