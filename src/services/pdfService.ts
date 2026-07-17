@@ -282,6 +282,11 @@ interface CoverMetadata {
   learningPoints: string[];
   accentColor?: string;
   tags?: string[];
+  category?: string;
+  complexity?: string;
+  chapterCount?: number;
+  wordCount?: number;
+  readTimeMinutes?: number;
 }
 
 function isNovelProject(project: BookProject & { fiction?: unknown }): boolean {
@@ -402,10 +407,6 @@ class ProfessionalPdfGenerator {
   private accentFaint = '#f0f5f1';
   private accentText = '#26352d';
   private accentUnderline = '#a9c9b6';
-
-  // Cached cover background layer (computed once per generate() call, drawn via
-  // docDefinition.background so it never enters the normal content flow).
-  private coverBackgroundLayer: any[] | null = null;
 
   private readonly page = { width: 432, height: 648, contentWidth: 336 };
 
@@ -642,7 +643,7 @@ class ProfessionalPdfGenerator {
         fontSize: 12,
         bold: true,
         color: '#1b4332',
-        margin: [0, 0, 0, 0],
+        margin: [0, 0, 0, 4],
         characterSpacing: 2
       },
       tocChapter: {
@@ -660,17 +661,24 @@ class ProfessionalPdfGenerator {
   }
 
   private preprocessMarkdown(markdown: string): string {
-    const lines = markdown.split('\n');
+    let lines = markdown.split('\n');
+
+    // Strip stray front-matter/branding lines the AI sometimes echoes back into
+    // the body — these belong on the generated cover only, not inside chapters,
+    // and left in place they crowd whatever heading immediately follows them.
+    const boilerplatePatterns = [
+      /^AI-ASSISTED STUDY EDITION$/i,
+      /^PUSTAKAM STUDY SERIES$/i,
+      /^First digital edition\b/i,
+      /^\*\*\s*(Generated|Words|Provider|Model)\s*[:.]\*\*/i
+    ];
+    lines = lines.filter(l => !boilerplatePatterns.some(p => p.test(l.trim())));
 
     let stripIdx = 0;
     while (stripIdx < lines.length) {
       const t = lines[stripIdx].trim();
       if (t === '') { stripIdx++; continue; }
       if (/^#\s+/.test(t) && stripIdx === lines.findIndex(l => l.trim() !== '')) {
-        lines.splice(stripIdx, 1);
-        continue;
-      }
-      if (/^\*\*\s*(Generated|Words|Provider|Model)\s*[:.]\*\*/i.test(t)) {
         lines.splice(stripIdx, 1);
         continue;
       }
@@ -804,16 +812,20 @@ class ProfessionalPdfGenerator {
     return chunks;
   }
 
-  private createGradientBackground(width: number, height: number): any[] {
+  private createGradientBackground(width: number, height: number, endHex: string = '#e9eff2'): any[] {
     const steps = 60;
     const canvas: any[] = [];
     const stepHeight = height / steps;
+    const startR = 250, startG = 248, startB = 245; // warm soft cream (#faf8f5)
+    const endR = parseInt(endHex.slice(1, 3), 16);
+    const endG = parseInt(endHex.slice(3, 5), 16);
+    const endB = parseInt(endHex.slice(5, 7), 16);
     for (let i = 0; i < steps; i++) {
       const t = i / (steps - 1);
-      // Interpolate from a dark charcoal (#1c1c1b) to a very dark black (#0e0e10)
-      const r = Math.round(28 + t * (14 - 28));
-      const g = Math.round(28 + t * (14 - 28));
-      const b = Math.round(27 + t * (16 - 27));
+      // Interpolate from a warm soft cream into a faint tint of the book's accent color
+      const r = Math.round(startR + t * (endR - startR));
+      const g = Math.round(startG + t * (endG - startG));
+      const b = Math.round(startB + t * (endB - startB));
       const hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
       
       canvas.push({
@@ -828,52 +840,58 @@ class ProfessionalPdfGenerator {
     return canvas;
   }
 
-  /**
-   * Builds the decorative cover background (gradient wash + paper grain + inset
-   * border) as a single layer meant to be drawn via docDefinition.background,
-   * NOT pushed into normal content. Full-page absolutePosition canvases used to
-   * be pushed directly into the content array; pdfMake still reserves flow
-   * height for them even though they're drawn as an overlay, so three
-   * page-height elements back to back (~3x the page height) silently shoved
-   * every real element after them onto the next page. That's what caused the
-   * cover footer text to reappear jammed against the Table of Contents heading.
-   * Drawing it through docDefinition.background sidesteps the flow entirely.
-   */
-  private buildCoverBackgroundLayer(): any[] {
-    if (this.coverBackgroundLayer) return this.coverBackgroundLayer;
-    const { width, height } = this.page;
-    const gradient = this.createGradientBackground(width, height);
-    const noiseDataUrl = generateNoiseDataUrl(width, height);
-    const layer: any[] = [
-      { canvas: gradient, absolutePosition: { x: 0, y: 0 } },
-      ...(noiseDataUrl ? [{
-        image: noiseDataUrl,
-        width,
-        height,
-        absolutePosition: { x: 0, y: 0 }
-      }] : []),
-      {
-        canvas: [{
-          type: 'rect',
-          x: 24,
-          y: 24,
-          w: width - 48,
-          h: height - 48,
-          lineColor: '#2a2a2a',
-          lineWidth: 0.75,
-          r: 12
-        }],
-        absolutePosition: { x: 0, y: 0 }
-      }
-    ];
-    this.coverBackgroundLayer = layer;
-    return layer;
+  private buildCoverChips(chips: string[]): PDFContent {
+    const items = chips.filter(Boolean).slice(0, 4).map((label) => ({
+      table: {
+        widths: ['auto'],
+        body: [[{
+          text: label.toUpperCase(),
+          font: this.headingFontFamily,
+          fontSize: 7,
+          bold: true,
+          color: this.accentText,
+          characterSpacing: 0.8,
+          margin: [8, 4, 8, 4]
+        }]]
+      },
+      layout: {
+        hLineWidth: () => 0.75,
+        vLineWidth: () => 0.75,
+        hLineColor: () => this.accentUnderline,
+        vLineColor: () => this.accentUnderline,
+        paddingLeft: () => 0,
+        paddingRight: () => 0,
+        paddingTop: () => 0,
+        paddingBottom: () => 0
+      },
+      width: 'auto'
+    }));
+
+    return {
+      columns: items,
+      columnGap: 6,
+      margin: [0, 0, 0, 22]
+    };
   }
 
   private createCoverPage(title: string, coverMeta: CoverMetadata): PDFContent[] {
     const normalizedTitle = this.normalizeDashes(title);
     const displayTitle = coverMeta.coverTitle || normalizedTitle;
     const { width, height } = this.page;
+
+    const background = this.createGradientBackground(width, height, this.accentFaint);
+    const border = [
+      {
+        type: 'rect',
+        x: 24,
+        y: 24,
+        w: width - 48,
+        h: height - 48,
+        lineColor: this.accentMid,
+        lineWidth: 0.75,
+        r: 12
+      }
+    ];
 
     let mainTitle = displayTitle;
     let subTitle = '';
@@ -893,14 +911,41 @@ class ProfessionalPdfGenerator {
       ? this.capitalizeFirstLetter(coverMeta.subtitle.split(' ')[0].toLowerCase())
       : 'Structured';
 
+    const noiseDataUrl = generateNoiseDataUrl(width, height);
+
+    const chips = [coverMeta.complexity, coverMeta.category, ...(coverMeta.tags || [])]
+      .filter((c): c is string => Boolean(c && c.trim()));
+
+    const statsParts: string[] = [];
+    if (coverMeta.readTimeMinutes) statsParts.push(`${coverMeta.readTimeMinutes} MIN READ`);
+    if (coverMeta.chapterCount) statsParts.push(`${coverMeta.chapterCount} CHAPTER${coverMeta.chapterCount === 1 ? '' : 'S'}`);
+    if (coverMeta.wordCount) statsParts.push(`${coverMeta.wordCount.toLocaleString()} WORDS`);
+
     return [
-      // 1. PIN FOOTER TO PAGE 1: Place absolute positioned elements first so they are bound to page 1
+      { canvas: background, absolutePosition: { x: 0, y: 0 } },
+      ...(noiseDataUrl ? [{
+        image: noiseDataUrl,
+        width: width,
+        height: height,
+        absolutePosition: { x: 0, y: 0 }
+      }] : []),
+      { canvas: border, absolutePosition: { x: 0, y: 0 } },
       {
         stack: [
           {
-            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: '#333333' }],
+            canvas: [{ type: 'line', x1: 0, y1: 0, x2: 336, y2: 0, lineWidth: 0.75, lineColor: this.accentUnderline }],
             margin: [0, 0, 0, 10]
           },
+          ...(statsParts.length ? [{
+            text: statsParts.join('   \u00b7   '),
+            font: this.codeFontFamily,
+            fontSize: 6.5,
+            bold: true,
+            color: this.brandGreen,
+            characterSpacing: 0.6,
+            alignment: 'center',
+            margin: [0, 0, 0, 8]
+          }] : []),
           {
             columns: [
               {
@@ -908,7 +953,7 @@ class ProfessionalPdfGenerator {
                 font: this.headingFontFamily,
                 fontSize: 7,
                 bold: true,
-                color: '#999999',
+                color: '#64748b',
                 characterSpacing: 1.2,
                 alignment: 'left'
               },
@@ -916,106 +961,69 @@ class ProfessionalPdfGenerator {
                 text: `First digital edition • ${new Date().getFullYear()}`,
                 font: this.fontFamily,
                 fontSize: 7,
-                color: '#999999',
+                color: '#64748b',
                 alignment: 'right'
               }
             ]
           }
         ],
-        absolutePosition: { x: 48, y: height - 88 }
+        absolutePosition: { x: 48, y: height - 92 }
       },
-
-      // 2. FLOW CONTENT: Brutalist Grid Layout
-      { text: '', margin: [0, 64, 0, 0] }, // Spacer from top
-
+      { text: '', margin: [0, 30, 0, 0] },
+      ...(chips.length ? [this.buildCoverChips(chips)] : []),
       {
-        table: {
-          widths: [110, '*'],
-          body: [
-            // Row 1: Header (Series & Date)
-            [
-              {
-                text: 'PUSTAKAM STUDY SERIES',
-                font: this.codeFontFamily,
-                fontSize: 7.5,
-                bold: true,
-                color: '#e05a35',
-                characterSpacing: 1.5,
-                margin: [0, 8, 0, 8]
-              },
-              {
-                text: `EST. ${new Date().getFullYear()}`,
-                font: this.codeFontFamily,
-                fontSize: 7.5,
-                bold: true,
-                color: '#999999',
-                alignment: 'right',
-                margin: [0, 8, 0, 8]
-              }
-            ],
-            // Row 2: Main Title & Subtitle (Spans across)
-            [
-              {
-                colSpan: 2,
-                stack: [
-                  {
-                    text: mainTitle,
-                    font: this.fontFamily,
-                    fontSize: mainTitle.length > 30 ? 24 : mainTitle.length > 18 ? 28 : 34,
-                    bold: true,
-                    color: '#f0ede8',
-                    lineHeight: 1.1,
-                    margin: [0, 16, 0, 8]
-                  },
-                  ...(subTitle ? [{
-                    text: subTitle,
-                    font: this.fontFamily,
-                    fontSize: subTitle.length > 50 ? 14 : subTitle.length > 30 ? 16 : 18,
-                    bold: false,
-                    italics: true,
-                    color: '#999999',
-                    lineHeight: 1.3,
-                    margin: [0, 0, 0, 16]
-                  }] : [{ text: '', margin: [0, 0, 0, 16] }])
-                ]
-              },
-              {} // colSpan spacer
-            ],
-            // Row 3: Footer (Edition & Tagline)
-            [
-              {
-                text: `■  ${levelWord.toUpperCase()} EDITION`,
-                font: this.codeFontFamily,
-                fontSize: 7.5,
-                bold: true,
-                color: '#e05a35',
-                characterSpacing: 1.5,
-                margin: [0, 12, 0, 12]
-              },
-              {
-                text: coverMeta.tagline,
-                font: this.fontFamily,
-                fontSize: 10,
-                color: '#999999',
-                lineHeight: 1.4,
-                margin: [16, 12, 0, 12]
-              }
-            ]
-          ]
-        },
-        layout: {
-          hLineWidth: (i, node) => (i === 0 || i === node.table.body.length || i === 1 || i === 2) ? 0.75 : 0.75,
-          vLineWidth: (i, node) => (i === 0 || i === node.table.widths.length || i === 1) ? 0.75 : 0.75,
-          hLineColor: () => '#2a2a2a',
-          vLineColor: () => '#2a2a2a',
-          paddingLeft: (i) => i === 1 ? 16 : 12,
-          paddingRight: (i) => i === 0 ? 16 : 12,
-          paddingTop: () => 0,
-          paddingBottom: () => 0
-        }
+        text: 'PUSTAKAM STUDY SERIES',
+        font: this.codeFontFamily,
+        fontSize: 7.5,
+        bold: true,
+        color: '#64748b',
+        characterSpacing: 1.5,
+        alignment: 'center',
+        margin: [0, 0, 0, 26]
       },
-
-      // Force Page Break after cover
+      {
+        text: `A Structured ${levelWord} Guide`,
+        font: this.fontFamily,
+        fontSize: 13,
+        italics: true,
+        color: '#475569',
+        alignment: 'left',
+        margin: [0, 0, 0, 6]
+      },
+      {
+        text: mainTitle,
+        font: this.fontFamily,
+        fontSize: mainTitle.length > 30 ? 22 : mainTitle.length > 18 ? 26 : 30,
+        bold: true,
+        color: this.brandGreen,
+        alignment: 'left',
+        lineHeight: 1.15,
+        margin: [0, 0, 0, 4]
+      },
+      ...(subTitle ? [{
+        text: subTitle,
+        font: this.fontFamily,
+        fontSize: subTitle.length > 50 ? 16 : subTitle.length > 30 ? 19 : 22,
+        bold: true,
+        color: this.accentText,
+        alignment: 'left',
+        lineHeight: 1.15,
+        margin: [0, 0, 0, 16]
+      }] : []),
+      {
+        canvas: [{ type: 'line', x1: 0, y1: 0, x2: 72, y2: 0, lineWidth: 1.5, lineColor: this.brandGreen }],
+        margin: [0, 0, 0, 24]
+      },
+      {
+        text: coverMeta.tagline,
+        font: this.fontFamily,
+        fontSize: 11,
+        italics: true,
+        color: '#334155',
+        lineHeight: 1.45,
+        margin: [0, 0, 0, 24],
+        alignment: 'justify'
+      },
       { text: '', pageBreak: 'after' }
     ];
   }
@@ -1390,10 +1398,11 @@ class ProfessionalPdfGenerator {
         tocDepth = (trimmed.match(/^#+/) || [''])[0].length;
 
         flushParagraph();
-        if (content.length > 0) {
-          content.push({ text: '', pageBreak: 'before' });
-        }
-        content.push({ text: 'Table of Contents', style: 'h1Module', alignment: 'left', margin: [0, 15, 0, 18] });
+        // Always start the ToC on its own fresh page so it never packs directly
+        // underneath the cover/overview content that came before it.
+        content.push({ text: '', pageBreak: 'before', margin: [0, 20, 0, 0] });
+        content.push({ text: 'CONTENTS', style: 'partLabel', margin: [0, 0, 0, 4] });
+        content.push({ text: 'Table of Contents', style: 'h1Module', alignment: 'left', margin: [0, 0, 0, 26] });
         tocPlaceholderIndex = content.length;
         content.push({ text: '', margin: [0, 0, 0, 0] });
         continue;
@@ -1469,7 +1478,7 @@ class ProfessionalPdfGenerator {
       if (trimmed.startsWith('# ')) {
         flushParagraph();
         let text = trimmed.substring(2);
-        inSkipSubheadingsSection = /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer|instruction|instructions)$/i.test(text.trim());
+        inSkipSubheadingsSection = /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer)$/i.test(text.trim());
         
         const partMatch = text.match(/^(PART\s+\d+)\s*[—:-]\s*(.+)$/i) || 
                           text.match(/^(CHAPTER\s+\d+)\s*[—:-]\s*(.+)$/i) ||
@@ -1478,11 +1487,9 @@ class ProfessionalPdfGenerator {
         if (partMatch) {
            const label = partMatch[1].toUpperCase();
            const title = this.capitalizeFirstLetter(partMatch[2].trim());
-           if (content.length > 0) {
-             content.push({ text: '', pageBreak: 'before' });
-           }
+           content.push({ text: '', pageBreak: 'before' });
            isFirstModule = false;
-           content.push({ text: '', margin: [0, 15, 0, 0] });
+           content.push({ text: '', margin: [0, 50, 0, 0] });
            const headingId = `tocTarget${headingIdCounter++}`;
            content.push({ text: label, style: 'partLabel' });
            content.push({ text: this.parseInlineMarkdown(title), style: 'h1Module', alignment: 'left', id: headingId, keepWithNext: true, headlineLevel: 1 });
@@ -1529,9 +1536,7 @@ class ProfessionalPdfGenerator {
            text = this.capitalizeFirstLetter(text);
            const formattedText = this.parseInlineMarkdown(text);
            if (isModuleHeading) {
-             if (content.length > 0) {
-               content.push({ text: '', pageBreak: 'before' });
-             }
+             content.push({ text: '', pageBreak: 'before' });
              isFirstModule = false;
              content.push({ text: '', margin: [0, 50, 0, 0] });
            }
@@ -1550,12 +1555,9 @@ class ProfessionalPdfGenerator {
         let text = trimmed.substring(3);
         text = this.capitalizeFirstLetter(text);
         
-        const isPrimarySectionStart = /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer|instruction|instructions)$/i.test(text.trim());
+        const isPrimarySectionStart = /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer)$/i.test(text.trim());
         if (isPrimarySectionStart) {
           inSkipSubheadingsSection = true;
-          if (content.length > 0) {
-            content.push({ text: '', pageBreak: 'before' });
-          }
         }
         
         const headingId = `tocTarget${headingIdCounter++}`;
@@ -1604,7 +1606,7 @@ class ProfessionalPdfGenerator {
           columns: [
             {
               width: 15,
-              text: '"',
+              text: '“',
               fontSize: 32,
               bold: true,
               color: this.brandGreen,
@@ -1633,7 +1635,7 @@ class ProfessionalPdfGenerator {
       const tocRows = tocEntries.map((entry) => {
         const isChapter = entry.level === 1;
         const isPrimarySection = isChapter || 
-          /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer|instruction|instructions)$/i.test(entry.title.trim());
+          /^(introduction|summary|glossary|conclusion|preface|epilogue|about the author|disclaimer)$/i.test(entry.title.trim());
           
         return [
           {
@@ -1704,6 +1706,32 @@ class ProfessionalPdfGenerator {
     this.headingFontFamily = availableFonts['Rubik'] ? 'Rubik' : 'Roboto';
 
     onProgress(30);
+    const totalWords = (book.modules || []).reduce((s, m) => s + (m.wordCount || 0), 0);
+    const chapterCount = (book.modules || []).length;
+    const readTimeMinutes = totalWords > 0 ? Math.max(1, Math.round(totalWords / 248)) : undefined;
+
+    // Per-category accent so each book gets its own cohesive palette instead of
+    // every cover using the same hardcoded orange/green regardless of topic.
+    const categoryAccents: Record<string, string> = {
+      technology: '#123a5c',
+      science: '#0f3d3e',
+      finance: '#152447',
+      business: '#1b4332',
+      health: '#12432c',
+      history: '#4a1620',
+      cooking: '#5c3317',
+      art: '#3b1f4d',
+      math: '#241b52',
+      sustainability: '#1b4332',
+      'circular-economy': '#1b4332',
+      marketing: '#1e3a5c',
+      psychology: '#3b1f4d',
+      productivity: '#1b4332'
+    };
+    const categoryKey = (book.category || '').toLowerCase().trim();
+    const accentColor = categoryAccents[categoryKey] || this.brandGreen;
+    this.applyAccentColor(accentColor);
+
     const coverMeta: CoverMetadata = {
       coverTitle: book.title,
       subtitle: `${book.complexity.toUpperCase()} LEVEL • ${book.category.toUpperCase()} EDITION`,
@@ -1714,25 +1742,33 @@ class ProfessionalPdfGenerator {
       learningPoints: book.tags.length > 0 
         ? book.tags.map(t => this.capitalizeFirstLetter(t)) 
         : ['Core Concepts', 'Practical Application', 'Key Takeaways', 'Real-world Context'],
-      tags: book.tags
+      tags: book.tags,
+      accentColor,
+      category: book.category,
+      complexity: book.complexity,
+      chapterCount,
+      wordCount: totalWords || undefined,
+      readTimeMinutes
     };
 
     const coverContent = this.createCoverPage(book.title, coverMeta);
-    const learningOverviewContent = this.createLearningOverview(coverMeta);
+    const overviewContent = this.createLearningOverview(coverMeta);
 
     onProgress(60);
     const mainContent = this.parseMarkdownToContent(book.finalBook || '', book);
     const endMatterContent = this.createEndMatterPage(book.goal);
 
     onProgress(85);
-    this.content = [...coverContent, ...mainContent, ...endMatterContent];
+    this.content = [...coverContent, ...overviewContent, ...mainContent, ...endMatterContent];
 
     const docDefinition: any = {
       background: (currentPage: number) => {
         if (currentPage === 1) {
-          // Decorative layer only — drawn as a true background containing both
-          // canvas shapes (gradient + border) and the noise texture image.
-          return { stack: this.buildCoverBackgroundLayer() };
+          return {
+            canvas: [
+              { type: 'rect', x: 0, y: 0, w: this.page.width, h: this.page.height, color: '#faf7f0' }
+            ]
+          };
         }
         return {};
       },
