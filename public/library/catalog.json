@@ -1201,6 +1201,28 @@
       "edition": "stellar"
     },
     {
+      "slug": "desi-build-a-decentralized-prediction-market-smart-contract-with-solidity-and-ch",
+      "title": "Desi Blackhole Roadmap: Prediction Market Aur Chainlink Ka Khel",
+      "goal": "Build a decentralized prediction market smart contract with Solidity and Chainlink oracles",
+      "category": "programming",
+      "tags": [
+        "solidity",
+        "blockchain",
+        "chainlink",
+        "smart contracts",
+        "web3"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 19666,
+      "moduleCount": 7,
+      "readingTimeMins": 79,
+      "metaDescription": "Desi Blackhole Roadmap: Prediction Market Aur Chainlink Ka Khel: a advanced guide to build a decentralized prediction market smart contract with solidity a",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T05:51:37.641Z",
+      "edition": "desi"
+    },
+    {
       "slug": "master-the-art-of-designing-and-deploying-aipowered-chatbots-for-enterprise-work",
       "title": "Enterprise Chatbots Unlocked: Design, Deploy, and Optimize AI-Powered Workflows",
       "goal": "Master the art of designing and deploying AI-powered chatbots for enterprise workflows",
@@ -1562,6 +1584,6 @@
       "edition": "street"
     }
   ],
-  "total": 78,
-  "generatedAt": "2026-07-17T01:48:30.041Z"
+  "total": 79,
+  "generatedAt": "2026-07-17T05:51:37.780Z"
 }
