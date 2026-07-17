@@ -33,7 +33,7 @@ on:
           - zai
           - mistral
           - cerebras
-        default: 'mistral'
+        default: 'zai'
       model:
         description: '🚀 Select AI Model Engine Override'
         required: false
@@ -50,7 +50,7 @@ on:
           - gemma-4-31b
           - gpt-oss-120b
           - zai-glm-4.7
-        default: 'mistral-large-latest'
+        default: 'glm-5.2'
       concurrency:
         description: '⚡ Processing Channels (Default: 1 for maximum stability)'
         required: false
