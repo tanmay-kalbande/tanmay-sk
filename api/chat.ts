@@ -70,7 +70,7 @@ type CerebrasPayload = {
 };
 
 const CEREBRAS_MODEL = process.env.CEREBRAS_MODEL ?? "gpt-oss-120b";
-const GEMINI_MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "glm-5.2";
+const GEMINI_MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "gemma-3-27b-it";
 const GEMINI_MODEL_FALLBACK = process.env.GEMINI_MODEL_FALLBACK ?? "gemma-4-31b-it";
 const CHAT_CONFIG_VERSION = "cerebras-env-2026-05-30";
 
@@ -105,8 +105,7 @@ function readEnv(...names: string[]): string | undefined {
 }
 
 function isGeminiModel(model: string): boolean {
-  const lower = model.toLowerCase();
-  return lower.startsWith("gemini-") || lower.startsWith("glm-");
+  return model.toLowerCase().startsWith("gemini-");
 }
 
 function isGemma4Model(model: string): boolean {
