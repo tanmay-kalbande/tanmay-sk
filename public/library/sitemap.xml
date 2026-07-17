@@ -6,6 +6,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/desi-master-algorithmic-trading-strategy-development-with-python-and-pandas-inte</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-17</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/street-build-a-smart-home-automation-system-with-home-assistant-and-esp32-sensor</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-17</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/desi-build-a-swarm-robotics-system-with-ros2-for-autonomous-search-and-rescue-na</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

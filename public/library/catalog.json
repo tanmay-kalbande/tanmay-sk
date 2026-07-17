@@ -1,6 +1,49 @@
 {
   "books": [
     {
+      "slug": "desi-master-algorithmic-trading-strategy-development-with-python-and-pandas-inte",
+      "title": "Desi Algo Trading Roadmap: Bhai Ka Code Market Ka Dimaag",
+      "goal": "Master algorithmic trading strategy development with Python and pandas",
+      "category": "finance",
+      "tags": [
+        "algorithmic-trading",
+        "python",
+        "pandas",
+        "quantitative-finance"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 27710,
+      "moduleCount": 10,
+      "readingTimeMins": 111,
+      "metaDescription": "Desi Algo Trading Roadmap: Bhai Ka Code Market Ka Dimaag: a intermediate guide to master algorithmic trading strategy development with python and pandas wi",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T16:46:17.748Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-smart-home-automation-system-with-home-assistant-and-esp32-sensor",
+      "title": "Smart Home Syndicate: From Dumb Walls to a Thinking Empire",
+      "goal": "Build a smart home automation system with Home Assistant and ESP32 sensors",
+      "category": "programming",
+      "tags": [
+        "home assistant",
+        "esp32",
+        "smart home",
+        "diy electronics",
+        "automation"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 34259,
+      "moduleCount": 10,
+      "readingTimeMins": 138,
+      "metaDescription": "Smart Home Syndicate: From Dumb Walls to a Thinking Empire: a intermediate guide to build a smart home automation system with home assistant and esp32 sens",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-17T16:28:42.191Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-a-swarm-robotics-system-with-ros2-for-autonomous-search-and-rescue-na",
       "title": "Bhai ka Swarm Robotics Roadmap: ROS2 Se Rescue Tak",
       "goal": "Build a swarm robotics system with ROS2 for autonomous search and rescue navigation",
@@ -1672,6 +1715,6 @@
       "edition": "street"
     }
   ],
-  "total": 83,
-  "generatedAt": "2026-07-17T12:02:14.580Z"
+  "total": 85,
+  "generatedAt": "2026-07-17T16:46:17.892Z"
 }
