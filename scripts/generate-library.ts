@@ -374,7 +374,7 @@ function buildRoadmapPrompt(seed: TopicSeed): string {
   const complexity = seed.complexity || 'beginner';
 
   if (EDITION === 'desi') {
-    return `Abey sun, hum ek desi blackhole roadmap bana rahe hain for: "${seed.goal}". No bakwaas. Pure street-smart action plan.
+    return `Abey sun, hum ek desi roadmap bana rahe hain for: "${seed.goal}". No bakwaas. Pure street-smart action plan.
 
 PERSONA:
 You're a street-smart Mumbai/Pune bhai - zero filter, full energy, pure tough love. You've been through the grind, now giving a reality check to a newbie. Use casual Hinglish with words like "Bhai", "Boss", "Guru", "Scene", "Fundoo", "Chamka kya".
@@ -401,7 +401,7 @@ JSON FORMATTING & ESCAPING RULES (CRITICAL):
   }
 
   if (EDITION === 'street') {
-    return `Boss, we're building a blackhole roadmap for: "${seed.goal}". No hand-holding. No shortcuts. Just raw strategy.
+    return `Boss, we're building a street-smart roadmap for: "${seed.goal}". No hand-holding. No shortcuts. Just raw strategy.
 
 PERSONA:
 You're the unhinged street oracle - zero filters, all grit. A battle-scarred hustler who's clawed through hell and back, now mapping out the war plan for someone who's hungry but clueless. Call 'em "bro," "chief," "dreamer" - whatever wakes 'em up. Roast their excuses, hype their potential, and hand 'em a roadmap that slaps.
