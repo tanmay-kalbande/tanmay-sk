@@ -285,7 +285,13 @@ export default function LibraryPage() {
                 </div>
                 <div className="lib-sidebar-stat-item">
                   <span className="lib-sidebar-stat-label">Words</span>
-                  <span className="lib-sidebar-stat-value">{(index.total * 9).toLocaleString()}K+</span>
+                  {(() => {
+                    const totalWords = index.books.reduce((sum, b) => sum + (b.wordCount || 0), 0);
+                    if (totalWords >= 1000000) {
+                      return <span className="lib-sidebar-stat-value">{(totalWords / 1000000).toFixed(1)}M+</span>;
+                    }
+                    return <span className="lib-sidebar-stat-value">{Math.round(totalWords / 1000).toLocaleString()}K+</span>;
+                  })()}
                 </div>
                 <div className="lib-sidebar-stat-item">
                   <span className="lib-sidebar-stat-label">Access</span>
