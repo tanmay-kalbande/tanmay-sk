@@ -1,6 +1,49 @@
 {
   "books": [
     {
+      "slug": "desi-build-a-diy-radio-telescope-from-scratch-to-detect-hydrogen-line-emissions",
+      "title": "Andar Ka Network: DIY Radio Telescope Ka Desi Khel",
+      "goal": "Build a DIY radio telescope from scratch to detect hydrogen line emissions",
+      "category": "science",
+      "tags": [
+        "radio astronomy",
+        "diy telescope",
+        "hydrogen line",
+        "signal processing",
+        "amateur radio"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22046,
+      "moduleCount": 8,
+      "readingTimeMins": 89,
+      "metaDescription": "Andar Ka Network: DIY Radio Telescope Ka Desi Khel: a intermediate guide to build a diy radio telescope from scratch to detect hydrogen line emissions with",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T21:03:03.970Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-diy-acoustic-panel-soundproofing-system-for-home-studios-beginner",
+      "title": "The Soundproof Hustle: Bulletproof Your Studio",
+      "goal": "Build a DIY acoustic panel soundproofing system for home studios",
+      "category": "design",
+      "tags": [
+        "soundproofing",
+        "acoustic treatment",
+        "diy audio",
+        "home studio"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 29676,
+      "moduleCount": 8,
+      "readingTimeMins": 119,
+      "metaDescription": "The Soundproof Hustle: Bulletproof Your Studio: a beginner guide to build a diy acoustic panel soundproofing system for home studios with clear explanation",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T20:51:31.358Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-a-diy-smart-greenhouse-with-arduino-and-automated-irrigation-beginner",
       "title": "Bhai Ka Smart Greenhouse: Arduino Se Pani Tak Full Desi Roadmap",
       "goal": "Build a DIY Smart Greenhouse with Arduino and Automated Irrigation",
@@ -1931,6 +1974,6 @@
       "edition": "street"
     }
   ],
-  "total": 95,
-  "generatedAt": "2026-07-18T16:20:31.434Z"
+  "total": 97,
+  "generatedAt": "2026-07-18T21:03:04.141Z"
 }
