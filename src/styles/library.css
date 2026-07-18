@@ -604,9 +604,17 @@ html[data-theme="dark"] .reader-root,
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 3px 8px;
-  color: var(--ink-2);
-  border: 1px dashed var(--ink-3);
+  color: var(--ink);
+  opacity: 0.85;
+  border: 1px dashed var(--ink-2);
   border-radius: 2px;
+}
+
+.model-tag {
+  border-style: solid;
+  border-color: var(--ink-2);
+  color: var(--ink);
+  opacity: 0.85;
 }
 
 .lib-card-cta {
@@ -891,9 +899,10 @@ html[data-theme="dark"] .reader-root,
   font-size: 0.5rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--ink-2);
+  color: var(--ink);
+  opacity: 0.85;
   padding: 3px 10px;
-  border: 1px dashed var(--ink-3);
+  border: 1px dashed var(--ink-2);
   border-radius: 2px;
 }
 
@@ -910,7 +919,8 @@ html[data-theme="dark"] .reader-root,
 .reader-goal {
   font-family: var(--f-mono);
   font-size: 0.72rem;
-  color: var(--ink-2);
+  color: var(--ink);
+  opacity: 0.85;
   line-height: 1.6;
   margin: 0 0 20px;
 }
@@ -930,7 +940,8 @@ html[data-theme="dark"] .reader-root,
   font-size: 0.58rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-3);
+  color: var(--ink);
+  opacity: 0.75;
 }
 
 .reader-action-row {

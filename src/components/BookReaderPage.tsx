@@ -1070,7 +1070,7 @@ export default function BookReaderPage() {
                 {book.edition === 'street' ? '🔥 Street Edition' : book.edition === 'desi' ? '🇮🇳 Desi Edition' : '✨ Stellar Edition'}
               </span>
               {book.modelUsed && (
-                <span className="lib-tag model-tag" style={{ borderStyle: 'solid', borderColor: 'var(--ink-3)', color: 'var(--ink-2)' }}>
+                <span className="lib-tag model-tag">
                   🤖 {book.modelUsed}
                 </span>
               )}
