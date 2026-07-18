@@ -1,6 +1,49 @@
 {
   "books": [
     {
+      "slug": "desi-build-a-diy-smart-greenhouse-with-arduino-and-automated-irrigation-beginner",
+      "title": "Bhai Ka Smart Greenhouse: Arduino Se Pani Tak Full Desi Roadmap",
+      "goal": "Build a DIY Smart Greenhouse with Arduino and Automated Irrigation",
+      "category": "science",
+      "tags": [
+        "arduino",
+        "smart agriculture",
+        "automation",
+        "diy electronics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25695,
+      "moduleCount": 10,
+      "readingTimeMins": 103,
+      "metaDescription": "Bhai Ka Smart Greenhouse: Arduino Se Pani Tak Full Desi Roadmap: a beginner guide to build a diy smart greenhouse with arduino and automated irrigation wit",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T16:20:31.270Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-diy-smart-soil-moisture-sensor-with-iot-alerts-beginner",
+      "title": "Dirt, Wires, And Hustle: The IoT Soil Sensor Blueprint",
+      "goal": "Build a DIY smart soil moisture sensor with IoT alerts",
+      "category": "science",
+      "tags": [
+        "diy electronics",
+        "smart agriculture",
+        "esp32",
+        "soil moisture sensor",
+        "home automation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 33585,
+      "moduleCount": 9,
+      "readingTimeMins": 135,
+      "metaDescription": "Dirt, Wires, And Hustle: The IoT Soil Sensor Blueprint: a beginner guide to build a diy smart soil moisture sensor with iot alerts with clear explanations,",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T16:04:03.940Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-an-automated-ai-smart-contract-auditor-to-find-solidity-vulnerabiliti",
       "title": "Desi AI Auditor: Solidity Hack Bachao Mission - Full Scene",
       "goal": "Build an automated AI smart contract auditor to find Solidity vulnerabilities and prevent DeFi hacks",
@@ -1888,6 +1931,6 @@
       "edition": "street"
     }
   ],
-  "total": 93,
-  "generatedAt": "2026-07-18T11:30:42.393Z"
+  "total": 95,
+  "generatedAt": "2026-07-18T16:20:31.434Z"
 }
