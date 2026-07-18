@@ -1,6 +1,49 @@
 {
   "books": [
     {
+      "slug": "desi-build-an-automated-ai-smart-contract-auditor-to-find-solidity-vulnerabiliti",
+      "title": "Desi AI Auditor: Solidity Hack Bachao Mission - Full Scene",
+      "goal": "Build an automated AI smart contract auditor to find Solidity vulnerabilities and prevent DeFi hacks",
+      "category": "programming",
+      "tags": [
+        "solidity",
+        "web3 security",
+        "smart contracts",
+        "AI",
+        "defi"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 26748,
+      "moduleCount": 10,
+      "readingTimeMins": 107,
+      "metaDescription": "Desi AI Auditor: Solidity Hack Bachao Mission - Full Scene: a advanced guide to build an automated ai smart contract auditor to find solidity vulnerabiliti",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T11:30:42.237Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-local-aipowered-semantic-search-engine-for-your-personal-video-ar",
+      "title": "LOCAL AI VIDEO SEARCH: THE STREET ORACLE'S BLUEPRINT",
+      "goal": "Build a local AI-powered semantic search engine for your personal video archive",
+      "category": "programming",
+      "tags": [
+        "ai",
+        "video-search",
+        "python",
+        "local-llm"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 26417,
+      "moduleCount": 8,
+      "readingTimeMins": 106,
+      "metaDescription": "LOCAL AI VIDEO SEARCH: THE STREET ORACLE'S BLUEPRINT: a advanced guide to build a local ai-powered semantic search engine for your personal video archive w",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T11:11:24.465Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-a-local-aipowered-video-search-engine-with-python-and-clip-embeddings",
       "title": "Bhai Ka Local AI Video Search: Zero Bakwaas Roadmap",
       "goal": "Build a local AI-powered video search engine with Python and CLIP embeddings",
@@ -1845,6 +1888,6 @@
       "edition": "street"
     }
   ],
-  "total": 91,
-  "generatedAt": "2026-07-18T07:35:27.924Z"
+  "total": 93,
+  "generatedAt": "2026-07-18T11:30:42.393Z"
 }
