@@ -6,6 +6,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/desi-build-a-local-aipowered-video-search-engine-with-python-and-clip-embeddings</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-18</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/street-build-a-selfhosted-ai-home-server-with-local-llms-and-docker-intermediate</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-18</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/desi-master-realtime-satellite-image-processing-with-python-to-track-deforestati</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

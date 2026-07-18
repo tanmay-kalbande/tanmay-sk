@@ -1,6 +1,50 @@
 {
   "books": [
     {
+      "slug": "desi-build-a-local-aipowered-video-search-engine-with-python-and-clip-embeddings",
+      "title": "Bhai Ka Local AI Video Search: Zero Bakwaas Roadmap",
+      "goal": "Build a local AI-powered video search engine with Python and CLIP embeddings",
+      "category": "programming",
+      "tags": [
+        "ai",
+        "python",
+        "computer vision",
+        "embeddings",
+        "search"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 25272,
+      "moduleCount": 10,
+      "readingTimeMins": 102,
+      "metaDescription": "Bhai Ka Local AI Video Search: Zero Bakwaas Roadmap: a advanced guide to build a local ai-powered video search engine with python and clip embeddings with ",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T07:35:27.770Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-selfhosted-ai-home-server-with-local-llms-and-docker-intermediate",
+      "title": "Roll Your Own Brain: The Self-Hosted AI Server Hustle",
+      "goal": "Build a self-hosted AI home server with local LLMs and Docker",
+      "category": "programming",
+      "tags": [
+        "homelab",
+        "self-hosting",
+        "local llm",
+        "docker",
+        "ai"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 42415,
+      "moduleCount": 12,
+      "readingTimeMins": 170,
+      "metaDescription": "Roll Your Own Brain: The Self-Hosted AI Server Hustle: a intermediate guide to build a self-hosted ai home server with local llms and docker with clear exp",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T07:16:38.393Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-master-realtime-satellite-image-processing-with-python-to-track-deforestati",
       "title": "Jungle Bachao: Python Se Satellite Tracking Ka Khel",
       "goal": "Master real-time satellite image processing with Python to track deforestation",
@@ -1801,6 +1845,6 @@
       "edition": "street"
     }
   ],
-  "total": 89,
-  "generatedAt": "2026-07-18T02:01:42.607Z"
+  "total": 91,
+  "generatedAt": "2026-07-18T07:35:27.924Z"
 }
