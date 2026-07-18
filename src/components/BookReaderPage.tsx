@@ -994,17 +994,21 @@ export default function BookReaderPage() {
           <button
             className="btn-secondary"
             onClick={handleCopyLink}
+            aria-label="Share this book"
           >
-            {copied ? <Check size={12} /> : null}
-            {copied ? 'Copied' : 'Share'}
+            {copied ? <Check size={12} /> : <ExternalLink size={12} />}
+            <span className="btn-text">{copied ? 'Copied' : 'Share'}</span>
           </button>
           <button
             className="btn-secondary"
             onClick={handlePdf}
             disabled={pdfLoading}
+            aria-label="Download PDF version"
           >
             <Download size={12} />
-            {pdfProgress > 0 ? `${pdfProgress}%` : pdfLoading ? 'Preparing...' : 'PDF'}
+            <span className="btn-text">
+              {pdfProgress > 0 ? `${pdfProgress}%` : pdfLoading ? 'Preparing...' : 'PDF'}
+            </span>
           </button>
           <a
             href={generateUrl}
@@ -1012,7 +1016,8 @@ export default function BookReaderPage() {
             rel="noopener noreferrer"
             className="btn-primary"
           >
-            Generate My Version
+            <span className="btn-text-desktop">Generate My Version</span>
+            <span className="btn-text-mobile">Generate</span>
           </a>
         </div>
       </nav>

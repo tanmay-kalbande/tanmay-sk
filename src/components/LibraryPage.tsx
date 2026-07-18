@@ -47,6 +47,7 @@ export default function LibraryPage() {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [activeEdition, setActiveEdition] = useState<'all' | 'stellar' | 'street' | 'desi'>('all');
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
@@ -123,6 +124,7 @@ export default function LibraryPage() {
     if (!index) return [];
     let books = index.books;
     if (activeCategory !== 'all') books = books.filter(b => b.category === activeCategory);
+    if (activeEdition !== 'all') books = books.filter(b => (b.edition || 'stellar') === activeEdition);
     if (search.trim()) {
       const q = search.toLowerCase();
       books = books.filter(b =>
@@ -133,15 +135,16 @@ export default function LibraryPage() {
       );
     }
     return books;
-  }, [index, activeCategory, search]);
+  }, [index, activeCategory, activeEdition, search]);
 
   const isFilterActive = useMemo(() => {
-    return search.trim() !== '' || activeCategory !== 'all';
-  }, [search, activeCategory]);
+    return search.trim() !== '' || activeCategory !== 'all' || activeEdition !== 'all';
+  }, [search, activeCategory, activeEdition]);
 
   const handleResetFilters = () => {
     setSearch('');
     setActiveCategory('all');
+    setActiveEdition('all');
   };
 
   return (
@@ -202,6 +205,36 @@ export default function LibraryPage() {
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
+            </div>
+          </div>
+
+          <div className="lib-sidebar-section">
+            <h3>Editions</h3>
+            <div className="lib-edition-filter">
+              <button 
+                className={`lib-edition-btn ${activeEdition === 'all' ? 'active' : ''}`}
+                onClick={() => setActiveEdition('all')}
+              >
+                All
+              </button>
+              <button 
+                className={`lib-edition-btn ${activeEdition === 'stellar' ? 'active' : ''}`}
+                onClick={() => setActiveEdition('stellar')}
+              >
+                ✨ Stellar
+              </button>
+              <button 
+                className={`lib-edition-btn ${activeEdition === 'street' ? 'active' : ''}`}
+                onClick={() => setActiveEdition('street')}
+              >
+                🔥 Street
+              </button>
+              <button 
+                className={`lib-edition-btn ${activeEdition === 'desi' ? 'active' : ''}`}
+                onClick={() => setActiveEdition('desi')}
+              >
+                🇮🇳 Desi
+              </button>
             </div>
           </div>
 
