@@ -1,6 +1,49 @@
 {
   "books": [
     {
+      "slug": "desi-master-realtime-satellite-image-processing-with-python-to-track-deforestati",
+      "title": "Jungle Bachao: Python Se Satellite Tracking Ka Khel",
+      "goal": "Master real-time satellite image processing with Python to track deforestation",
+      "category": "science",
+      "tags": [
+        "remote sensing",
+        "gis",
+        "python",
+        "satellite imagery",
+        "environmental monitoring"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 16275,
+      "moduleCount": 7,
+      "readingTimeMins": 66,
+      "metaDescription": "Jungle Bachao: Python Se Satellite Tracking Ka Khel: a intermediate guide to master real-time satellite image processing with python to track deforestation",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T02:01:42.459Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-synthetic-data-generation-pipeline-with-generative-adversarial-ne",
+      "title": "Manufactured Truth: Build a Synthetic Data Pipeline That Outperforms the Real Thing",
+      "goal": "Build a synthetic data generation pipeline with generative adversarial networks to train machine learning models without real user data",
+      "category": "programming",
+      "tags": [
+        "machine learning",
+        "data privacy",
+        "python",
+        "gans"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 33312,
+      "moduleCount": 10,
+      "readingTimeMins": 134,
+      "metaDescription": "Manufactured Truth: Build a Synthetic Data Pipeline That Outperforms the Real Thing: a advanced guide to build a synthetic data generation pipeline with ge",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T01:50:33.243Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-and-deploy-a-realtime-ai-audio-deepfake-detector-using-python-and-pyt",
       "title": "Bheja Fry Mat Kar, Real-Time Audio Deepfake Detector Bana De!",
       "goal": "Build and deploy a real-time AI audio deepfake detector using Python and PyTorch",
@@ -1758,6 +1801,6 @@
       "edition": "street"
     }
   ],
-  "total": 87,
-  "generatedAt": "2026-07-17T21:18:03.991Z"
+  "total": 89,
+  "generatedAt": "2026-07-18T02:01:42.607Z"
 }

@@ -6,6 +6,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/desi-master-realtime-satellite-image-processing-with-python-to-track-deforestati</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-18</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/street-build-a-synthetic-data-generation-pipeline-with-generative-adversarial-ne</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-18</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/desi-build-and-deploy-a-realtime-ai-audio-deepfake-detector-using-python-and-pyt</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
