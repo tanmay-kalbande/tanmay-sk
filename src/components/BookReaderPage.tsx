@@ -51,7 +51,9 @@ const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
 
 // ── Enhanced Markdown renderer with callout detection & mermaid prep ──
 function renderMd(md: string): string {
-  let html = marked.parse(md, { breaks: true, gfm: true }) as string;
+  // Preprocess to clean up nested headings like "### **### Heading**" or "### ### Heading"
+  const cleanedMd = md.replace(/^(\s*#{1,6}\s+)(?:\*\*\s*)?#{1,6}\s*(.*?)(?:\s*\*\*\s*)?\r?$/gm, '$1$2');
+  let html = marked.parse(cleanedMd, { breaks: true, gfm: true }) as string;
 
   // Post-process callout blocks: detect emoji patterns in blockquotes and add CSS classes
   html = html.replace(

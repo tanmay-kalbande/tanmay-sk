@@ -1,5 +1,6 @@
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import LandingPage from "./components/LandingPage";
 import PortfolioPage from "./components/PortfolioPage";
 import DashboardsPage from "./components/DashboardsPage";
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/library/book/:slug" element={<BookReaderPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Analytics />
     </>
   );
 }

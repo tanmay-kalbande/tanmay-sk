@@ -191,7 +191,9 @@ renderer.code = ({ text, lang }: Tokens.Code) => {
 };
 
 export function renderMarkdown(value: string) {
-  const safeInput = escapeHtml(preprocessMarkdown(value));
+  // Preprocess to clean up nested headings like "### **### Heading**" or "### ### Heading"
+  const cleanedValue = value.replace(/^(\s*#{1,6}\s+)(?:\*\*\s*)?#{1,6}\s*(.*?)(?:\s*\*\*\s*)?\r?$/gm, '$1$2');
+  const safeInput = escapeHtml(preprocessMarkdown(cleanedValue));
   const html = marked.parse(safeInput, { renderer }) as string;
   return enhanceAutolinkHtml(html);
 }
