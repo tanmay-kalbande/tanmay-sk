@@ -811,6 +811,7 @@ export default function BookReaderPage() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfProgress, setPdfProgress] = useState(0);
   const [copied, setCopied] = useState(false);
+  const [tocOpen, setTocOpen] = useState(false);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const introRef = useRef<HTMLDivElement | null>(null);
   const summaryRef = useRef<HTMLDivElement | null>(null);
@@ -1019,41 +1020,58 @@ export default function BookReaderPage() {
       {/* Layout */}
       <div className="reader-layout">
         {/* TOC Sidebar */}
-        <aside className="reader-toc">
-          <h3>Contents</h3>
-          {extractSection(book.finalBook, 'Introduction') && (
-            <button
-              className={`reader-toc-item ${activeChapter === -1 ? 'active' : ''}`}
-              onClick={() => introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            >
-              Introduction
-            </button>
-          )}
-          {book.modules.map((mod, i) => (
-            <button
-              key={i}
-              className={`reader-toc-item ${activeChapter === i ? 'active' : ''}`}
-              onClick={() => scrollToChapter(i)}
-            >
-              {i + 1}. {mod.title}
-            </button>
-          ))}
-          {extractSection(book.finalBook, 'Summary') && (
-            <button
-              className="reader-toc-item"
-              onClick={() => summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            >
-              Summary
-            </button>
-          )}
-          {extractSection(book.finalBook, 'Glossary') && (
-            <button
-              className="reader-toc-item"
-              onClick={() => glossaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            >
-              Glossary
-            </button>
-          )}
+        <aside className={`reader-toc ${tocOpen ? 'open' : ''}`}>
+          <div className="reader-toc-header" onClick={() => setTocOpen(!tocOpen)}>
+            <h3>Contents</h3>
+            <span className="reader-toc-toggle-icon">{tocOpen ? '−' : '+'}</span>
+          </div>
+          <div className="reader-toc-list">
+            {extractSection(book.finalBook, 'Introduction') && (
+              <button
+                className={`reader-toc-item ${activeChapter === -1 ? 'active' : ''}`}
+                onClick={() => {
+                  introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  setTocOpen(false);
+                }}
+              >
+                Introduction
+              </button>
+            )}
+            {book.modules.map((mod, i) => (
+              <button
+                key={i}
+                className={`reader-toc-item ${activeChapter === i ? 'active' : ''}`}
+                onClick={() => {
+                  scrollToChapter(i);
+                  setTocOpen(false);
+                }}
+              >
+                {i + 1}. {mod.title}
+              </button>
+            ))}
+            {extractSection(book.finalBook, 'Summary') && (
+              <button
+                className="reader-toc-item"
+                onClick={() => {
+                  summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  setTocOpen(false);
+                }}
+              >
+                Summary
+              </button>
+            )}
+            {extractSection(book.finalBook, 'Glossary') && (
+              <button
+                className="reader-toc-item"
+                onClick={() => {
+                  glossaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  setTocOpen(false);
+                }}
+              >
+                Glossary
+              </button>
+            )}
+          </div>
         </aside>
 
         {/* Main */}

@@ -795,8 +795,26 @@ html[data-theme="dark"] .reader-root,
   letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ink-3);
-  margin: 0 0 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.reader-toc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
   padding: 0 8px;
+}
+
+.reader-toc-toggle-icon {
+  display: none;
+}
+
+.reader-toc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .reader-toc-item {
@@ -1268,6 +1286,43 @@ html[data-theme="dark"] .reader-root,
     padding: 24px 20px;
     gap: 20px;
   }
+  .lib-category-list {
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    padding: 4px 0 12px !important;
+    gap: 8px !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .lib-category-list::-webkit-scrollbar {
+    display: none;
+  }
+  .lib-sidebar-cat-btn {
+    flex-shrink: 0;
+    width: auto !important;
+    padding: 6px 14px !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 20px !important;
+    font-size: 0.55rem !important;
+    background: var(--surface) !important;
+    border-left: none !important;
+  }
+  .lib-sidebar-cat-btn.active {
+    border-color: var(--accent) !important;
+    background: rgba(224, 90, 53, 0.08) !important;
+  }
+  .lib-sidebar-cat-count {
+    margin-left: 6px;
+  }
+  /* Override inline width for "+ More Categories" button on mobile */
+  .lib-category-list button[style*="width: 100%"] {
+    width: auto !important;
+    flex-shrink: 0;
+    margin-top: 0 !important;
+    padding: 6px 14px !important;
+    border: 1px dashed var(--accent) !important;
+    border-radius: 20px !important;
+  }
   .lib-sidebar-cta {
     margin-top: 10px;
   }
@@ -1285,12 +1340,41 @@ html[data-theme="dark"] .reader-root,
     grid-template-columns: 1fr;
   }
   .reader-toc {
-    position: static;
+    position: sticky;
+    top: 52px;
+    z-index: 90;
     height: auto;
-    max-height: 300px;
+    max-height: none;
     border-right: none;
     border-bottom: 1px solid var(--border);
-    padding: 20px;
+    padding: 12px 16px;
+    background: var(--bg);
+  }
+  .reader-toc-header {
+    cursor: pointer;
+    margin-bottom: 0;
+    padding: 0;
+  }
+  .reader-toc.open .reader-toc-header {
+    margin-bottom: 12px;
+  }
+  .reader-toc-toggle-icon {
+    display: block;
+    font-family: var(--f-mono);
+    font-size: 0.9rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .reader-toc-list {
+    display: none;
+    max-height: 280px;
+    overflow-y: auto;
+    padding-bottom: 8px;
+  }
+  .reader-toc.open .reader-toc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
   .reader-main {
     padding: 24px 20px 60px;
