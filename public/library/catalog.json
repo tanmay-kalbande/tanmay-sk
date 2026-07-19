@@ -1,6 +1,66 @@
 {
   "books": [
     {
+      "slug": "desi-house-flipping-for-beginners-complete-guide",
+      "title": "House Flipping for Beginners: Complete Guide",
+      "goal": "How to start flipping houses for beginners",
+      "category": "finance",
+      "tags": [
+        "real estate",
+        "investing",
+        "house flipping"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 14510,
+      "moduleCount": 7,
+      "readingTimeMins": 59,
+      "metaDescription": "House Flipping for Beginners: Complete Guide — a free beginner-level guide covering how to start flipping houses for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T21:09:50.886Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-how-to-start-an-etsy-shop-for-beginners",
+      "title": "How to Start an Etsy Shop for Beginners",
+      "goal": "How to start an Etsy shop for beginners",
+      "category": "business",
+      "tags": [
+        "etsy",
+        "ecommerce",
+        "side hustle"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 15836,
+      "moduleCount": 8,
+      "readingTimeMins": 64,
+      "metaDescription": "How to Start an Etsy Shop for Beginners — a free beginner-level guide covering how to start an etsy shop for beginners. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T20:59:25.880Z",
+      "edition": "street"
+    },
+    {
+      "slug": "acoustic-guitar-for-beginners-a-complete-guide",
+      "title": "Acoustic Guitar for Beginners: A Complete Guide",
+      "goal": "How to play acoustic guitar for beginners",
+      "category": "productivity",
+      "tags": [
+        "guitar",
+        "acoustic",
+        "music"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26674,
+      "moduleCount": 10,
+      "readingTimeMins": 107,
+      "metaDescription": "Acoustic Guitar for Beginners: A Complete Guide — a free beginner-level guide covering how to play acoustic guitar for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T20:52:12.324Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "desi-how-to-write-a-novel-for-beginners",
       "title": "How to Write a Novel for Beginners",
       "goal": "How to write a novel for beginners",
@@ -2779,6 +2839,6 @@
       "edition": "street"
     }
   ],
-  "total": 137,
-  "generatedAt": "2026-07-19T19:37:30.742Z"
+  "total": 140,
+  "generatedAt": "2026-07-19T21:09:51.136Z"
 }
