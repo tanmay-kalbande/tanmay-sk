@@ -1,9 +1,9 @@
 name: 🌌 Quantum Archives Synthesizer
 
 on:
-  # ── Automatic Orbital Cycles: runs every 5 hours ────────────────────────────
+  # ── Automatic Orbital Cycles: runs every 1 hour ─────────────────────────────
   schedule:
-    - cron: '0 */5 * * *'
+    - cron: '0 * * * *'
 
   # ── Manual Transmission: Trigger from GitHub Console ───────────────────────
   workflow_dispatch:
