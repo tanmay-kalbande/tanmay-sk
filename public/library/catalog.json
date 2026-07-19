@@ -1,6 +1,66 @@
 {
   "books": [
     {
+      "slug": "desi-guitar-for-beginners-complete-stepbystep-guide",
+      "title": "Guitar for Beginners: Complete Step-by-Step Guide",
+      "goal": "How to play guitar for complete beginners",
+      "category": "productivity",
+      "tags": [
+        "guitar",
+        "music",
+        "hobby"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 14890,
+      "moduleCount": 8,
+      "readingTimeMins": 60,
+      "metaDescription": "Guitar for Beginners: Complete Step-by-Step Guide — a free beginner-level guide covering how to play guitar for complete beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T16:29:14.209Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-how-to-start-a-podcast-for-beginners",
+      "title": "How to Start a Podcast for Beginners",
+      "goal": "How to start a podcast for beginners",
+      "category": "business",
+      "tags": [
+        "podcast",
+        "audio",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 17769,
+      "moduleCount": 9,
+      "readingTimeMins": 72,
+      "metaDescription": "How to Start a Podcast for Beginners — a free beginner-level guide covering how to start a podcast for beginners. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T16:16:33.578Z",
+      "edition": "street"
+    },
+    {
+      "slug": "public-speaking-and-presentation-skills-for-beginn",
+      "title": "Public Speaking and Presentation Skills for Beginners",
+      "goal": "Learn public speaking and presentation skills",
+      "category": "career",
+      "tags": [
+        "public speaking",
+        "communication",
+        "presentations"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26057,
+      "moduleCount": 11,
+      "readingTimeMins": 105,
+      "metaDescription": "Public Speaking and Presentation Skills for Beginners — a free beginner-level guide covering learn public speaking and presentation skills. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T16:07:09.985Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-how-to-write-a-business-plan-for-beginners",
       "title": "How to Write a Business Plan for Beginners",
       "goal": "How to write a business plan for beginners",
@@ -2538,6 +2598,6 @@
       "edition": "street"
     }
   ],
-  "total": 125,
-  "generatedAt": "2026-07-19T15:16:23.357Z"
+  "total": 128,
+  "generatedAt": "2026-07-19T16:29:14.383Z"
 }
