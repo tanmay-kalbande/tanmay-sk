@@ -1,6 +1,67 @@
 {
   "books": [
     {
+      "slug": "desi-how-to-write-a-novel-for-beginners",
+      "title": "How to Write a Novel for Beginners",
+      "goal": "How to write a novel for beginners",
+      "category": "productivity",
+      "tags": [
+        "writing",
+        "creative writing",
+        "novel"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 17539,
+      "moduleCount": 8,
+      "readingTimeMins": 71,
+      "metaDescription": "How to Write a Novel for Beginners — a free beginner-level guide covering how to write a novel for beginners. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T19:37:30.525Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-microsoft-power-bi-for-beginners-data-visualizatio",
+      "title": "Microsoft Power BI for Beginners: Data Visualization",
+      "goal": "Learn Microsoft Power BI for data visualization",
+      "category": "productivity",
+      "tags": [
+        "power bi",
+        "data visualization",
+        "analytics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18157,
+      "moduleCount": 9,
+      "readingTimeMins": 73,
+      "metaDescription": "Microsoft Power BI for Beginners: Data Visualization — a free beginner-level guide covering learn microsoft power bi for data visualization. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T19:25:44.400Z",
+      "edition": "street"
+    },
+    {
+      "slug": "sourdough-bread-baking-for-beginners-a-stepbystep",
+      "title": "Sourdough Bread Baking for Beginners: A Step-by-Step Guide",
+      "goal": "Learn to bake sourdough bread for beginners",
+      "category": "productivity",
+      "tags": [
+        "baking",
+        "sourdough",
+        "bread",
+        "cooking"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20281,
+      "moduleCount": 8,
+      "readingTimeMins": 82,
+      "metaDescription": "Sourdough Bread Baking for Beginners: A Step-by-Step Guide — a free beginner-level guide covering learn to bake sourdough bread for beginners. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T19:17:51.169Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "desi-how-to-start-a-podcast-for-beginners",
       "title": "How to Start a Podcast for Beginners",
       "goal": "How to start a podcast for beginners",
@@ -2718,6 +2779,6 @@
       "edition": "street"
     }
   ],
-  "total": 134,
-  "generatedAt": "2026-07-19T18:26:05.191Z"
+  "total": 137,
+  "generatedAt": "2026-07-19T19:37:30.742Z"
 }
