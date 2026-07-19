@@ -1,6 +1,67 @@
 {
   "books": [
     {
+      "slug": "desi-wordpress-web-design-for-beginners",
+      "title": "WordPress Web Design for Beginners",
+      "goal": "How to learn WordPress web design for beginners",
+      "category": "design",
+      "tags": [
+        "wordpress",
+        "web design",
+        "cms",
+        "website builder"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 14611,
+      "moduleCount": 9,
+      "readingTimeMins": 59,
+      "metaDescription": "WordPress Web Design for Beginners — a free beginner-level guide covering how to learn wordpress web design for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T22:16:39.142Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-how-to-learn-german-for-beginners-a-stepbystep-gui",
+      "title": "How to Learn German for Beginners: A Step-by-Step Guide",
+      "goal": "How to learn German for beginners",
+      "category": "languages",
+      "tags": [
+        "german",
+        "language learning",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19745,
+      "moduleCount": 10,
+      "readingTimeMins": 79,
+      "metaDescription": "How to Learn German for Beginners: A Step-by-Step Guide — a free beginner-level guide covering how to learn german for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T22:07:01.027Z",
+      "edition": "street"
+    },
+    {
+      "slug": "canva-for-beginners-learn-graphic-design-from-scra",
+      "title": "Canva for Beginners: Learn Graphic Design from Scratch",
+      "goal": "Learn Canva graphic design for beginners",
+      "category": "design",
+      "tags": [
+        "canva",
+        "graphic design",
+        "social media"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22718,
+      "moduleCount": 9,
+      "readingTimeMins": 91,
+      "metaDescription": "Canva for Beginners: Learn Graphic Design from Scratch — a free beginner-level guide covering learn canva graphic design for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T21:58:09.580Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "desi-house-flipping-for-beginners-complete-guide",
       "title": "House Flipping for Beginners: Complete Guide",
       "goal": "How to start flipping houses for beginners",
@@ -2839,6 +2900,6 @@
       "edition": "street"
     }
   ],
-  "total": 140,
-  "generatedAt": "2026-07-19T21:09:51.136Z"
+  "total": 143,
+  "generatedAt": "2026-07-19T22:16:39.367Z"
 }
