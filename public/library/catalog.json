@@ -1,6 +1,406 @@
 {
   "books": [
     {
+      "slug": "french-vocabulary-and-grammar-basics-for-beginners",
+      "title": "French Vocabulary and Grammar Basics for Beginners",
+      "goal": "Learn French vocabulary and grammar basics",
+      "category": "languages",
+      "tags": [
+        "french",
+        "vocabulary",
+        "grammar"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27031,
+      "moduleCount": 12,
+      "readingTimeMins": 109,
+      "metaDescription": "French Vocabulary and Grammar Basics for Beginners — a free beginner-level guide covering learn french vocabulary and grammar basics. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T10:41:02.591Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-ace-behavioral-job-interviews",
+      "title": "How to Ace Behavioral Job Interviews",
+      "goal": "How to ace a behavioral job interview",
+      "category": "career",
+      "tags": [
+        "interview prep",
+        "job interview",
+        "behavioral"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19207,
+      "moduleCount": 8,
+      "readingTimeMins": 77,
+      "metaDescription": "How to Ace Behavioral Job Interviews — a free intermediate-level guide covering how to ace a behavioral job interview. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T10:28:55.049Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "yoga-for-beginners-at-home-a-stepbystep-guide",
+      "title": "Yoga for Beginners at Home: A Step-by-Step Guide",
+      "goal": "Yoga for beginners at home",
+      "category": "health",
+      "tags": [
+        "yoga",
+        "flexibility",
+        "home workout"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21507,
+      "moduleCount": 8,
+      "readingTimeMins": 87,
+      "metaDescription": "Yoga for Beginners at Home: A Step-by-Step Guide — a free beginner-level guide covering yoga for beginners at home. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T10:20:30.683Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-budget-and-save-money-a-beginners-guide",
+      "title": "How to Budget and Save Money: A Beginner's Guide",
+      "goal": "How to budget and save money effectively",
+      "category": "finance",
+      "tags": [
+        "budgeting",
+        "personal finance",
+        "saving money"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22864,
+      "moduleCount": 10,
+      "readingTimeMins": 92,
+      "metaDescription": "How to Budget and Save Money: A Beginner's Guide — a free beginner-level guide covering how to budget and save money effectively. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T10:11:56.238Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "javascript-for-beginners-web-dev-guide",
+      "title": "JavaScript for Beginners: Web Dev Guide",
+      "goal": "Learn JavaScript for web development",
+      "category": "programming",
+      "tags": [
+        "javascript",
+        "web development",
+        "coding"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23196,
+      "moduleCount": 10,
+      "readingTimeMins": 93,
+      "metaDescription": "JavaScript for Beginners: Web Dev Guide — a free beginner-level guide covering learn javascript for web development. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T10:02:22.499Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "pass-the-aws-solutions-architect-exam-advanced-gui",
+      "title": "Pass the AWS Solutions Architect Exam: Advanced Guide",
+      "goal": "How to pass the AWS certified solutions architect exam",
+      "category": "exams",
+      "tags": [
+        "aws",
+        "cloud computing",
+        "certification"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 27601,
+      "moduleCount": 12,
+      "readingTimeMins": 111,
+      "metaDescription": "Pass the AWS Solutions Architect Exam: Advanced Guide — a free advanced-level guide covering how to pass the aws certified solutions architect exam....",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T09:52:30.131Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "complete-sat-math-prep-study-guide",
+      "title": "Complete SAT Math Prep Study Guide",
+      "goal": "Prepare for SAT math section",
+      "category": "exams",
+      "tags": [
+        "sat",
+        "math",
+        "test prep"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19032,
+      "moduleCount": 9,
+      "readingTimeMins": 77,
+      "metaDescription": "Complete SAT Math Prep Study Guide — a free intermediate-level guide covering prepare for sat math section. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T09:39:06.904Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "time-management-tips-for-remote-workers",
+      "title": "Time Management Tips for Remote Workers",
+      "goal": "Time management tips for remote workers",
+      "category": "productivity",
+      "tags": [
+        "time management",
+        "remote work",
+        "productivity"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23169,
+      "moduleCount": 10,
+      "readingTimeMins": 93,
+      "metaDescription": "Time Management Tips for Remote Workers — a free beginner-level guide covering time management tips for remote workers. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T09:30:20.839Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-build-a-profitable-dropshipping-business",
+      "title": "How to Build a Profitable Dropshipping Business",
+      "goal": "How to start a successful dropshipping business",
+      "category": "business",
+      "tags": [
+        "dropshipping",
+        "ecommerce",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 18762,
+      "moduleCount": 9,
+      "readingTimeMins": 76,
+      "metaDescription": "How to Build a Profitable Dropshipping Business — a free intermediate-level guide covering how to start a successful dropshipping business. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T09:20:43.674Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-adobe-photoshop-from-scratch-a-beginners-gui",
+      "title": "Learn Adobe Photoshop from Scratch: A Beginner's Guide",
+      "goal": "Learn Adobe Photoshop from scratch",
+      "category": "design",
+      "tags": [
+        "photoshop",
+        "graphic design",
+        "adobe"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26293,
+      "moduleCount": 11,
+      "readingTimeMins": 106,
+      "metaDescription": "Learn Adobe Photoshop from Scratch: A Beginner's Guide — a free beginner-level guide covering learn adobe photoshop from scratch. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T09:10:54.921Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "machine-learning-with-python-practical-basics",
+      "title": "Machine Learning with Python: Practical Basics",
+      "goal": "Basics of machine learning with Python",
+      "category": "science",
+      "tags": [
+        "machine learning",
+        "python",
+        "ai"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 15129,
+      "moduleCount": 7,
+      "readingTimeMins": 61,
+      "metaDescription": "Machine Learning with Python: Practical Basics — a free intermediate-level guide covering basics of machine learning with python. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T09:00:26.808Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "strength-training-for-weight-loss-beginners-guide",
+      "title": "Strength Training for Weight Loss: Beginner's Guide",
+      "goal": "How to lose weight with strength training",
+      "category": "health",
+      "tags": [
+        "weight loss",
+        "strength training",
+        "fitness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23280,
+      "moduleCount": 9,
+      "readingTimeMins": 94,
+      "metaDescription": "Strength Training for Weight Loss: Beginner's Guide — a free beginner-level guide covering how to lose weight with strength training. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T08:53:37.520Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "digital-marketing-for-small-businesses-a-practical",
+      "title": "Digital Marketing for Small Businesses: A Practical Guide",
+      "goal": "Digital marketing for small businesses",
+      "category": "business",
+      "tags": [
+        "digital marketing",
+        "seo",
+        "small business"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 20851,
+      "moduleCount": 9,
+      "readingTimeMins": 84,
+      "metaDescription": "Digital Marketing for Small Businesses: A Practical Guide — a free intermediate-level guide covering digital marketing for small businesses. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T08:43:43.732Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-spanish-for-beginners-online",
+      "title": "Learn Spanish for Beginners Online",
+      "goal": "Learn Spanish for beginners online",
+      "category": "languages",
+      "tags": [
+        "spanish",
+        "language learning",
+        "basics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 17596,
+      "moduleCount": 8,
+      "readingTimeMins": 71,
+      "metaDescription": "Learn Spanish for Beginners Online — a free beginner-level guide covering learn spanish for beginners online. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T08:33:50.148Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "resume-writing-for-beginners-get-more-interviews",
+      "title": "Resume Writing for Beginners: Get More Interviews",
+      "goal": "How to write a resume that gets interviews",
+      "category": "career",
+      "tags": [
+        "resume",
+        "job search",
+        "career advice"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23140,
+      "moduleCount": 8,
+      "readingTimeMins": 93,
+      "metaDescription": "Resume Writing for Beginners: Get More Interviews — a free beginner-level guide covering how to write a resume that gets interviews. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T08:25:57.814Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "excel-for-data-analysis-a-beginners-guide",
+      "title": "Excel for Data Analysis: A Beginner's Guide",
+      "goal": "Learn Excel for data analysis",
+      "category": "productivity",
+      "tags": [
+        "excel",
+        "data analysis",
+        "spreadsheets"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19493,
+      "moduleCount": 8,
+      "readingTimeMins": 78,
+      "metaDescription": "Excel for Data Analysis: A Beginner's Guide — a free beginner-level guide covering learn excel for data analysis. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T08:17:04.789Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "build-a-personal-website-with-html-and-css",
+      "title": "Build a Personal Website with HTML and CSS",
+      "goal": "Build a personal website with HTML and CSS",
+      "category": "programming",
+      "tags": [
+        "html",
+        "css",
+        "web design"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24736,
+      "moduleCount": 10,
+      "readingTimeMins": 99,
+      "metaDescription": "Build a Personal Website with HTML and CSS — a free beginner-level guide covering build a personal website with html and css. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T08:08:38.361Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "ielts-band-7-preparation-guide-complete-study-road",
+      "title": "IELTS Band 7+ Preparation Guide: Complete Study Roadmap",
+      "goal": "IELTS preparation guide for band 7+",
+      "category": "exams",
+      "tags": [
+        "ielts",
+        "english",
+        "study guide"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 29734,
+      "moduleCount": 13,
+      "readingTimeMins": 119,
+      "metaDescription": "IELTS Band 7+ Preparation Guide: Complete Study Roadmap — a free intermediate-level guide covering ielts preparation guide for band 7+. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T07:58:01.392Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-investing-in-index-funds-for-beginner",
+      "title": "How to Start Investing in Index Funds for Beginners",
+      "goal": "How to start investing in index funds",
+      "category": "finance",
+      "tags": [
+        "investing",
+        "index funds",
+        "passive income"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21603,
+      "moduleCount": 9,
+      "readingTimeMins": 87,
+      "metaDescription": "How to Start Investing in Index Funds for Beginners — a free beginner-level guide covering how to start investing in index funds. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T07:44:29.857Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "mastering-react-js-for-web-development",
+      "title": "Mastering React JS for Web Development",
+      "goal": "Learn React JS for web development",
+      "category": "programming",
+      "tags": [
+        "react",
+        "javascript",
+        "frontend"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22157,
+      "moduleCount": 10,
+      "readingTimeMins": 89,
+      "metaDescription": "Mastering React JS for Web Development — a free intermediate-level guide covering learn react js for web development. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T07:35:03.577Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "desi-build-and-deploy-a-realtime-ai-sign-language-trans",
       "title": "Build And Deploy A Real-Time AI Sign Language Translation App With Python And OpenCV",
       "goal": "Build and deploy a real-time AI sign language translation app with Python and OpenCV",
@@ -2018,6 +2418,6 @@
       "edition": "street"
     }
   ],
-  "total": 99,
-  "generatedAt": "2026-07-19T06:55:54.654Z"
+  "total": 119,
+  "generatedAt": "2026-07-19T10:41:02.796Z"
 }
