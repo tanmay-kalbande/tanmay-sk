@@ -1264,20 +1264,20 @@ html[data-theme="dark"] .reader-root,
 
 .reader-chapter-body code {
   font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
-  font-size: 13px;
-  padding: 2px 6px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 2px;
+  font-size: 0.85em;
+  padding: 0.2em 0.4em;
+  background: rgba(120, 120, 120, 0.1);
+  border-radius: 4px;
   color: var(--accent);
 }
 
 .reader-chapter-body pre {
-  margin: 16px 0;
-  padding: 16px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 2px;
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  background: rgba(120, 120, 120, 0.04);
+  border: 1px solid rgba(120, 120, 120, 0.1);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
   overflow-x: auto;
 }
 .reader-chapter-body pre code {
@@ -1285,7 +1285,7 @@ html[data-theme="dark"] .reader-root,
   background: none;
   border: none;
   color: var(--ink);
-  font-size: 13px;
+  font-size: 0.85em;
   line-height: 1.6;
 }
 
