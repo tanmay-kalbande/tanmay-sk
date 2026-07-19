@@ -1,6 +1,46 @@
 {
   "books": [
     {
+      "slug": "street-learn-autocad-for-beginners",
+      "title": "Learn AutoCAD for Beginners",
+      "goal": "Learn AutoCAD for beginners",
+      "category": "design",
+      "tags": [
+        "autocad",
+        "cad",
+        "drafting"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 15159,
+      "moduleCount": 8,
+      "readingTimeMins": 61,
+      "metaDescription": "Learn AutoCAD for Beginners — a free beginner-level guide covering learn autocad for beginners. Learn with clear explanations, real examples, and...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T11:25:13.539Z",
+      "edition": "street"
+    },
+    {
+      "slug": "davinci-resolve-for-beginners-the-complete-guide",
+      "title": "DaVinci Resolve for Beginners: The Complete Guide",
+      "goal": "Learn video editing with DaVinci Resolve",
+      "category": "design",
+      "tags": [
+        "video editing",
+        "davinci resolve",
+        "filmmaking"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22253,
+      "moduleCount": 8,
+      "readingTimeMins": 90,
+      "metaDescription": "DaVinci Resolve for Beginners: The Complete Guide — a free beginner-level guide covering learn video editing with davinci resolve. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T11:16:48.234Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "french-vocabulary-and-grammar-basics-for-beginners",
       "title": "French Vocabulary and Grammar Basics for Beginners",
       "goal": "Learn French vocabulary and grammar basics",
@@ -2418,6 +2458,6 @@
       "edition": "street"
     }
   ],
-  "total": 119,
-  "generatedAt": "2026-07-19T10:41:02.796Z"
+  "total": 121,
+  "generatedAt": "2026-07-19T11:28:05.191Z"
 }
