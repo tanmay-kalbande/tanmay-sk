@@ -1,6 +1,46 @@
 {
   "books": [
     {
+      "slug": "street-how-to-write-a-business-plan-for-beginners",
+      "title": "How to Write a Business Plan for Beginners",
+      "goal": "How to write a business plan for beginners",
+      "category": "business",
+      "tags": [
+        "business plan",
+        "startup",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21822,
+      "moduleCount": 11,
+      "readingTimeMins": 88,
+      "metaDescription": "How to Write a Business Plan for Beginners — a free beginner-level guide covering how to write a business plan for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T15:13:21.845Z",
+      "edition": "street"
+    },
+    {
+      "slug": "adobe-lightroom-photo-editing-for-beginners",
+      "title": "Adobe Lightroom Photo Editing for Beginners",
+      "goal": "Learn Adobe Lightroom photo editing for beginners",
+      "category": "design",
+      "tags": [
+        "lightroom",
+        "photo editing",
+        "photography"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19505,
+      "moduleCount": 8,
+      "readingTimeMins": 79,
+      "metaDescription": "Adobe Lightroom Photo Editing for Beginners — a free beginner-level guide covering learn adobe lightroom photo editing for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T15:01:34.233Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-premiere-pro-for-beginners-learn-video-editing",
       "title": "Premiere Pro for Beginners: Learn Video Editing",
       "goal": "Learn video editing with Premiere Pro",
@@ -2498,6 +2538,6 @@
       "edition": "street"
     }
   ],
-  "total": 123,
-  "generatedAt": "2026-07-19T13:33:44.039Z"
+  "total": 125,
+  "generatedAt": "2026-07-19T15:16:23.357Z"
 }
