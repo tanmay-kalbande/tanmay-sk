@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tanmaysk.in/library/sitemap.xml

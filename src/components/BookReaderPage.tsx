@@ -891,10 +891,79 @@ export default function BookReaderPage() {
       .then(r => r.ok ? r.json() : Promise.reject('Book not found'))
       .then((data: BookFile) => {
         setBook(data);
-        document.title = `${data.title} — Free Book`;
-        // Set meta description
+        // ── SEO: Page title ──
+        document.title = `${data.title} — Free Book | Tanmay Kalbande`;
+        
+        // ── SEO: Meta description ──
         const meta = document.querySelector('meta[name="description"]');
         if (meta) meta.setAttribute('content', data.metaDescription);
+        
+        // ── SEO: Canonical URL ──
+        const canonicalUrl = `https://tanmaysk.in/library/book/${data.slug}`;
+        let canonical = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+        if (!canonical) {
+          canonical = document.createElement('link');
+          canonical.rel = 'canonical';
+          document.head.appendChild(canonical);
+        }
+        canonical.href = canonicalUrl;
+        
+        // ── SEO: Open Graph tags ──
+        const ogTags: Record<string, string> = {
+          'og:title': data.title,
+          'og:description': data.metaDescription,
+          'og:url': canonicalUrl,
+          'og:type': 'book',
+          'og:site_name': 'Pustakam Library — Tanmay Kalbande',
+        };
+        Object.entries(ogTags).forEach(([property, content]) => {
+          let tag = document.querySelector(`meta[property="${property}"]`) as HTMLMetaElement;
+          if (!tag) {
+            tag = document.createElement('meta');
+            tag.setAttribute('property', property);
+            document.head.appendChild(tag);
+          }
+          tag.setAttribute('content', content);
+        });
+        
+        // ── SEO: Twitter Card tags ──
+        const twitterTags: Record<string, string> = {
+          'twitter:card': 'summary',
+          'twitter:title': data.title,
+          'twitter:description': data.metaDescription,
+        };
+        Object.entries(twitterTags).forEach(([name, content]) => {
+          let tag = document.querySelector(`meta[name="${name}"]`) as HTMLMetaElement;
+          if (!tag) {
+            tag = document.createElement('meta');
+            tag.setAttribute('name', name);
+            document.head.appendChild(tag);
+          }
+          tag.setAttribute('content', content);
+        });
+        
+        // ── SEO: Schema.org JSON-LD structured data ──
+        let ldScript = document.querySelector('script[data-seo="book-jsonld"]');
+        if (ldScript) ldScript.remove();
+        ldScript = document.createElement('script');
+        ldScript.setAttribute('type', 'application/ld+json');
+        ldScript.setAttribute('data-seo', 'book-jsonld');
+        ldScript.textContent = JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'Book',
+          'name': data.title,
+          'description': data.metaDescription,
+          'author': { '@type': 'Person', 'name': 'Tanmay Kalbande' },
+          'datePublished': data.generatedAt?.split('T')[0] || '',
+          'wordCount': data.wordCount,
+          'inLanguage': 'en',
+          'url': canonicalUrl,
+          'isAccessibleForFree': true,
+          'genre': data.category,
+          'keywords': data.tags?.join(', ') || '',
+          'numberOfPages': data.moduleCount,
+        });
+        document.head.appendChild(ldScript);
         setLoading(false);
       })
       .catch(() => {

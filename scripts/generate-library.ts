@@ -407,6 +407,7 @@ REQUIREMENTS FOR THE ROADMAP:
 
 ROADMAP OUTPUT (JSON ONLY):
 {
+  "title": "SEO-friendly book title (max 60 chars, what a user would Google, e.g. 'Python Programming for Beginners' — NOT creative/poetic titles)",
   "modules": [
     {
       "title": "Module ka title (Style: ${languageLabel}, Punchy, Light Slang)",
@@ -446,6 +447,7 @@ MISSION SPECS:
 
 Return ONLY valid JSON:
 {
+  "title": "SEO-friendly book title (max 60 chars, what a real person would Google — NOT hype/creative titles like 'BLACKHOLE ROADMAP'. Example: 'Stock Market Trading for Beginners')",
   "modules": [
     {
       "title": "Module Title That Slaps Hard",
@@ -474,7 +476,7 @@ Requirements:
 IMPORTANT: Respond with ONLY valid JSON. No markdown, no code fences, no explanation.
 Start your response with { and end with }.
 
-{"modules": [{"title": "Module Title", "focus": "One sentence describing exactly what this module covers", "objectives": ["Objective 1", "Objective 2"], "estimatedTime": "2-3 hours"}], "estimatedReadingTime": "20-25 hours", "difficultyLevel": "${complexity}"}`;
+{"title": "SEO-friendly book title (max 60 chars, what a user would actually search for on Google)", "modules": [{"title": "Module Title", "focus": "One sentence describing exactly what this module covers", "objectives": ["Objective 1", "Objective 2"], "estimatedTime": "2-3 hours"}], "estimatedReadingTime": "20-25 hours", "difficultyLevel": "${complexity}"}`;
 }
 
 function buildModulePrompt(
@@ -923,10 +925,15 @@ function assertChapter(content: string): void {
 }
 
 function makeMetaDescription(title: string, seed: TopicSeed): string {
-  return `${title}: a ${seed.complexity || 'beginner'} guide to ${seed.goal.toLowerCase()} with clear explanations, examples, and practice.`.slice(0, 155);
+  const complexity = seed.complexity || 'beginner';
+  const desc = `${title} — a free ${complexity}-level guide covering ${seed.goal.toLowerCase()}. Learn with clear explanations, real examples, and hands-on exercises.`;
+  // Ensure we never truncate mid-word
+  if (desc.length <= 155) return desc;
+  const truncated = desc.substring(0, 152).replace(/\s+\S*$/, '');
+  return truncated + '...';
 }
 function toSlug(text: string): string {
-  return text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-').slice(0, 80).replace(/-+$/, '');
+  return text.toLowerCase().replace(/[^a-z0-9\s]/g, '').replace(/\s+/g, '-').slice(0, 50).replace(/-+$/, '');
 }
 function parseJSON(raw: string): any {
   const cleaned = raw.trim()
@@ -940,7 +947,8 @@ function parseJSON(raw: string): any {
 // ── Core generator ─────────────────────────────────────────────────────────────
 
 async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' | 'fail'> {
-  const slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
+  // Slug will be regenerated from roadmap title after roadmap is generated
+  let slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
   const tag = `[W${workerIndex}]`;
   const modelsUsed = new Set<string>();
 
@@ -958,6 +966,11 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
       `${tag} roadmap`
     );
     console.log(`  📋 ${tag} Roadmap: "${roadmap.title}" — ${roadmap.modules.length} modules`);
+    // Regenerate slug from SEO-friendly roadmap title if available
+    if (roadmap.title) {
+      const editionPrefix = EDITION === 'desi' ? 'desi-' : EDITION === 'street' ? 'street-' : '';
+      slug = editionPrefix + toSlug(roadmap.title);
+    }
   } catch (e: any) {
     console.error(`\n❌ ${tag} roadmap failed: ${slug} — ${String(e.message).slice(0, 80)}`);
     return 'fail';
@@ -1091,22 +1104,44 @@ const BOOTSTRAP_SEEDS: TopicSeed[] = [
 
 async function generateSeedsViaAI(count: number, existing: BookMeta[]): Promise<TopicSeed[]> {
   const existingList = existing.map(b => `- ${b.title} (${b.category}, ${b.complexity})`).join('\n');
-  const prompt = `You are a curriculum curator. Generate exactly ${count} completely new, highly interesting, and unique learning guide topics/seeds.
-  
-Existing guides in the library (DO NOT duplicate, overlap, or cover similar topics):
+  const prompt = `You are a curriculum curator for a free online book library. Generate exactly ${count} completely new learning guide topics.
+
+CRITICAL — SEO & USER SEARCH INTENT:
+Every goal MUST be something a real person would type into Google when they want to learn something. Think like an actual user searching, not an academic.
+
+GOOD goals (real search queries):
+- "Learn Python programming from scratch"
+- "How to start investing in the stock market"
+- "IELTS preparation guide for band 7+"
+- "Build a personal website with HTML and CSS"
+- "Basics of machine learning with Python"
+- "How to write a resume that gets interviews"
+- "Learn Excel for data analysis"
+- "Digital marketing for small businesses"
+- "How to lose weight with strength training"
+- "Learn JavaScript for web development"
+
+BAD goals (nobody searches for these):
+- "Engineer hyperlocal bacterial cellulose textiles from kombucha SCOBY waste"
+- "Construct a survival-state psychological profile to dominate high-stakes hostage negotiations"
+- "Manipulate the autonomic nervous system to induce targeted torpor"
+- "Decode and speak Toki Pona to radically simplify thought patterns"
+
+Existing guides in the library (DO NOT duplicate or overlap):
 ${existingList || 'None yet.'}
 
-Requirements:
-1. Ensure topics span diverse categories (e.g., programming, business, finance, health, design, science, career, languages).
-2. Choose a mix of complexities: 'beginner', 'intermediate', 'advanced'.
-3. Each guide must have a specific learning goal.
-4. Ensure the goals are highly search-friendly (SEO optimized) and reflect terms people actually search for when wanting to learn a skill (e.g., 'Master personal finance and budgeting for beginners', 'Learn React from scratch', 'Crack code interviews with C++'). Avoid overly abstract, poetic, or academic titles.
-5. Return ONLY a valid JSON array matching this format (no markdown, no wrap):
+Rules:
+1. Goals must be 5-10 words max — short, clear, reads like a Google search query.
+2. Topics must span diverse popular categories: programming, finance, health, career, exams, design, languages, business, productivity, science.
+3. Mix complexities: 'beginner', 'intermediate', 'advanced'.
+4. Every goal must pass this test: "Would at least 1000 people per month search for this on Google?"
+5. NO hyper-specialized, academic, or bizarre niche topics.
+6. Return ONLY a valid JSON array (no markdown, no wrap):
 [
   {
-    "goal": "Clear learning goal (e.g. Master personal finance and budgeting)",
-    "category": "category-slug (e.g. finance)",
-    "tags": ["tag1", "tag2"],
+    "goal": "Learn Python programming from scratch",
+    "category": "programming",
+    "tags": ["python", "coding", "beginners"],
     "complexity": "beginner"
   }
 ]`;
