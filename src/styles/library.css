@@ -1104,10 +1104,10 @@ html[data-theme="dark"] .reader-root,
 .badge-takeaway .section-badge { color: var(--accent); background: rgba(var(--accent-rgb,224,90,53),0.09); border-color: rgba(var(--accent-rgb,224,90,53),0.35); }
 .badge-practice .section-badge { color: #8bc34a;  background: rgba(139,195,74,0.09); border-color: rgba(139,195,74,0.35); }
 
-/* Edition accent stripe on left of chapter */
-.reader-chapter.edition-street  { border-left: 3px solid rgba(255,87,34,0.5);  padding-left: 18px; }
-.reader-chapter.edition-desi    { border-left: 3px solid rgba(255,152,0,0.5);  padding-left: 18px; }
-.reader-chapter.edition-stellar { border-left: 3px solid rgba(var(--accent-rgb,224,90,53),0.4); padding-left: 18px; }
+/* Edition accent stripe on left of chapter (removed per user request) */
+.reader-chapter.edition-street  { padding-left: 0; }
+.reader-chapter.edition-desi    { padding-left: 0; }
+.reader-chapter.edition-stellar { padding-left: 0; }
 
 .reader-chapter-body h3 {
   font-family: var(--f-mono);
@@ -1275,8 +1275,7 @@ html[data-theme="dark"] .reader-root,
   margin: 1.5rem 0;
   background: rgba(120, 120, 120, 0.04);
   border: 1px solid rgba(120, 120, 120, 0.1);
-  border-left: 3px solid var(--accent);
-  border-radius: 8px;
+  border-radius: 0;
   overflow: hidden;
 }
 
@@ -1617,9 +1616,8 @@ html[data-theme="dark"] .reader-root,
 .reader-section-intro,
 .reader-section-summary,
 .reader-section-glossary {
-  border-left: 3px solid var(--accent);
-  padding-left: 24px;
-  margin-left: -27px;
+  padding-left: 0;
+  margin-left: 0;
 }
 
 .reader-section-intro .reader-chapter-number {
