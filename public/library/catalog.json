@@ -1,6 +1,46 @@
 {
   "books": [
     {
+      "slug": "street-premiere-pro-for-beginners-learn-video-editing",
+      "title": "Premiere Pro for Beginners: Learn Video Editing",
+      "goal": "Learn video editing with Premiere Pro",
+      "category": "design",
+      "tags": [
+        "premiere pro",
+        "video editing",
+        "filmmaking"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18705,
+      "moduleCount": 9,
+      "readingTimeMins": 75,
+      "metaDescription": "Premiere Pro for Beginners: Learn Video Editing — a free beginner-level guide covering learn video editing with premiere pro. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T13:31:18.255Z",
+      "edition": "street"
+    },
+    {
+      "slug": "quickbooks-for-small-business-a-beginners-guide",
+      "title": "QuickBooks for Small Business: A Beginner's Guide",
+      "goal": "Learn QuickBooks for small business accounting",
+      "category": "productivity",
+      "tags": [
+        "quickbooks",
+        "accounting",
+        "small business"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23332,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "QuickBooks for Small Business: A Beginner's Guide — a free beginner-level guide covering learn quickbooks for small business accounting. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T13:22:03.569Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "street-learn-autocad-for-beginners",
       "title": "Learn AutoCAD for Beginners",
       "goal": "Learn AutoCAD for beginners",
@@ -2458,6 +2498,6 @@
       "edition": "street"
     }
   ],
-  "total": 121,
-  "generatedAt": "2026-07-19T11:28:05.191Z"
+  "total": 123,
+  "generatedAt": "2026-07-19T13:33:44.039Z"
 }
