@@ -1,6 +1,50 @@
 {
   "books": [
     {
+      "slug": "desi-build-and-deploy-a-realtime-ai-sign-language-translation-app-with-python-an",
+      "title": "Haath Ki Bhasha: Sign Language Translator Ka Desi Khel",
+      "goal": "Build and deploy a real-time AI sign language translation app with Python and OpenCV",
+      "category": "programming",
+      "tags": [
+        "computer vision",
+        "accessibility",
+        "machine learning",
+        "python",
+        "opencv"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 27170,
+      "moduleCount": 12,
+      "readingTimeMins": 109,
+      "metaDescription": "Haath Ki Bhasha: Sign Language Translator Ka Desi Khel: a intermediate guide to build and deploy a real-time ai sign language translation app with python a",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T02:24:58.962Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-diy-radar-system-from-scratch-for-autonomous-drones-and-robotics",
+      "title": "From Zero to Radar: The Street Guide to Building Eyes in the Sky",
+      "goal": "Build a DIY radar system from scratch for autonomous drones and robotics",
+      "category": "science",
+      "tags": [
+        "diy radar",
+        "fmcw radar",
+        "rf engineering",
+        "autonomous drones",
+        "sensor fusion"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 42323,
+      "moduleCount": 12,
+      "readingTimeMins": 170,
+      "metaDescription": "From Zero to Radar: The Street Guide to Building Eyes in the Sky: a intermediate guide to build a diy radar system from scratch for autonomous drones and r",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T02:08:34.217Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-a-diy-radio-telescope-from-scratch-to-detect-hydrogen-line-emissions",
       "title": "Andar Ka Network: DIY Radio Telescope Ka Desi Khel",
       "goal": "Build a DIY radio telescope from scratch to detect hydrogen line emissions",
@@ -1974,6 +2018,6 @@
       "edition": "street"
     }
   ],
-  "total": 97,
-  "generatedAt": "2026-07-18T21:03:04.141Z"
+  "total": 99,
+  "generatedAt": "2026-07-19T02:24:59.130Z"
 }
