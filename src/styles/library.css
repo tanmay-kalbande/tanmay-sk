@@ -1067,6 +1067,48 @@ html[data-theme="dark"] .reader-root,
   border-bottom: 1px solid var(--border-s);
 }
 
+/* ── Edition-aware section heading badges ── */
+.reader-chapter-body h2.section-heading {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin: 40px 0 16px;
+  display: flex;
+  align-items: center;
+}
+
+.reader-chapter-body h2.section-heading .section-badge {
+  display: inline-block;
+  font-family: var(--f-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 11px;
+  border-radius: 4px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+/* Street edition badges */
+.badge-street-1 .section-badge { color: #ff5722; background: rgba(255,87,34,0.09); border-color: rgba(255,87,34,0.35); }
+.badge-street-2 .section-badge { color: #ff9800; background: rgba(255,152,0,0.09); border-color: rgba(255,152,0,0.35); }
+.badge-street-3 .section-badge { color: #f44336; background: rgba(244,67,54,0.09); border-color: rgba(244,67,54,0.35); }
+.badge-street-4 .section-badge { color: #4caf50; background: rgba(76,175,80,0.09); border-color: rgba(76,175,80,0.35); }
+
+/* Desi edition badges */
+.badge-desi-1  .section-badge { color: #ff9800; background: rgba(255,152,0,0.09);  border-color: rgba(255,152,0,0.35); }
+.badge-desi-2  .section-badge { color: #e91e63; background: rgba(233,30,99,0.09);  border-color: rgba(233,30,99,0.35); }
+.badge-desi-4  .section-badge { color: #4caf50; background: rgba(76,175,80,0.09);  border-color: rgba(76,175,80,0.35); }
+
+/* Shared badges */
+.badge-takeaway .section-badge { color: var(--accent); background: rgba(var(--accent-rgb,224,90,53),0.09); border-color: rgba(var(--accent-rgb,224,90,53),0.35); }
+.badge-practice .section-badge { color: #8bc34a;  background: rgba(139,195,74,0.09); border-color: rgba(139,195,74,0.35); }
+
+/* Edition accent stripe on left of chapter */
+.reader-chapter.edition-street  { border-left: 3px solid rgba(255,87,34,0.5);  padding-left: 18px; }
+.reader-chapter.edition-desi    { border-left: 3px solid rgba(255,152,0,0.5);  padding-left: 18px; }
+.reader-chapter.edition-stellar { border-left: 3px solid rgba(var(--accent-rgb,224,90,53),0.4); padding-left: 18px; }
+
 .reader-chapter-body h3 {
   font-family: var(--f-mono);
   font-size: 0.75rem;

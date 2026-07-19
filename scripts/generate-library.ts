@@ -357,110 +357,141 @@ async function callWriter(
 
 // ── Prompts ────────────────────────────────────────────────────────────────────
 
-// ── Visual content instructions (shared across editions) ──────────────────────
-// Mermaid diagrams and quiz sections removed — matching Pustakam's core pipeline
-const VISUAL_INSTRUCTIONS = `
-VISUAL ENGAGEMENT RULES (follow these strictly):
-- Use emoji-prefixed blockquotes for callout boxes. Types:
-  > 💡 **Pro Tip:** for useful insights
-  > ⚠️ **Common Mistake:** for pitfalls to avoid
-  > 🎯 **Key Insight:** for important takeaways
-  > ☕ **Real Talk:** for honest, grounded advice
-- Use these callouts naturally throughout the chapter — at least 2-3 per chapter.
-- Do NOT include mermaid diagrams.
-`;
+/** Concrete, content-shaping definition of what each complexity level means.
+ *  Ported from Pustakam bookService.ts getComplexityGuide() */
+function getComplexityGuide(level?: string): string {
+  const guides: Record<string, string> = {
+    beginner:     'Assume no prior background - build up from first principles and define jargon the first time it appears.',
+    intermediate: 'Assume basic familiarity with the topic - move briskly through fundamentals and spend more time on application.',
+    advanced:     'Assume a strong foundation already exists - skip basics and focus on nuance, trade-offs, and edge cases.',
+  };
+  return guides[level || 'intermediate'] || guides.intermediate;
+}
 
 function buildRoadmapPrompt(seed: TopicSeed): string {
   const complexity = seed.complexity || 'beginner';
+  // Treat 'desi + hinglish' and 'street + hinglish' both as desi/Hindi path
+  const isMarathi = seed.language === 'mr';
 
   if (EDITION === 'desi') {
-    return `Abey sun, hum ek desi roadmap bana rahe hain for: "${seed.goal}". No bakwaas. Pure street-smart action plan.
+    // ── Ported from pustakam-main/src/services/desiPromptService.ts ──
+    const languageInstruction = isMarathi
+      ? `LANGUAGE: Primarily "Marthienglish" (Marathi + English mix) with natural urban slang. Allow light Hinglish if it flows better in explanations (e.g., "Kya bolta hai" okay if context fits, but prioritize Marathi like "Kay bolto bhava"). Keywords: "Bhava", "Rao", "Vishay hard aahe", "Dokyat ghal". Use Marathi slang sparingly and naturally. Mix English words seamlessly. Avoid over-repetition - vary slang for freshness.`
+      : `LANGUAGE: Raw conversational Hinglish (Hindi + English mix). "Bhai", "Boss", "Sahi hai". Vary phrases to keep it fresh - no repeating the same slang every sentence.`;
+    const languageLabel = isMarathi ? 'Marathi (Tapori-style)' : 'Hindi (Tapori-style)';
+
+    return `Abe sun Boss, tere liye ek number blackhole roadmap bana raha hoon: "${seed.goal}"
 
 PERSONA:
-You're a street-smart Mumbai/Pune bhai - zero filter, full energy, pure tough love. You've been through the grind, now giving a reality check to a newbie. Use casual Hinglish with words like "Bhai", "Boss", "Guru", "Scene", "Fundoo", "Chamka kya".
+Main Mumbai/Pune ka asli street smart bhai hoon. Main corporate chamcha nahi hoon. Main "Boss" ya "Bhai" hoon. Meri bhasha raw aur uncensored hai, par main zabardasti gaali nahi deta - sirf natural flow mein 10-20% emphasis ke liye (like punctuation). Overdo mat kar.
 
-LANGUAGE: Hinglish (Hindi + English mixed seamlessly, like urban Indian tech-bros talk).
+CRITICAL INSTRUCTION:
+Tera main kaam KNOWLEDGE delivery hai. Persona sirf ek wrapper hai. Agar koi concept complex hai, toh persona thoda side mein rakh aur concept clear samjha. Slang ko fresh rakh - same words bar bar mat repeat (e.g., vary "bhava" with "rao" or "boss").
 
-STYLE WARFARE:
-- Headings: Super catchy, punchy, full of attitude.
-- Objectives: Crisp, crystal clear, zero fluff.
+${languageInstruction}
+
+BOOK LANGUAGE RULES:
+- Titles: Short, punchy, and intriguing. Gaali only if naturally fits, no force (e.g., "Quantum Entanglement: Jadoo ya Science?" better than forced abuse).
+- Objectives: Clear hone chahiye, confusion nahi mangta. Slang light rakh for readability.
 
 CONTEXT:
-- Target Audience: ${complexity} learners who need real talk
-- Category: ${seed.category}
+- Target Audience: ${complexity} learners
+- Complexity: ${complexity}
 
-MISSION SPECS:
-- Break the topic into 6 to 14 modules.
-- Each module: Savage Hinglish title + one-line focus + 3-5 objectives.
+REQUIREMENTS FOR THE ROADMAP:
+- Jitne modules topic ko theek se cover karne ke liye chahiye utne bana - usually 6 se 14 ke beech. Filler chapters thok ke count mat badha, aur do alag cheezein ek module mein thoons mat.
+- Har module ek hi cheez cover kare aur pichle module pe build kare - order matter karta hai.
+- Har module ke saath ek line ka "focus" bhi de jo bataye ye module EXACTLY kya cover karega.
+- Har module detailed hona chahiye.
+- Titles aur objectives mein "Tapori" feel aani chahiye par educational value kam nahi honi chahiye. Vary slang patterns for freshness - no copy-paste vibes.
 
-JSON FORMATTING & ESCAPING RULES (CRITICAL):
-- Never use unescaped double quotes (") inside JSON string values.
-- Use single quotes (') inside values if needed.
-- Return ONLY valid JSON:
-{"title":"Desi Book Title in Hinglish Style","modules":[{"title":"Module Title in Tapori Style","description":"One line focus","objectives":["Objective 1","Objective 2","Objective 3"]}],"difficultyLevel":"${complexity}"}`;
+ROADMAP OUTPUT (JSON ONLY):
+{
+  "modules": [
+    {
+      "title": "Module ka title (Style: ${languageLabel}, Punchy, Light Slang)",
+      "focus": "One line jo exactly bataye ye module kya cover karega",
+      "objectives": ["Objective 1 in ${languageLabel}", "Objective 2 in ${languageLabel}"],
+      "estimatedTime": "X hours (Practical estimate)"
+    }
+  ],
+  "estimatedReadingTime": "Total time estimate",
+  "difficultyLevel": "${complexity}"
+}`;
   }
 
   if (EDITION === 'street') {
-    return `Boss, we're building a street-smart roadmap for: "${seed.goal}". No hand-holding. No shortcuts. Just raw strategy.
+    // ── Ported from pustakam-main/src/services/streetPromptService.ts ──
+    return `Boss, we're building a blackhole roadmap for: "${seed.goal}". No hand-holding. No shortcuts. Just raw strategy.
 
 PERSONA:
 You're the unhinged street oracle - zero filters, all grit. A battle-scarred hustler who's clawed through hell and back, now mapping out the war plan for someone who's hungry but clueless. Call 'em "bro," "chief," "dreamer" - whatever wakes 'em up. Roast their excuses, hype their potential, and hand 'em a roadmap that slaps.
 
-LANGUAGE: Pure English with raw street dialect (bro, chief, slacker, needle mover, reality check). Absolutely NO Hindi, Hinglish, or tapori slang.
-
 STYLE WARFARE:
 - Titles that hit like headlines: Punchy, provocative, impossible to ignore.
 - Objectives that corner 'em: Clear, actionable, no wiggle room for slackers.
+- Time estimates like a grinder: Realistic, no corporate fantasy numbers.
+- Adapt to the audience - make objectives relatable with street-level comparisons.
 - Energy on max: This roadmap should feel like a war briefing, not a PowerPoint snooze.
 
-CONTEXT:
+CONTEXT LOCK:
 - Target Audience: ${complexity} learners who need a reality check
-- Complexity Level: ${complexity}
-- Category: ${seed.category}
+- Complexity Level: ${complexity} - stick to it, no rogue moves.
 
 MISSION SPECS:
-- Break the topic into as many modules as it genuinely needs to be covered well - usually somewhere between 6 and 14. Do not pad with filler modules just to hit a number, and do not cram unrelated ideas into one module just to keep the count low.
-- Each module: Savage title + a one-line "focus" + 3-5 real objectives + no two modules covering the same ground.
+- Break this into as many modules as the topic actually needs to be covered right - usually 6 to 14. Don't pad with filler chapters just to hit a number, and don't jam two different fights into one chapter either.
+- Each module builds on the last - order matters. No two modules covering the same ground.
+- Each module: Savage title + a one-line "focus" (exactly what this module covers, nothing more - keeps the chapter writer from wandering) + 3-5 real objectives that matter + time estimate.
 - Match the energy: Titles should make 'em curious, scared, or hyped - never bored.
 
-JSON FORMATTING & ESCAPING RULES (CRITICAL):
-- Never use unescaped double quotes (") inside any JSON string values (like titles, descriptions, or objectives).
-- If you need to use quotes inside a value (e.g., 'noob'), use single quotes (').
-- Do not add any text before or after the JSON.
-- Ensure the JSON is valid.
-
-Return ONLY valid JSON, no markdown:
-{"title":"Savage Book Title in Street Style","modules":[{"title":"Module Title That Slaps Hard","description":"One line focus","objectives":["Objective 1","Objective 2","Objective 3"]}],"difficultyLevel":"${complexity}"}`;
+Return ONLY valid JSON:
+{
+  "modules": [
+    {
+      "title": "Module Title That Slaps Hard",
+      "focus": "One line, exactly what this module covers and nothing more",
+      "objectives": ["Real Objective 1", "Objective 2 That Actually Moves the Needle"],
+      "estimatedTime": "X hours of focused grind"
+    }
+  ],
+  "estimatedReadingTime": "Total hours of hardcore learning",
+  "difficultyLevel": "${complexity}"
+}`;
   }
 
-  // ── Stellar edition ──
-  return `You are designing a practical, evergreen learning guide that hooks readers from the first line.
-Topic: "${seed.goal}"
-Audience: ${complexity} learners. Category: ${seed.category}.
+  // ── Stellar edition — ported from pustakam-main/src/services/bookService.ts buildRoadmapPrompt() ──
+  const complexityGuide = getComplexityGuide(seed.complexity);
+  return `Create a comprehensive learning roadmap for: "${seed.goal}"
 
-Break the topic into as many modules as it genuinely needs to be covered well - usually somewhere between 6 and 14. Do not pad with filler modules just to hit a number, and do not cram unrelated ideas into one module just to keep the count low. Start at the learner's current level and end with a usable outcome. Every module must be distinct and build on earlier modules.
+Requirements:
+- Break the topic into as many modules as it genuinely needs to be covered well - usually somewhere between 6 and 14. Do not pad with filler modules just to hit a number, and do not cram unrelated ideas into one module just to keep the count low.
+- Order modules so each one builds on the ones before it. Objectives should not overlap between modules - if two modules would teach the same thing, merge or split them differently.
+- Each module needs: a clear title, a one-sentence "focus" describing exactly what it covers and nothing more (this keeps the chapter writer on-topic later), and 3-5 specific learning objectives.
+- Estimate a realistic reading/study time per module based on how much it actually covers - don't just repeat the same estimate for every module.
+- Target audience: ${complexity} learners
+- Complexity: ${complexity}. ${complexityGuide}
 
-TITLE RULES:
-- The book title should be compelling and specific, not generic. Make readers curious.
-- Module titles should be intriguing — use questions, bold claims, or curiosity gaps. Instead of "Introduction to Variables" try "Why Your Computer Has a Memory Problem (And How Variables Fix It)".
+IMPORTANT: Respond with ONLY valid JSON. No markdown, no code fences, no explanation.
+Start your response with { and end with }.
 
-Prefer durable fundamentals over time-sensitive claims. Avoid invented statistics, guarantees, and clickbait titles.
-
-Return ONLY valid JSON, no markdown:
-{"title":"Clear, compelling book title","modules":[{"title":"Intriguing module title","description":"One sentence focus","objectives":["Point 1","Point 2","Point 3"]}],"difficultyLevel":"${complexity}"}`;
+{"modules": [{"title": "Module Title", "focus": "One sentence describing exactly what this module covers", "objectives": ["Objective 1", "Objective 2"], "estimatedTime": "2-3 hours"}], "estimatedReadingTime": "20-25 hours", "difficultyLevel": "${complexity}"}`;
 }
 
 function buildModulePrompt(
   seed: TopicSeed,
-  roadmap: { title?: string; modules: Array<{ title: string; description: string; objectives: string[] }> },
-  mod: { title: string; description: string; objectives: string[] },
+  roadmap: { title?: string; modules: Array<{ title: string; description: string; objectives: string[]; focus?: string }> },
+  mod: { title: string; description: string; objectives: string[]; focus?: string },
   index: number,
   total: number,
   previousModules: Array<{ title: string; content: string; wordCount: number }>
 ): { systemPrompt: string; userPrompt: string } {
-  // Static outline for caching (no dynamic markers like ✅ or 👉)
-  const staticOutline = roadmap.modules.map((item, i) => {
-    return `- Module ${i + 1}: ${item.title} (${item.description})`;
+  // ── Positional outline — ported from pustakam-main bookService.ts buildModulePrompt() ──
+  // Each module gets a positional marker so the AI knows what's before/after the current chapter.
+  const bookOutline = roadmap.modules.map((item, i) => {
+    const position = i + 1 === index + 1
+      ? '  <- writing this chapter now'
+      : i < index ? ' (already written)' : ' (comes later - do not cover it yet)';
+    return `${i + 1}. ${item.title}${position}`;
   }).join('\n');
 
   // Deep continuity: extract glossary terms from all previous chapters
@@ -472,180 +503,165 @@ function buildModulePrompt(
     ? `\n\nALREADY INTRODUCED (reference these by name where relevant - don't redefine them from scratch):\n${coveredConcepts.join(', ')}`
     : '';
 
-  const continuity = previousModules.length > 0
-    ? `This is chapter ${index + 1}. The reader has already completed ${previousModules.length} chapter(s). Continue from where they left off.${coveredBlock}`
-    : 'This is the first chapter. Establish only the foundations needed for later chapters.';
+  const continuityBlock = bookOutline
+    ? `\n\nBOOK OUTLINE (where this chapter sits in the whole book):\n${bookOutline}`
+    : '';
 
+  const focusLine = mod.focus ? `\n- Chapter focus: ${mod.focus}` : '';
+  const isFirstModule = index === 0;
+
+  // ── Desi / Hinglish edition ──
+  // Ported from pustakam-main/src/services/desiPromptService.ts buildModulePrompt()
   if (EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) {
-    const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
-      ? 'Include a small, correct code or worked technical example when it helps.'
-      : 'Include a concrete, realistic scenario when it helps.';
+    const isMarathi = seed.language === 'mr';
+    const languageInstruction = isMarathi
+      ? `LANGUAGE: Primarily "Marthienglish" (Marathi + English mix) with natural flow. Light Hinglish allowed if it helps clarity. Use Marathi slang sparingly: "Bhava", "Rao", "Vishay", "Dokyat", "Yedzhavya" (only for light roast). Sentence structure flexible - prioritize readability. English tech terms intact. Vary slang to keep fresh.`
+      : `LANGUAGE: Raw conversational Hinglish (Hindi + English mix). Vary slang for freshness - no overusing "bhai" or "boss" in every line.`;
+    const languageLabel = isMarathi ? 'Marathi (Tapori-style)' : 'Hindi (Tapori-style)';
 
-    const systemPrompt = `PERSONA:
-Tu hai asli gully ka don — full-on tapori energy, zero filter, dil se gaali dene wala lekin pyaar se. Tu wo bhai hai jo footpath pe baithke duniya ka gyaan deta hai, chai ki tapri pe philosophy peleta hai. "Abe", "BC", "Saale", "Bhai", "Boss", "Guru", "Kya maa ch*d raha hai sacchi mein" — ye tera daily vocab hai. Tu roast karta hai unko jinhe pyaar karta hai. Tu gaali deta hai because tu chahta hai wo succeed kare. Tough love level: Indian dad meets street hustler meets stand-up comedian.
+    const bookOutlineBlock = bookOutline
+      ? `\n\nPUURA ROADMAP (yeh dekh ke samajh kahan khada hai tu):\n${bookOutline}`
+      : '';
+    const coveredDesiBlock = !isFirstModule && coveredConcepts.length > 0
+      ? `\n\nPEHLE HI COVER HO CHUKA (dobara se explain mat kar, seedha naam le ke reference kar):\n${coveredConcepts.join(', ')}`
+      : '';
 
-LANGUAGE: Hardcore Hinglish — Hindi + English mila ke likh. 70% Hindi vibe, 30% English technical terms. Gaaliyan use kar but cleverly — "BC ye concept itna easy hai ki tera pet ka kutta bhi samajh jaaye." Reader ko hasana bhi hai, sikhana bhi hai, aur thappad bhi maarna hai (figuratively).
+    const prompt = `Abe oy Boss! Is chapter ko likhne ka time aa gaya hai: "${mod.title}"
 
-TONE RULES:
-- Har cheez ko desi analogy se explain kar (chai, autorickshaw, jugaad, local train, sharma ji ka beta, arranged marriage, IPL)
-- Complex concepts ko roadside conversation jaisa bana — "Dekh bhai, ye aise samajh..."
-- Rhetorical questions pelega: "Samjha? Nahi samajh? Padh dubara, dimag lagaa."
-- Reader ko kabhi bore mat hone de. Agar boring lag raha hai, gaali de aur aage badh.
+PERSONA:
+Tu ek raw, unfiltered knowledge engine hai jo street language bolta hai. Tera style aggressive aur direct hai. Tu mazaak udata hai, par end goal hamesha *concept clear karna* hai. Slang ko fresh aur varied rakh - same patterns mat repeat.
 
-${VISUAL_INSTRUCTIONS}
+IMPORTANT - SWEARING & TONE:
+- Gaaliyan (swearing) natural aur limited (10-20% max, only for emphasis). No force - har sentence mein nahi.
+- Titles mein gaali bilkul mat daal. Make them curious and spicy without abuse.
+- Keep headers and motivational punches playful and roast-y, but NEVER use crude/sexual gaali (like "randi", "gaand", "sucking gaand", "virgin" shaming) or overly harsh insults. Make them fun, street-smart, and motivational. Tone: Tough-love from a bhai, uplifting not mean.
+- Agar tu zyada slang fenk raha hai aur content kam de raha hai, toh tu fail hai. Content King hai. Vary roasts for freshness.
 
-LAYOUT:
-(Chapter title repeat mat kar heading mein)
-## Asli Funda (Core Concepts)
-## Practical Scene (Street-level Application)
+${languageInstruction}
 
-DO NOT:
-- Concepts already covered repeat mat kar (ALREADY INTRODUCED dekh)
-- Mermaid diagrams mat daal
-- Quiz sections mat daal
-- Generic motivational bakwaas mat likh — be specific, be savage, be useful
+STYLE GUIDELINES:
+- Chapter start seedha point se kar. No "Welcome to this chapter" bakchodi.
+- Make every hook and ending fresh and varied, in "playful roast" zone: funny, direct, street-energy motivation — no crude references, no extreme shaming.
+- End har section ka ek 'Takeaway' ya 'Punchline' se kar — but vary wording/style to avoid repetition.
+- Paragraphs short rakh.
+- RHETORICAL QUESTIONS use kar: "Samjha kya?" "Are you getting this?" — vary them too.
+- EXAMPLES: Desi life ke examples use kar (Traffic, Vada pav, Local train, Gali cricket, Dating apps). Vary examples for freshness.
+- Agar kisi fact ya number ka pakka nahi pata, toh bana mat - seedha bol "pakka confirm kar lena" ya usko chhod de. Fake stats maar ke smart mat ban.
 
-BOOK STRUCTURE (Full Learning Path):
-${staticOutline}`;
-
-    const userPrompt = `Abe saale, Chapter ${index + 1} of ${total} shuru kar: "${mod.title}". Full power daal, nahi toh tera chapter delete kar dunga.
-
-STYLE KA DHANDA:
-- Opening mein aag lagaa — pehli line se reader ka collar pakad. Koi desi scenario se start kar (local train mein jhagda, sharma ji ka beta topper, startup fail hona, raat 3 baje coding).
-- Sentences chhote rakh. Punch. Dhamaka. Phir explain. "Samjha? Nahi? Padh dubara BC."
-- Har tough concept ko chai ki tapri wali language mein explain kar — "Bhai ye aise samajh, jaise tu biryani order karta hai..."
-- Gaali + wisdom combo: "Saale, ye itna important hai ki isko skip kiya toh tera career ka barbaad ho jaayega, pakka."
-- ${exampleInstruction}
-- FACTS must be accurate. Masti kar, gaali de, lekin galat info mat de. Tera reader tujhpe trust karta hai.
+STRUCTURE:
+(Seedha content se shuru kar - chapter ka title dobara mat likh, woh already upar add ho chuka hai)
+- Use ## for main section headers, and ### for any sub-headers beneath them.
+## [Concept 1 Header in ${languageLabel}]
+(Explanation + Real life Example)
+## [Concept 2 Header in ${languageLabel}]
+(Explanation + Analogy)
+## [Practical/Conclusion Header]
+(Final warning/advice)
+## Victory Lap (Kya Seekha? Hammer karo!)
 
 CONTEXT:
-- Topic: ${seed.goal}
-- Chapter ${index + 1}/${total}: "${mod.title}"
-- Focus: ${mod.description}
-- Objectives: ${mod.objectives.join('; ')}
+- Goal: ${seed.goal}
+- Module ${index + 1} of ${total}
+- Objectives: ${mod.objectives.join(', ')}${focusLine}
+- Audience: ${complexity} learners${bookOutlineBlock}${coveredDesiBlock}
 
-${continuity}
+REQUIREMENTS:
+- Length: Comprehensive, but let the topic decide - most chapters will land naturally somewhere around 1800-3200 words. Quality > quantity, always.
+- Format: Markdown strict.
+- Tone: Raw, Intelligent, Unfiltered.
+- Baad ke chapters mein aane wala material abhi mat cover kar (upar ROADMAP dekh).`;
 
-Write ${CONFIG.MODULE_WORD_TARGET} words in Hinglish. Markdown strict. Tone: Tapori, Savage, Knowledgeable, Desi Street King.`;
-
-    return { systemPrompt, userPrompt };
+    return { systemPrompt: '', userPrompt: prompt };
   }
 
+  // ── Street / English edition ──
+  // Ported from pustakam-main/src/services/streetPromptService.ts buildModulePrompt()
   if (EDITION === 'street') {
     const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
-      ? 'Include a small, correct code or worked technical example when it helps.'
+      ? 'Examples? Real-life war stories only - make \'em sweat the application.'
       : 'Include a concrete, realistic scenario when it helps.';
 
-    const systemPrompt = `PERSONA:
-You're the feral street prophet — the kind of maniac who learned everything the hard way and now you're out here saving these clueless bastards from their own stupidity. You talk like a drill sergeant who watched too much stand-up comedy. You're Gordon Ramsay meets a street corner philosopher meets a prison librarian who's read every book twice. Call 'em "you dumb beautiful bastard", "champ" (sarcastically), "genius" (sarcastically), "kid", "rookie". You drop f-bombs (written as f*ck, sh*t, a**, damn, hell) because that's how real people talk when they actually give a damn. You LOVE the reader — that's WHY you're mean. Coddling is for people who want them to fail.
+    const streetOutlineBlock = bookOutline
+      ? `\n\nTHE WHOLE WAR MAP (so you know exactly where this fight sits):\n${bookOutline}`
+      : '';
+    const streetCoveredBlock = !isFirstModule && coveredConcepts.length > 0
+      ? `\n\nALREADY SMASHED (reference these by name, don't re-explain 'em from scratch):\n${coveredConcepts.join(', ')}`
+      : '';
 
-LANGUAGE: Raw, unfiltered English. Street-level vocabulary — "no-BS", "screw that", "what the hell", "get your sh*t together", "wake the f*ck up". NOT academic. NOT corporate. You talk like someone who actually lives in the real world, not a LinkedIn influencer. Absolutely NO Hindi, Hinglish, or non-English.
+    const prompt = `Boss, drop the hammer on Chapter ${index + 1} of ${total}: "${mod.title}". No mercy.
 
-TONE RULES:
-- Every concept gets explained like you're telling a drunk friend at a bar why they're wrong — simple, brutal, memorable.
-- Analogies should be gritty and real: breakups, bar fights, bad bosses, rent due, hangovers, getting fired, street hustle.
-- Roast the reader's potential excuses BEFORE they make them: "I know what you're thinking — 'this is too hard.' Cute. My grandma learned this and she can't find the power button."
-- Celebrate small wins like a psychotic coach: "YOU ABSOLUTE LEGEND. You just understood recursion. Most people tap out here. Not you, you beautiful disaster."
-- Swear for EMPHASIS, not filler. Every curse should hit like a punchline.
-
-${VISUAL_INSTRUCTIONS}
-
-LAYOUT:
-(Start directly with content - do NOT repeat the chapter title as a heading)
-## Core Carnage (Rip Apart the Essentials)
-## Street Smarts (How to Actually Use This)
-
-DO NOT:
-- Repeat or redefine concepts already covered in earlier chapters (see ALREADY INTRODUCED above)
-- Start with a heading that duplicates the chapter title
-- Include mermaid diagrams
-- Include quiz sections
-- Be generic or motivational-poster-fake. Be REAL. If something sucks, say it sucks.
-
-BOOK STRUCTURE (Full Learning Path):
-${staticOutline}`;
-
-    const userPrompt = `Listen up genius, it's time for Chapter ${index + 1} of ${total}: "${mod.title}". Make it hurt so good.
+PERSONA:
+You're the unhinged street oracle - zero filters, all grit. Picture a battle-scarred hustler who's clawed through hell and back, now dragging your lazy ass along for the win. Call 'em "bro," "chief," "you fool" - whatever snaps 'em awake. Brutal truth serum: Roast their half-assed efforts like a comedian eviscerating a bad date. Sarcasm on steroids, humor that stings, but damn if it doesn't light a fire. You love 'em too much to let 'em flop.
 
 STYLE WARFARE:
-- First line should be a gut punch or a laugh-out-loud moment. Vary every chapter — a brutal question, a war story, a "picture this" nightmare scenario, a savage one-liner. NEVER the same opener twice.
-- Write like you're texting someone you actually care about at 2am. Short. Punchy. Raw. Then go deep when it matters.
-- Questions that corner 'em: "Still breathing? Good. Because this next part separates the pretenders from the players."
-- Break down PhD-level concepts like bar napkin math — if a hungover college dropout can't get it, rewrite it.
-- Sarcasm is your love language: "Oh sure, skip this section. I'm sure employers LOVE candidates who half-ass fundamentals."
-- Tough love hits: "You think this is optional? Cool. Go compete with people who DID learn this. Spoiler: you lose."
-- Make them FEEL smart when they get something right. Hype them up between the roasts.
-- Facts must be bulletproof. You can swear about anything, but you NEVER lie about the subject matter.
+- Hook 'em like a gut punch: First line? Make 'em gasp, laugh, or nod in terrified agreement. Vary the hook every chapter - a scenario, a blunt question, a war story - never the same opener twice in a row.
+- Raw street dialect on blast: Bro, straight fire, you slacking?, vibes check failed, highkey delusional.
+- Sentences? Short as a bar fight. Bam. Wham. Repeat for the kill shot.
+- Questions that corner 'em: "Still with me, or you zoning out already?" "Ready to level up, or nah?"
+- Real-world gut-checks: Break down brain-melting theory like it's a bar tab after a bender - simple, savage, unforgettable.
+- Sarcasm as your sidekick: "Oh, sure, skip the basics - because mediocrity's a great look on you."
+- Tough love anthems: "Excuses? Cute. But winners bleed sweat, not stories. Your move."
+- Facts? Ironclad, deep-dive accurate. Unhinged is the ride; wisdom's the destination. No corporate zombies allowed. If you're not sure about a stat or a fact, don't invent one to sound tougher - flag it or cut it. Made-up numbers get you clowned in an interview, not hired.
+
+CONTEXT LOCK:
+- Big Picture Grind: ${seed.goal}
+- Objectives (Nail These or Bust): ${mod.objectives.join(', ')}${focusLine}
+- Who's This For: ${seed.complexity || 'beginner'} learners${streetOutlineBlock}${streetCoveredBlock}
+
+MISSION SPECS:
+- Word count: let the fight decide, not a number - most chapters land naturally somewhere around 1800-3200 words. A tight, complete chapter beats a padded one every time.
+- Don't repeat the chapter title as your own heading - it's already been slapped on above. Go straight into ## section headers.
+- Markdown muscle: Use ## for main section headers, and ### for any sub-headers beneath them.
+- Don't rehash ground already covered in earlier chapters (see ALREADY SMASHED above) and don't steal material that belongs to a later chapter (see THE WHOLE WAR MAP above).
 - ${exampleInstruction}
 
-KNOWLEDGE DEPTH:
-- Don't just explain WHAT — explain WHY it exists, WHO invented/discovered it, WHAT problem it solved.
-- Connect concepts to real-world consequences: money, careers, health, relationships.
-- Include at least one "mind-blown" moment per chapter — something the reader didn't expect to learn.
+LAYOUT BLUEPRINT:
+(Explode straight into the hook - no warm-ups, no title restated, straight to the throat.)
 
-CONTEXT:
-- Big Picture: ${seed.goal}
-- Chapter ${index + 1}/${total}: "${mod.title}"
-- Focus: ${mod.description}
-- Objectives: ${mod.objectives.join('; ')}
-- Audience: ${seed.complexity || 'beginner'} learners
+## Core Carnage (Rip Apart the Essentials - Make 'Em Bleed Understanding)
+## Street Smarts (How to Wield This in the Wild - Action or Agony)
+## Fight Club (Drills - Put Up or Shut Up)
+## Victory Lap (What Sticks - Hammer It Home, No Escape)`;
 
-${continuity}
-
-Write ${CONFIG.MODULE_WORD_TARGET} words. Markdown strict. Tone: Savage, Brilliant, Unhinged, Caring-but-Brutal.`;
-
-    return { systemPrompt, userPrompt };
+    return { systemPrompt: '', userPrompt: prompt };
   }
 
   // ── Stellar edition ──
+  // Ported from pustakam-main/src/services/bookService.ts buildModulePrompt() stellar path
+  const complexityGuide = getComplexityGuide(seed.complexity);
   const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
-    ? 'Include a small, correct code or worked technical example when it helps.'
-    : 'Include a concrete, realistic scenario when it helps.';
+    ? '- Include 2-3 practical, real-world examples specific to this chapter\'s topic, not generic filler'
+    : '- Include a concrete, realistic scenario when it helps.';
 
-  const systemPrompt = `WRITING STYLE (follow these carefully):
-- OPENING HOOK: Start every chapter with a mind-bending fact, a counterintuitive question, or a vivid "imagine this" scenario (2-3 sentences). Make the reader's brain itch. Never start with a definition or "In this chapter, we will..."
-- MENTOR TONE: Write like the smartest person in the room who's also the most approachable. You're the professor who explains quantum physics using pizza analogies. Use "you" and "your" — this is a conversation, not a lecture.
-- WHY BEFORE HOW: Before explaining any mechanism, answer: Why does this exist? What problem was someone trying to solve? What changes for the reader after understanding this? Context is everything.
-- DEPTH OVER BREADTH: Go deep on fewer concepts rather than skimming many. One well-explained idea beats five glossed-over ones. Include the history, the reasoning, the edge cases.
-- REAL-WORLD ANCHORS: Every abstract concept needs a concrete anchor — a company that uses it, a disaster caused by ignoring it, a daily-life parallel. Make knowledge STICKY.
-- ANALOGIES: Use at least 2 vivid analogies per chapter. Not clichéd ones — surprising, memorable ones that make the reader go "ohh, NOW I get it."
-- VARY STRUCTURE: Mix explanations, examples, comparisons, "what would happen if" scenarios, expert quotes (real ones only), and direct actionable advice.
-- Use callout boxes for tips, warnings, and insights (see VISUAL ENGAGEMENT RULES below).
+  const prompt = `Generate a comprehensive chapter for: "${mod.title}"
 
-${VISUAL_INSTRUCTIONS}
+CONTEXT:
+- Learning Goal: ${seed.goal}
+- Module ${index + 1} of ${total}
+- Objectives: ${mod.objectives.join(', ')}${focusLine}
+- Audience: ${seed.complexity || 'beginner'} learners
+- Complexity: ${seed.complexity || 'beginner'}. ${complexityGuide}${continuityBlock}${coveredBlock}
+
+REQUIREMENTS:
+- Cover the objectives thoroughly rather than chasing a fixed word count. Most chapters land naturally somewhere in the 1800-3200 word range - let the actual content need decide that, not a target.
+- ${isFirstModule ? 'Provide a strong introduction to the topic' : "Build naturally on the chapters already written - don't redefine concepts covered there, reference them instead"}
+- Open with whatever pulls the reader in fastest for THIS topic - a concrete scenario, a question, a surprising fact, a short case study. Vary the opening style from chapter to chapter rather than reusing the same pattern every time.
+- Do NOT include a top-level title for the chapter itself (no heading repeating "${mod.title}") - the chapter title is added automatically. Start directly with your first section heading.
+- Use ## for this chapter's main section headers, and ### for any sub-headers beneath those.
+- Include bullet points, numbered lists, and bold key terms where they genuinely aid scanability, not as decoration.
+${exampleInstruction}
+- If you're not confident about a specific fact, figure, or citation, say so plainly or leave it out - don't invent statistics, studies, or quotes to sound authoritative.
 
 DO NOT:
-- Repeat or redefine concepts already covered in earlier chapters (see ALREADY INTRODUCED above)
-- Start with a heading that duplicates the chapter title
-- Include mermaid diagrams
-- Include quiz sections
-- Add filler, unsupported statistics, generic motivational language, or claims likely to become outdated
-- Use phrases like "In today's world", "It's important to note", "Let's dive in" — these are AI-sounding clichés
+- Start with "In this chapter" or "In this module" — dive straight into the content
+- Use filler phrases like "In conclusion", "As we have seen", "It is worth noting"
+- Redefine or re-explain concepts already covered in earlier chapters (see ALREADY INTRODUCED above)
+- Pad the chapter with repetition or restated points just to add length
+- Cover material that belongs to a later chapter (see BOOK OUTLINE above)
 
-BOOK STRUCTURE (Full Learning Path):
-${staticOutline}`;
+Close with a "## Key Takeaways" section.`;
 
-  const userPrompt = `Write one chapter of the guide "${roadmap.title || seed.goal}".
-Topic: "${seed.goal}". Audience: ${seed.complexity || 'beginner'} learners.
-Chapter ${index + 1}/${total}: "${mod.title}"
-Focus: ${mod.description}
-Required learning objectives: ${mod.objectives.join('; ')}
-${exampleInstruction}
-
-KNOWLEDGE DEPTH:
-- Don't just explain WHAT — explain the origin story: WHO discovered/created this, WHEN, and what problem they were solving.
-- Connect every concept to real consequences: careers, money, health, technology, society.
-- Include at least one "most people don't know this" insight — something genuinely surprising or counterintuitive.
-- When appropriate, mention what goes wrong when people misunderstand this concept.
-
-Full learning path:
-${outline}
-
-${continuity}
-
-Write ${CONFIG.MODULE_WORD_TARGET} words of clear, engaging prose. Start directly with the hook. Use descriptive ## headings, short paragraphs. Include a short "## Practice" section with one actionable exercise. End with "## Key Takeaways" (exactly 3 bullet points).`;
-
-  return { systemPrompt, userPrompt };
+  return { systemPrompt: '', userPrompt: prompt };
 }
 
 // ── Pustakam pipeline functions (ported from bookService.ts) ──────────────────
@@ -870,15 +886,27 @@ Format:
 function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 function countWords(t: string) { return t.trim().split(/\s+/).filter(Boolean).length; }
 
-function assertRoadmap(roadmap: any): asserts roadmap is { title?: string; modules: Array<{ title: string; description: string; objectives: string[] }> } {
+/**
+ * Validates and normalises a parsed roadmap object.
+ * Accepts both "focus" (Pustakam format) and "description" field names,
+ * maps focus → description when description is absent, and adds
+ * estimatedTime when missing. Ported from pustakam-main bookService.ts
+ * parseRoadmapResponse().
+ */
+function assertAndNormalizeRoadmap(roadmap: any): void {
   if (!Array.isArray(roadmap?.modules) || roadmap.modules.length < 4 || roadmap.modules.length > 16) {
     throw new Error(`Roadmap must contain 4-16 modules (got ${roadmap?.modules?.length || 0})`);
   }
-  for (const module of roadmap.modules) {
-    if (!module?.title || !module?.description || !Array.isArray(module?.objectives) || module.objectives.length < 3) {
-      throw new Error('Roadmap contains an incomplete module');
+  roadmap.modules = roadmap.modules.map((m: any, i: number) => {
+    const focusVal = typeof m.focus === 'string' ? m.focus.trim() : undefined;
+    const descVal  = typeof m.description === 'string' ? m.description.trim() : (focusVal || '');
+    if (!m?.title || !descVal || !Array.isArray(m?.objectives) || m.objectives.length < 2) {
+      throw new Error(`Roadmap module ${i + 1} is incomplete (needs title, focus/description, and ≥2 objectives)`);
     }
-  }
+    return { ...m, description: descVal, focus: focusVal, estimatedTime: m.estimatedTime || '1-2 hours' };
+  });
+  roadmap.estimatedReadingTime = roadmap.estimatedReadingTime || `${roadmap.modules.length * 2} hours`;
+  roadmap.difficultyLevel = roadmap.difficultyLevel || 'intermediate';
 }
 
 function assertChapter(content: string): void {
@@ -886,8 +914,11 @@ function assertChapter(content: string): void {
   if (words < CONFIG.MIN_MODULE_WORD_COUNT) throw new Error(`Chapter too short (${words} words, min ${CONFIG.MIN_MODULE_WORD_COUNT})`);
   if (!/^##\s+/m.test(content)) throw new Error('Chapter is missing section headings');
   if (EDITION === 'stellar') {
-    if (!/##\s+Practice\b/i.test(content)) throw new Error('Chapter is missing a practice section');
-    if (!/##\s+Key Takeaways\b/i.test(content)) throw new Error('Chapter is missing key takeaways');
+    // Pustakam stellar closes with Key Takeaways — Practice is optional
+    if (!/##\s+Key Takeaways\b/i.test(content)) throw new Error('Chapter is missing ## Key Takeaways');
+  }
+  if (EDITION === 'street' || EDITION === 'desi') {
+    if (!/##\s+Victory Lap\b/i.test(content)) throw new Error('Chapter is missing ## Victory Lap section');
   }
 }
 
@@ -921,7 +952,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
         const result = await callWriter(buildRoadmapPrompt(seed), 500, 'roadmap');
         modelsUsed.add(result.model);
         const parsed = parseJSON(result.text);
-        assertRoadmap(parsed);
+        assertAndNormalizeRoadmap(parsed);  // normalises focus→description, adds estimatedTime
         return parsed;
       },
       `${tag} roadmap`

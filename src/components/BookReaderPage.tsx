@@ -49,8 +49,48 @@ function extractSection(finalBook: string | undefined, sectionName: string): str
 
 const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
 
+// ── Section heading badge maps per edition (covers both old and new prompt patterns) ──
+const STREET_SECTION_BADGES: Record<string, string> = {
+  // New Pustakam-aligned patterns
+  'Core Carnage':   'badge-street-1',
+  'Street Smarts':  'badge-street-2',
+  'Fight Club':     'badge-street-3',
+  'Victory Lap':    'badge-street-4',
+  // Old portfolio patterns (still in existing books)
+  'Street-level Application': 'badge-street-2',
+  'Key Takeaways':  'badge-takeaway',
+  'Practice':       'badge-practice',
+};
+
+const DESI_SECTION_BADGES: Record<string, string> = {
+  // New Pustakam-aligned patterns
+  'Victory Lap':    'badge-desi-4',
+  // Old portfolio patterns
+  'Asli Funda':               'badge-desi-1',
+  'Practical Scene':          'badge-desi-2',
+  'Key Takeaways':            'badge-takeaway',
+  'Practice':                 'badge-practice',
+};
+
+const STELLAR_SECTION_BADGES: Record<string, string> = {
+  'Key Takeaways':  'badge-takeaway',
+  'Practice':       'badge-practice',
+};
+
+function getSectionBadgeClass(headingText: string, edition?: string): string | null {
+  const cleanText = headingText.replace(/\(.*\)/, '').trim(); // strip parentheticals for matching
+  const map = edition === 'street' ? STREET_SECTION_BADGES
+    : edition === 'desi' ? DESI_SECTION_BADGES
+    : STELLAR_SECTION_BADGES;
+  // Try exact match first, then prefix match
+  for (const [key, cls] of Object.entries(map)) {
+    if (cleanText.startsWith(key)) return cls;
+  }
+  return null;
+}
+
 // ── Enhanced Markdown renderer with callout detection & mermaid prep ──
-function renderMd(md: string): string {
+function renderMd(md: string, edition?: string): string {
   // Preprocess to clean up nested headings like "### **### Heading**" or "### ### Heading"
   const cleanedMd = md.replace(/^(\s*#{1,6}\s+)(?:\*\*\s*)?#{1,6}\s*(.*?)(?:\s*\*\*\s*)?\r?$/gm, '$1$2');
   let html = marked.parse(cleanedMd, { breaks: true, gfm: true }) as string;
@@ -68,6 +108,18 @@ function renderMd(md: string): string {
       return `<blockquote class="${cls}"><p>${emoji}`;
     }
   );
+
+  // Post-process: inject edition-aware section badge on known ## headings
+  if (edition === 'street' || edition === 'desi' || edition === 'stellar') {
+    html = html.replace(
+      /<h2>([^<]+)<\/h2>/g,
+      (_full: string, text: string) => {
+        const badgeClass = getSectionBadgeClass(text, edition);
+        if (!badgeClass) return _full;
+        return `<h2 class="section-heading ${badgeClass}"><span class="section-badge">${text}</span></h2>`;
+      }
+    );
+  }
 
   // Post-process mermaid code blocks into renderable containers
   html = html.replace(
@@ -1137,7 +1189,7 @@ export default function BookReaderPage() {
                 <p className="reader-chapter-number">Introduction</p>
                 <div
                   className="reader-chapter-body"
-                  dangerouslySetInnerHTML={{ __html: renderMd(intro) }}
+                  dangerouslySetInnerHTML={{ __html: renderMd(intro, book.edition) }}
                 />
               </div>
             );
@@ -1147,14 +1199,14 @@ export default function BookReaderPage() {
           {book.modules.map((mod, i) => (
             <div
               key={i}
-              className="reader-chapter"
+              className={`reader-chapter edition-${book.edition || 'stellar'}`}
               ref={el => { chapterRefs.current[i] = el; }}
             >
               <p className="reader-chapter-number">Chapter {i + 1}</p>
               <h2 className="reader-chapter-title">{mod.title}</h2>
               <div
                 className="reader-chapter-body"
-                dangerouslySetInnerHTML={{ __html: renderMd(mod.content) }}
+                dangerouslySetInnerHTML={{ __html: renderMd(mod.content, book.edition) }}
               />
             </div>
           ))}
@@ -1168,7 +1220,7 @@ export default function BookReaderPage() {
                 <p className="reader-chapter-number">Summary</p>
                 <div
                   className="reader-chapter-body"
-                  dangerouslySetInnerHTML={{ __html: renderMd(summary) }}
+                  dangerouslySetInnerHTML={{ __html: renderMd(summary, book.edition) }}
                 />
               </div>
             );
@@ -1183,7 +1235,7 @@ export default function BookReaderPage() {
                 <p className="reader-chapter-number">Glossary</p>
                 <div
                   className="reader-chapter-body"
-                  dangerouslySetInnerHTML={{ __html: renderMd(glossary) }}
+                  dangerouslySetInnerHTML={{ __html: renderMd(glossary, book.edition) }}
                 />
               </div>
             );
