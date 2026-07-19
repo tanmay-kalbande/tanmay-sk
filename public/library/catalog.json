@@ -1,6 +1,66 @@
 {
   "books": [
     {
+      "slug": "desi-how-to-start-a-podcast-for-beginners",
+      "title": "How to Start a Podcast for Beginners",
+      "goal": "How to start a podcast for beginners",
+      "category": "business",
+      "tags": [
+        "podcast",
+        "audio",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 17375,
+      "moduleCount": 9,
+      "readingTimeMins": 70,
+      "metaDescription": "How to Start a Podcast for Beginners — a free beginner-level guide covering how to start a podcast for beginners. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T18:26:04.960Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-marathon-training-for-beginners-the-nobs-guide",
+      "title": "Marathon Training for Beginners: The No-BS Guide",
+      "goal": "How to run a marathon for beginners",
+      "category": "health",
+      "tags": [
+        "running",
+        "marathon",
+        "fitness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 15775,
+      "moduleCount": 8,
+      "readingTimeMins": 64,
+      "metaDescription": "Marathon Training for Beginners: The No-BS Guide — a free beginner-level guide covering how to run a marathon for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T18:14:35.372Z",
+      "edition": "street"
+    },
+    {
+      "slug": "learn-to-play-chess-for-beginners-complete-guide",
+      "title": "Learn to Play Chess for Beginners: Complete Guide",
+      "goal": "Learn to play chess for beginners",
+      "category": "productivity",
+      "tags": [
+        "chess",
+        "board games",
+        "strategy"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26368,
+      "moduleCount": 11,
+      "readingTimeMins": 106,
+      "metaDescription": "Learn to Play Chess for Beginners: Complete Guide — a free beginner-level guide covering learn to play chess for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T18:07:20.498Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "desi-how-to-start-a-successful-youtube-channel",
       "title": "How to Start a Successful YouTube Channel",
       "goal": "How to start a successful YouTube channel",
@@ -2658,6 +2718,6 @@
       "edition": "street"
     }
   ],
-  "total": 131,
-  "generatedAt": "2026-07-19T17:26:31.025Z"
+  "total": 134,
+  "generatedAt": "2026-07-19T18:26:05.191Z"
 }
