@@ -334,17 +334,6 @@ export default function LibraryPage() {
             </div>
           )}
 
-          <div className="lib-sidebar-cta">
-            <a
-              href={PUSTAKAM_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary"
-              style={{ width: '100%', justifyContent: 'center' }}
-            >
-              Generate Custom
-            </a>
-          </div>
         </aside>
 
         {/* Right Main Grid */}
