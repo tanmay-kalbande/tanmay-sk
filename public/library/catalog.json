@@ -1,6 +1,136 @@
 {
   "books": [
     {
+      "slug": "desi-build-and-deploy-a-realtime-ai-sign-language-translation-app-with-python-an",
+      "title": "Haath Ki Bhasha: Sign Language Translator Ka Desi Khel",
+      "goal": "Build and deploy a real-time AI sign language translation app with Python and OpenCV",
+      "category": "programming",
+      "tags": [
+        "computer vision",
+        "accessibility",
+        "machine learning",
+        "python",
+        "opencv"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 27170,
+      "moduleCount": 12,
+      "readingTimeMins": 109,
+      "metaDescription": "Haath Ki Bhasha: Sign Language Translator Ka Desi Khel: a intermediate guide to build and deploy a real-time ai sign language translation app with python a",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T02:24:58.962Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-diy-radar-system-from-scratch-for-autonomous-drones-and-robotics",
+      "title": "From Zero to Radar: The Street Guide to Building Eyes in the Sky",
+      "goal": "Build a DIY radar system from scratch for autonomous drones and robotics",
+      "category": "science",
+      "tags": [
+        "diy radar",
+        "fmcw radar",
+        "rf engineering",
+        "autonomous drones",
+        "sensor fusion"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 42323,
+      "moduleCount": 12,
+      "readingTimeMins": 170,
+      "metaDescription": "From Zero to Radar: The Street Guide to Building Eyes in the Sky: a intermediate guide to build a diy radar system from scratch for autonomous drones and r",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T02:08:34.217Z",
+      "edition": "street"
+    },
+    {
+      "slug": "desi-build-a-diy-radio-telescope-from-scratch-to-detect-hydrogen-line-emissions",
+      "title": "Andar Ka Network: DIY Radio Telescope Ka Desi Khel",
+      "goal": "Build a DIY radio telescope from scratch to detect hydrogen line emissions",
+      "category": "science",
+      "tags": [
+        "radio astronomy",
+        "diy telescope",
+        "hydrogen line",
+        "signal processing",
+        "amateur radio"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22046,
+      "moduleCount": 8,
+      "readingTimeMins": 89,
+      "metaDescription": "Andar Ka Network: DIY Radio Telescope Ka Desi Khel: a intermediate guide to build a diy radio telescope from scratch to detect hydrogen line emissions with",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T21:03:03.970Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-diy-acoustic-panel-soundproofing-system-for-home-studios-beginner",
+      "title": "The Soundproof Hustle: Bulletproof Your Studio",
+      "goal": "Build a DIY acoustic panel soundproofing system for home studios",
+      "category": "design",
+      "tags": [
+        "soundproofing",
+        "acoustic treatment",
+        "diy audio",
+        "home studio"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 29676,
+      "moduleCount": 8,
+      "readingTimeMins": 119,
+      "metaDescription": "The Soundproof Hustle: Bulletproof Your Studio: a beginner guide to build a diy acoustic panel soundproofing system for home studios with clear explanation",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T20:51:31.358Z",
+      "edition": "street"
+    },
+    {
+      "slug": "desi-build-a-diy-smart-greenhouse-with-arduino-and-automated-irrigation-beginner",
+      "title": "Bhai Ka Smart Greenhouse: Arduino Se Pani Tak Full Desi Roadmap",
+      "goal": "Build a DIY Smart Greenhouse with Arduino and Automated Irrigation",
+      "category": "science",
+      "tags": [
+        "arduino",
+        "smart agriculture",
+        "automation",
+        "diy electronics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25695,
+      "moduleCount": 10,
+      "readingTimeMins": 103,
+      "metaDescription": "Bhai Ka Smart Greenhouse: Arduino Se Pani Tak Full Desi Roadmap: a beginner guide to build a diy smart greenhouse with arduino and automated irrigation wit",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T16:20:31.270Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-build-a-diy-smart-soil-moisture-sensor-with-iot-alerts-beginner",
+      "title": "Dirt, Wires, And Hustle: The IoT Soil Sensor Blueprint",
+      "goal": "Build a DIY smart soil moisture sensor with IoT alerts",
+      "category": "science",
+      "tags": [
+        "diy electronics",
+        "smart agriculture",
+        "esp32",
+        "soil moisture sensor",
+        "home automation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 33585,
+      "moduleCount": 9,
+      "readingTimeMins": 135,
+      "metaDescription": "Dirt, Wires, And Hustle: The IoT Soil Sensor Blueprint: a beginner guide to build a diy smart soil moisture sensor with iot alerts with clear explanations,",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-18T16:04:03.940Z",
+      "edition": "street"
+    },
+    {
       "slug": "desi-build-an-automated-ai-smart-contract-auditor-to-find-solidity-vulnerabiliti",
       "title": "Desi AI Auditor: Solidity Hack Bachao Mission - Full Scene",
       "goal": "Build an automated AI smart contract auditor to find Solidity vulnerabilities and prevent DeFi hacks",
@@ -1888,6 +2018,6 @@
       "edition": "street"
     }
   ],
-  "total": 93,
-  "generatedAt": "2026-07-18T11:30:42.393Z"
+  "total": 99,
+  "generatedAt": "2026-07-19T02:24:59.130Z"
 }
