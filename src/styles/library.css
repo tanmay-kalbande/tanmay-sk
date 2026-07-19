@@ -1271,16 +1271,63 @@ html[data-theme="dark"] .reader-root,
   color: var(--accent);
 }
 
-.reader-chapter-body pre {
+.code-block-wrapper {
   margin: 1.5rem 0;
-  padding: 1.25rem 1.5rem;
   background: rgba(120, 120, 120, 0.04);
   border: 1px solid rgba(120, 120, 120, 0.1);
   border-left: 3px solid var(--accent);
   border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: rgba(120, 120, 120, 0.08);
+  border-bottom: 1px solid rgba(120, 120, 120, 0.1);
+  font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+  font-size: 0.75em;
+  color: var(--ink-2);
+}
+
+.code-block-lang {
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.code-block-copy {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: var(--ink-2);
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.code-block-copy:hover {
+  background: rgba(120, 120, 120, 0.15);
+  color: var(--ink);
+}
+
+.reader-chapter-body .code-block-wrapper pre {
+  margin: 0;
+  padding: 1.25rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   overflow-x: auto;
 }
-.reader-chapter-body pre code {
+
+.reader-chapter-body .code-block-wrapper pre code {
   padding: 0;
   background: none;
   border: none;
