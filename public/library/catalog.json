@@ -1,6 +1,66 @@
 {
   "books": [
     {
+      "slug": "desi-how-to-learn-japanese-for-beginners",
+      "title": "How to Learn Japanese for Beginners",
+      "goal": "How to learn Japanese for beginners",
+      "category": "languages",
+      "tags": [
+        "japanese",
+        "language learning",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 16544,
+      "moduleCount": 9,
+      "readingTimeMins": 67,
+      "metaDescription": "How to Learn Japanese for Beginners — a free beginner-level guide covering how to learn japanese for beginners. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T23:18:43.978Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-how-to-learn-korean-for-beginners",
+      "title": "How to Learn Korean for Beginners",
+      "goal": "How to learn Korean for beginners",
+      "category": "languages",
+      "tags": [
+        "korean",
+        "language learning",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18793,
+      "moduleCount": 9,
+      "readingTimeMins": 76,
+      "metaDescription": "How to Learn Korean for Beginners — a free beginner-level guide covering how to learn korean for beginners. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T23:07:20.897Z",
+      "edition": "street"
+    },
+    {
+      "slug": "how-to-write-a-cover-letter-for-a-job-stepbystep-g",
+      "title": "How to Write a Cover Letter for a Job: Step-by-Step Guide",
+      "goal": "How to write a cover letter for a job",
+      "category": "career",
+      "tags": [
+        "cover letter",
+        "job search",
+        "career"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25312,
+      "moduleCount": 10,
+      "readingTimeMins": 102,
+      "metaDescription": "How to Write a Cover Letter for a Job: Step-by-Step Guide — a free beginner-level guide covering how to write a cover letter for a job. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-19T22:58:05.633Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "desi-wordpress-web-design-for-beginners",
       "title": "WordPress Web Design for Beginners",
       "goal": "How to learn WordPress web design for beginners",
@@ -2900,6 +2960,6 @@
       "edition": "street"
     }
   ],
-  "total": 143,
-  "generatedAt": "2026-07-19T22:16:39.367Z"
+  "total": 146,
+  "generatedAt": "2026-07-19T23:18:44.204Z"
 }
