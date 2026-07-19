@@ -404,6 +404,7 @@ function findEmbeddedAnswerStart(line: string): number {
 }
 
 function scrubInstructionLeak(raw: string): string {
+  const original = raw;
   let text = raw;
 
   text = text.replace(/<\|channel\>thought[\s\S]*?<channel\|>/gi, "");
@@ -473,10 +474,15 @@ function scrubInstructionLeak(raw: string): string {
 
   const remainder = lines.slice(end).join("\n").trim();
 
-  if (!remainder) return prefix;
-  if (!prefix || /^(hello|hi|hey)\b[\s!.]*$/i.test(prefix)) return tidyVisibleAnswer(remainder);
+  let result: string;
+  if (!remainder) result = prefix;
+  else if (!prefix || /^(hello|hi|hey)\b[\s!.]*$/i.test(prefix)) result = tidyVisibleAnswer(remainder);
+  else result = prefix;
 
-  return prefix;
+  // Safety net: if scrubbing would produce empty or near-empty text,
+  // keep the original rather than showing "No response"
+  if (!result || result.length < 10) return original.trim();
+  return result;
 }
 
 type AssistantStreamPayload = {
@@ -1379,7 +1385,13 @@ export default function AssistantChat({ variant }: AssistantChatProps) {
           if (event !== "chunk" && event !== "done") return;
 
           stopNarration();
-          latestAnswer = scrubInstructionLeak(payload.text ?? latestAnswer);
+          // Only scrub on the final "done" event — partial chunks can
+          // false-positive the heuristic leak detector and nuke the answer.
+          if (event === "done") {
+            latestAnswer = scrubInstructionLeak(payload.text ?? latestAnswer);
+          } else {
+            latestAnswer = payload.text ?? latestAnswer;
+          }
           queueStreamState(latestAnswer, event !== "done");
         });
 

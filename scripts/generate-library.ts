@@ -487,6 +487,7 @@ function buildModulePrompt(
   total: number,
   previousModules: Array<{ title: string; content: string; wordCount: number }>
 ): { systemPrompt: string; userPrompt: string } {
+  const complexity = seed.complexity || 'beginner';
   // ── Positional outline — ported from pustakam-main bookService.ts buildModulePrompt() ──
   // Each module gets a positional marker so the AI knows what's before/after the current chapter.
   const bookOutline = roadmap.modules.map((item, i) => {
@@ -747,7 +748,7 @@ function generateTableOfContents(modules: Array<{ title: string }>): string {
   const items = [
     `- [Introduction](#introduction)`,
     ...modules.map((m, i) => {
-      const heading = `Module ${i + 1}: ${m.title}`;
+      const heading = `Chapter ${i + 1}: ${m.title}`;
       const slug = heading.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
       return `${i + 1}. [${heading}](#${slug})`;
     }),
@@ -1053,7 +1054,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     introduction ? `## Introduction\n\n${introduction}\n\n---\n\n` : '',
     // Chapters
     ...modules.map((m, i) => {
-      return `# Module ${i + 1}: ${m.title}\n\n${m.content}\n\n${i < modules.length - 1 ? '---\n\n' : ''}`;
+      return `# Chapter ${i + 1}: ${m.title}\n\n${m.content}\n\n${i < modules.length - 1 ? '---\n\n' : ''}`;
     }),
     // Summary
     summary ? `\n---\n\n## Summary\n\n${summary}\n\n` : '',
