@@ -89,6 +89,28 @@ function getSectionBadgeClass(headingText: string, edition?: string): string | n
   return null;
 }
 
+function stripLeadingDuplicateHeading(content: string, moduleTitle: string): string {
+  const lines = content.split('\n');
+  let i = 0;
+  while (i < lines.length && lines[i].trim() === '') i++;
+  if (i >= lines.length) return content;
+
+  const firstLine = lines[i].trim();
+  const headingMatch = firstLine.match(/^#{1,3}\s+(.+)$/);
+  if (!headingMatch) return content;
+
+  const headingText = headingMatch[1].trim().toLowerCase();
+  const titleText = moduleTitle.trim().toLowerCase();
+  
+  const overlaps = titleText.length > 0 && (
+    headingText.includes(titleText.slice(0, 15)) || titleText.includes(headingText.slice(0, 15))
+  );
+  if (!overlaps) return content;
+
+  lines.splice(i, 1);
+  return lines.join('\n').replace(/^\n+/, '');
+}
+
 // ── Enhanced Markdown renderer with callout detection & mermaid prep ──
 function renderMd(md: string, edition?: string): string {
   // Preprocess to clean up nested headings like "### **### Heading**" or "### ### Heading"
@@ -208,7 +230,7 @@ function exportToPdf(book: BookFile) {
           <span class="chapter-num">Chapter ${i + 1}</span>
           <h2 class="chapter-title">${mod.title}</h2>
         </div>
-        <div class="chapter-body">${renderMd(mod.content)}</div>
+        <div class="chapter-body">${renderMd(stripLeadingDuplicateHeading(mod.content, mod.title))}</div>
       </div>
     `)
     .join('');
@@ -1299,7 +1321,7 @@ export default function BookReaderPage() {
               <h2 className="reader-chapter-title">{mod.title}</h2>
               <div
                 className="reader-chapter-body"
-                dangerouslySetInnerHTML={{ __html: renderMd(mod.content, book.edition) }}
+                dangerouslySetInnerHTML={{ __html: renderMd(stripLeadingDuplicateHeading(mod.content, mod.title), book.edition) }}
               />
             </div>
           ))}

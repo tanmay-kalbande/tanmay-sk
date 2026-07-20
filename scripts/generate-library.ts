@@ -776,7 +776,7 @@ CATEGORY: ${seed.category}
 
 Write 800-1200 words covering: welcome and purpose, what readers will learn, book structure, motivation. Use ### markdown headers for internal sections (this is already wrapped in its own "## Introduction" heading, so don't title any of your own sections "Introduction" - start with something like "### Welcome and Purpose" instead).
 
-${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ? 'TONE: Hardcore Hinglish tapori style — gaali + gyaan combo, savage but loving. Same persona as the rest of the book. "Abe sun, ye introduction hai, dhyan se padh nahi toh baad mein royega."' : EDITION === 'street' ? 'TONE: Raw, unfiltered, street-prophet style — curse when it hits, roast the reader for even thinking about skipping the intro. Same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, knowledgeable, mentor-like. Make the reader excited about what they\'re about to learn.'}`;
+${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ? 'TONE: Hardcore Hinglish tapori style — gaali + gyaan combo, savage but loving. Same persona as the rest of the book. Vary your opening hook wildly based on the topic. Do NOT repeat generic lines like "Abe sun, ye introduction hai". Make it unique and directly tied to the subject matter.' : EDITION === 'street' ? 'TONE: Raw, unfiltered, street-prophet style — curse when it hits, roast the reader for even thinking about skipping the intro. Same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, knowledgeable, mentor-like. Make the reader excited about what they\'re about to learn.'}`;
 
   const result = await withRetry(
     () => callWriter(prompt, 800, 'assemble'),
