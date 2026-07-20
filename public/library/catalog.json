@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-become-a-project-manager-a-beginners-roadma",
+      "title": "How to Become a Project Manager: A Beginner's Roadmap",
+      "goal": "How to become a project manager",
+      "category": "career",
+      "tags": [
+        "project management",
+        "career change",
+        "pm"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 28454,
+      "moduleCount": 12,
+      "readingTimeMins": 114,
+      "metaDescription": "How to Become a Project Manager: A Beginner's Roadmap — a free beginner-level guide covering how to become a project manager. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T23:45:15.426Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-improve-gut-health-naturally-a-beginners-gu",
+      "title": "How to Improve Gut Health Naturally: A Beginner's Guide",
+      "goal": "How to improve gut health naturally",
+      "category": "health",
+      "tags": [
+        "gut health",
+        "digestion",
+        "probiotics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19981,
+      "moduleCount": 9,
+      "readingTimeMins": 80,
+      "metaDescription": "How to Improve Gut Health Naturally: A Beginner's Guide — a free beginner-level guide covering how to improve gut health naturally. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T23:33:47.119Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "beginners-guide-to-photo-editing-in-photoshop",
+      "title": "Beginner's Guide to Photo Editing in Photoshop",
+      "goal": "Learn to edit photos in Photoshop",
+      "category": "design",
+      "tags": [
+        "photoshop",
+        "photo editing",
+        "retouching"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19928,
+      "moduleCount": 8,
+      "readingTimeMins": 80,
+      "metaDescription": "Beginner's Guide to Photo Editing in Photoshop — a free beginner-level guide covering learn to edit photos in photoshop. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T23:25:51.061Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-an-amazon-fba-business-for-beginners",
+      "title": "How to Start an Amazon FBA Business for Beginners",
+      "goal": "How to start an Amazon FBA business",
+      "category": "business",
+      "tags": [
+        "amazon fba",
+        "ecommerce",
+        "selling online"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23364,
+      "moduleCount": 9,
+      "readingTimeMins": 94,
+      "metaDescription": "How to Start an Amazon FBA Business for Beginners — a free beginner-level guide covering how to start an amazon fba business. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T23:18:26.964Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-pass-the-pmp-exam-complete-study-roadmap",
+      "title": "How to Pass the PMP Exam: Complete Study Roadmap",
+      "goal": "How to pass the PMP certification exam",
+      "category": "exams",
+      "tags": [
+        "pmp",
+        "project management",
+        "certification"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 26920,
+      "moduleCount": 12,
+      "readingTimeMins": 108,
+      "metaDescription": "How to Pass the PMP Exam: Complete Study Roadmap — a free intermediate-level guide covering how to pass the pmp certification exam. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T23:09:00.683Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-fix-lower-back-pain-with-stretches",
       "title": "How to Fix Lower Back Pain with Stretches",
       "goal": "How to fix lower back pain with stretches",
@@ -3720,6 +3820,6 @@
       "edition": "street"
     }
   ],
-  "total": 184,
-  "generatedAt": "2026-07-20T21:58:52.570Z"
+  "total": 189,
+  "generatedAt": "2026-07-20T23:45:15.630Z"
 }
