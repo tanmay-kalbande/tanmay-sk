@@ -129,10 +129,8 @@ jobs:
             echo "Running manual dispatch for edition: ${{ github.event.inputs.edition }}"
             EDITION="${{ github.event.inputs.edition || 'stellar' }}" npx tsx scripts/generate-library.ts
           else
-            echo "Running scheduled run: generating 1 of each edition (stellar, street, desi) sequentially"
-            MAX_BOOKS="1" EDITION="stellar" npx tsx scripts/generate-library.ts
-            MAX_BOOKS="1" EDITION="street" npx tsx scripts/generate-library.ts
-            MAX_BOOKS="1" EDITION="desi" npx tsx scripts/generate-library.ts
+            echo "Running scheduled run: generating 5 stellar editions"
+            MAX_BOOKS="5" EDITION="stellar" npx tsx scripts/generate-library.ts
           fi
 
       # ── 6. Transmission Debrief ──────────────────────────────────────────────
