@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "gre-quant-prep-guide-score-165-step-by-step",
+      "title": "GRE Quant Prep Guide: Score 165+ Step by Step",
+      "goal": "GRE preparation guide for high quantitative score",
+      "category": "exams",
+      "tags": [
+        "gre",
+        "test prep",
+        "quant"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22493,
+      "moduleCount": 10,
+      "readingTimeMins": 90,
+      "metaDescription": "GRE Quant Prep Guide: Score 165+ Step by Step — a free intermediate-level guide covering gre preparation guide for high quantitative score. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T13:21:58.643Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-negotiate-salary-for-a-new-job-offer",
+      "title": "How to Negotiate Salary for a New Job Offer",
+      "goal": "How to negotiate salary for a new job offer",
+      "category": "career",
+      "tags": [
+        "salary negotiation",
+        "job offer",
+        "career"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 14505,
+      "moduleCount": 6,
+      "readingTimeMins": 59,
+      "metaDescription": "How to Negotiate Salary for a New Job Offer — a free intermediate-level guide covering how to negotiate salary for a new job offer. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T13:09:02.526Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-build-muscle-at-home-with-calisthenics",
+      "title": "How to Build Muscle at Home with Calisthenics",
+      "goal": "How to build muscle with calisthenics at home",
+      "category": "health",
+      "tags": [
+        "calisthenics",
+        "bodyweight",
+        "muscle building"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25369,
+      "moduleCount": 10,
+      "readingTimeMins": 102,
+      "metaDescription": "How to Build Muscle at Home with Calisthenics — a free beginner-level guide covering how to build muscle with calisthenics at home. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T13:00:39.015Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-day-trading-stocks-a-beginners-guide",
+      "title": "How to Start Day Trading Stocks: A Beginner's Guide",
+      "goal": "How to start day trading stocks for beginners",
+      "category": "finance",
+      "tags": [
+        "day trading",
+        "stocks",
+        "investing"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24714,
+      "moduleCount": 10,
+      "readingTimeMins": 99,
+      "metaDescription": "How to Start Day Trading Stocks: A Beginner's Guide — a free beginner-level guide covering how to start day trading stocks for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T12:48:38.605Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-react-native-for-app-development",
+      "title": "Learn React Native for App Development",
+      "goal": "How to learn React Native for app development",
+      "category": "programming",
+      "tags": [
+        "react native",
+        "mobile apps",
+        "javascript"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 23379,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "Learn React Native for App Development — a free intermediate-level guide covering how to learn react native for app development. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T12:34:38.606Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "toefl-prep-guide-score-100-with-proven-strategies",
       "title": "TOEFL Prep Guide: Score 100+ With Proven Strategies",
       "goal": "TOEFL preparation guide for high scores",
@@ -3220,6 +3320,6 @@
       "edition": "street"
     }
   ],
-  "total": 159,
-  "generatedAt": "2026-07-20T10:57:31.695Z"
+  "total": 164,
+  "generatedAt": "2026-07-20T13:21:58.911Z"
 }
