@@ -360,6 +360,7 @@ export default function LibraryPage() {
               Structured, chapter-by-chapter roadmaps on programming, finance, exams, and more.
               Every curriculum is free to read. Build a custom version on your exact topic with Pustakam.
             </p>
+            <div className="lib-hero-rule" />
           </div>
 
           {/* Active Filter Header */}
