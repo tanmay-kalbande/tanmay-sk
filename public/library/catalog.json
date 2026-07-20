@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-ask-for-a-promotion-at-work-a-stepbystep-gu",
+      "title": "How to Ask for a Promotion at Work: A Step-by-Step Guide",
+      "goal": "How to ask for a promotion at work",
+      "category": "career",
+      "tags": [
+        "promotion",
+        "career growth",
+        "management"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 17734,
+      "moduleCount": 8,
+      "readingTimeMins": 71,
+      "metaDescription": "How to Ask for a Promotion at Work: A Step-by-Step Guide — a free intermediate-level guide covering how to ask for a promotion at work. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T16:05:43.678Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "adobe-illustrator-for-logo-design-the-intermediate",
+      "title": "Adobe Illustrator for Logo Design: The Intermediate Guide",
+      "goal": "Learn Adobe Illustrator for logo design",
+      "category": "design",
+      "tags": [
+        "illustrator",
+        "logos",
+        "vector"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 20528,
+      "moduleCount": 9,
+      "readingTimeMins": 83,
+      "metaDescription": "Adobe Illustrator for Logo Design: The Intermediate Guide — a free intermediate-level guide covering learn adobe illustrator for logo design. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T15:56:01.605Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-fix-rounded-shoulders-and-improve-posture",
+      "title": "How to Fix Rounded Shoulders and Improve Posture",
+      "goal": "How to improve posture and fix rounded shoulders",
+      "category": "health",
+      "tags": [
+        "posture",
+        "mobility",
+        "ergonomics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20897,
+      "moduleCount": 9,
+      "readingTimeMins": 84,
+      "metaDescription": "How to Fix Rounded Shoulders and Improve Posture — a free beginner-level guide covering how to improve posture and fix rounded shoulders. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T15:44:32.773Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-write-a-winning-business-proposal-a-beginne",
+      "title": "How to Write a Winning Business Proposal: A Beginner's Guide",
+      "goal": "How to write a business proposal",
+      "category": "business",
+      "tags": [
+        "proposals",
+        "b2b",
+        "sales"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24658,
+      "moduleCount": 10,
+      "readingTimeMins": 99,
+      "metaDescription": "How to Write a Winning Business Proposal: A Beginner's Guide — a free beginner-level guide covering how to write a business proposal. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T15:34:14.302Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "swift-for-ios-app-development-a-beginners-guide",
+      "title": "Swift for iOS App Development: A Beginner's Guide",
+      "goal": "Learn Swift for iOS app development",
+      "category": "programming",
+      "tags": [
+        "swift",
+        "ios",
+        "xcode"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25553,
+      "moduleCount": 12,
+      "readingTimeMins": 103,
+      "metaDescription": "Swift for iOS App Development: A Beginner's Guide — a free beginner-level guide covering learn swift for ios app development. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T15:22:23.024Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "gre-quant-prep-guide-score-165-step-by-step",
       "title": "GRE Quant Prep Guide: Score 165+ Step by Step",
       "goal": "GRE preparation guide for high quantitative score",
@@ -3320,6 +3420,6 @@
       "edition": "street"
     }
   ],
-  "total": 164,
-  "generatedAt": "2026-07-20T13:21:58.911Z"
+  "total": 169,
+  "generatedAt": "2026-07-20T16:05:43.950Z"
 }
