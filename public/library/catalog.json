@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "facebook-ads-for-local-businesses-a-complete-guide",
+      "title": "Facebook Ads for Local Businesses: A Complete Guide",
+      "goal": "How to run Facebook ads for local businesses",
+      "category": "business",
+      "tags": [
+        "facebook ads",
+        "marketing",
+        "local business"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19357,
+      "moduleCount": 8,
+      "readingTimeMins": 78,
+      "metaDescription": "Facebook Ads for Local Businesses: A Complete Guide — a free intermediate-level guide covering how to run facebook ads for local businesses. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T07:32:21.100Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "intermediate-spanish-grammar-conversation-guide",
+      "title": "Intermediate Spanish Grammar & Conversation Guide",
+      "goal": "Intermediate Spanish grammar and conversation",
+      "category": "languages",
+      "tags": [
+        "spanish",
+        "grammar",
+        "conversation"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 20166,
+      "moduleCount": 10,
+      "readingTimeMins": 81,
+      "metaDescription": "Intermediate Spanish Grammar & Conversation Guide — a free intermediate-level guide covering intermediate spanish grammar and conversation. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T07:18:39.229Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-write-professional-business-emails",
+      "title": "How to Write Professional Business Emails",
+      "goal": "How to write a business email professionally",
+      "category": "career",
+      "tags": [
+        "email",
+        "communication",
+        "business"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19582,
+      "moduleCount": 8,
+      "readingTimeMins": 79,
+      "metaDescription": "How to Write Professional Business Emails — a free beginner-level guide covering how to write a business email professionally. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T07:02:12.730Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-mandarin-chinese-for-beginners-a-stepbystep",
+      "title": "Learn Mandarin Chinese for Beginners: A Step-by-Step Guide",
+      "goal": "Learn Mandarin Chinese for beginners",
+      "category": "languages",
+      "tags": [
+        "mandarin",
+        "chinese",
+        "language learning"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21250,
+      "moduleCount": 10,
+      "readingTimeMins": 85,
+      "metaDescription": "Learn Mandarin Chinese for Beginners: A Step-by-Step Guide — a free beginner-level guide covering learn mandarin chinese for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T06:48:36.525Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-dropshipping-on-shopify-a-beginners-g",
+      "title": "How to Start Dropshipping on Shopify: A Beginner's Guide",
+      "goal": "How to start dropshipping on Shopify",
+      "category": "business",
+      "tags": [
+        "dropshipping",
+        "shopify",
+        "ecommerce"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25252,
+      "moduleCount": 10,
+      "readingTimeMins": 102,
+      "metaDescription": "How to Start Dropshipping on Shopify: A Beginner's Guide — a free beginner-level guide covering how to start dropshipping on shopify. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T06:31:47.400Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "desi-furniture-flipping-for-beginners-profit-guide",
       "title": "Furniture Flipping for Beginners: Profit Guide",
       "goal": "How to start flipping furniture for profit",
@@ -3020,6 +3120,6 @@
       "edition": "street"
     }
   ],
-  "total": 149,
-  "generatedAt": "2026-07-20T00:23:54.617Z"
+  "total": 154,
+  "generatedAt": "2026-07-20T07:32:21.356Z"
 }
