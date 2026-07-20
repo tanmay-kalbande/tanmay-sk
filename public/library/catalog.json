@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "figma-for-uiux-design-the-beginners-guide",
+      "title": "Figma for UI/UX Design: The Beginner's Guide",
+      "goal": "Learn Figma for UI UX design",
+      "category": "design",
+      "tags": [
+        "figma",
+        "ui",
+        "ux"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20958,
+      "moduleCount": 8,
+      "readingTimeMins": 84,
+      "metaDescription": "Figma for UI/UX Design: The Beginner's Guide — a free beginner-level guide covering learn figma for ui ux design. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T18:45:34.438Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-vending-machine-business-a-beginner",
+      "title": "How to Start a Vending Machine Business: A Beginner's Guide",
+      "goal": "How to start a vending machine business",
+      "category": "finance",
+      "tags": [
+        "passive income",
+        "vending",
+        "small business"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22926,
+      "moduleCount": 9,
+      "readingTimeMins": 92,
+      "metaDescription": "How to Start a Vending Machine Business: A Beginner's Guide — a free beginner-level guide covering how to start a vending machine business. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T18:37:17.044Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-freelance-writing-business-stepbyst",
+      "title": "How to Start a Freelance Writing Business: Step-by-Step",
+      "goal": "How to start a freelance writing business",
+      "category": "business",
+      "tags": [
+        "freelancing",
+        "writing",
+        "sidehustle"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21822,
+      "moduleCount": 9,
+      "readingTimeMins": 88,
+      "metaDescription": "How to Start a Freelance Writing Business: Step-by-Step — a free beginner-level guide covering how to start a freelance writing business. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T18:28:01.511Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "typescript-for-web-development-a-practical-guide",
+      "title": "TypeScript for Web Development: A Practical Guide",
+      "goal": "Learn TypeScript for web development",
+      "category": "programming",
+      "tags": [
+        "typescript",
+        "javascript",
+        "webdev"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 25190,
+      "moduleCount": 12,
+      "readingTimeMins": 101,
+      "metaDescription": "TypeScript for Web Development: A Practical Guide — a free intermediate-level guide covering learn typescript for web development. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T18:18:59.318Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-running-for-beginners-the-complete-gu",
+      "title": "How To Start Running For Beginners: The Complete Guide",
+      "goal": "How to start running for beginners",
+      "category": "health",
+      "tags": [
+        "running",
+        "cardio",
+        "fitness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22009,
+      "moduleCount": 9,
+      "readingTimeMins": 89,
+      "metaDescription": "How To Start Running For Beginners: The Complete Guide — a free beginner-level guide covering how to start running for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T18:07:51.659Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-ask-for-a-promotion-at-work-a-stepbystep-gu",
       "title": "How to Ask for a Promotion at Work: A Step-by-Step Guide",
       "goal": "How to ask for a promotion at work",
@@ -3420,6 +3520,6 @@
       "edition": "street"
     }
   ],
-  "total": 169,
-  "generatedAt": "2026-07-20T16:05:43.950Z"
+  "total": 174,
+  "generatedAt": "2026-07-20T18:45:34.697Z"
 }
