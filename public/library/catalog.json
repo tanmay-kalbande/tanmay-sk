@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-fix-lower-back-pain-with-stretches",
+      "title": "How to Fix Lower Back Pain with Stretches",
+      "goal": "How to fix lower back pain with stretches",
+      "category": "health",
+      "tags": [
+        "lower back pain",
+        "stretches",
+        "posture"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20027,
+      "moduleCount": 8,
+      "readingTimeMins": 81,
+      "metaDescription": "How to Fix Lower Back Pain with Stretches — a free beginner-level guide covering how to fix lower back pain with stretches. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T21:58:52.285Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-get-a-software-engineering-job-the-complete",
+      "title": "How to Get a Software Engineering Job: The Complete Guide",
+      "goal": "How to get a software engineering job",
+      "category": "career",
+      "tags": [
+        "software engineering",
+        "job search",
+        "tech career"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22930,
+      "moduleCount": 10,
+      "readingTimeMins": 92,
+      "metaDescription": "How to Get a Software Engineering Job: The Complete Guide — a free intermediate-level guide covering how to get a software engineering job. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T21:50:51.570Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-an-affiliate-marketing-blog",
+      "title": "How to Start an Affiliate Marketing Blog",
+      "goal": "How to start a successful affiliate marketing blog",
+      "category": "business",
+      "tags": [
+        "affiliate marketing",
+        "blogging",
+        "passive income"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 29234,
+      "moduleCount": 12,
+      "readingTimeMins": 117,
+      "metaDescription": "How to Start an Affiliate Marketing Blog — a free beginner-level guide covering how to start a successful affiliate marketing blog. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T21:40:42.656Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "c-programming-for-beginners-learn-from-scratch",
+      "title": "C++ Programming for Beginners: Learn from Scratch",
+      "goal": "Learn C++ programming from scratch",
+      "category": "programming",
+      "tags": [
+        "c++",
+        "coding",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 30185,
+      "moduleCount": 13,
+      "readingTimeMins": 121,
+      "metaDescription": "C++ Programming for Beginners: Learn from Scratch — a free beginner-level guide covering learn c++ programming from scratch. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T21:30:13.484Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "jlpt-n2-study-guide-pass-the-japanese-exam",
+      "title": "JLPT N2 Study Guide: Pass the Japanese Exam",
+      "goal": "How to learn Japanese for JLPT N2",
+      "category": "languages",
+      "tags": [
+        "japanese",
+        "jlpt",
+        "intermediate"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19628,
+      "moduleCount": 8,
+      "readingTimeMins": 79,
+      "metaDescription": "JLPT N2 Study Guide: Pass the Japanese Exam — a free intermediate-level guide covering how to learn japanese for jlpt n2. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T21:19:00.879Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "options-trading-for-beginners-a-stepbystep-guide",
       "title": "Options Trading for Beginners: A Step-by-Step Guide",
       "goal": "Learn options trading basics for beginners",
@@ -3620,6 +3720,6 @@
       "edition": "street"
     }
   ],
-  "total": 179,
-  "generatedAt": "2026-07-20T20:34:46.649Z"
+  "total": 184,
+  "generatedAt": "2026-07-20T21:58:52.570Z"
 }
