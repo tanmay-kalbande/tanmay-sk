@@ -35,11 +35,11 @@ export interface BookFile {
 
 /**
  * Extract a named section (Introduction, Summary, Glossary) from the finalBook markdown.
- * Looks for ## SectionName and captures until the next ## heading or end of string.
+ * Looks for ## SectionName and captures until the next # or ## heading or end of string.
  */
 function extractSection(finalBook: string | undefined, sectionName: string): string | null {
   if (!finalBook) return null;
-  const regex = new RegExp(`## ${sectionName}\\s*\n([\\s\\S]*?)(?=\n## |$)`, 'i');
+  const regex = new RegExp(`##\\s+${sectionName}\\s*\n([\\s\\S]*?)(?=\n#{1,2}\\s+|$)`, 'i');
   const match = finalBook.match(regex);
   if (!match || !match[1]) return null;
   const content = match[1].trim();
