@@ -1,6 +1,66 @@
 {
   "books": [
     {
+      "slug": "desi-furniture-flipping-for-beginners-profit-guide",
+      "title": "Furniture Flipping for Beginners: Profit Guide",
+      "goal": "How to start flipping furniture for profit",
+      "category": "business",
+      "tags": [
+        "furniture flipping",
+        "side hustle",
+        "upcycling"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 12838,
+      "moduleCount": 8,
+      "readingTimeMins": 52,
+      "metaDescription": "Furniture Flipping for Beginners: Profit Guide — a free beginner-level guide covering how to start flipping furniture for profit. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T00:23:54.365Z",
+      "edition": "desi"
+    },
+    {
+      "slug": "street-how-to-learn-italian-for-beginners",
+      "title": "How to Learn Italian for Beginners",
+      "goal": "How to learn Italian for beginners",
+      "category": "languages",
+      "tags": [
+        "italian",
+        "language learning",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20231,
+      "moduleCount": 10,
+      "readingTimeMins": 81,
+      "metaDescription": "How to Learn Italian for Beginners — a free beginner-level guide covering how to learn italian for beginners. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T00:13:48.868Z",
+      "edition": "street"
+    },
+    {
+      "slug": "sql-for-data-analysis-a-beginners-guide",
+      "title": "SQL for Data Analysis: A Beginner's Guide",
+      "goal": "Learn SQL for data analysis from scratch",
+      "category": "programming",
+      "tags": [
+        "sql",
+        "databases",
+        "data analysis"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25401,
+      "moduleCount": 12,
+      "readingTimeMins": 102,
+      "metaDescription": "SQL for Data Analysis: A Beginner's Guide — a free beginner-level guide covering learn sql for data analysis from scratch. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T00:04:20.530Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "desi-how-to-learn-japanese-for-beginners",
       "title": "How to Learn Japanese for Beginners",
       "goal": "How to learn Japanese for beginners",
@@ -2960,6 +3020,6 @@
       "edition": "street"
     }
   ],
-  "total": 146,
-  "generatedAt": "2026-07-19T23:18:44.204Z"
+  "total": 149,
+  "generatedAt": "2026-07-20T00:23:54.617Z"
 }
