@@ -350,17 +350,15 @@ html[data-theme="dark"] .reader-root,
   overflow: hidden;
 }
 
-/* Grain + glow on sidebar stats — matches hero card */
+/* Subtle glow on sidebar stats — matches hero card */
 .lib-sidebar-stats::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 10% 0%, rgba(224, 90, 53, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse at 90% 100%, rgba(80, 100, 160, 0.06) 0%, transparent 55%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.5;
+    radial-gradient(ellipse at 10% 0%, rgba(224, 90, 53, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 100%, rgba(80, 100, 160, 0.04) 0%, transparent 55%);
   z-index: 0;
 }
 .lib-sidebar-stats > * {
@@ -415,34 +413,19 @@ html[data-theme="dark"] .reader-root,
   box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
 }
 
-/* Subtle top accent line */
-.lib-hero::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: clamp(3rem, 8vw, 5rem);
-  height: 2px;
-  background: var(--accent);
-  z-index: 2;
-}
-
 html[data-theme="light"] .lib-hero {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
-/* Gradient glow + grain texture overlay — rich editorial look */
+/* Elegant smooth radial glow spotlight background — clean & dark without noise */
 .lib-hero::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 15% 0%, rgba(224, 90, 53, 0.14) 0%, rgba(224, 90, 53, 0.03) 55%, transparent 75%),
-    radial-gradient(ellipse at 85% 100%, rgba(59, 130, 246, 0.07) 0%, transparent 60%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, rgba(0, 0, 0, 0.08) 100%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.7;
+    radial-gradient(ellipse at 15% 0%, rgba(224, 90, 53, 0.10) 0%, rgba(224, 90, 53, 0.02) 55%, transparent 75%),
+    radial-gradient(ellipse at 85% 100%, rgba(59, 130, 246, 0.05) 0%, transparent 60%);
   z-index: 0;
 }
 
