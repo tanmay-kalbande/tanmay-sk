@@ -1012,8 +1012,8 @@ html[data-theme="light"] .lib-hero {
 /* ── Chapter Content ───────────────────────────────────────────────────────── */
 
 .reader-chapter {
-  margin-bottom: 64px;
-  padding-bottom: 48px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
   border-bottom: 1px solid var(--border-s);
 }
 .reader-chapter:last-of-type {
@@ -1358,7 +1358,7 @@ html[data-theme="light"] .lib-hero {
 .reader-chapter-body hr {
   border: none;
   border-top: 1px dashed var(--ink-3);
-  margin: 32px 0;
+  margin: 20px 0;
 }
 
 .reader-chapter-body img {

@@ -42,7 +42,8 @@ function extractSection(finalBook: string | undefined, sectionName: string): str
   const regex = new RegExp(`##\\s+${sectionName}\\s*\n([\\s\\S]*?)(?=\n#{1,2}\\s+|$)`, 'i');
   const match = finalBook.match(regex);
   if (!match || !match[1]) return null;
-  const content = match[1].trim();
+  let content = match[1].trim();
+  content = content.replace(/(\n\s*---\s*)+$/, '').trim();
   // Skip if too short (likely empty or just a placeholder)
   return content.length > 50 ? content : null;
 }
@@ -109,6 +110,13 @@ function stripLeadingDuplicateHeading(content: string, moduleTitle: string): str
 
   lines.splice(i, 1);
   return lines.join('\n').replace(/^\n+/, '');
+}
+
+function cleanChapterContent(content: string, moduleTitle: string): string {
+  if (!content) return '';
+  let cleaned = stripLeadingDuplicateHeading(content, moduleTitle);
+  cleaned = cleaned.replace(/^(\s*---\s*\n)+/, '').replace(/(\n\s*---\s*)+$/, '').trim();
+  return cleaned;
 }
 
 // ── Enhanced Markdown renderer with callout detection & mermaid prep ──
@@ -230,7 +238,7 @@ function exportToPdf(book: BookFile) {
           <span class="chapter-num">Chapter ${i + 1}</span>
           <h2 class="chapter-title">${mod.title}</h2>
         </div>
-        <div class="chapter-body">${renderMd(stripLeadingDuplicateHeading(mod.content, mod.title))}</div>
+        <div class="chapter-body">${renderMd(cleanChapterContent(mod.content, mod.title))}</div>
       </div>
     `)
     .join('');
@@ -1321,7 +1329,7 @@ export default function BookReaderPage() {
               <h2 className="reader-chapter-title">{mod.title}</h2>
               <div
                 className="reader-chapter-body"
-                dangerouslySetInnerHTML={{ __html: renderMd(stripLeadingDuplicateHeading(mod.content, mod.title), book.edition) }}
+                dangerouslySetInnerHTML={{ __html: renderMd(cleanChapterContent(mod.content, mod.title), book.edition) }}
               />
             </div>
           ))}
