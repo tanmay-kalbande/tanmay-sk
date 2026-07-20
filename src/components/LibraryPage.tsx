@@ -149,14 +149,6 @@ export default function LibraryPage() {
 
   return (
     <div className="lib-root">
-      {/* Animated Background — matches Landing V5 */}
-      <div className="lp-bg-wrapper">
-        <div className="lp-grain"></div>
-        <div className="lp-orb lp-orb-a"></div>
-        <div className="lp-orb lp-orb-b"></div>
-        <div className="lp-orb lp-orb-c"></div>
-      </div>
-
       {/* Nav */}
       <nav className="lib-nav">
         <Link to="/" className="lib-nav-back">
