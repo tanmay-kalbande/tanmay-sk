@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "options-trading-for-beginners-a-stepbystep-guide",
+      "title": "Options Trading for Beginners: A Step-by-Step Guide",
+      "goal": "Learn options trading basics for beginners",
+      "category": "finance",
+      "tags": [
+        "options trading",
+        "investing",
+        "stocks"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22836,
+      "moduleCount": 9,
+      "readingTimeMins": 92,
+      "metaDescription": "Options Trading for Beginners: A Step-by-Step Guide — a free beginner-level guide covering learn options trading basics for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T20:34:46.360Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-fix-anterior-pelvic-tilt-with-exercises",
+      "title": "How to Fix Anterior Pelvic Tilt with Exercises",
+      "goal": "How to fix anterior pelvic tilt with exercises",
+      "category": "health",
+      "tags": [
+        "anterior pelvic tilt",
+        "posture correction",
+        "exercises"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23371,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "How to Fix Anterior Pelvic Tilt with Exercises — a free beginner-level guide covering how to fix anterior pelvic tilt with exercises. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T20:26:41.216Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "docker-for-beginners-learn-containerization-from-s",
+      "title": "Docker for Beginners: Learn Containerization from Scratch",
+      "goal": "Learn Docker and containerization for beginners",
+      "category": "programming",
+      "tags": [
+        "docker",
+        "devops",
+        "containers"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25467,
+      "moduleCount": 11,
+      "readingTimeMins": 102,
+      "metaDescription": "Docker for Beginners: Learn Containerization from Scratch — a free beginner-level guide covering learn docker and containerization for beginners. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T20:17:36.543Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "airbnb-without-property-arbitrage-cohosting-guide",
+      "title": "Airbnb Without Property: Arbitrage & Co-Hosting Guide",
+      "goal": "How to start an Airbnb business without owning property",
+      "category": "business",
+      "tags": [
+        "airbnb",
+        "rental arbitrage",
+        "passive income"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 17667,
+      "moduleCount": 8,
+      "readingTimeMins": 71,
+      "metaDescription": "Airbnb Without Property: Arbitrage & Co-Hosting Guide — a free intermediate-level guide covering how to start an airbnb business without owning...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T20:08:15.602Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "capcut-video-editing-for-beginners-the-complete-gu",
+      "title": "CapCut Video Editing for Beginners: The Complete Guide",
+      "goal": "Learn video editing with CapCut for beginners",
+      "category": "productivity",
+      "tags": [
+        "capcut",
+        "video editing",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24928,
+      "moduleCount": 10,
+      "readingTimeMins": 100,
+      "metaDescription": "CapCut Video Editing for Beginners: The Complete Guide — a free beginner-level guide covering learn video editing with capcut for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-20T20:00:33.995Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "figma-for-uiux-design-the-beginners-guide",
       "title": "Figma for UI/UX Design: The Beginner's Guide",
       "goal": "Learn Figma for UI UX design",
@@ -3520,6 +3620,6 @@
       "edition": "street"
     }
   ],
-  "total": 174,
-  "generatedAt": "2026-07-20T18:45:34.697Z"
+  "total": 179,
+  "generatedAt": "2026-07-20T20:34:46.649Z"
 }
