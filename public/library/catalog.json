@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "gmat-exam-preparation-guide-complete-study-roadmap",
+      "title": "GMAT Exam Preparation Guide: Complete Study Roadmap",
+      "goal": "How to prepare for the GMAT exam",
+      "category": "exams",
+      "tags": [
+        "gmat",
+        "mba",
+        "test prep"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 26698,
+      "moduleCount": 12,
+      "readingTimeMins": 107,
+      "metaDescription": "GMAT Exam Preparation Guide: Complete Study Roadmap — a free intermediate-level guide covering how to prepare for the gmat exam. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T18:08:54.762Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-portuguese-for-beginners-a-stepbystep-guide",
+      "title": "Learn Portuguese for Beginners: A Step-by-Step Guide",
+      "goal": "Learn Portuguese for beginners from scratch",
+      "category": "languages",
+      "tags": [
+        "portuguese",
+        "language learning",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22938,
+      "moduleCount": 11,
+      "readingTimeMins": 92,
+      "metaDescription": "Learn Portuguese for Beginners: A Step-by-Step Guide — a free beginner-level guide covering learn portuguese for beginners from scratch. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T17:56:37.759Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-write-a-business-plan-for-your-startup",
+      "title": "How to Write a Business Plan for Your Startup",
+      "goal": "How to write a business plan for a startup",
+      "category": "business",
+      "tags": [
+        "business plan",
+        "startup",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22553,
+      "moduleCount": 10,
+      "readingTimeMins": 91,
+      "metaDescription": "How to Write a Business Plan for Your Startup — a free intermediate-level guide covering how to write a business plan for a startup. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T17:46:36.465Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "adobe-premiere-pro-for-beginners-video-editing-gui",
+      "title": "Adobe Premiere Pro for Beginners: Video Editing Guide",
+      "goal": "Learn Adobe Premiere Pro for video editing",
+      "category": "design",
+      "tags": [
+        "premiere pro",
+        "video editing",
+        "filmmaking"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20604,
+      "moduleCount": 8,
+      "readingTimeMins": 83,
+      "metaDescription": "Adobe Premiere Pro for Beginners: Video Editing Guide — a free beginner-level guide covering learn adobe premiere pro for video editing. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T17:35:45.009Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-successful-airbnb-business",
+      "title": "How to Start a Successful Airbnb Business",
+      "goal": "How to start a successful Airbnb business",
+      "category": "business",
+      "tags": [
+        "airbnb",
+        "real estate",
+        "rental"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24881,
+      "moduleCount": 10,
+      "readingTimeMins": 100,
+      "metaDescription": "How to Start a Successful Airbnb Business — a free beginner-level guide covering how to start a successful airbnb business. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T17:26:40.892Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-fix-forward-head-posture-with-exercises",
       "title": "How to Fix Forward Head Posture with Exercises",
       "goal": "How to fix forward head posture with exercises",
@@ -4420,6 +4520,6 @@
       "edition": "street"
     }
   ],
-  "total": 219,
-  "generatedAt": "2026-07-21T15:56:56.773Z"
+  "total": 224,
+  "generatedAt": "2026-07-21T18:08:55.128Z"
 }
