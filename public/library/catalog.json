@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-start-a-successful-twitch-channel",
+      "title": "How to Start a Successful Twitch Channel",
+      "goal": "How to start a successful Twitch channel",
+      "category": "business",
+      "tags": [
+        "twitch",
+        "streaming",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19366,
+      "moduleCount": 8,
+      "readingTimeMins": 78,
+      "metaDescription": "How to Start a Successful Twitch Channel — a free beginner-level guide covering how to start a successful twitch channel. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T23:36:37.963Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-bake-sourdough-pizza-at-home-beginner-guide",
+      "title": "How to Bake Sourdough Pizza at Home: Beginner Guide",
+      "goal": "Learn to bake sourdough pizza at home",
+      "category": "productivity",
+      "tags": [
+        "baking",
+        "sourdough",
+        "pizza"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21201,
+      "moduleCount": 9,
+      "readingTimeMins": 85,
+      "metaDescription": "How to Bake Sourdough Pizza at Home: Beginner Guide — a free beginner-level guide covering learn to bake sourdough pizza at home. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T23:28:47.213Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "comptia-security-exam-study-guide",
+      "title": "CompTIA Security+ Exam Study Guide",
+      "goal": "How to pass the CompTIA Security+ exam",
+      "category": "exams",
+      "tags": [
+        "security+",
+        "cybersecurity",
+        "certification"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19427,
+      "moduleCount": 8,
+      "readingTimeMins": 78,
+      "metaDescription": "CompTIA Security+ Exam Study Guide — a free intermediate-level guide covering how to pass the comptia security+ exam. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T23:20:21.472Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-spanish-for-travel-quickly-beginners-guide",
+      "title": "Learn Spanish for Travel Quickly: Beginner's Guide",
+      "goal": "How to learn Spanish for travel quickly",
+      "category": "languages",
+      "tags": [
+        "spanish",
+        "travel",
+        "conversational"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20983,
+      "moduleCount": 10,
+      "readingTimeMins": 84,
+      "metaDescription": "Learn Spanish for Travel Quickly: Beginner's Guide — a free beginner-level guide covering how to learn spanish for travel quickly. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T23:12:06.631Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-profitable-blog-for-beginners",
+      "title": "How to Start a Profitable Blog for Beginners",
+      "goal": "How to start a profitable blog for beginners",
+      "category": "business",
+      "tags": [
+        "blogging",
+        "content creation",
+        "passive income"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22595,
+      "moduleCount": 9,
+      "readingTimeMins": 91,
+      "metaDescription": "How to Start a Profitable Blog for Beginners — a free beginner-level guide covering how to start a profitable blog for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T23:02:10.760Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-do-a-handstand-for-beginners-a-stepbystep-g",
       "title": "How to Do a Handstand for Beginners: A Step-by-Step Guide",
       "goal": "How to do a handstand for beginners",
@@ -4720,6 +4820,6 @@
       "edition": "street"
     }
   ],
-  "total": 234,
-  "generatedAt": "2026-07-21T21:53:28.276Z"
+  "total": 239,
+  "generatedAt": "2026-07-21T23:36:38.343Z"
 }
