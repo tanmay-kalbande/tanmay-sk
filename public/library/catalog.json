@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-start-a-dog-walking-business-a-beginners-gu",
+      "title": "How to Start a Dog Walking Business: A Beginner's Guide",
+      "goal": "How to start a dog walking business for beginners",
+      "category": "finance",
+      "tags": [
+        "dog walking",
+        "pet business",
+        "side hustle"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19190,
+      "moduleCount": 8,
+      "readingTimeMins": 77,
+      "metaDescription": "How to Start a Dog Walking Business: A Beginner's Guide — a free beginner-level guide covering how to start a dog walking business for beginners. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T11:29:02.268Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-kotlin-for-android-app-development",
+      "title": "Learn Kotlin for Android App Development",
+      "goal": "Learn Kotlin for Android app development",
+      "category": "programming",
+      "tags": [
+        "kotlin",
+        "android",
+        "mobile development"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21619,
+      "moduleCount": 11,
+      "readingTimeMins": 87,
+      "metaDescription": "Learn Kotlin for Android App Development — a free intermediate-level guide covering learn kotlin for android app development. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T11:17:17.135Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-get-a-remote-customer-service-job-stepbyste",
+      "title": "How to Get a Remote Customer Service Job: Step-by-Step Guide",
+      "goal": "How to get a remote customer service job",
+      "category": "career",
+      "tags": [
+        "remote work",
+        "customer service",
+        "job search"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27901,
+      "moduleCount": 11,
+      "readingTimeMins": 112,
+      "metaDescription": "How to Get a Remote Customer Service Job: Step-by-Step Guide — a free beginner-level guide covering how to get a remote customer service job. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T11:04:44.579Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-write-a-business-book-for-beginners",
+      "title": "How to Write a Business Book for Beginners",
+      "goal": "How to write a business book for beginners",
+      "category": "productivity",
+      "tags": [
+        "writing",
+        "author",
+        "nonfiction"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24895,
+      "moduleCount": 10,
+      "readingTimeMins": 100,
+      "metaDescription": "How to Write a Business Book for Beginners — a free beginner-level guide covering how to write a business book for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T10:50:35.288Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-profitable-email-newsletter-busines",
+      "title": "How to Start a Profitable Email Newsletter Business",
+      "goal": "How to start an email newsletter business",
+      "category": "business",
+      "tags": [
+        "newsletter",
+        "email marketing",
+        "side hustle"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24935,
+      "moduleCount": 10,
+      "readingTimeMins": 100,
+      "metaDescription": "How to Start a Profitable Email Newsletter Business — a free beginner-level guide covering how to start an email newsletter business. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T10:36:51.780Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-become-a-successful-life-coach-complete-gui",
       "title": "How to Become a Successful Life Coach: Complete Guide",
       "goal": "How to become a successful life coach",
@@ -4120,6 +4220,6 @@
       "edition": "street"
     }
   ],
-  "total": 204,
-  "generatedAt": "2026-07-21T09:02:53.096Z"
+  "total": 209,
+  "generatedAt": "2026-07-21T11:29:02.529Z"
 }
