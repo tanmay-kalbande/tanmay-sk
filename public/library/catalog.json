@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-write-a-resume-that-gets-interviews",
+      "title": "How to Write a Resume That Gets Interviews",
+      "goal": "How to write a resume that gets interviews",
+      "category": "career",
+      "tags": [
+        "resume",
+        "job search",
+        "interviews"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23368,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "How to Write a Resume That Gets Interviews — a free beginner-level guide covering how to write a resume that gets interviews. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T00:45:50.648Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-podcast-with-audacity",
+      "title": "How to Start a Podcast with Audacity",
+      "goal": "How to start a podcast with Audacity",
+      "category": "business",
+      "tags": [
+        "podcast",
+        "audacity",
+        "audio editing"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20695,
+      "moduleCount": 8,
+      "readingTimeMins": 83,
+      "metaDescription": "How to Start a Podcast with Audacity — a free beginner-level guide covering how to start a podcast with audacity. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T00:36:13.502Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-piano-chords-for-popular-songs-beginners-gui",
+      "title": "Learn Piano Chords for Popular Songs: Beginner's Guide",
+      "goal": "Learn piano chords for popular songs",
+      "category": "productivity",
+      "tags": [
+        "piano",
+        "chords",
+        "music"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22982,
+      "moduleCount": 9,
+      "readingTimeMins": 92,
+      "metaDescription": "Learn Piano Chords for Popular Songs: Beginner's Guide — a free beginner-level guide covering learn piano chords for popular songs. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T00:27:53.428Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "professional-business-email-writing-for-beginners",
+      "title": "Professional Business Email Writing for Beginners",
+      "goal": "How to write a business email professionally",
+      "category": "career",
+      "tags": [
+        "business email",
+        "communication",
+        "professional writing"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18697,
+      "moduleCount": 8,
+      "readingTimeMins": 75,
+      "metaDescription": "Professional Business Email Writing for Beginners — a free beginner-level guide covering how to write a business email professionally. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T00:18:36.409Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "graphic-design-for-beginners-the-complete-roadmap",
+      "title": "Graphic Design for Beginners: The Complete Roadmap",
+      "goal": "How to learn graphic design for beginners",
+      "category": "design",
+      "tags": [
+        "graphic design",
+        "design basics",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26259,
+      "moduleCount": 11,
+      "readingTimeMins": 106,
+      "metaDescription": "Graphic Design for Beginners: The Complete Roadmap — a free beginner-level guide covering how to learn graphic design for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T00:10:44.706Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-become-a-project-manager-a-beginners-roadma",
       "title": "How to Become a Project Manager: A Beginner's Roadmap",
       "goal": "How to become a project manager",
@@ -3820,6 +3920,6 @@
       "edition": "street"
     }
   ],
-  "total": 189,
-  "generatedAt": "2026-07-20T23:45:15.630Z"
+  "total": 194,
+  "generatedAt": "2026-07-21T00:45:50.867Z"
 }
