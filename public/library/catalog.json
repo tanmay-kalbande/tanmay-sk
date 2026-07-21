@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-write-a-resume-for-a-job-a-beginners-guide",
+      "title": "How to Write a Resume for a Job: A Beginner's Guide",
+      "goal": "How to write a resume for a job",
+      "category": "career",
+      "tags": [
+        "resume",
+        "job search",
+        "career"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24437,
+      "moduleCount": 10,
+      "readingTimeMins": 98,
+      "metaDescription": "How to Write a Resume for a Job: A Beginner's Guide — a free beginner-level guide covering how to write a resume for a job. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T20:04:29.744Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-build-a-gaming-pc-for-beginners",
+      "title": "How to Build a Gaming PC for Beginners",
+      "goal": "How to build a gaming PC for beginners",
+      "category": "science",
+      "tags": [
+        "pc building",
+        "gaming pc",
+        "hardware"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25045,
+      "moduleCount": 10,
+      "readingTimeMins": 101,
+      "metaDescription": "How to Build a Gaming PC for Beginners — a free beginner-level guide covering how to build a gaming pc for beginners. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T19:54:55.620Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-an-ecommerce-website-with-shopify",
+      "title": "How to Start an E-commerce Website with Shopify",
+      "goal": "How to start an e-commerce website with Shopify",
+      "category": "business",
+      "tags": [
+        "shopify",
+        "e-commerce",
+        "online store"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20576,
+      "moduleCount": 8,
+      "readingTimeMins": 83,
+      "metaDescription": "How to Start an E-commerce Website with Shopify — a free beginner-level guide covering how to start an e-commerce website with shopify. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T19:44:53.742Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-french-for-beginners-online-a-complete-guide",
+      "title": "Learn French for Beginners Online: A Complete Guide",
+      "goal": "Learn French for beginners online",
+      "category": "languages",
+      "tags": [
+        "french",
+        "language learning",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23203,
+      "moduleCount": 10,
+      "readingTimeMins": 93,
+      "metaDescription": "Learn French for Beginners Online: A Complete Guide — a free beginner-level guide covering learn french for beginners online. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T19:36:24.178Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-podcast-on-spotify-stepbystep",
+      "title": "How to Start a Podcast on Spotify: Step-by-Step",
+      "goal": "How to start a podcast on Spotify",
+      "category": "business",
+      "tags": [
+        "podcast",
+        "spotify",
+        "audio"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21920,
+      "moduleCount": 9,
+      "readingTimeMins": 88,
+      "metaDescription": "How to Start a Podcast on Spotify: Step-by-Step — a free beginner-level guide covering how to start a podcast on spotify. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T19:26:40.495Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "gmat-exam-preparation-guide-complete-study-roadmap",
       "title": "GMAT Exam Preparation Guide: Complete Study Roadmap",
       "goal": "How to prepare for the GMAT exam",
@@ -4520,6 +4620,6 @@
       "edition": "street"
     }
   ],
-  "total": 224,
-  "generatedAt": "2026-07-21T18:08:55.128Z"
+  "total": 229,
+  "generatedAt": "2026-07-21T20:04:30.101Z"
 }
