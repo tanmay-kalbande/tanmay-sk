@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-become-a-successful-life-coach-complete-gui",
+      "title": "How to Become a Successful Life Coach: Complete Guide",
+      "goal": "How to become a successful life coach",
+      "category": "career",
+      "tags": [
+        "life coaching",
+        "coaching business",
+        "career change"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 18881,
+      "moduleCount": 8,
+      "readingTimeMins": 76,
+      "metaDescription": "How to Become a Successful Life Coach: Complete Guide — a free intermediate-level guide covering how to become a successful life coach. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T09:02:52.789Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-build-a-gaming-pc-beginners-stepbystep-guid",
+      "title": "How to Build a Gaming PC: Beginner's Step-by-Step Guide",
+      "goal": "How to build a gaming PC from scratch",
+      "category": "science",
+      "tags": [
+        "pc building",
+        "hardware",
+        "gaming"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 30826,
+      "moduleCount": 12,
+      "readingTimeMins": 124,
+      "metaDescription": "How to Build a Gaming PC: Beginner's Step-by-Step Guide — a free beginner-level guide covering how to build a gaming pc from scratch. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T08:49:08.543Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-pass-the-nclex-rn-exam-complete-study-guide",
+      "title": "How to Pass the NCLEX RN Exam: Complete Study Guide",
+      "goal": "How to pass the NCLEX RN nursing exam",
+      "category": "exams",
+      "tags": [
+        "nclex",
+        "nursing",
+        "exam prep"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 27418,
+      "moduleCount": 12,
+      "readingTimeMins": 110,
+      "metaDescription": "How to Pass the NCLEX RN Exam: Complete Study Guide — a free intermediate-level guide covering how to pass the nclex rn nursing exam. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T08:27:47.197Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-hangul-the-ultimate-korean-alphabet-guide",
+      "title": "Learn Hangul: The Ultimate Korean Alphabet Guide",
+      "goal": "Learn Korean alphabet Hangul for beginners",
+      "category": "languages",
+      "tags": [
+        "korean",
+        "hangul",
+        "reading"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19859,
+      "moduleCount": 8,
+      "readingTimeMins": 80,
+      "metaDescription": "Learn Hangul: The Ultimate Korean Alphabet Guide — a free beginner-level guide covering learn korean alphabet hangul for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T08:05:45.769Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-an-ebay-flipping-business-a-beginners",
+      "title": "How to Start an eBay Flipping Business: A Beginner's Guide",
+      "goal": "How to start an eBay flipping business",
+      "category": "business",
+      "tags": [
+        "ebay",
+        "flipping",
+        "reselling"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25005,
+      "moduleCount": 10,
+      "readingTimeMins": 101,
+      "metaDescription": "How to Start an eBay Flipping Business: A Beginner's Guide — a free beginner-level guide covering how to start an ebay flipping business. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T07:47:24.862Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-become-a-freelance-graphic-designer",
       "title": "How to Become a Freelance Graphic Designer",
       "goal": "How to become a freelance graphic designer",
@@ -4020,6 +4120,6 @@
       "edition": "street"
     }
   ],
-  "total": 199,
-  "generatedAt": "2026-07-21T05:10:55.849Z"
+  "total": 204,
+  "generatedAt": "2026-07-21T09:02:53.096Z"
 }
