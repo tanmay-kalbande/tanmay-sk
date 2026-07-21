@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-become-a-freelance-graphic-designer",
+      "title": "How to Become a Freelance Graphic Designer",
+      "goal": "How to become a freelance graphic designer",
+      "category": "career",
+      "tags": [
+        "freelance",
+        "graphic design",
+        "remote work"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 20032,
+      "moduleCount": 9,
+      "readingTimeMins": 81,
+      "metaDescription": "How to Become a Freelance Graphic Designer — a free intermediate-level guide covering how to become a freelance graphic designer. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T05:10:55.639Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-improve-sleep-quality-naturally-a-beginners",
+      "title": "How to Improve Sleep Quality Naturally: A Beginner's Guide",
+      "goal": "How to improve sleep quality naturally",
+      "category": "health",
+      "tags": [
+        "sleep",
+        "insomnia",
+        "wellness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19799,
+      "moduleCount": 8,
+      "readingTimeMins": 80,
+      "metaDescription": "How to Improve Sleep Quality Naturally: A Beginner's Guide — a free beginner-level guide covering how to improve sleep quality naturally. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T05:01:10.299Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "comptia-a-exam-prep-complete-study-guide",
+      "title": "CompTIA A+ Exam Prep: Complete Study Guide",
+      "goal": "How to pass the CompTIA A+ exam",
+      "category": "exams",
+      "tags": [
+        "comptia",
+        "a plus",
+        "it certification"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 23330,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "CompTIA A+ Exam Prep: Complete Study Guide — a free intermediate-level guide covering how to pass the comptia a+ exam. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T04:52:19.336Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-rust-programming-a-beginners-guide",
+      "title": "Learn Rust Programming: A Beginner's Guide",
+      "goal": "Learn Rust programming for beginners",
+      "category": "programming",
+      "tags": [
+        "rust",
+        "coding",
+        "systems programming"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 31052,
+      "moduleCount": 13,
+      "readingTimeMins": 125,
+      "metaDescription": "Learn Rust Programming: A Beginner's Guide — a free beginner-level guide covering learn rust programming for beginners. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T04:40:24.029Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-successful-twitch-channel-a-beginne",
+      "title": "How to Start a Successful Twitch Channel: A Beginner's Guide",
+      "goal": "How to start a successful Twitch channel",
+      "category": "business",
+      "tags": [
+        "twitch",
+        "streaming",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23147,
+      "moduleCount": 10,
+      "readingTimeMins": 93,
+      "metaDescription": "How to Start a Successful Twitch Channel: A Beginner's Guide — a free beginner-level guide covering how to start a successful twitch channel. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T04:25:34.021Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-write-a-resume-that-gets-interviews",
       "title": "How to Write a Resume That Gets Interviews",
       "goal": "How to write a resume that gets interviews",
@@ -3920,6 +4020,6 @@
       "edition": "street"
     }
   ],
-  "total": 194,
-  "generatedAt": "2026-07-21T00:45:50.867Z"
+  "total": 199,
+  "generatedAt": "2026-07-21T05:10:55.849Z"
 }
