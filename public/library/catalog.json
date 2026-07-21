@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-fix-forward-head-posture-with-exercises",
+      "title": "How to Fix Forward Head Posture with Exercises",
+      "goal": "How to fix forward head posture with exercises",
+      "category": "health",
+      "tags": [
+        "posture",
+        "neck pain",
+        "stretches"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23648,
+      "moduleCount": 10,
+      "readingTimeMins": 95,
+      "metaDescription": "How to Fix Forward Head Posture with Exercises — a free beginner-level guide covering how to fix forward head posture with exercises. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T15:56:56.425Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-profitable-print-on-demand-business",
+      "title": "How to Start a Profitable Print on Demand Business",
+      "goal": "How to start a successful print on demand business",
+      "category": "business",
+      "tags": [
+        "print on demand",
+        "ecommerce",
+        "side hustle"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21459,
+      "moduleCount": 9,
+      "readingTimeMins": 86,
+      "metaDescription": "How to Start a Profitable Print on Demand Business — a free beginner-level guide covering how to start a successful print on demand business. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T15:45:52.524Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-tableau-for-data-visualization-a-beginners-g",
+      "title": "Learn Tableau for Data Visualization: A Beginner's Guide",
+      "goal": "Learn Tableau for data visualization",
+      "category": "productivity",
+      "tags": [
+        "tableau",
+        "data",
+        "analytics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25637,
+      "moduleCount": 11,
+      "readingTimeMins": 103,
+      "metaDescription": "Learn Tableau for Data Visualization: A Beginner's Guide — a free beginner-level guide covering learn tableau for data visualization. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T15:35:27.494Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-freelance-copywriter-a-beginners-g",
+      "title": "How to Become a Freelance Copywriter: A Beginner's Guide",
+      "goal": "How to become a freelance copywriter",
+      "category": "career",
+      "tags": [
+        "copywriting",
+        "freelance",
+        "writing"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19333,
+      "moduleCount": 8,
+      "readingTimeMins": 78,
+      "metaDescription": "How to Become a Freelance Copywriter: A Beginner's Guide — a free beginner-level guide covering how to become a freelance copywriter. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T15:23:53.513Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "electric-guitar-for-beginners-a-complete-guide",
+      "title": "Electric Guitar For Beginners: A Complete Guide",
+      "goal": "How to learn electric guitar for beginners",
+      "category": "productivity",
+      "tags": [
+        "music",
+        "guitar",
+        "hobby"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25074,
+      "moduleCount": 10,
+      "readingTimeMins": 101,
+      "metaDescription": "Electric Guitar For Beginners: A Complete Guide — a free beginner-level guide covering how to learn electric guitar for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T15:14:56.451Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-build-a-wooden-coffee-table-from-scratch",
       "title": "How to Build a Wooden Coffee Table from Scratch",
       "goal": "How to build a wooden coffee table from scratch",
@@ -4320,6 +4420,6 @@
       "edition": "street"
     }
   ],
-  "total": 214,
-  "generatedAt": "2026-07-21T13:26:09.616Z"
+  "total": 219,
+  "generatedAt": "2026-07-21T15:56:56.773Z"
 }
