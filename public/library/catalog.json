@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-build-a-wooden-coffee-table-from-scratch",
+      "title": "How to Build a Wooden Coffee Table from Scratch",
+      "goal": "How to build a wooden coffee table from scratch",
+      "category": "productivity",
+      "tags": [
+        "woodworking",
+        "diy",
+        "furniture making"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22760,
+      "moduleCount": 9,
+      "readingTimeMins": 92,
+      "metaDescription": "How to Build a Wooden Coffee Table from Scratch — a free beginner-level guide covering how to build a wooden coffee table from scratch. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T13:26:09.277Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "pass-the-cpa-exam-on-your-first-try-complete-guide",
+      "title": "Pass the CPA Exam on Your First Try: Complete Guide",
+      "goal": "How to pass the CPA exam on the first try",
+      "category": "exams",
+      "tags": [
+        "cpa",
+        "accounting",
+        "exam prep"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 26020,
+      "moduleCount": 11,
+      "readingTimeMins": 105,
+      "metaDescription": "Pass the CPA Exam on Your First Try: Complete Guide — a free intermediate-level guide covering how to pass the cpa exam on the first try. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T13:15:12.356Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-ruby-on-rails-intermediate-web-development",
+      "title": "Master Ruby on Rails: Intermediate Web Development",
+      "goal": "Learn Ruby on Rails for web development",
+      "category": "programming",
+      "tags": [
+        "ruby",
+        "rails",
+        "web dev"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21970,
+      "moduleCount": 10,
+      "readingTimeMins": 88,
+      "metaDescription": "Master Ruby on Rails: Intermediate Web Development — a free intermediate-level guide covering learn ruby on rails for web development. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T13:01:28.039Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-faceless-youtube-channel-stepbystep",
+      "title": "How to Start a Faceless YouTube Channel: Step-by-Step",
+      "goal": "How to start a faceless YouTube channel",
+      "category": "business",
+      "tags": [
+        "youtube",
+        "faceless channel",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25273,
+      "moduleCount": 10,
+      "readingTimeMins": 102,
+      "metaDescription": "How to Start a Faceless YouTube Channel: Step-by-Step — a free beginner-level guide covering how to start a faceless youtube channel. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T12:47:59.342Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "asl-for-beginners-the-ultimate-learning-roadmap",
+      "title": "ASL for Beginners: The Ultimate Learning Roadmap",
+      "goal": "How to learn American Sign Language for beginners",
+      "category": "languages",
+      "tags": [
+        "asl",
+        "sign language",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23326,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "ASL for Beginners: The Ultimate Learning Roadmap — a free beginner-level guide covering how to learn american sign language for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-21T12:35:46.345Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-start-a-dog-walking-business-a-beginners-gu",
       "title": "How to Start a Dog Walking Business: A Beginner's Guide",
       "goal": "How to start a dog walking business for beginners",
@@ -4220,6 +4320,6 @@
       "edition": "street"
     }
   ],
-  "total": 209,
-  "generatedAt": "2026-07-21T11:29:02.529Z"
+  "total": 214,
+  "generatedAt": "2026-07-21T13:26:09.616Z"
 }
