@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "affiliate-marketing-without-a-website-the-nosite-p",
+      "title": "Affiliate Marketing Without a Website: The No-Site Playbook",
+      "goal": "How to do affiliate marketing without a website",
+      "category": "finance",
+      "tags": [
+        "affiliate marketing",
+        "passive income",
+        "side hustle"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19105,
+      "moduleCount": 8,
+      "readingTimeMins": 77,
+      "metaDescription": "Affiliate Marketing Without a Website: The No-Site Playbook — a free intermediate-level guide covering how to do affiliate marketing without a website....",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T23:45:50.717Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "build-a-gaming-pc-under-1000-a-beginners-guide",
+      "title": "Build a Gaming PC Under $1000: A Beginner's Guide",
+      "goal": "How to build a gaming PC under $1000",
+      "category": "science",
+      "tags": [
+        "pc building",
+        "budget gaming",
+        "hardware"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22735,
+      "moduleCount": 9,
+      "readingTimeMins": 91,
+      "metaDescription": "Build a Gaming PC Under $1000: A Beginner's Guide — a free beginner-level guide covering how to build a gaming pc under $1000. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T23:37:35.809Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "keyword-research-for-seo-a-beginners-roadmap",
+      "title": "Keyword Research for SEO: A Beginner's Roadmap",
+      "goal": "How to do keyword research for SEO",
+      "category": "career",
+      "tags": [
+        "seo",
+        "keyword research",
+        "marketing"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22657,
+      "moduleCount": 9,
+      "readingTimeMins": 91,
+      "metaDescription": "Keyword Research for SEO: A Beginner's Roadmap — a free beginner-level guide covering how to do keyword research for seo. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T23:28:31.097Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-profitable-food-truck-business",
+      "title": "How to Start a Profitable Food Truck Business",
+      "goal": "How to start a food truck business",
+      "category": "business",
+      "tags": [
+        "food truck",
+        "restaurant",
+        "entrepreneur"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19302,
+      "moduleCount": 9,
+      "readingTimeMins": 78,
+      "metaDescription": "How to Start a Profitable Food Truck Business — a free intermediate-level guide covering how to start a food truck business. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T23:20:09.095Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-learn-calligraphy-for-beginners-a-stepbyste",
+      "title": "How to Learn Calligraphy for Beginners: A Step-by-Step Guide",
+      "goal": "How to learn Calligraphy for beginners",
+      "category": "productivity",
+      "tags": [
+        "calligraphy",
+        "hand lettering",
+        "hobby"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25263,
+      "moduleCount": 10,
+      "readingTimeMins": 102,
+      "metaDescription": "How to Learn Calligraphy for Beginners: A Step-by-Step Guide — a free beginner-level guide covering how to learn calligraphy for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T23:10:54.785Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-get-better-sleep-at-night-a-beginners-guide",
       "title": "How to Get Better Sleep at Night: A Beginner's Guide",
       "goal": "How to get better sleep at night",
@@ -5780,6 +5880,6 @@
       "edition": "street"
     }
   ],
-  "total": 287,
-  "generatedAt": "2026-07-22T21:49:28.344Z"
+  "total": 292,
+  "generatedAt": "2026-07-22T23:45:51.138Z"
 }
