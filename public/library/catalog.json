@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "teas-exam-study-guide-pass-on-your-first-attempt",
+      "title": "TEAS Exam Study Guide: Pass on Your First Attempt",
+      "goal": "How to pass the TEAS exam",
+      "category": "exams",
+      "tags": [
+        "teas",
+        "nursing exam",
+        "test prep"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 23370,
+      "moduleCount": 11,
+      "readingTimeMins": 94,
+      "metaDescription": "TEAS Exam Study Guide: Pass on Your First Attempt — a free intermediate-level guide covering how to pass the teas exam. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T18:06:02.029Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "quickbooks-bookkeeping-for-beginners-complete-step",
+      "title": "QuickBooks Bookkeeping for Beginners: Complete Step-by-Step Guide",
+      "goal": "Learn QuickBooks for bookkeeping",
+      "category": "finance",
+      "tags": [
+        "quickbooks",
+        "bookkeeping",
+        "accounting"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26537,
+      "moduleCount": 11,
+      "readingTimeMins": 107,
+      "metaDescription": "QuickBooks Bookkeeping for Beginners: Complete Step-by-Step Guide — a free beginner-level guide covering learn quickbooks for bookkeeping. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T17:55:48.892Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-commercial-cleaning-business",
+      "title": "How to Start a Commercial Cleaning Business",
+      "goal": "How to start a commercial cleaning business",
+      "category": "business",
+      "tags": [
+        "cleaning business",
+        "b2b",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22416,
+      "moduleCount": 10,
+      "readingTimeMins": 90,
+      "metaDescription": "How to Start a Commercial Cleaning Business — a free intermediate-level guide covering how to start a commercial cleaning business. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T17:44:54.125Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-successful-notary-public",
+      "title": "How to Become a Successful Notary Public",
+      "goal": "How to become a successful notary public",
+      "category": "career",
+      "tags": [
+        "notary",
+        "legal",
+        "side hustle"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23002,
+      "moduleCount": 10,
+      "readingTimeMins": 93,
+      "metaDescription": "How to Become a Successful Notary Public — a free beginner-level guide covering how to become a successful notary public. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T17:34:48.174Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-learn-to-sing-a-beginners-guide",
+      "title": "How to Learn to Sing: A Beginner's Guide",
+      "goal": "How to learn to sing for beginners",
+      "category": "productivity",
+      "tags": [
+        "singing",
+        "vocal training",
+        "music"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24016,
+      "moduleCount": 10,
+      "readingTimeMins": 97,
+      "metaDescription": "How to Learn to Sing: A Beginner's Guide — a free beginner-level guide covering how to learn to sing for beginners. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T17:25:18.582Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "ccna-exam-first-try-complete-study-guide",
       "title": "CCNA Exam First Try: Complete Study Guide",
       "goal": "How to pass the CCNA exam on first try",
@@ -5480,6 +5580,6 @@
       "edition": "street"
     }
   ],
-  "total": 272,
-  "generatedAt": "2026-07-22T16:37:57.217Z"
+  "total": 277,
+  "generatedAt": "2026-07-22T18:06:02.503Z"
 }
