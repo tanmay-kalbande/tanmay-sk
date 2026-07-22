@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-design-a-logo-in-adobe-illustrator-beginner",
+      "title": "How to Design a Logo in Adobe Illustrator: Beginner's Guide",
+      "goal": "How to design a logo in Adobe Illustrator",
+      "category": "design",
+      "tags": [
+        "illustrator",
+        "logo design",
+        "branding"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 17942,
+      "moduleCount": 7,
+      "readingTimeMins": 72,
+      "metaDescription": "How to Design a Logo in Adobe Illustrator: Beginner's Guide — a free beginner-level guide covering how to design a logo in adobe illustrator. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T00:40:53.921Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-pass-the-leed-green-associate-exam-study-gu",
+      "title": "How to Pass the LEED Green Associate Exam: Study Guide",
+      "goal": "How to pass the LEED Green Associate exam",
+      "category": "exams",
+      "tags": [
+        "sustainability",
+        "certification",
+        "architecture"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21567,
+      "moduleCount": 10,
+      "readingTimeMins": 87,
+      "metaDescription": "How to Pass the LEED Green Associate Exam: Study Guide — a free intermediate-level guide covering how to pass the leed green associate exam. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T00:33:06.500Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-ukulele-for-beginners-a-stepbystep-guide",
+      "title": "Learn Ukulele for Beginners: A Step-by-Step Guide",
+      "goal": "Learn ukulele for beginners step by step",
+      "category": "productivity",
+      "tags": [
+        "music",
+        "ukulele",
+        "hobby"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23595,
+      "moduleCount": 9,
+      "readingTimeMins": 95,
+      "metaDescription": "Learn Ukulele for Beginners: A Step-by-Step Guide — a free beginner-level guide covering learn ukulele for beginners step by step. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T00:23:45.988Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "cold-email-mastery-how-to-write-emails-that-get-re",
+      "title": "Cold Email Mastery: How to Write Emails That Get Replies",
+      "goal": "How to write a cold email that gets replies",
+      "category": "career",
+      "tags": [
+        "sales",
+        "networking",
+        "email"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 20672,
+      "moduleCount": 9,
+      "readingTimeMins": 83,
+      "metaDescription": "Cold Email Mastery: How to Write Emails That Get Replies — a free intermediate-level guide covering how to write a cold email that gets replies. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T00:13:43.547Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-flipping-cars-for-profit-a-beginners",
+      "title": "How to Start Flipping Cars for Profit: A Beginner's Guide",
+      "goal": "How to start flipping cars for profit",
+      "category": "finance",
+      "tags": [
+        "side hustle",
+        "cars",
+        "flipping"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23961,
+      "moduleCount": 10,
+      "readingTimeMins": 96,
+      "metaDescription": "How to Start Flipping Cars for Profit: A Beginner's Guide — a free beginner-level guide covering how to start flipping cars for profit. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T00:04:33.691Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-start-a-successful-twitch-channel",
       "title": "How to Start a Successful Twitch Channel",
       "goal": "How to start a successful Twitch channel",
@@ -4820,6 +4920,6 @@
       "edition": "street"
     }
   ],
-  "total": 239,
-  "generatedAt": "2026-07-21T23:36:38.343Z"
+  "total": 244,
+  "generatedAt": "2026-07-22T00:40:54.326Z"
 }
