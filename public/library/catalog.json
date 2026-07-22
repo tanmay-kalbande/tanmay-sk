@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "intermediate-guide-to-building-a-custom-gaming-pc",
+      "title": "Intermediate Guide to Building a Custom Gaming PC",
+      "goal": "How to build a custom PC for gaming",
+      "category": "science",
+      "tags": [
+        "pc building",
+        "hardware",
+        "gaming"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22564,
+      "moduleCount": 10,
+      "readingTimeMins": 91,
+      "metaDescription": "Intermediate Guide to Building a Custom Gaming PC — a free intermediate-level guide covering how to build a custom pc for gaming. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T14:41:00.723Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-nonprofit-organization-complete-gui",
+      "title": "How to Start a Nonprofit Organization: Complete Guide",
+      "goal": "How to start a nonprofit organization",
+      "category": "business",
+      "tags": [
+        "nonprofit",
+        "social enterprise",
+        "startup"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 18480,
+      "moduleCount": 8,
+      "readingTimeMins": 74,
+      "metaDescription": "How to Start a Nonprofit Organization: Complete Guide — a free intermediate-level guide covering how to start a nonprofit organization. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T14:28:26.086Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-italian-for-travel-a-quick-beginners-guide",
+      "title": "Learn Italian for Travel: A Quick Beginner's Guide",
+      "goal": "Learn Italian for travel quickly",
+      "category": "languages",
+      "tags": [
+        "italian",
+        "travel",
+        "language learning"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18462,
+      "moduleCount": 9,
+      "readingTimeMins": 74,
+      "metaDescription": "Learn Italian for Travel: A Quick Beginner's Guide — a free beginner-level guide covering learn italian for travel quickly. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T14:18:58.285Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-virtual-assistant-a-beginners-guid",
+      "title": "How to Become a Virtual Assistant: A Beginner's Guide",
+      "goal": "How to become a virtual assistant",
+      "category": "career",
+      "tags": [
+        "virtual assistant",
+        "remote work",
+        "freelance"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25231,
+      "moduleCount": 10,
+      "readingTimeMins": 101,
+      "metaDescription": "How to Become a Virtual Assistant: A Beginner's Guide — a free beginner-level guide covering how to become a virtual assistant. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T14:08:55.759Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "sewing-for-beginners-the-complete-stepbystep-guide",
+      "title": "Sewing for Beginners: The Complete Step-by-Step Guide",
+      "goal": "How to learn sewing for beginners",
+      "category": "productivity",
+      "tags": [
+        "sewing",
+        "crafts",
+        "diy"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24473,
+      "moduleCount": 9,
+      "readingTimeMins": 98,
+      "metaDescription": "Sewing for Beginners: The Complete Step-by-Step Guide — a free beginner-level guide covering how to learn sewing for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T13:57:04.874Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "nclex-rn-exam-prep-complete-study-guide",
       "title": "NCLEX RN Exam Prep: Complete Study Guide",
       "goal": "How to pass the NCLEX RN exam",
@@ -5280,6 +5380,6 @@
       "edition": "street"
     }
   ],
-  "total": 262,
-  "generatedAt": "2026-07-22T12:07:23.658Z"
+  "total": 267,
+  "generatedAt": "2026-07-22T14:41:01.142Z"
 }
