@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "mastering-motion-graphics-in-adobe-after-effects",
+      "title": "Mastering Motion Graphics in Adobe After Effects",
+      "goal": "Learn Adobe After Effects for motion graphics",
+      "category": "design",
+      "tags": [
+        "after effects",
+        "motion graphics",
+        "animation"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 23330,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "Mastering Motion Graphics in Adobe After Effects — a free intermediate-level guide covering learn adobe after effects for motion graphics. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T09:46:00.855Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-pass-the-pmp-exam-on-your-first-try",
+      "title": "How to Pass the PMP Exam on Your First Try",
+      "goal": "How to pass the PMP exam on first try",
+      "category": "exams",
+      "tags": [
+        "pmp",
+        "project management",
+        "certification"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21263,
+      "moduleCount": 9,
+      "readingTimeMins": 86,
+      "metaDescription": "How to Pass the PMP Exam on Your First Try — a free intermediate-level guide covering how to pass the pmp exam on first try. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T09:31:18.281Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "keto-diet-meal-plan-for-weight-loss-beginners-guid",
+      "title": "Keto Diet Meal Plan for Weight Loss: Beginner's Guide",
+      "goal": "Keto diet meal plan for weight loss",
+      "category": "health",
+      "tags": [
+        "keto",
+        "diet",
+        "weight loss"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27820,
+      "moduleCount": 12,
+      "readingTimeMins": 112,
+      "metaDescription": "Keto Diet Meal Plan for Weight Loss: Beginner's Guide — a free beginner-level guide covering keto diet meal plan for weight loss. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T09:16:36.398Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-an-etsy-shop-for-beginners",
+      "title": "How to Start an Etsy Shop for Beginners",
+      "goal": "How to start an Etsy shop for beginners",
+      "category": "business",
+      "tags": [
+        "etsy",
+        "ecommerce",
+        "online store"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23835,
+      "moduleCount": 9,
+      "readingTimeMins": 96,
+      "metaDescription": "How to Start an Etsy Shop for Beginners — a free beginner-level guide covering how to start an etsy shop for beginners. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T08:58:10.659Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-python-for-data-analysis-beginners-guide",
+      "title": "Learn Python for Data Analysis: Beginner's Guide",
+      "goal": "How to learn Python for data analysis",
+      "category": "programming",
+      "tags": [
+        "python",
+        "pandas",
+        "data analysis"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24798,
+      "moduleCount": 11,
+      "readingTimeMins": 100,
+      "metaDescription": "Learn Python for Data Analysis: Beginner's Guide — a free beginner-level guide covering how to learn python for data analysis. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T08:41:37.309Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-start-investing-in-real-estate-complete-roa",
       "title": "How to Start Investing in Real Estate: Complete Roadmap",
       "goal": "How to start investing in real estate",
@@ -5100,6 +5200,6 @@
       "edition": "street"
     }
   ],
-  "total": 253,
-  "generatedAt": "2026-07-22T07:08:24.086Z"
+  "total": 258,
+  "generatedAt": "2026-07-22T09:46:01.254Z"
 }
