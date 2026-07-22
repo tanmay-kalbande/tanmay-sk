@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "capcut-for-tiktok-the-beginners-video-editing-guid",
+      "title": "CapCut for TikTok: The Beginner's Video Editing Guide",
+      "goal": "How to edit videos in CapCut for TikTok",
+      "category": "design",
+      "tags": [
+        "capcut",
+        "video editing",
+        "tiktok"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19619,
+      "moduleCount": 8,
+      "readingTimeMins": 79,
+      "metaDescription": "CapCut for TikTok: The Beginner's Video Editing Guide — a free beginner-level guide covering how to edit videos in capcut for tiktok. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T19:59:31.855Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "cfa-level-1-exam-prep-complete-study-guide",
+      "title": "CFA Level 1 Exam Prep: Complete Study Guide",
+      "goal": "How to pass the CFA Level 1 exam",
+      "category": "exams",
+      "tags": [
+        "cfa",
+        "finance",
+        "study guide"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 24811,
+      "moduleCount": 11,
+      "readingTimeMins": 100,
+      "metaDescription": "CFA Level 1 Exam Prep: Complete Study Guide — a free intermediate-level guide covering how to pass the cfa level 1 exam. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T19:52:12.746Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "indoor-hydroponics-for-beginners-a-stepbystep-guid",
+      "title": "Indoor Hydroponics for Beginners: A Step-by-Step Guide",
+      "goal": "How to start an indoor hydroponic garden",
+      "category": "science",
+      "tags": [
+        "hydroponics",
+        "indoor gardening",
+        "diy"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21909,
+      "moduleCount": 9,
+      "readingTimeMins": 88,
+      "metaDescription": "Indoor Hydroponics for Beginners: A Step-by-Step Guide — a free beginner-level guide covering how to start an indoor hydroponic garden. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T19:41:46.487Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-learn-russian-complete-beginners-guide",
+      "title": "How to Learn Russian: Complete Beginner's Guide",
+      "goal": "How to learn Russian for beginners",
+      "category": "languages",
+      "tags": [
+        "russian",
+        "language learning",
+        "beginners"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27075,
+      "moduleCount": 12,
+      "readingTimeMins": 109,
+      "metaDescription": "How to Learn Russian: Complete Beginner's Guide — a free beginner-level guide covering how to learn russian for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T19:33:38.155Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-get-an-entrylevel-human-resources-job",
+      "title": "How to Get an Entry-Level Human Resources Job",
+      "goal": "How to get a job in human resources",
+      "category": "career",
+      "tags": [
+        "human resources",
+        "hr",
+        "career change"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22077,
+      "moduleCount": 9,
+      "readingTimeMins": 89,
+      "metaDescription": "How to Get an Entry-Level Human Resources Job — a free beginner-level guide covering how to get a job in human resources. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T19:21:08.670Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "teas-exam-study-guide-pass-on-your-first-attempt",
       "title": "TEAS Exam Study Guide: Pass on Your First Attempt",
       "goal": "How to pass the TEAS exam",
@@ -5580,6 +5680,6 @@
       "edition": "street"
     }
   ],
-  "total": 277,
-  "generatedAt": "2026-07-22T18:06:02.503Z"
+  "total": 282,
+  "generatedAt": "2026-07-22T19:59:32.358Z"
 }
