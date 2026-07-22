@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "nclex-rn-exam-prep-complete-study-guide",
+      "title": "NCLEX RN Exam Prep: Complete Study Guide",
+      "goal": "How to pass the NCLEX RN exam",
+      "category": "exams",
+      "tags": [
+        "nclex",
+        "nursing",
+        "exam prep"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 28305,
+      "moduleCount": 12,
+      "readingTimeMins": 114,
+      "metaDescription": "NCLEX RN Exam Prep: Complete Study Guide — a free intermediate-level guide covering how to pass the nclex rn exam. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T12:07:23.243Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-day-trading-stocks-for-beginners",
+      "title": "How to Start Day Trading Stocks for Beginners",
+      "goal": "How to start day trading stocks for beginners",
+      "category": "finance",
+      "tags": [
+        "day trading",
+        "stocks",
+        "investing"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 17515,
+      "moduleCount": 8,
+      "readingTimeMins": 71,
+      "metaDescription": "How to Start Day Trading Stocks for Beginners — a free intermediate-level guide covering how to start day trading stocks for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T11:50:17.425Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "swift-for-ios-app-development-a-beginners-guide",
+      "title": "Swift for iOS App Development: A Beginner's Guide",
+      "goal": "Learn Swift for iOS app development",
+      "category": "programming",
+      "tags": [
+        "swift",
+        "ios",
+        "xcode"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22545,
+      "moduleCount": 10,
+      "readingTimeMins": 91,
+      "metaDescription": "Swift for iOS App Development: A Beginner's Guide — a free beginner-level guide covering learn swift for ios app development. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T11:42:04.467Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-learn-japanese-for-beginners-a-stepbystep-g",
+      "title": "How to Learn Japanese for Beginners: A Step-by-Step Guide",
+      "goal": "How to learn Japanese for beginners",
+      "category": "languages",
+      "tags": [
+        "japanese",
+        "language learning",
+        "self study"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18916,
+      "moduleCount": 8,
+      "readingTimeMins": 76,
+      "metaDescription": "How to Learn Japanese for Beginners: A Step-by-Step Guide — a free beginner-level guide covering how to learn japanese for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T11:30:57.297Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-profitable-affiliate-marketing-blog",
+      "title": "How to Start a Profitable Affiliate Marketing Blog",
+      "goal": "How to start a successful affiliate marketing blog",
+      "category": "business",
+      "tags": [
+        "affiliate marketing",
+        "blogging",
+        "passive income"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25876,
+      "moduleCount": 11,
+      "readingTimeMins": 104,
+      "metaDescription": "How to Start a Profitable Affiliate Marketing Blog — a free beginner-level guide covering how to start a successful affiliate marketing blog. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T11:20:11.823Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "mastering-motion-graphics-in-adobe-after-effects",
       "title": "Mastering Motion Graphics in Adobe After Effects",
       "goal": "Learn Adobe After Effects for motion graphics",
@@ -1878,26 +1978,6 @@
       "metaDescription": "How to Write a Winning Business Proposal: A Beginner's Guide — a free beginner-level guide covering how to write a business proposal. Learn with clear...",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-20T15:34:14.302Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "swift-for-ios-app-development-a-beginners-guide",
-      "title": "Swift for iOS App Development: A Beginner's Guide",
-      "goal": "Learn Swift for iOS app development",
-      "category": "programming",
-      "tags": [
-        "swift",
-        "ios",
-        "xcode"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 25553,
-      "moduleCount": 12,
-      "readingTimeMins": 103,
-      "metaDescription": "Swift for iOS App Development: A Beginner's Guide — a free beginner-level guide covering learn swift for ios app development. Learn with clear...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-20T15:22:23.024Z",
       "edition": "stellar"
     },
     {
@@ -5200,6 +5280,6 @@
       "edition": "street"
     }
   ],
-  "total": 258,
-  "generatedAt": "2026-07-22T09:46:01.254Z"
+  "total": 262,
+  "generatedAt": "2026-07-22T12:07:23.658Z"
 }
