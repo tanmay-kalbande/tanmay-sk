@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-get-better-sleep-at-night-a-beginners-guide",
+      "title": "How to Get Better Sleep at Night: A Beginner's Guide",
+      "goal": "How to get better sleep at night",
+      "category": "health",
+      "tags": [
+        "sleep",
+        "insomnia",
+        "wellness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24746,
+      "moduleCount": 10,
+      "readingTimeMins": 99,
+      "metaDescription": "How to Get Better Sleep at Night: A Beginner's Guide — a free beginner-level guide covering how to get better sleep at night. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T21:49:27.993Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-write-a-winning-grant-proposal-stepbystep",
+      "title": "How to Write a Winning Grant Proposal: Step-by-Step",
+      "goal": "How to write a grant proposal",
+      "category": "career",
+      "tags": [
+        "grants",
+        "writing",
+        "nonprofit"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21410,
+      "moduleCount": 9,
+      "readingTimeMins": 86,
+      "metaDescription": "How to Write a Winning Grant Proposal: Step-by-Step — a free intermediate-level guide covering how to write a grant proposal. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T21:40:07.042Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-landscaping-business-a-stepbystep-g",
+      "title": "How to Start a Landscaping Business: A Step-by-Step Guide",
+      "goal": "How to start a landscaping business",
+      "category": "business",
+      "tags": [
+        "landscaping",
+        "entrepreneur",
+        "services"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 18263,
+      "moduleCount": 8,
+      "readingTimeMins": 74,
+      "metaDescription": "How to Start a Landscaping Business: A Step-by-Step Guide — a free intermediate-level guide covering how to start a landscaping business. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T21:31:29.304Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-korean-for-travel-fast-a-beginners-guide",
+      "title": "Learn Korean for Travel Fast: A Beginner's Guide",
+      "goal": "Learn Korean for travel quickly",
+      "category": "languages",
+      "tags": [
+        "korean",
+        "travel",
+        "conversation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18350,
+      "moduleCount": 8,
+      "readingTimeMins": 74,
+      "metaDescription": "Learn Korean for Travel Fast: A Beginner's Guide — a free beginner-level guide covering learn korean for travel quickly. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T21:23:08.233Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-wedding-photographer-complete-begi",
+      "title": "How to Become a Wedding Photographer: Complete Beginner's Guide",
+      "goal": "How to become a wedding photographer",
+      "category": "career",
+      "tags": [
+        "photography",
+        "wedding",
+        "business"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27848,
+      "moduleCount": 11,
+      "readingTimeMins": 112,
+      "metaDescription": "How to Become a Wedding Photographer: Complete Beginner's Guide — a free beginner-level guide covering how to become a wedding photographer. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T21:15:03.372Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "capcut-for-tiktok-the-beginners-video-editing-guid",
       "title": "CapCut for TikTok: The Beginner's Video Editing Guide",
       "goal": "How to edit videos in CapCut for TikTok",
@@ -5680,6 +5780,6 @@
       "edition": "street"
     }
   ],
-  "total": 282,
-  "generatedAt": "2026-07-22T19:59:32.358Z"
+  "total": 287,
+  "generatedAt": "2026-07-22T21:49:28.344Z"
 }
