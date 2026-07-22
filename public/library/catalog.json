@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "ccna-exam-first-try-complete-study-guide",
+      "title": "CCNA Exam First Try: Complete Study Guide",
+      "goal": "How to pass the CCNA exam on first try",
+      "category": "exams",
+      "tags": [
+        "ccna",
+        "networking",
+        "certification"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 24867,
+      "moduleCount": 10,
+      "readingTimeMins": 100,
+      "metaDescription": "CCNA Exam First Try: Complete Study Guide — a free intermediate-level guide covering how to pass the ccna exam on first try. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T16:37:56.800Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "build-productionready-mobile-apps-with-flutter",
+      "title": "Build Production-Ready Mobile Apps with Flutter",
+      "goal": "How to build a mobile app with Flutter",
+      "category": "programming",
+      "tags": [
+        "flutter",
+        "dart",
+        "app development"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 18926,
+      "moduleCount": 9,
+      "readingTimeMins": 76,
+      "metaDescription": "Build Production-Ready Mobile Apps with Flutter — a free intermediate-level guide covering how to build a mobile app with flutter. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T16:26:11.110Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "adobe-after-effects-for-beginners-video-editing",
+      "title": "Adobe After Effects for Beginners: Video Editing",
+      "goal": "Learn Adobe After Effects for video editing",
+      "category": "design",
+      "tags": [
+        "after effects",
+        "video editing",
+        "motion graphics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24552,
+      "moduleCount": 10,
+      "readingTimeMins": 99,
+      "metaDescription": "Adobe After Effects for Beginners: Video Editing — a free beginner-level guide covering learn adobe after effects for video editing. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T16:16:04.129Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-social-media-marketing-agency",
+      "title": "How to Start a Social Media Marketing Agency",
+      "goal": "How to start a social media marketing agency",
+      "category": "business",
+      "tags": [
+        "smma",
+        "marketing agency",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 28531,
+      "moduleCount": 12,
+      "readingTimeMins": 115,
+      "metaDescription": "How to Start a Social Media Marketing Agency — a free beginner-level guide covering how to start a social media marketing agency. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T16:05:06.403Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "german-grammar-for-beginners-the-complete-guide",
+      "title": "German Grammar for Beginners: The Complete Guide",
+      "goal": "How to learn German grammar for beginners",
+      "category": "languages",
+      "tags": [
+        "german",
+        "grammar",
+        "language learning"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27084,
+      "moduleCount": 12,
+      "readingTimeMins": 109,
+      "metaDescription": "German Grammar for Beginners: The Complete Guide — a free beginner-level guide covering how to learn german grammar for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T15:52:10.108Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "intermediate-guide-to-building-a-custom-gaming-pc",
       "title": "Intermediate Guide to Building a Custom Gaming PC",
       "goal": "How to build a custom PC for gaming",
@@ -5380,6 +5480,6 @@
       "edition": "street"
     }
   ],
-  "total": 267,
-  "generatedAt": "2026-07-22T14:41:01.142Z"
+  "total": 272,
+  "generatedAt": "2026-07-22T16:37:57.217Z"
 }
