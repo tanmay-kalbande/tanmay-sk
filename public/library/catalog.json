@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-write-a-jobwinning-resume-a-beginners-guide",
+      "title": "How to Write a Job-Winning Resume: A Beginner's Guide",
+      "goal": "How to write a resume for a job",
+      "category": "career",
+      "tags": [
+        "resume",
+        "job search",
+        "career advice"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27928,
+      "moduleCount": 11,
+      "readingTimeMins": 112,
+      "metaDescription": "How to Write a Job-Winning Resume: A Beginner's Guide — a free beginner-level guide covering how to write a resume for a job. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T03:44:36.944Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-investing-in-index-funds-for-beginner",
+      "title": "How to Start Investing in Index Funds for Beginners",
+      "goal": "How to start investing in index funds",
+      "category": "finance",
+      "tags": [
+        "investing",
+        "index funds",
+        "personal finance"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24522,
+      "moduleCount": 10,
+      "readingTimeMins": 99,
+      "metaDescription": "How to Start Investing in Index Funds for Beginners — a free beginner-level guide covering how to start investing in index funds. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T03:26:07.115Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "react-js-for-beginners-the-complete-learning-roadm",
+      "title": "React JS for Beginners: The Complete Learning Roadmap",
+      "goal": "How to learn React JS for beginners",
+      "category": "programming",
+      "tags": [
+        "react",
+        "javascript",
+        "web development"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23569,
+      "moduleCount": 10,
+      "readingTimeMins": 95,
+      "metaDescription": "React JS for Beginners: The Complete Learning Roadmap — a free beginner-level guide covering how to learn react js for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T03:11:13.087Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-podcast-for-free-stepbystep-guide",
+      "title": "How to Start a Podcast for Free: Step-by-Step Guide",
+      "goal": "How to start a podcast for free",
+      "category": "business",
+      "tags": [
+        "podcast",
+        "content creation",
+        "free tools"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22930,
+      "moduleCount": 9,
+      "readingTimeMins": 92,
+      "metaDescription": "How to Start a Podcast for Free: Step-by-Step Guide — a free beginner-level guide covering how to start a podcast for free. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T02:55:15.096Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-learn-graphic-design-with-canva-a-beginners",
+      "title": "How to Learn Graphic Design with Canva: A Beginner's Guide",
+      "goal": "How to learn graphic design with Canva",
+      "category": "design",
+      "tags": [
+        "canva",
+        "graphic design",
+        "tutorial"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25397,
+      "moduleCount": 9,
+      "readingTimeMins": 102,
+      "metaDescription": "How to Learn Graphic Design with Canva: A Beginner's Guide — a free beginner-level guide covering how to learn graphic design with canva. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T02:41:16.099Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-design-a-logo-in-adobe-illustrator-beginner",
       "title": "How to Design a Logo in Adobe Illustrator: Beginner's Guide",
       "goal": "How to design a logo in Adobe Illustrator",
@@ -2863,26 +2963,6 @@
       "edition": "stellar"
     },
     {
-      "slug": "how-to-start-investing-in-index-funds-for-beginner",
-      "title": "How to Start Investing in Index Funds for Beginners",
-      "goal": "How to start investing in index funds",
-      "category": "finance",
-      "tags": [
-        "investing",
-        "index funds",
-        "passive income"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 21603,
-      "moduleCount": 9,
-      "readingTimeMins": 87,
-      "metaDescription": "How to Start Investing in Index Funds for Beginners — a free beginner-level guide covering how to start investing in index funds. Learn with clear...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-19T07:44:29.857Z",
-      "edition": "stellar"
-    },
-    {
       "slug": "mastering-react-js-for-web-development",
       "title": "Mastering React JS for Web Development",
       "goal": "Learn React JS for web development",
@@ -4920,6 +5000,6 @@
       "edition": "street"
     }
   ],
-  "total": 244,
-  "generatedAt": "2026-07-22T00:40:54.326Z"
+  "total": 248,
+  "generatedAt": "2026-07-22T03:44:37.332Z"
 }
