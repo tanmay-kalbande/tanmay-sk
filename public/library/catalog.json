@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-start-investing-in-real-estate-complete-roa",
+      "title": "How to Start Investing in Real Estate: Complete Roadmap",
+      "goal": "How to start investing in real estate",
+      "category": "finance",
+      "tags": [
+        "real estate",
+        "investing",
+        "rental properties"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 25828,
+      "moduleCount": 12,
+      "readingTimeMins": 104,
+      "metaDescription": "How to Start Investing in Real Estate: Complete Roadmap — a free intermediate-level guide covering how to start investing in real estate. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T07:08:23.710Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-learn-spanish-for-beginners-a-stepbystep-gu",
+      "title": "How to Learn Spanish for Beginners: A Step-by-Step Guide",
+      "goal": "How to learn Spanish for beginners",
+      "category": "languages",
+      "tags": [
+        "spanish",
+        "language learning",
+        "basics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23985,
+      "moduleCount": 11,
+      "readingTimeMins": 96,
+      "metaDescription": "How to Learn Spanish for Beginners: A Step-by-Step Guide — a free beginner-level guide covering how to learn spanish for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T06:47:44.793Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "comptia-a-exam-prep-core-1-and-core-2-guide",
+      "title": "CompTIA A+ Exam Prep: Core 1 and Core 2 Guide",
+      "goal": "How to pass the CompTIA A+ exam",
+      "category": "exams",
+      "tags": [
+        "comptia",
+        "it certification",
+        "a plus"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 23386,
+      "moduleCount": 9,
+      "readingTimeMins": 94,
+      "metaDescription": "CompTIA A+ Exam Prep: Core 1 and Core 2 Guide — a free intermediate-level guide covering how to pass the comptia a+ exam. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T06:30:00.794Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "excel-data-analysis-for-beginners-a-stepbystep-gui",
+      "title": "Excel Data Analysis for Beginners: A Step-by-Step Guide",
+      "goal": "Learn Microsoft Excel for data analysis",
+      "category": "productivity",
+      "tags": [
+        "excel",
+        "spreadsheets",
+        "data analysis"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21139,
+      "moduleCount": 9,
+      "readingTimeMins": 85,
+      "metaDescription": "Excel Data Analysis for Beginners: A Step-by-Step Guide — a free beginner-level guide covering learn microsoft excel for data analysis. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T06:14:49.871Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-vending-machine-business-beginners",
+      "title": "How to Start a Vending Machine Business: Beginner's Guide",
+      "goal": "How to start a vending machine business",
+      "category": "business",
+      "tags": [
+        "vending machines",
+        "side hustle",
+        "passive income"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26369,
+      "moduleCount": 11,
+      "readingTimeMins": 106,
+      "metaDescription": "How to Start a Vending Machine Business: Beginner's Guide — a free beginner-level guide covering how to start a vending machine business. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-22T06:02:26.292Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-write-a-jobwinning-resume-a-beginners-guide",
       "title": "How to Write a Job-Winning Resume: A Beginner's Guide",
       "goal": "How to write a resume for a job",
@@ -5000,6 +5100,6 @@
       "edition": "street"
     }
   ],
-  "total": 248,
-  "generatedAt": "2026-07-22T03:44:37.332Z"
+  "total": 253,
+  "generatedAt": "2026-07-22T07:08:24.086Z"
 }
