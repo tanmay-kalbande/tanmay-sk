@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-build-a-gaming-pc-under-1500",
+      "title": "How to Build a Gaming PC Under $1500",
+      "goal": "How to build a gaming PC under $1500",
+      "category": "science",
+      "tags": [
+        "pc building",
+        "gaming pc",
+        "hardware"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 23314,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "How to Build a Gaming PC Under $1500 — a free intermediate-level guide covering how to build a gaming pc under $1500. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T11:21:32.885Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "land-a-data-scientist-job-the-intermediate-guide",
+      "title": "Land a Data Scientist Job: The Intermediate Guide",
+      "goal": "How to get a job as a data scientist",
+      "category": "career",
+      "tags": [
+        "data science",
+        "job search",
+        "career"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 20549,
+      "moduleCount": 9,
+      "readingTimeMins": 83,
+      "metaDescription": "Land a Data Scientist Job: The Intermediate Guide — a free intermediate-level guide covering how to get a job as a data scientist. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T11:08:54.975Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "comptia-project-exam-prep-the-complete-study-guide",
+      "title": "CompTIA Project+ Exam Prep: The Complete Study Guide",
+      "goal": "How to pass the CompTIA Project+ exam",
+      "category": "exams",
+      "tags": [
+        "comptia",
+        "project plus",
+        "certification"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 27204,
+      "moduleCount": 12,
+      "readingTimeMins": 109,
+      "metaDescription": "CompTIA Project+ Exam Prep: The Complete Study Guide — a free intermediate-level guide covering how to pass the comptia project+ exam. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T10:58:47.792Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-profitable-lawn-care-business",
+      "title": "How to Start a Profitable Lawn Care Business",
+      "goal": "How to start a profitable lawn care business",
+      "category": "business",
+      "tags": [
+        "lawn care",
+        "landscaping",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20244,
+      "moduleCount": 8,
+      "readingTimeMins": 81,
+      "metaDescription": "How to Start a Profitable Lawn Care Business — a free beginner-level guide covering how to start a profitable lawn care business. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T10:45:10.816Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "watercolor-painting-for-beginners-a-stepbystep-gui",
+      "title": "Watercolor Painting for Beginners: A Step-by-Step Guide",
+      "goal": "How to learn watercolor painting for beginners",
+      "category": "design",
+      "tags": [
+        "watercolor",
+        "painting",
+        "art"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23557,
+      "moduleCount": 10,
+      "readingTimeMins": 95,
+      "metaDescription": "Watercolor Painting for Beginners: A Step-by-Step Guide — a free beginner-level guide covering how to learn watercolor painting for beginners. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T10:34:44.723Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-lose-weight-with-strength-training",
       "title": "How to Lose Weight with Strength Training",
       "goal": "How to lose weight with strength training",
@@ -6161,6 +6261,6 @@
       "edition": "street"
     }
   ],
-  "total": 306,
-  "generatedAt": "2026-07-23T08:56:02.792Z"
+  "total": 311,
+  "generatedAt": "2026-07-23T11:21:33.411Z"
 }
