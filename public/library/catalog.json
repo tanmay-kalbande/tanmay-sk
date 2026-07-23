@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "comptia-security-exam-prep-pass-sy0701",
+      "title": "CompTIA Security+ Exam Prep: Pass SY0-701",
+      "goal": "How to pass the CompTIA Security+ exam",
+      "category": "exams",
+      "tags": [
+        "comptia",
+        "security-plus",
+        "certification"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 23564,
+      "moduleCount": 10,
+      "readingTimeMins": 95,
+      "metaDescription": "CompTIA Security+ Exam Prep: Pass SY0-701 — a free intermediate-level guide covering how to pass the comptia security+ exam. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T16:02:53.788Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-excel-pivot-tables-for-data-analysis",
+      "title": "Master Excel Pivot Tables for Data Analysis",
+      "goal": "Master Excel pivot tables for data analysis",
+      "category": "productivity",
+      "tags": [
+        "excel",
+        "data-analysis",
+        "spreadsheets"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 23473,
+      "moduleCount": 10,
+      "readingTimeMins": 94,
+      "metaDescription": "Master Excel Pivot Tables for Data Analysis — a free intermediate-level guide covering master excel pivot tables for data analysis. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T15:52:11.451Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-build-a-gaming-pc-under-800",
+      "title": "How to Build a Gaming PC Under $800",
+      "goal": "How to build a gaming PC under $800",
+      "category": "science",
+      "tags": [
+        "pc-building",
+        "gaming-pc",
+        "hardware"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24304,
+      "moduleCount": 10,
+      "readingTimeMins": 98,
+      "metaDescription": "How to Build a Gaming PC Under $800 — a free beginner-level guide covering how to build a gaming pc under $800. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T15:41:04.565Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "learn-german-for-travel-a-quick-beginners-guide",
+      "title": "Learn German for Travel: A Quick Beginner's Guide",
+      "goal": "Learn German for travel quickly",
+      "category": "languages",
+      "tags": [
+        "german",
+        "travel",
+        "language-learning"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 18659,
+      "moduleCount": 9,
+      "readingTimeMins": 75,
+      "metaDescription": "Learn German for Travel: A Quick Beginner's Guide — a free beginner-level guide covering learn german for travel quickly. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T15:29:05.185Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "zero-to-launch-dropshipping-with-no-money",
+      "title": "Zero to Launch: Dropshipping With No Money",
+      "goal": "How to start a dropshipping business with no money",
+      "category": "business",
+      "tags": [
+        "dropshipping",
+        "ecommerce",
+        "side-hustle"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25061,
+      "moduleCount": 10,
+      "readingTimeMins": 101,
+      "metaDescription": "Zero to Launch: Dropshipping With No Money — a free beginner-level guide covering how to start a dropshipping business with no money. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T15:19:11.019Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-learn-spanish-for-beginners-a-stepbystep-ro",
       "title": "How to Learn Spanish for Beginners: A Step-by-Step Roadmap",
       "goal": "How to learn Spanish for beginners",
@@ -6341,6 +6441,6 @@
       "edition": "street"
     }
   ],
-  "total": 315,
-  "generatedAt": "2026-07-23T13:22:14.648Z"
+  "total": 320,
+  "generatedAt": "2026-07-23T16:02:54.282Z"
 }
