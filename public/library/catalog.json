@@ -1,6 +1,107 @@
 {
   "books": [
     {
+      "slug": "how-to-build-a-gaming-pc-under-500",
+      "title": "How to Build a Gaming PC Under $500",
+      "goal": "How to build a gaming PC under 500 dollars",
+      "category": "science",
+      "tags": [
+        "pc building",
+        "budget gaming pc",
+        "hardware"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 28073,
+      "moduleCount": 11,
+      "readingTimeMins": 113,
+      "metaDescription": "How to Build a Gaming PC Under $500 — a free beginner-level guide covering how to build a gaming pc under 500 dollars. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T01:02:09.915Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-high-school-math-teacher-complete",
+      "title": "How to Become a High School Math Teacher: Complete Guide",
+      "goal": "How to become a high school math teacher",
+      "category": "career",
+      "tags": [
+        "teaching",
+        "math teacher",
+        "education career"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25737,
+      "moduleCount": 11,
+      "readingTimeMins": 103,
+      "metaDescription": "How to Become a High School Math Teacher: Complete Guide — a free beginner-level guide covering how to become a high school math teacher. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T00:49:46.441Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "mastering-excel-vba-macros-intermediate-to-advance",
+      "title": "Mastering Excel VBA Macros: Intermediate to Advanced",
+      "goal": "Learn Microsoft Excel VBA macros from scratch",
+      "category": "productivity",
+      "tags": [
+        "excel",
+        "vba",
+        "macros",
+        "automation"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 24046,
+      "moduleCount": 11,
+      "readingTimeMins": 97,
+      "metaDescription": "Mastering Excel VBA Macros: Intermediate to Advanced — a free intermediate-level guide covering learn microsoft excel vba macros from scratch. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T00:38:48.082Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-youtube-gaming-channel-beginners-gu",
+      "title": "How to Start a YouTube Gaming Channel: Beginner's Guide",
+      "goal": "How to start a YouTube gaming channel",
+      "category": "business",
+      "tags": [
+        "youtube",
+        "gaming channel",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20513,
+      "moduleCount": 8,
+      "readingTimeMins": 83,
+      "metaDescription": "How to Start a YouTube Gaming Channel: Beginner's Guide — a free beginner-level guide covering how to start a youtube gaming channel. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T00:28:15.994Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-write-a-winning-business-proposal-for-fundi",
+      "title": "How to Write a Winning Business Proposal for Funding",
+      "goal": "How to write a business proposal for funding",
+      "category": "business",
+      "tags": [
+        "business proposal",
+        "startup funding",
+        "pitching"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22715,
+      "moduleCount": 10,
+      "readingTimeMins": 91,
+      "metaDescription": "How to Write a Winning Business Proposal for Funding — a free intermediate-level guide covering how to write a business proposal for funding. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T00:19:19.892Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "affiliate-marketing-without-a-website-the-nosite-p",
       "title": "Affiliate Marketing Without a Website: The No-Site Playbook",
       "goal": "How to do affiliate marketing without a website",
@@ -5880,6 +5981,6 @@
       "edition": "street"
     }
   ],
-  "total": 292,
-  "generatedAt": "2026-07-22T23:45:51.138Z"
+  "total": 297,
+  "generatedAt": "2026-07-23T01:02:10.350Z"
 }
