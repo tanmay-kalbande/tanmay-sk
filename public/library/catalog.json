@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-lose-weight-with-strength-training",
+      "title": "How to Lose Weight with Strength Training",
+      "goal": "How to lose weight with strength training",
+      "category": "health",
+      "tags": [
+        "weight loss",
+        "strength training",
+        "fitness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21708,
+      "moduleCount": 8,
+      "readingTimeMins": 87,
+      "metaDescription": "How to Lose Weight with Strength Training — a free beginner-level guide covering how to lose weight with strength training. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T08:56:02.298Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "ielts-band-7-preparation-guide-strategies-practice",
+      "title": "IELTS Band 7+ Preparation Guide: Strategies & Practice",
+      "goal": "IELTS preparation guide for band 7+",
+      "category": "exams",
+      "tags": [
+        "ielts",
+        "english exam",
+        "test prep"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22724,
+      "moduleCount": 10,
+      "readingTimeMins": 91,
+      "metaDescription": "IELTS Band 7+ Preparation Guide: Strategies & Practice — a free intermediate-level guide covering ielts preparation guide for band 7+. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T08:39:20.135Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-investing-in-stocks-a-beginners-guide",
+      "title": "How to Start Investing in Stocks: A Beginner's Guide",
+      "goal": "How to start investing in the stock market",
+      "category": "finance",
+      "tags": [
+        "stock market",
+        "investing",
+        "finance"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25479,
+      "moduleCount": 10,
+      "readingTimeMins": 102,
+      "metaDescription": "How to Start Investing in Stocks: A Beginner's Guide — a free beginner-level guide covering how to start investing in the stock market. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T08:17:59.026Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "excel-for-data-analysis-a-beginners-guide",
+      "title": "Excel for Data Analysis: A Beginner's Guide",
+      "goal": "Learn Excel for data analysis",
+      "category": "productivity",
+      "tags": [
+        "excel",
+        "data analysis",
+        "microsoft office"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23027,
+      "moduleCount": 10,
+      "readingTimeMins": 93,
+      "metaDescription": "Excel for Data Analysis: A Beginner's Guide — a free beginner-level guide covering learn excel for data analysis. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T08:01:18.647Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "the-complete-guide-to-writing-business-funding-pro",
+      "title": "The Complete Guide to Writing Business Funding Proposals",
+      "goal": "How to write a business proposal for funding",
+      "category": "business",
+      "tags": [
+        "business proposal",
+        "funding",
+        "startup"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 19712,
+      "moduleCount": 8,
+      "readingTimeMins": 79,
+      "metaDescription": "The Complete Guide to Writing Business Funding Proposals — a free intermediate-level guide covering how to write a business proposal for funding. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T07:45:44.297Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "tennis-for-beginners-learn-to-play-from-scratch",
       "title": "Tennis for Beginners: Learn to Play from Scratch",
       "goal": "Learn to play tennis for complete beginners",
@@ -3984,26 +4084,6 @@
       "edition": "stellar"
     },
     {
-      "slug": "excel-for-data-analysis-a-beginners-guide",
-      "title": "Excel for Data Analysis: A Beginner's Guide",
-      "goal": "Learn Excel for data analysis",
-      "category": "productivity",
-      "tags": [
-        "excel",
-        "data analysis",
-        "spreadsheets"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 19493,
-      "moduleCount": 8,
-      "readingTimeMins": 78,
-      "metaDescription": "Excel for Data Analysis: A Beginner's Guide — a free beginner-level guide covering learn excel for data analysis. Learn with clear explanations, real...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-19T08:17:04.789Z",
-      "edition": "stellar"
-    },
-    {
       "slug": "build-a-personal-website-with-html-and-css",
       "title": "Build a Personal Website with HTML and CSS",
       "goal": "Build a personal website with HTML and CSS",
@@ -6081,6 +6161,6 @@
       "edition": "street"
     }
   ],
-  "total": 302,
-  "generatedAt": "2026-07-23T05:10:27.897Z"
+  "total": 306,
+  "generatedAt": "2026-07-23T08:56:02.792Z"
 }
