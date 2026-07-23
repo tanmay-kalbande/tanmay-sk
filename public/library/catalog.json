@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "tennis-for-beginners-learn-to-play-from-scratch",
+      "title": "Tennis for Beginners: Learn to Play from Scratch",
+      "goal": "Learn to play tennis for complete beginners",
+      "category": "productivity",
+      "tags": [
+        "tennis",
+        "sports",
+        "fitness"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 26519,
+      "moduleCount": 11,
+      "readingTimeMins": 107,
+      "metaDescription": "Tennis for Beginners: Learn to Play from Scratch — a free beginner-level guide covering learn to play tennis for complete beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T05:10:27.432Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "daily-stretching-for-better-posture-a-beginners-gu",
+      "title": "Daily Stretching for Better Posture: A Beginner's Guide",
+      "goal": "How to improve posture with daily stretching",
+      "category": "health",
+      "tags": [
+        "posture",
+        "stretching",
+        "mobility"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25052,
+      "moduleCount": 10,
+      "readingTimeMins": 101,
+      "metaDescription": "Daily Stretching for Better Posture: A Beginner's Guide — a free beginner-level guide covering how to improve posture with daily stretching. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T04:57:00.516Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-mobile-car-detailing-business",
+      "title": "How to Start a Mobile Car Detailing Business",
+      "goal": "How to start a mobile car detailing business",
+      "category": "business",
+      "tags": [
+        "car detailing",
+        "mobile business",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 18348,
+      "moduleCount": 8,
+      "readingTimeMins": 74,
+      "metaDescription": "How to Start a Mobile Car Detailing Business — a free intermediate-level guide covering how to start a mobile car detailing business. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T04:44:48.284Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "microsoft-azure-fundamentals-for-beginners",
+      "title": "Microsoft Azure Fundamentals for Beginners",
+      "goal": "Learn Microsoft Azure fundamentals for beginners",
+      "category": "programming",
+      "tags": [
+        "azure",
+        "cloud computing",
+        "certification"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24333,
+      "moduleCount": 10,
+      "readingTimeMins": 98,
+      "metaDescription": "Microsoft Azure Fundamentals for Beginners — a free beginner-level guide covering learn microsoft azure fundamentals for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T04:34:48.555Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "start-a-freelance-bookkeeping-business-beginners-g",
+      "title": "Start a Freelance Bookkeeping Business: Beginner's Guide",
+      "goal": "How to start a freelance bookkeeping business",
+      "category": "finance",
+      "tags": [
+        "bookkeeping",
+        "freelance",
+        "small business"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24140,
+      "moduleCount": 10,
+      "readingTimeMins": 97,
+      "metaDescription": "Start a Freelance Bookkeeping Business: Beginner's Guide — a free beginner-level guide covering how to start a freelance bookkeeping business. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T04:24:35.220Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-build-a-gaming-pc-under-500",
       "title": "How to Build a Gaming PC Under $500",
       "goal": "How to build a gaming PC under 500 dollars",
@@ -5981,6 +6081,6 @@
       "edition": "street"
     }
   ],
-  "total": 297,
-  "generatedAt": "2026-07-23T01:02:10.350Z"
+  "total": 302,
+  "generatedAt": "2026-07-23T05:10:27.897Z"
 }
