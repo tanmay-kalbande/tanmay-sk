@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-start-a-meal-prep-delivery-business-a-begin",
+      "title": "How to Start a Meal Prep Delivery Business: A Beginner's Guide",
+      "goal": "How to start a meal prep delivery business",
+      "category": "business",
+      "tags": [
+        "meal prep",
+        "food business",
+        "delivery"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25170,
+      "moduleCount": 10,
+      "readingTimeMins": 101,
+      "metaDescription": "How to Start a Meal Prep Delivery Business: A Beginner's Guide — a free beginner-level guide covering how to start a meal prep delivery business. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T18:27:24.594Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-pass-the-comptia-casp-cas004-exam",
+      "title": "How to Pass the CompTIA CASP+ CAS-004 Exam",
+      "goal": "How to pass the CompTIA CASP+ exam",
+      "category": "exams",
+      "tags": [
+        "comptia",
+        "casp",
+        "cybersecurity"
+      ],
+      "language": "en",
+      "complexity": "advanced",
+      "wordCount": 26448,
+      "moduleCount": 12,
+      "readingTimeMins": 106,
+      "metaDescription": "How to Pass the CompTIA CASP+ CAS-004 Exam — a free advanced-level guide covering how to pass the comptia casp+ exam. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T18:15:16.133Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "building-productionready-rest-apis-with-nodejs",
+      "title": "Building Production-Ready REST APIs with Node.js",
+      "goal": "How to build a REST API with Node.js",
+      "category": "programming",
+      "tags": [
+        "nodejs",
+        "api",
+        "backend"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 22031,
+      "moduleCount": 10,
+      "readingTimeMins": 89,
+      "metaDescription": "Building Production-Ready REST APIs with Node.js — a free intermediate-level guide covering how to build a rest api with node.js. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T17:58:28.508Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-investing-in-cryptocurrency",
+      "title": "How to Start Investing in Cryptocurrency",
+      "goal": "How to start investing in cryptocurrency",
+      "category": "finance",
+      "tags": [
+        "crypto",
+        "investing",
+        "bitcoin"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21790,
+      "moduleCount": 9,
+      "readingTimeMins": 88,
+      "metaDescription": "How to Start Investing in Cryptocurrency — a free beginner-level guide covering how to start investing in cryptocurrency. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T17:46:30.048Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-freelance-video-editor-a-beginners",
+      "title": "How to Become a Freelance Video Editor: A Beginner's Guide",
+      "goal": "How to become a freelance video editor",
+      "category": "career",
+      "tags": [
+        "video editing",
+        "freelance",
+        "career change"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 30741,
+      "moduleCount": 12,
+      "readingTimeMins": 123,
+      "metaDescription": "How to Become a Freelance Video Editor: A Beginner's Guide — a free beginner-level guide covering how to become a freelance video editor. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T17:36:13.998Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "comptia-security-exam-prep-pass-sy0701",
       "title": "CompTIA Security+ Exam Prep: Pass SY0-701",
       "goal": "How to pass the CompTIA Security+ exam",
@@ -6441,6 +6541,6 @@
       "edition": "street"
     }
   ],
-  "total": 320,
-  "generatedAt": "2026-07-23T16:02:54.282Z"
+  "total": 325,
+  "generatedAt": "2026-07-23T18:27:25.095Z"
 }
