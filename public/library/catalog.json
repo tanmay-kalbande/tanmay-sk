@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-learn-spanish-for-beginners-a-stepbystep-ro",
+      "title": "How to Learn Spanish for Beginners: A Step-by-Step Roadmap",
+      "goal": "How to learn Spanish for beginners",
+      "category": "languages",
+      "tags": [
+        "spanish",
+        "language learning",
+        "basics"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27224,
+      "moduleCount": 13,
+      "readingTimeMins": 109,
+      "metaDescription": "How to Learn Spanish for Beginners: A Step-by-Step Roadmap — a free beginner-level guide covering how to learn spanish for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T13:22:14.198Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-investing-in-index-funds-a-beginners",
+      "title": "How to Start Investing in Index Funds: A Beginner's Guide",
+      "goal": "How to start investing in index funds",
+      "category": "finance",
+      "tags": [
+        "investing",
+        "index funds",
+        "stocks"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23880,
+      "moduleCount": 10,
+      "readingTimeMins": 96,
+      "metaDescription": "How to Start Investing in Index Funds: A Beginner's Guide — a free beginner-level guide covering how to start investing in index funds. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T13:06:53.827Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-podcast-for-free-a-beginners-guide",
+      "title": "How to Start a Podcast for Free: A Beginner's Guide",
+      "goal": "How to start a podcast for free",
+      "category": "business",
+      "tags": [
+        "podcast",
+        "audio",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20185,
+      "moduleCount": 8,
+      "readingTimeMins": 81,
+      "metaDescription": "How to Start a Podcast for Free: A Beginner's Guide — a free beginner-level guide covering how to start a podcast for free. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T12:55:45.221Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "acoustic-guitar-for-beginners-a-complete-guide",
+      "title": "Acoustic Guitar for Beginners: A Complete Guide",
+      "goal": "Learn to play acoustic guitar for beginners",
+      "category": "productivity",
+      "tags": [
+        "guitar",
+        "music",
+        "acoustic"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24885,
+      "moduleCount": 9,
+      "readingTimeMins": 100,
+      "metaDescription": "Acoustic Guitar for Beginners: A Complete Guide — a free beginner-level guide covering learn to play acoustic guitar for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T12:45:20.071Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-get-a-job-in-human-resources-a-beginners-gu",
+      "title": "How to Get a Job in Human Resources: A Beginner's Guide",
+      "goal": "How to get a job in human resources",
+      "category": "career",
+      "tags": [
+        "human resources",
+        "hr",
+        "job search"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21056,
+      "moduleCount": 9,
+      "readingTimeMins": 85,
+      "metaDescription": "How to Get a Job in Human Resources: A Beginner's Guide — a free beginner-level guide covering how to get a job in human resources. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T12:33:14.461Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-build-a-gaming-pc-under-1500",
       "title": "How to Build a Gaming PC Under $1500",
       "goal": "How to build a gaming PC under $1500",
@@ -3503,26 +3603,6 @@
       "edition": "street"
     },
     {
-      "slug": "acoustic-guitar-for-beginners-a-complete-guide",
-      "title": "Acoustic Guitar for Beginners: A Complete Guide",
-      "goal": "How to play acoustic guitar for beginners",
-      "category": "productivity",
-      "tags": [
-        "guitar",
-        "acoustic",
-        "music"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 26674,
-      "moduleCount": 10,
-      "readingTimeMins": 107,
-      "metaDescription": "Acoustic Guitar for Beginners: A Complete Guide — a free beginner-level guide covering how to play acoustic guitar for beginners. Learn with clear...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-19T20:52:12.324Z",
-      "edition": "stellar"
-    },
-    {
       "slug": "desi-how-to-write-a-novel-for-beginners",
       "title": "How to Write a Novel for Beginners",
       "goal": "How to write a novel for beginners",
@@ -6261,6 +6341,6 @@
       "edition": "street"
     }
   ],
-  "total": 311,
-  "generatedAt": "2026-07-23T11:21:33.411Z"
+  "total": 315,
+  "generatedAt": "2026-07-23T13:22:14.648Z"
 }
