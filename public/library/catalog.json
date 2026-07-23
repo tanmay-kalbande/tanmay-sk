@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-start-a-profitable-blog-for-beginners",
+      "title": "How to Start a Profitable Blog for Beginners",
+      "goal": "How to start a blog and make money",
+      "category": "business",
+      "tags": [
+        "blogging",
+        "affiliate marketing",
+        "seo"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 28253,
+      "moduleCount": 11,
+      "readingTimeMins": 114,
+      "metaDescription": "How to Start a Profitable Blog for Beginners — a free beginner-level guide covering how to start a blog and make money. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T23:45:11.572Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "start-a-podcast-for-free-beginners-stepbystep-guid",
+      "title": "Start a Podcast for Free: Beginner's Step-by-Step Guide",
+      "goal": "How to start a podcast for free",
+      "category": "business",
+      "tags": [
+        "podcast",
+        "audio",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 24704,
+      "moduleCount": 10,
+      "readingTimeMins": 99,
+      "metaDescription": "Start a Podcast for Free: Beginner's Step-by-Step Guide — a free beginner-level guide covering how to start a podcast for free. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T23:34:07.043Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-youtube-channel-for-beginners",
+      "title": "How to Start a YouTube Channel for Beginners",
+      "goal": "How to start a YouTube channel for beginners",
+      "category": "business",
+      "tags": [
+        "youtube",
+        "content creation",
+        "social media"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27783,
+      "moduleCount": 11,
+      "readingTimeMins": 112,
+      "metaDescription": "How to Start a YouTube Channel for Beginners — a free beginner-level guide covering how to start a youtube channel for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T23:24:41.635Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-write-a-business-plan-for-a-startup",
+      "title": "How to Write a Business Plan for a Startup",
+      "goal": "How to write a business plan for a startup",
+      "category": "business",
+      "tags": [
+        "business plan",
+        "startup",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25575,
+      "moduleCount": 10,
+      "readingTimeMins": 103,
+      "metaDescription": "How to Write a Business Plan for a Startup — a free beginner-level guide covering how to write a business plan for a startup. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T23:11:25.503Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-freelance-graphic-designer",
+      "title": "How to Become a Freelance Graphic Designer",
+      "goal": "How to become a freelance graphic designer",
+      "category": "career",
+      "tags": [
+        "freelance",
+        "graphic design",
+        "career change"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21222,
+      "moduleCount": 9,
+      "readingTimeMins": 85,
+      "metaDescription": "How to Become a Freelance Graphic Designer — a free beginner-level guide covering how to become a freelance graphic designer. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T23:01:50.805Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-build-muscle-at-home-with-calisthenics",
       "title": "How to Build Muscle at Home with Calisthenics",
       "goal": "How to build muscle at home with calisthenics",
@@ -2062,26 +2162,6 @@
       "edition": "stellar"
     },
     {
-      "slug": "how-to-start-a-profitable-blog-for-beginners",
-      "title": "How to Start a Profitable Blog for Beginners",
-      "goal": "How to start a profitable blog for beginners",
-      "category": "business",
-      "tags": [
-        "blogging",
-        "content creation",
-        "passive income"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 22595,
-      "moduleCount": 9,
-      "readingTimeMins": 91,
-      "metaDescription": "How to Start a Profitable Blog for Beginners — a free beginner-level guide covering how to start a profitable blog for beginners. Learn with clear...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-21T23:02:10.760Z",
-      "edition": "stellar"
-    },
-    {
       "slug": "how-to-do-a-handstand-for-beginners-a-stepbystep-g",
       "title": "How to Do a Handstand for Beginners: A Step-by-Step Guide",
       "goal": "How to do a handstand for beginners",
@@ -2759,26 +2839,6 @@
       "metaDescription": "How to Start an eBay Flipping Business: A Beginner's Guide — a free beginner-level guide covering how to start an ebay flipping business. Learn with...",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-21T07:47:24.862Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "how-to-become-a-freelance-graphic-designer",
-      "title": "How to Become a Freelance Graphic Designer",
-      "goal": "How to become a freelance graphic designer",
-      "category": "career",
-      "tags": [
-        "freelance",
-        "graphic design",
-        "remote work"
-      ],
-      "language": "en",
-      "complexity": "intermediate",
-      "wordCount": 20032,
-      "moduleCount": 9,
-      "readingTimeMins": 81,
-      "metaDescription": "How to Become a Freelance Graphic Designer — a free intermediate-level guide covering how to become a freelance graphic designer. Learn with clear...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-21T05:10:55.639Z",
       "edition": "stellar"
     },
     {
@@ -6681,6 +6741,6 @@
       "edition": "street"
     }
   ],
-  "total": 332,
-  "generatedAt": "2026-07-23T21:42:34.704Z"
+  "total": 335,
+  "generatedAt": "2026-07-23T23:45:12.122Z"
 }
