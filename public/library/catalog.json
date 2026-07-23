@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "pass-the-aws-solutions-architect-associate-exam",
+      "title": "Pass the AWS Solutions Architect Associate Exam",
+      "goal": "How to pass the AWS Solutions Architect exam",
+      "category": "exams",
+      "tags": [
+        "aws",
+        "certification",
+        "cloud computing"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 28302,
+      "moduleCount": 12,
+      "readingTimeMins": 114,
+      "metaDescription": "Pass the AWS Solutions Architect Associate Exam — a free intermediate-level guide covering how to pass the aws solutions architect exam. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T20:03:04.014Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-learn-korean-a-beginners-stepbystep-guide",
+      "title": "How to Learn Korean: A Beginner's Step-by-Step Guide",
+      "goal": "How to learn Korean for beginners",
+      "category": "languages",
+      "tags": [
+        "korean",
+        "language learning",
+        "self study"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20686,
+      "moduleCount": 8,
+      "readingTimeMins": 83,
+      "metaDescription": "How to Learn Korean: A Beginner's Step-by-Step Guide — a free beginner-level guide covering how to learn korean for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T19:50:23.859Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-profitable-vending-machine-business",
+      "title": "How to Start a Profitable Vending Machine Business",
+      "goal": "How to start a vending machine business",
+      "category": "business",
+      "tags": [
+        "passive income",
+        "vending",
+        "entrepreneur"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 19708,
+      "moduleCount": 8,
+      "readingTimeMins": 79,
+      "metaDescription": "How to Start a Profitable Vending Machine Business — a free beginner-level guide covering how to start a vending machine business. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T19:40:35.220Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "master-tailwind-css-for-web-design",
+      "title": "Master Tailwind CSS for Web Design",
+      "goal": "Learn Tailwind CSS for web design",
+      "category": "programming",
+      "tags": [
+        "css",
+        "tailwind",
+        "frontend"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 21604,
+      "moduleCount": 10,
+      "readingTimeMins": 87,
+      "metaDescription": "Master Tailwind CSS for Web Design — a free intermediate-level guide covering learn tailwind css for web design. Learn with clear explanations, real...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T19:31:53.492Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-freelance-copywriter-a-beginners-g",
+      "title": "How to Become a Freelance Copywriter: A Beginner's Guide",
+      "goal": "How to become a freelance copywriter",
+      "category": "career",
+      "tags": [
+        "freelancing",
+        "copywriting",
+        "writing"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 21639,
+      "moduleCount": 8,
+      "readingTimeMins": 87,
+      "metaDescription": "How to Become a Freelance Copywriter: A Beginner's Guide — a free beginner-level guide covering how to become a freelance copywriter. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T19:21:11.448Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-start-a-meal-prep-delivery-business-a-begin",
       "title": "How to Start a Meal Prep Delivery Business: A Beginner's Guide",
       "goal": "How to start a meal prep delivery business",
@@ -2259,26 +2359,6 @@
       "metaDescription": "Learn Tableau for Data Visualization: A Beginner's Guide — a free beginner-level guide covering learn tableau for data visualization. Learn with clear...",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-21T15:35:27.494Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "how-to-become-a-freelance-copywriter-a-beginners-g",
-      "title": "How to Become a Freelance Copywriter: A Beginner's Guide",
-      "goal": "How to become a freelance copywriter",
-      "category": "career",
-      "tags": [
-        "copywriting",
-        "freelance",
-        "writing"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 19333,
-      "moduleCount": 8,
-      "readingTimeMins": 78,
-      "metaDescription": "How to Become a Freelance Copywriter: A Beginner's Guide — a free beginner-level guide covering how to become a freelance copywriter. Learn with clear...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-21T15:23:53.513Z",
       "edition": "stellar"
     },
     {
@@ -6541,6 +6621,6 @@
       "edition": "street"
     }
   ],
-  "total": 325,
-  "generatedAt": "2026-07-23T18:27:25.095Z"
+  "total": 329,
+  "generatedAt": "2026-07-23T20:03:04.528Z"
 }
