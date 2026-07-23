@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-build-muscle-at-home-with-calisthenics",
+      "title": "How to Build Muscle at Home with Calisthenics",
+      "goal": "How to build muscle at home with calisthenics",
+      "category": "health",
+      "tags": [
+        "calisthenics",
+        "bodyweight fitness",
+        "muscle building"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 25111,
+      "moduleCount": 10,
+      "readingTimeMins": 101,
+      "metaDescription": "How to Build Muscle at Home with Calisthenics — a free beginner-level guide covering how to build muscle at home with calisthenics. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T21:42:34.193Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-pass-the-comptia-a-certification-exam",
+      "title": "How to Pass the CompTIA A+ Certification Exam",
+      "goal": "How to pass the CompTIA A+ certification exam",
+      "category": "exams",
+      "tags": [
+        "comptia",
+        "a plus",
+        "it certification"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 24263,
+      "moduleCount": 10,
+      "readingTimeMins": 98,
+      "metaDescription": "How to Pass the CompTIA A+ Certification Exam — a free intermediate-level guide covering how to pass the comptia a+ certification exam. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T21:33:23.530Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-day-trading-stocks-beginners-guide",
+      "title": "How to Start Day Trading Stocks: Beginner's Guide",
+      "goal": "How to start day trading stocks for beginners",
+      "category": "finance",
+      "tags": [
+        "day trading",
+        "stocks",
+        "investing"
+      ],
+      "language": "en",
+      "complexity": "intermediate",
+      "wordCount": 18465,
+      "moduleCount": 8,
+      "readingTimeMins": 74,
+      "metaDescription": "How to Start Day Trading Stocks: Beginner's Guide — a free intermediate-level guide covering how to start day trading stocks for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T21:24:27.629Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-profitable-affiliate-marketing-blog",
+      "title": "How to Start a Profitable Affiliate Marketing Blog",
+      "goal": "How to start a profitable affiliate marketing blog",
+      "category": "business",
+      "tags": [
+        "affiliate marketing",
+        "blogging",
+        "passive income"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 20110,
+      "moduleCount": 8,
+      "readingTimeMins": 81,
+      "metaDescription": "How to Start a Profitable Affiliate Marketing Blog — a free beginner-level guide covering how to start a profitable affiliate marketing blog. Learn...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T21:16:44.385Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "adobe-premiere-pro-for-beginners-the-complete-guid",
+      "title": "Adobe Premiere Pro for Beginners: The Complete Guide",
+      "goal": "How to learn Adobe Premiere Pro for beginners",
+      "category": "design",
+      "tags": [
+        "video editing",
+        "premiere pro",
+        "adobe"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 22431,
+      "moduleCount": 9,
+      "readingTimeMins": 90,
+      "metaDescription": "Adobe Premiere Pro for Beginners: The Complete Guide — a free beginner-level guide covering how to learn adobe premiere pro for beginners. Learn with...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-23T21:09:15.114Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "pass-the-aws-solutions-architect-associate-exam",
       "title": "Pass the AWS Solutions Architect Associate Exam",
       "goal": "How to pass the AWS Solutions Architect exam",
@@ -1479,26 +1579,6 @@
       "metaDescription": "How to Learn Japanese for Beginners: A Step-by-Step Guide — a free beginner-level guide covering how to learn japanese for beginners. Learn with clear...",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-22T11:30:57.297Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "how-to-start-a-profitable-affiliate-marketing-blog",
-      "title": "How to Start a Profitable Affiliate Marketing Blog",
-      "goal": "How to start a successful affiliate marketing blog",
-      "category": "business",
-      "tags": [
-        "affiliate marketing",
-        "blogging",
-        "passive income"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 25876,
-      "moduleCount": 11,
-      "readingTimeMins": 104,
-      "metaDescription": "How to Start a Profitable Affiliate Marketing Blog — a free beginner-level guide covering how to start a successful affiliate marketing blog. Learn...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-22T11:20:11.823Z",
       "edition": "stellar"
     },
     {
@@ -3399,26 +3479,6 @@
       "metaDescription": "How to Negotiate Salary for a New Job Offer — a free intermediate-level guide covering how to negotiate salary for a new job offer. Learn with clear...",
       "modelUsed": "glm-5.2",
       "generatedAt": "2026-07-20T13:09:02.526Z",
-      "edition": "stellar"
-    },
-    {
-      "slug": "how-to-build-muscle-at-home-with-calisthenics",
-      "title": "How to Build Muscle at Home with Calisthenics",
-      "goal": "How to build muscle with calisthenics at home",
-      "category": "health",
-      "tags": [
-        "calisthenics",
-        "bodyweight",
-        "muscle building"
-      ],
-      "language": "en",
-      "complexity": "beginner",
-      "wordCount": 25369,
-      "moduleCount": 10,
-      "readingTimeMins": 102,
-      "metaDescription": "How to Build Muscle at Home with Calisthenics — a free beginner-level guide covering how to build muscle with calisthenics at home. Learn with clear...",
-      "modelUsed": "glm-5.2",
-      "generatedAt": "2026-07-20T13:00:39.015Z",
       "edition": "stellar"
     },
     {
@@ -6621,6 +6681,6 @@
       "edition": "street"
     }
   ],
-  "total": 329,
-  "generatedAt": "2026-07-23T20:03:04.528Z"
+  "total": 332,
+  "generatedAt": "2026-07-23T21:42:34.704Z"
 }
