@@ -129,6 +129,56 @@ interface TopicSeed {
   language?: string;
 }
 
+// ── Category normalizer — maps AI variations to canonical slugs ─────────────
+function normalizeCategory(raw: string): string {
+  const CATEGORY_MAP: Record<string, string> = {
+    'languages': 'language',
+    'tech': 'programming',
+    'coding': 'programming',
+    'software': 'programming',
+    'web-development': 'programming',
+    'ml': 'ai',
+    'machine-learning': 'ai',
+    'artificial-intelligence': 'ai',
+    'deep-learning': 'ai',
+    'money': 'finance',
+    'investing': 'finance',
+    'trading': 'finance',
+    'personal-finance': 'finance',
+    'fitness': 'health',
+    'wellness': 'health',
+    'nutrition': 'health',
+    'mental-health': 'health',
+    'jobs': 'career',
+    'interview': 'career',
+    'resume': 'career',
+    'job-search': 'career',
+    'self-help': 'productivity',
+    'self-improvement': 'productivity',
+    'time-management': 'productivity',
+    'marketing': 'business',
+    'entrepreneurship': 'business',
+    'startup': 'business',
+    'freelancing': 'business',
+    'test-prep': 'exams',
+    'certification': 'exams',
+    'art': 'design',
+    'graphic-design': 'design',
+    'ui-ux': 'design',
+    'food': 'cooking',
+    'baking': 'cooking',
+    'recipes': 'cooking',
+    'instruments': 'music',
+    'guitar': 'music',
+    'piano': 'music',
+    'photo': 'photography',
+    'video': 'photography',
+    'editing': 'photography',
+  };
+  const slug = raw.toLowerCase().trim().replace(/\s+/g, '-');
+  return CATEGORY_MAP[slug] || slug;
+}
+
 interface Checkpoint {
   completedSlugs: string[];
   failedSlugs: string[];
@@ -1069,7 +1119,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     slug,
     title: roadmap.title || seed.goal,
     goal: seed.goal,
-    category: seed.category,
+    category: normalizeCategory(seed.category),
     tags: seed.tags,
     language: seed.language || 'en',
     complexity: seed.complexity || 'beginner',
@@ -1155,7 +1205,7 @@ Rules:
     if (Array.isArray(parsed) && parsed.length > 0) {
       return parsed.map(s => ({
         goal: s.goal,
-        category: s.category || 'general',
+        category: normalizeCategory(s.category || 'general'),
         tags: s.tags || [],
         complexity: s.complexity || 'beginner'
       }));

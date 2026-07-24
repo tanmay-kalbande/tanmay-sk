@@ -26,7 +26,7 @@ interface LibraryIndex {
   books: BookMeta[];
 }
 
-const CATEGORY_LABELS: Record<string, string> = {
+const KNOWN_LABELS: Record<string, string> = {
   all: 'All',
   programming: 'Programming',
   'data-science': 'Data Science',
@@ -37,7 +37,22 @@ const CATEGORY_LABELS: Record<string, string> = {
   language: 'Language',
   health: 'Health',
   design: 'Design',
+  career: 'Career',
+  productivity: 'Productivity',
+  science: 'Science',
+  cooking: 'Cooking',
+  music: 'Music',
+  photography: 'Photography',
+  psychology: 'Psychology',
+  parenting: 'Parenting',
+  travel: 'Travel',
+  gaming: 'Gaming',
 };
+
+// Auto-generate label for any category the AI invents
+function getCategoryLabel(slug: string): string {
+  return KNOWN_LABELS[slug] || slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
 
 const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
 
@@ -99,7 +114,7 @@ export default function LibraryPage() {
       .filter(c => c === 'all' || counts[c] > 0)
       .map(c => ({
         id: c,
-        label: CATEGORY_LABELS[c] ?? c,
+        label: getCategoryLabel(c),
         count: counts[c]
       }));
 
@@ -359,7 +374,7 @@ export default function LibraryPage() {
           {isFilterActive && (
             <div className="lib-active-header">
               <h2>
-                {activeCategory !== 'all' ? CATEGORY_LABELS[activeCategory] : 'All Books'}
+                {activeCategory !== 'all' ? getCategoryLabel(activeCategory) : 'All Books'}
                 {search.trim() ? ` matching "${search}"` : ''}
               </h2>
               <button onClick={handleResetFilters} className="lib-reset-btn">
