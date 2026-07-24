@@ -83,14 +83,29 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      # ── 2. Access Data Vault (pustakam-books) ───────────────────────────────
+      # ── 2. Access Data Vault (pustakam-books) — handles empty repos too ────
       - name: 📚 Accessing Data Vault (pustakam-books)
-        uses: actions/checkout@v4
-        with:
-          repository: tanmay-kalbande/pustakam-books
-          token: ${{ secrets.DATA_REPO_TOKEN }}
-          path: pustakam-books-data
-          fetch-depth: 0
+        env:
+          DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
+        run: |
+          REPO_URL="https://x-access-token:${DATA_REPO_TOKEN}@github.com/tanmay-kalbande/pustakam-books.git"
+          if git clone "$REPO_URL" pustakam-books-data 2>/dev/null; then
+            echo "✅ Cloned pustakam-books successfully"
+          else
+            echo "⚠️ Clone failed (likely empty repo) — initializing fresh local repo"
+            mkdir -p pustakam-books-data
+            cd pustakam-books-data
+            git init
+            git remote add origin "$REPO_URL"
+            git checkout -b main
+            echo "# Pustakam Books Data" > README.md
+            git add README.md
+            git config user.name "Pustakam Quantum Bot"
+            git config user.email "quantum-bot@pustakam.app"
+            git commit -m "🌌 Initialize pustakam-books data vault"
+            git push -u origin main
+            echo "✅ Initialized and pushed first commit to pustakam-books"
+          fi
 
       # ── 3. Initialize Core Matrix Runtime ──────────────────────────────────
       - name: 🔮 Calibrating Node Engine Environment
