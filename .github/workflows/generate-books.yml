@@ -76,41 +76,74 @@ jobs:
     timeout-minutes: 340      # 5h 40min transmission window
 
     steps:
-      # ── 1. Orbital Intercept ────────────────────────────────────────────────
+      # ── 1. Orbital Intercept (Main Repo) ────────────────────────────────────
       - name: 🛰️ Accessing Primary Vault
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      # ── 2. Initialize Core Matrix Runtime ──────────────────────────────────
+      # ── 2. Access Data Vault (pustakam-books) ───────────────────────────────
+      - name: 📚 Accessing Data Vault (pustakam-books)
+        uses: actions/checkout@v4
+        with:
+          repository: tanmay-kalbande/pustakam-books
+          token: ${{ secrets.DATA_REPO_TOKEN }}
+          path: pustakam-books-data
+          fetch-depth: 0
+
+      # ── 3. Initialize Core Matrix Runtime ──────────────────────────────────
       - name: 🔮 Calibrating Node Engine Environment
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # ── 3. Warp Dependencies ────────────────────────────────────────────────
+      # ── 4. Warp Dependencies ────────────────────────────────────────────────
       - name: ⚡ Mounting Sub-system Modules
         run: |
           npm install --no-save tsx @types/node
           echo "✨ Quantum Runtime Active"
 
-      # ── 4. Telemetry Briefing ────────────────────────────────────────────────
+      # ── 5. Prepare Data Vault Directories ───────────────────────────────────
+      - name: 📁 Preparing Data Vault Directories
+        run: |
+          mkdir -p pustakam-books-data/books
+          echo "📁 Data vault directories ready"
+
+      # ── 6. One-time Migration: Move existing books to pustakam-books ────────
+      - name: 🚚 Migrating Existing Codices to Data Vault (First Run Only)
+        run: |
+          MAIN_COUNT=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          DATA_COUNT=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          echo "📊 Main vault books: $MAIN_COUNT | Data vault books: $DATA_COUNT"
+          if [ "$MAIN_COUNT" -gt "0" ]; then
+            echo "🚚 Migrating $MAIN_COUNT codices to pustakam-books..."
+            cp public/library/books/*.json pustakam-books-data/books/ 2>/dev/null || true
+            if [ -f "public/library/catalog.json" ]; then
+              cp public/library/catalog.json pustakam-books-data/catalog.json
+              echo "📑 Catalog migrated"
+            fi
+            echo "✅ Migration complete — $MAIN_COUNT codices transferred"
+          else
+            echo "ℹ️ No existing codices to migrate (Data vault already populated)"
+          fi
+
+      # ── 7. Telemetry Briefing ────────────────────────────────────────────────
       - name: 📊 Telemetry Pre-Synthesis Telepathy
         run: |
           echo "🪐 ──────────────────────────────────────────"
           echo "🌌 Pustakam Universal Generator (V5 Core)"
           echo "🕐 Telemetry Timestamp: $(date -u '+%Y-%m-%d %H:%M UTC')"
-          echo "📖 Codex Dimension: ${{ github.event.inputs.edition || 'street' }}"
-          echo "🤖 Neural Core Engine: ${{ github.event.inputs.provider || 'mistral' }} (${{ github.event.inputs.model || 'mistral-large-latest' }})"
+          echo "📖 Codex Dimension: ${{ github.event.inputs.edition || 'stellar' }}"
+          echo "🤖 Neural Core Engine: ${{ github.event.inputs.provider || 'zai' }} (${{ github.event.inputs.model || 'glm-5.2' }})"
           echo "⚡ Active Channels: ${{ github.event.inputs.concurrency || '1' }}"
-          echo "📁 Target Vault Path: public/library/"
-          EXISTING=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
-          echo "📖 Existing Codices in Vault: $EXISTING"
+          echo "📁 Target Vault Path: pustakam-books-data/"
+          EXISTING=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          echo "📖 Existing Codices in Data Vault: $EXISTING"
           echo "🪐 ──────────────────────────────────────────"
 
-      # ── 5. Initiate Cosmic Book Synthesis ──────────────────────────────────
+      # ── 8. Initiate Cosmic Book Synthesis ───────────────────────────────────
       - name: 🚀 Executing Neural Synthesis Pipeline
         env:
           MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
@@ -123,6 +156,7 @@ jobs:
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '1' }}
           MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
           STREET_LANG:       ${{ github.event.inputs.street_lang || 'english' }}
+          OUTPUT_DIR:        'pustakam-books-data'
           CI:                'true'
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
@@ -133,38 +167,86 @@ jobs:
             MAX_BOOKS="5" EDITION="stellar" npx tsx scripts/generate-library.ts
           fi
 
-      # ── 6. Transmission Debrief ──────────────────────────────────────────────
+      # ── 9. Sync Sitemap back to Main Repo ───────────────────────────────────
+      - name: 🗺️ Syncing Sitemap to Primary Vault
+        run: |
+          mkdir -p public/library
+          if [ -f "pustakam-books-data/sitemap.xml" ]; then
+            cp pustakam-books-data/sitemap.xml public/library/sitemap.xml
+            echo "✅ Sitemap synced — tanmaysk.in/library/sitemap.xml stays alive"
+          else
+            echo "⚠️ No sitemap found in data vault"
+          fi
+
+      # ── 10. Post-Synthesis Audit ─────────────────────────────────────────────
       - name: 📈 Post-Synthesis Transmission Audit
         run: |
-          TOTAL=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          TOTAL=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
           SITEMAP_URLS=$(grep -c '<url>' public/library/sitemap.xml 2>/dev/null || echo "0")
-          CATALOG_SIZE=$(wc -c < public/library/catalog.json 2>/dev/null || echo "0")
+          CATALOG_SIZE=$(wc -c < pustakam-books-data/catalog.json 2>/dev/null || echo "0")
           echo "🪐 ──────────────────────────────────────────"
           echo "✅ Quantum Synthesis Complete"
-          echo "📖 Total Codices in Vault: $TOTAL"
+          echo "📖 Total Codices in Data Vault: $TOTAL"
           echo "🗺️  Navigation Vectors Indexed: $SITEMAP_URLS"
           echo "📑 Index Matrix Size: ${CATALOG_SIZE} Bytes"
           echo "🪐 ──────────────────────────────────────────"
 
-      # ── 7. Transmit to Galactic Memory (Git Commit & Push) ─────────────────
-      - name: 📡 Transmitting Codices to Global CDN Core
+      # ── 11. Push Books + Catalog to pustakam-books ──────────────────────────
+      - name: 📡 Transmitting Codices to Data Vault (pustakam-books)
         run: |
+          cd pustakam-books-data
           git config user.name  "Pustakam Quantum Bot"
           git config user.email "quantum-bot@pustakam.app"
-
-          git add public/library/
-
+          git add .
           if git diff --staged --quiet; then
-            echo "ℹ️  Zero state change detected — matrix fully updated"
+            echo "ℹ️ Zero state change detected — data vault fully updated"
           else
             BOOK_COUNT=$(git diff --staged --name-only | grep "books/" | wc -l)
             git commit -m "🌌 Quantum Codex Transmission: +${BOOK_COUNT} codices ($(date -u '+%Y-%m-%d'))"
             git push
-            echo "✅ Successfully transmitted ${BOOK_COUNT} new codices to main memory"
-            echo "🚀 Deployment node active across Vercel edge CDN"
+            echo "✅ Successfully transmitted ${BOOK_COUNT} new codices to pustakam-books"
+            echo "🚀 CDN: https://cdn.jsdelivr.net/gh/tanmay-kalbande/pustakam-books@main/books/"
           fi
 
-      # ── 8. Emergency Signal on Disruptions ───────────────────────────────────
+      # ── 12. Purge jsDelivr CDN cache so new books appear immediately ────────
+      - name: 🔄 Purging CDN Cache
+        run: |
+          echo "🔄 Purging jsDelivr cache for catalog..."
+          curl -s "https://purge.jsdelivr.net/gh/tanmay-kalbande/pustakam-books@main/catalog.json" || true
+          echo "✅ CDN cache purge requested"
+
+      # ── 13. One-time Cleanup: Remove books from main repo after migration ────
+      - name: 🧹 Cleaning Up Primary Vault (Removes Migrated Books)
+        run: |
+          MAIN_COUNT=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          DATA_COUNT=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          if [ "$MAIN_COUNT" -gt "0" ] && [ "$DATA_COUNT" -ge "$MAIN_COUNT" ]; then
+            echo "🧹 Safe to remove — all $MAIN_COUNT books confirmed in pustakam-books"
+            git rm -r --cached public/library/books/ --quiet 2>/dev/null || true
+            rm -rf public/library/books/
+            git rm --cached public/library/catalog.json --quiet 2>/dev/null || true
+            rm -f public/library/catalog.json
+            echo "✅ Primary vault cleaned — ~100MB freed from main repo"
+          else
+            echo "ℹ️ Cleanup skipped (main: $MAIN_COUNT books, data vault: $DATA_COUNT books)"
+          fi
+
+      # ── 14. Commit Sitemap + Checkpoint to Main Repo ────────────────────────
+      - name: 📡 Syncing Checkpoint & Sitemap to Primary Vault
+        run: |
+          git config user.name  "Pustakam Quantum Bot"
+          git config user.email "quantum-bot@pustakam.app"
+          git add public/library/sitemap.xml scripts/.library-checkpoint.json
+          git add -u
+          if git diff --staged --quiet; then
+            echo "ℹ️ No sitemap/checkpoint changes to commit"
+          else
+            git commit -m "🗺️ Sitemap & Checkpoint Update ($(date -u '+%Y-%m-%d'))"
+            git push
+            echo "✅ Primary vault synced"
+          fi
+
+      # ── 15. Emergency Signal on Disruptions ─────────────────────────────────
       - name: 🚨 Anomaly Diagnostics
         if: failure()
         run: |

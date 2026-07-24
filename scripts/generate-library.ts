@@ -88,7 +88,9 @@ const CONFIG = {
   // Cooldown between sequential module generations (ms)
   MODULE_COOLDOWN:       primaryProviderName === 'mistral' ? 3000 : 1000,
 
-  OUTPUT_DIR:            path.resolve(__dirname, '../public/library'),
+  OUTPUT_DIR:            process.env.OUTPUT_DIR
+    ? path.resolve(process.cwd(), process.env.OUTPUT_DIR)
+    : path.resolve(__dirname, '../public/library'),
   CHECKPOINT_FILE:       path.resolve(__dirname, '.library-checkpoint.json'),
   SITE_URL:              process.env.SITE_URL || 'https://tanmaysk.in',
   RETRY_MAX:             5,

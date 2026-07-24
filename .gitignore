@@ -5,3 +5,7 @@ dist
 .env.*
 !.env.example
 npm-debug.log*
+
+# Book data lives in pustakam-books repo — never commit here
+public/library/books/
+public/library/catalog.json

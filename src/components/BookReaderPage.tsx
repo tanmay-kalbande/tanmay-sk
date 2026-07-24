@@ -941,7 +941,7 @@ export default function BookReaderPage() {
   useEffect(() => {
     if (!slug) return;
     setLoading(true);
-    fetch(`/library/books/${slug}.json`)
+    fetch(`https://cdn.jsdelivr.net/gh/tanmay-kalbande/pustakam-books@main/books/${slug}.json`)
       .then(r => r.ok ? r.json() : Promise.reject('Book not found'))
       .then((data: BookFile) => {
         setBook(data);
