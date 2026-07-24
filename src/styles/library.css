@@ -1648,3 +1648,223 @@ html[data-theme="light"] .lib-hero {
   margin: 8px 0;
   line-height: 1.7;
 }
+
+/* ── Sort Controls ──────────────────────────────────────────────────────────── */
+
+.lib-sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.lib-sort-label {
+  font-family: var(--f-mono);
+  font-size: 0.53rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.lib-sort-select {
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 6px 10px;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.lib-sort-select:focus {
+  border-color: var(--accent);
+}
+
+/* ── NEW Badge ─────────────────────────────────────────────────────────────── */
+
+.lib-card-new-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-family: var(--f-mono);
+  font-size: 0.42rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(224, 90, 53, 0.08);
+  border: 1px solid rgba(224, 90, 53, 0.25);
+  border-radius: 2px;
+  padding: 2px 7px;
+  animation: newPulse 2.5s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes newPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+html[data-theme="light"] .lib-card-new-badge {
+  background: rgba(200, 69, 26, 0.06);
+  border-color: rgba(200, 69, 26, 0.3);
+  color: #b83d14;
+}
+
+/* ── Skeleton Loading ──────────────────────────────────────────────────────── */
+
+.lib-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.lib-skeleton-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: var(--bg);
+  gap: 14px;
+}
+
+.lib-skeleton-line {
+  height: 12px;
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--surface) 50%, var(--surface-2) 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease-in-out infinite;
+  border-radius: 2px;
+}
+
+.lib-skeleton-line.title {
+  height: 20px;
+  width: 75%;
+}
+.lib-skeleton-line.meta {
+  height: 10px;
+  width: 55%;
+}
+.lib-skeleton-line.tags {
+  height: 10px;
+  width: 40%;
+}
+.lib-skeleton-line.cta {
+  height: 10px;
+  width: 25%;
+  margin-top: auto;
+}
+
+@keyframes skeletonShimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Card Hover Preview ────────────────────────────────────────────────────── */
+
+.lib-card-preview {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 20px;
+  background: linear-gradient(to top, var(--surface) 60%, transparent);
+  font-family: var(--f-mono);
+  font-size: 0.56rem;
+  line-height: 1.7;
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.lib-card:hover .lib-card-preview {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Share Button ──────────────────────────────────────────────────────────── */
+
+.lib-card-share {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 2px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink-3);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 3;
+}
+
+.lib-card:hover .lib-card-share {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.lib-card-share:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.lib-card-share.copied {
+  color: var(--c-beginner);
+  border-color: var(--c-beginner);
+}
+
+/* ── Load More Button ──────────────────────────────────────────────────────── */
+
+.lib-load-more-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.lib-load-more-btn {
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 12px 32px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lib-load-more-btn:hover {
+  background: var(--surface-2);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.lib-load-more-count {
+  font-family: var(--f-mono);
+  font-size: 0.5rem;
+  color: var(--ink-3);
+  text-align: center;
+  margin-top: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}

@@ -1,8 +1,32 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Share2, Check } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import '../styles/library.css';
+
+type SortMode = 'newest' | 'longest' | 'chapters';
+const BOOKS_PER_PAGE = 20;
+
+function isNewBook(generatedAt?: string): boolean {
+  if (!generatedAt) return false;
+  const diff = Date.now() - new Date(generatedAt).getTime();
+  return diff < 7 * 24 * 60 * 60 * 1000; // 7 days
+}
+
+function SkeletonGrid() {
+  return (
+    <div className="lib-skeleton-grid">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="lib-skeleton-card">
+          <div className="lib-skeleton-line title" />
+          <div className="lib-skeleton-line meta" />
+          <div className="lib-skeleton-line tags" />
+          <div className="lib-skeleton-line cta" />
+        </div>
+      ))}
+    </div>
+  );
+}
 
 interface BookMeta {
   slug: string;
@@ -64,6 +88,9 @@ export default function LibraryPage() {
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeEdition, setActiveEdition] = useState<'all' | 'stellar' | 'street' | 'desi'>('all');
   const [showAllCategories, setShowAllCategories] = useState(false);
+  const [sortMode, setSortMode] = useState<SortMode>('newest');
+  const [visibleCount, setVisibleCount] = useState(BOOKS_PER_PAGE);
+  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
   });
@@ -76,6 +103,21 @@ export default function LibraryPage() {
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
+
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(BOOKS_PER_PAGE);
+  }, [activeCategory, activeEdition, search, sortMode]);
+
+  const handleShare = useCallback((e: React.MouseEvent, slug: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const url = `${window.location.origin}/library/book/${slug}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopiedSlug(slug);
+      setTimeout(() => setCopiedSlug(null), 1500);
+    });
+  }, []);
 
   const formatGeneratedDate = (dateStr?: string) => {
     if (!dateStr) return '';
@@ -137,7 +179,7 @@ export default function LibraryPage() {
 
   const filtered = useMemo(() => {
     if (!index) return [];
-    let books = index.books;
+    let books = [...index.books];
     if (activeCategory !== 'all') books = books.filter(b => b.category === activeCategory);
     if (activeEdition !== 'all') books = books.filter(b => (b.edition || 'stellar') === activeEdition);
     if (search.trim()) {
@@ -149,8 +191,19 @@ export default function LibraryPage() {
         b.category.toLowerCase().includes(q)
       );
     }
+    // Sort
+    if (sortMode === 'newest') {
+      books.sort((a, b) => new Date(b.generatedAt).getTime() - new Date(a.generatedAt).getTime());
+    } else if (sortMode === 'longest') {
+      books.sort((a, b) => b.wordCount - a.wordCount);
+    } else if (sortMode === 'chapters') {
+      books.sort((a, b) => b.moduleCount - a.moduleCount);
+    }
     return books;
-  }, [index, activeCategory, activeEdition, search]);
+  }, [index, activeCategory, activeEdition, search, sortMode]);
+
+  const visibleBooks = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount]);
+  const hasMore = visibleCount < filtered.length;
 
   const isFilterActive = useMemo(() => {
     return search.trim() !== '' || activeCategory !== 'all' || activeEdition !== 'all';
@@ -385,12 +438,7 @@ export default function LibraryPage() {
 
           {/* Grid Area */}
           <div className="lib-grid-wrap">
-            {loading && (
-              <div className="lib-loading">
-                <div className="lib-spinner" />
-                Loading library...
-              </div>
-            )}
+            {loading && <SkeletonGrid />}
 
             {error && !loading && (
               <div className="lib-empty">
@@ -407,10 +455,24 @@ export default function LibraryPage() {
 
             {!loading && !error && (
               <>
-                <div className="lib-results-count">
-                  {filtered.length === index?.total
-                    ? `${filtered.length} books`
-                    : `${filtered.length} of ${index?.total} books`}
+                <div className="lib-sort-controls">
+                  <div className="lib-results-count" style={{ marginBottom: 0 }}>
+                    {filtered.length === index?.total
+                      ? `${filtered.length} books`
+                      : `${filtered.length} of ${index?.total} books`}
+                  </div>
+                  <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span className="lib-sort-label">Sort</span>
+                    <select
+                      className="lib-sort-select"
+                      value={sortMode}
+                      onChange={e => setSortMode(e.target.value as SortMode)}
+                    >
+                      <option value="newest">Newest First</option>
+                      <option value="longest">Longest Read</option>
+                      <option value="chapters">Most Chapters</option>
+                    </select>
+                  </div>
                 </div>
                 {filtered.length === 0 ? (
                   <div className="lib-empty">
@@ -426,13 +488,28 @@ export default function LibraryPage() {
                     </p>
                   </div>
                 ) : (
+                  <>
                   <div className="lib-grid">
-                    {filtered.map(book => (
+                    {visibleBooks.map(book => (
                       <Link
                         key={book.slug}
                         to={`/library/book/${book.slug}`}
                         className="lib-card"
                       >
+                        {/* Share Button */}
+                        <button
+                          className={`lib-card-share ${copiedSlug === book.slug ? 'copied' : ''}`}
+                          onClick={(e) => handleShare(e, book.slug)}
+                          title="Copy link"
+                        >
+                          {copiedSlug === book.slug ? <Check size={12} /> : <Share2 size={12} />}
+                        </button>
+
+                        {/* NEW Badge */}
+                        {isNewBook(book.generatedAt) && (
+                          <span className="lib-card-new-badge">New</span>
+                        )}
+
                         <div className="lib-card-top">
                           <p className="lib-card-title">{book.title}</p>
                           <span className={`lib-card-complexity ${book.complexity}`}>
@@ -465,9 +542,32 @@ export default function LibraryPage() {
                         <div className="lib-card-cta">
                           Read now <ArrowRight size={11} />
                         </div>
+
+                        {/* Hover Preview */}
+                        <div className="lib-card-preview">
+                          {book.metaDescription}
+                        </div>
                       </Link>
                     ))}
                   </div>
+
+                  {/* Load More */}
+                  {hasMore && (
+                    <div className="lib-load-more-wrap">
+                      <div>
+                        <button
+                          className="lib-load-more-btn"
+                          onClick={() => setVisibleCount(prev => prev + BOOKS_PER_PAGE)}
+                        >
+                          Load More Books
+                        </button>
+                        <div className="lib-load-more-count">
+                          Showing {visibleBooks.length} of {filtered.length}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  </>
                 )}
               </>
             )}
