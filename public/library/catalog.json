@@ -1,6 +1,106 @@
 {
   "books": [
     {
+      "slug": "how-to-start-a-youtube-channel-complete-beginners",
+      "title": "How to Start a YouTube Channel: Complete Beginner's Guide",
+      "goal": "How to start a YouTube channel",
+      "category": "business",
+      "tags": [
+        "youtube",
+        "video",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 29379,
+      "moduleCount": 12,
+      "readingTimeMins": 118,
+      "metaDescription": "How to Start a YouTube Channel: Complete Beginner's Guide — a free beginner-level guide covering how to start a youtube channel. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-24T00:59:41.278Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-start-a-podcast-a-beginners-complete-guide",
+      "title": "How to Start a Podcast: A Beginner's Complete Guide",
+      "goal": "How to start a podcast for beginners",
+      "category": "business",
+      "tags": [
+        "podcast",
+        "audio",
+        "content creation"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 31269,
+      "moduleCount": 13,
+      "readingTimeMins": 126,
+      "metaDescription": "How to Start a Podcast: A Beginner's Complete Guide — a free beginner-level guide covering how to start a podcast for beginners. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-24T00:45:58.902Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-write-a-business-plan-a-beginners-guide",
+      "title": "How to Write a Business Plan: A Beginner's Guide",
+      "goal": "How to write a business plan",
+      "category": "business",
+      "tags": [
+        "business plan",
+        "startup",
+        "entrepreneurship"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 23428,
+      "moduleCount": 9,
+      "readingTimeMins": 94,
+      "metaDescription": "How to Write a Business Plan: A Beginner's Guide — a free beginner-level guide covering how to write a business plan. Learn with clear explanations,...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-24T00:30:38.734Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "shopify-dropshipping-for-beginners-start-your-stor",
+      "title": "Shopify Dropshipping for Beginners: Start Your Store",
+      "goal": "How to start a Shopify dropshipping store",
+      "category": "business",
+      "tags": [
+        "shopify",
+        "dropshipping",
+        "ecommerce"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 29833,
+      "moduleCount": 12,
+      "readingTimeMins": 120,
+      "metaDescription": "Shopify Dropshipping for Beginners: Start Your Store — a free beginner-level guide covering how to start a shopify dropshipping store. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-24T00:21:08.464Z",
+      "edition": "stellar"
+    },
+    {
+      "slug": "how-to-become-a-project-manager-a-beginners-guide",
+      "title": "How to Become a Project Manager: A Beginner's Guide",
+      "goal": "How to become a project manager",
+      "category": "career",
+      "tags": [
+        "project management",
+        "career change",
+        "management"
+      ],
+      "language": "en",
+      "complexity": "beginner",
+      "wordCount": 27726,
+      "moduleCount": 11,
+      "readingTimeMins": 111,
+      "metaDescription": "How to Become a Project Manager: A Beginner's Guide — a free beginner-level guide covering how to become a project manager. Learn with clear...",
+      "modelUsed": "glm-5.2",
+      "generatedAt": "2026-07-24T00:09:10.413Z",
+      "edition": "stellar"
+    },
+    {
       "slug": "how-to-start-a-profitable-blog-for-beginners",
       "title": "How to Start a Profitable Blog for Beginners",
       "goal": "How to start a blog and make money",
@@ -6741,6 +6841,6 @@
       "edition": "street"
     }
   ],
-  "total": 335,
-  "generatedAt": "2026-07-23T23:45:12.122Z"
+  "total": 340,
+  "generatedAt": "2026-07-24T00:59:41.722Z"
 }
