@@ -5,7 +5,7 @@ import { marked } from 'marked';
 import {
   ArrowLeft, Clock, FileText, BookOpen,
   Download, ExternalLink, Check, Calendar, Sun, Moon,
-  Type, Minus, Plus, ArrowUp
+  Type, Minus, Plus, ArrowUp, ChevronLeft, ChevronRight
 } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import '../styles/library.css';
@@ -927,6 +927,7 @@ export default function BookReaderPage() {
   const [pdfProgress, setPdfProgress] = useState(0);
   const [copied, setCopied] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
+  const [tocCollapsed, setTocCollapsed] = useState(false);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const introRef = useRef<HTMLDivElement | null>(null);
   const summaryRef = useRef<HTMLDivElement | null>(null);
@@ -1336,11 +1337,22 @@ export default function BookReaderPage() {
       {/* Layout */}
       <div className="reader-layout">
         {/* TOC Sidebar */}
-        <aside className={`reader-toc ${tocOpen ? 'open' : ''}`}>
-          <div className="reader-toc-header" onClick={() => setTocOpen(!tocOpen)}>
+        <aside className={`reader-toc ${tocCollapsed ? 'toc-collapsed' : ''} ${tocOpen ? 'open' : ''}`}>
+          <div className="reader-toc-header">
             <h3>Contents</h3>
             <span className="reader-toc-progress-pct">{Math.round(scrollPct)}%</span>
-            <span className="reader-toc-toggle-icon">{tocOpen ? '−' : '+'}</span>
+            <button
+              className="toc-collapse-btn"
+              onClick={(e) => {
+                e.stopPropagation();
+                setTocCollapsed(!tocCollapsed);
+              }}
+              title={tocCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              aria-label={tocCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            >
+              {tocCollapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
+            </button>
+            <span className="reader-toc-toggle-icon" onClick={() => setTocOpen(!tocOpen)}>{tocOpen ? '−' : '+'}</span>
           </div>
           <div className="reader-toc-rail-wrap">
             <div className="reader-toc-rail" aria-hidden="true">
