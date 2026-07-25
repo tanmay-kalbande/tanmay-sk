@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import '../styles/landing.css';
@@ -219,7 +219,7 @@ export default function LibraryPage() {
         <div className="lp-orb lp-orb-c"></div>
       </div>
 
-      {/* Nav — Dedicated Library Header */}
+      {/* Nav */}
       <nav className="lib-nav">
         <Link to="/" className="lib-nav-back">
           ← tanmaysk.in
@@ -227,21 +227,35 @@ export default function LibraryPage() {
         <Link to="/library" className="lib-nav-brand">
           <span>Free Library</span>
         </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button
-            className="lv5-nav__theme"
+            className="theme-toggle-btn"
             onClick={toggleTheme}
             aria-label="Toggle theme"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--ink-2)',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justify-content: 'center',
+              padding: '6px',
+              borderRadius: '50%',
+              transition: 'all 0.2s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--ink)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--ink-2)'}
           >
-            {theme === 'dark' ? '☀' : '☾'}
+            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
           <a
             href={PUSTAKAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="lib-generate-btn"
+            className="btn-primary"
           >
-            Generate Your Own ↗
+            Generate Your Own
           </a>
         </div>
       </nav>
