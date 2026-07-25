@@ -1466,36 +1466,35 @@ html[data-theme="light"] .reader-stats {
    Chapter styles
    ═══════════════════════════════════════════════════════════════════════════════ */
 .reader-chapter {
-  padding: clamp(48px, 7vw, 80px) clamp(28px, 5vw, 72px) 0;
+  padding: clamp(40px, 6vw, 72px) clamp(28px, 5vw, 72px) 0;
   position: relative;
 }
 
 /* Chapter head: ghost number + title stack */
 .reader-chapter-head {
   position: relative;
-  margin-bottom: 28px;
-  overflow: hidden;
+  margin-bottom: 36px;
 }
 
 /* Ghost chapter number */
 .reader-chapter-ghost {
   position: absolute;
-  top: -24px;
-  right: -8px;
+  top: -18px;
+  right: 0;
   font-family: var(--f-display);
-  font-size: clamp(6rem, 12vw, 10rem);
+  font-size: clamp(5.5rem, 11vw, 9rem);
   font-weight: 900;
   letter-spacing: -0.06em;
   line-height: 1;
   color: var(--accent);
-  opacity: 0.045;
+  opacity: 0.05;
   pointer-events: none;
   user-select: none;
   z-index: 0;
   transition: opacity 0.35s ease;
 }
-html[data-theme="light"] .reader-chapter-ghost { opacity: 0.065; }
-.reader-chapter:hover .reader-chapter-ghost { opacity: 0.07; }
+html[data-theme="light"] .reader-chapter-ghost { opacity: 0.07; }
+.reader-chapter:hover .reader-chapter-ghost { opacity: 0.085; }
 
 .reader-chapter-head-text {
   position: relative;
@@ -1505,35 +1504,37 @@ html[data-theme="light"] .reader-chapter-ghost { opacity: 0.065; }
 .reader-chapter-number {
   display: block;
   font-family: var(--f-mono);
-  font-size: 0.5rem;
+  font-size: 0.52rem;
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 10px;
 }
+.reader-chapter-number.summary-num  { color: #34d399; }
+.reader-chapter-number.glossary-num { color: #60a5fa; }
 
 .reader-chapter-title {
   font-family: var(--f-display);
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(1.65rem, 3.2vw, 2.3rem);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
   color: var(--ink);
   margin: 0;
   letter-spacing: -0.02em;
-  padding-bottom: 14px;
+  padding-bottom: 16px;
   position: relative;
 }
 .reader-chapter-title::after {
   content: '';
   position: absolute;
   bottom: 0; left: 0;
-  width: 52px; height: 2px;
+  width: 56px; height: 2.5px;
   background: linear-gradient(90deg, var(--accent), transparent);
-  border-radius: 1px;
+  border-radius: 2px;
   transition: width 0.3s ease;
 }
-.reader-chapter:hover .reader-chapter-title::after { width: 88px; }
+.reader-chapter:hover .reader-chapter-title::after { width: 92px; }
 
 /* Eyebrow label for intro/summary/glossary */
 .reader-chapter-eyebrow {

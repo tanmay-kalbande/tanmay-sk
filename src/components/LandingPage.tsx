@@ -81,6 +81,10 @@ export default function LandingPage() {
     const t = preferDark ? "dark" : "light";
     setTheme(t);
     document.documentElement.setAttribute("data-theme", t);
+    return () => {
+      document.documentElement.removeAttribute("data-app-page");
+      document.body.style.overflow = "";
+    };
   }, []);
 
   useEffect(() => {

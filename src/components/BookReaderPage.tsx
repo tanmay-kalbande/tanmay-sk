@@ -1537,7 +1537,13 @@ export default function BookReaderPage() {
             if (!intro) return null;
             return (
               <div className="reader-chapter reader-section-intro" ref={introRef}>
-                <p className="reader-chapter-eyebrow">Introduction</p>
+                <div className="reader-chapter-head">
+                  <span className="reader-chapter-ghost" aria-hidden="true">★</span>
+                  <div className="reader-chapter-head-text">
+                    <p className="reader-chapter-number">Introduction</p>
+                    <h2 className="reader-chapter-title">Overview &amp; Foundations</h2>
+                  </div>
+                </div>
                 <div
                   className="reader-chapter-body"
                   dangerouslySetInnerHTML={{ __html: renderMd(intro, book.edition) }}
@@ -1573,7 +1579,13 @@ export default function BookReaderPage() {
             if (!summary) return null;
             return (
               <div className="reader-chapter reader-section-summary" ref={summaryRef}>
-                <p className="reader-chapter-eyebrow">Summary</p>
+                <div className="reader-chapter-head">
+                  <span className="reader-chapter-ghost" aria-hidden="true">✓</span>
+                  <div className="reader-chapter-head-text">
+                    <p className="reader-chapter-number summary-num">Key Takeaways</p>
+                    <h2 className="reader-chapter-title">Summary &amp; Next Steps</h2>
+                  </div>
+                </div>
                 <div
                   className="reader-chapter-body"
                   dangerouslySetInnerHTML={{ __html: renderMd(summary, book.edition) }}
@@ -1588,7 +1600,13 @@ export default function BookReaderPage() {
             if (!glossary) return null;
             return (
               <div className="reader-chapter reader-section-glossary" ref={glossaryRef}>
-                <p className="reader-chapter-eyebrow">Glossary</p>
+                <div className="reader-chapter-head">
+                  <span className="reader-chapter-ghost" aria-hidden="true">§</span>
+                  <div className="reader-chapter-head-text">
+                    <p className="reader-chapter-number glossary-num">Reference</p>
+                    <h2 className="reader-chapter-title">Glossary &amp; Terminology</h2>
+                  </div>
+                </div>
                 <div
                   className="reader-chapter-body"
                   dangerouslySetInnerHTML={{ __html: renderMd(glossary, book.edition) }}

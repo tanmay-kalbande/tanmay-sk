@@ -95,6 +95,8 @@ export default function LibraryPage() {
   });
 
   useEffect(() => {
+    document.documentElement.removeAttribute('data-app-page');
+    document.body.style.overflow = '';
     document.documentElement.setAttribute('data-theme', theme);
     window.localStorage.setItem('theme', theme);
   }, [theme]);
