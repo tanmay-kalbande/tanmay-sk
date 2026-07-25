@@ -251,7 +251,19 @@ html[data-theme="dark"] .lv5-shell {
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  max-width: 860px;
+  max-width: 1020px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1400px) {
+  .lv5-hero {
+    max-width: 1240px;
+  }
+}
+@media (min-width: 1800px) {
+  .lv5-hero {
+    max-width: 1440px;
+  }
 }
 
 /* ── Name masthead ────────────────────────────────────────────── */
@@ -267,7 +279,7 @@ html[data-theme="dark"] .lv5-shell {
 
 .lv5-name__first {
   display: block;
-  font-size: clamp(2.8rem, 8vw, 7rem);
+  font-size: clamp(3rem, 8.5vw, 7.8rem);
   font-style: italic;
   font-weight: 600;
   color: var(--ink-2);
@@ -276,7 +288,7 @@ html[data-theme="dark"] .lv5-shell {
 
 .lv5-name__last {
   display: block;
-  font-size: clamp(3rem, 9.5vw, 8.5rem);
+  font-size: clamp(3.2rem, 10vw, 9.4rem);
   font-style: normal;
   font-weight: 700;
   color: var(--ink);
@@ -307,11 +319,11 @@ html[data-theme="dark"] .lv5-shell {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  font-size: clamp(0.62rem, 1.1vw, 0.76rem);
+  gap: 0.6rem;
+  font-size: clamp(0.66rem, 1.25vw, 0.82rem);
   letter-spacing: 0.1em;
   color: var(--ink-2);
-  margin-bottom: clamp(0.6rem, 1.2vh, 1rem);
+  margin-bottom: clamp(0.7rem, 1.3vh, 1.1rem);
 }
 
 .lv5-sep { color: var(--ink-3); }
@@ -331,11 +343,11 @@ html[data-theme="dark"] .lv5-shell {
 /* ── Tagline ──────────────────────────────────────────────────── */
 
 .lv5-tagline {
-  font-size: clamp(0.82rem, 1.3vw, 1rem);
+  font-size: clamp(0.88rem, 1.45vw, 1.1rem);
   line-height: 1.6;
   color: var(--ink-2);
   margin: 0 0 clamp(1rem, 2vh, 1.6rem);
-  max-width: 480px;
+  max-width: 540px;
 }
 
 .lv5-tagline em { font-style: italic; color: var(--ink); }
@@ -353,14 +365,14 @@ html[data-theme="dark"] .lv5-shell {
 .lv5-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.45rem;
   font-family: var(--f-mono);
-  font-size: 0.63rem;
+  font-size: 0.66rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-decoration: none;
-  padding: 0.68rem 1.4rem;
+  padding: 0.72rem 1.5rem;
   border-radius: 2px;
   cursor: pointer;
   transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.18s;
