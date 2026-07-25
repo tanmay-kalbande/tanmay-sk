@@ -2243,3 +2243,88 @@ html[data-theme="light"] .lib-card-new-badge {
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Standard vs Wide Line Width Toggle
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.reader-root[data-width="normal"] .reader-body-well,
+.reader-root[data-width="normal"] .reader-header {
+  max-width: 840px !important;
+}
+
+.reader-root[data-width="wide"] .reader-body-well,
+.reader-root[data-width="wide"] .reader-header {
+  max-width: 1180px !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Collapsed Sidebar Progress Strip & Chapter Initials
+   ═══════════════════════════════════════════════════════════════════════════════ */
+.reader-toc-collapsed-strip {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+.reader-toc-collapsed-strip::-webkit-scrollbar { width: 0; }
+
+.reader-toc-collapsed-rail {
+  position: absolute;
+  top: 12px; left: 6px; bottom: 12px;
+  width: 3px;
+  background: var(--border-s);
+  border-radius: 2px;
+}
+.reader-toc-collapsed-fill {
+  width: 100%;
+  background: linear-gradient(180deg, var(--accent) 0%, #ff9800 100%);
+  border-radius: 2px;
+  transition: height 0.3s ease-out;
+  box-shadow: 0 0 6px rgba(224, 90, 53, 0.5);
+}
+
+.reader-toc-collapsed-nums {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0 4px;
+}
+
+.collapsed-num-btn {
+  font-family: var(--f-mono);
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 4px 6px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+.collapsed-num-btn:hover {
+  color: var(--ink);
+  border-color: var(--accent);
+  background: var(--surface-2);
+  transform: scale(1.08);
+}
+.collapsed-num-btn.active {
+  color: #ffffff;
+  font-weight: 800;
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 10px rgba(224, 90, 53, 0.5);
+  transform: scale(1.15);
+}
