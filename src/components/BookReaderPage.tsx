@@ -5,7 +5,8 @@ import { marked } from 'marked';
 import {
   ArrowLeft, Clock, FileText, BookOpen,
   Download, ExternalLink, Check, Calendar, Sun, Moon,
-  Type, Minus, Plus, ArrowUp, ChevronLeft, ChevronRight
+  Type, Minus, Plus, ArrowUp, ChevronLeft, ChevronRight,
+  PanelLeftOpen, PanelLeftClose
 } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import '../styles/library.css';
@@ -1241,9 +1242,22 @@ export default function BookReaderPage() {
 
       {/* Nav */}
       <nav className="lib-nav">
-        <Link to="/library" className="lib-nav-back">
-          <ArrowLeft size={12} /> Library
-        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link to="/library" className="lib-nav-back">
+            <ArrowLeft size={12} /> Library
+          </Link>
+          {tocCollapsed && (
+            <button
+              className="nav-toc-expand-btn"
+              onClick={() => setTocCollapsed(false)}
+              title="Expand Table of Contents (Contents)"
+              aria-label="Expand Table of Contents"
+            >
+              <PanelLeftOpen size={14} />
+              <span className="btn-text">Contents</span>
+            </button>
+          )}
+        </div>
         <div className="lib-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <div className="reader-settings" ref={settingsRef}>
             <button
@@ -1337,7 +1351,10 @@ export default function BookReaderPage() {
       {/* Layout */}
       <div className="reader-layout">
         {/* TOC Sidebar */}
-        <aside className={`reader-toc ${tocCollapsed ? 'toc-collapsed' : ''} ${tocOpen ? 'open' : ''}`}>
+        <aside
+          className={`reader-toc ${tocCollapsed ? 'toc-collapsed' : ''} ${tocOpen ? 'open' : ''}`}
+          onClick={() => { if (tocCollapsed) setTocCollapsed(false); }}
+        >
           <div className="reader-toc-header">
             <h3>Contents</h3>
             <span className="reader-toc-progress-pct">{Math.round(scrollPct)}%</span>
