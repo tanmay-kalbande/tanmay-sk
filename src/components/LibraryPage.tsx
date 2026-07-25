@@ -485,10 +485,7 @@ export default function LibraryPage() {
                         to={`/library/book/${book.slug}`}
                         className="lib-card"
                       >
-                        {/* NEW Badge */}
-                        {isNewBook(book.generatedAt) && (
-                          <span className="lib-card-new-badge">New</span>
-                        )}
+
 
                         <div className="lib-card-top">
                           <p className="lib-card-title">{book.title}</p>
