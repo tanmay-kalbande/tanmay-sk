@@ -29,48 +29,6 @@ html[data-theme="light"] .reader-root {
 
 /* Light Theme Navigation Bar Overrides */
 html[data-theme="light"] .lib-nav {
-  background: rgba(245, 245, 243, 0.85) !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.09) !important;
-}
-html[data-theme="light"] .lib-nav-back {
-  color: #444444 !important;
-}
-html[data-theme="light"] .lib-nav-back:hover {
-  color: #111111 !important;
-}
-html[data-theme="light"] .lib-nav-brand {
-  color: #111111 !important;
-}
-html[data-theme="light"] .theme-toggle-btn {
-  color: #444444 !important;
-}
-html[data-theme="light"] .theme-toggle-btn:hover {
-  color: #111111 !important;
-}
-
-html[data-theme="dark"] .lib-root,
-html[data-theme="dark"] .reader-root,
-.lib-root,
-.reader-root {
-  --bg:       #0e0e10;
-  --surface:  #1c1c1b;
-  --surface-2: #242422;
-  --ink:      #f0ede8;
-  --ink-2:    #999999;
-  --ink-3:    #555555;
-  --accent:   #e05a35;
-  --accent-hover: #c8451a;
-  --border:   rgba(255, 255, 255, 0.08);
-  --border-s: rgba(255, 255, 255, 0.04);
-  --grid-line: rgba(255, 255, 255, 0.025);
-
-  /* Complexity colors */
-  --c-beginner:     #34d399;
-  --c-intermediate: #fbbf24;
-  --c-advanced:     #f87171;
-
-  /* Font stacks */
-  --f-display: 'Cormorant Garamond', Georgia, serif;
 /* ═══════════════════════════════════════════════════════════════════════════════
    Library & Book Reader — V5 Editorial Design System
    Matches the Landing V5 aesthetic: Cormorant Garamond, Roboto Mono, burnt orange
@@ -80,28 +38,20 @@ html[data-theme="dark"] .reader-root,
 
 /* ── Theme Definitions ─────────────────────────────────────────────────────── */
 
-html[data-theme="light"] .lib-root,
-html[data-theme="light"] .reader-root {
-  --bg:       #f5f5f3;
-  --surface:  #ffffff;
-  --surface-2: #eaeae6;
-  --ink:      #111111;
-  --ink-2:    #444444;
-  --ink-3:    #888888;
-  --accent:   #b83d14;
-  --accent-hover: #9a3010;
-  --border:   rgba(0, 0, 0, 0.12);
-  --border-s: rgba(0, 0, 0, 0.06);
-  --grid-line: rgba(0, 0, 0, 0.05);
 
-  /* Complexity colors — darker for light backgrounds */
-  --c-beginner:     #0d9668;
-  --c-intermediate: #b8860b;
-  --c-advanced:     #c53030;
-}
 
-/* Light Theme Navigation Bar Overrides */
-html[data-theme="light"] .lib-nav {
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Library & Book Reader — V5 Editorial Design System
+   Matches the Landing V5 aesthetic: Cormorant Garamond, Roboto Mono, burnt orange
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Design Tokens ─────────────────────────────────────────────────────────── */
+
+/* ── Theme Definitions ─────────────────────────────────────────────────────── */
+
+
+
+
   background: rgba(245, 245, 243, 0.85);
 }
 html[data-theme="light"] .lib-nav-back {
