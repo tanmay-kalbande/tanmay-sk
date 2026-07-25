@@ -96,7 +96,7 @@ export default function LibraryPage() {
   });
 
   useEffect(() => {
-    setFavicon('/favicon-library.svg');
+    setFavicon('/favicon_final.svg');
     document.documentElement.removeAttribute('data-app-page');
     document.body.style.overflow = '';
     document.documentElement.setAttribute('data-theme', theme);

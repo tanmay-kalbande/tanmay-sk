@@ -956,7 +956,7 @@ export default function BookReaderPage() {
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
-    setFavicon('/favicon-library.svg');
+    setFavicon('/favicon_final.svg');
     document.documentElement.setAttribute('data-theme', theme);
     window.localStorage.setItem('theme', theme);
   }, [theme]);
@@ -1221,6 +1221,16 @@ export default function BookReaderPage() {
       setTimeout(() => setCopied(false), 2000);
     });
   };
+
+  const formattedGoal = useMemo(() => {
+    if (!book) return '';
+    const titleClean = book.title.toLowerCase().trim();
+    const goalClean = book.goal.toLowerCase().trim();
+    if (titleClean === goalClean || goalClean.length < 15 || titleClean.includes(goalClean)) {
+      return `An in-depth, structured masterclass guide carefully curated for deep comprehension, practical mastery, and rapid reference.`;
+    }
+    return book.goal;
+  }, [book]);
 
   const generateUrl = book
     ? `${PUSTAKAM_URL}/?topic=${encodeURIComponent(book.goal)}&complexity=${book.complexity}`
@@ -1547,7 +1557,7 @@ export default function BookReaderPage() {
             </div>
 
             <h1 className="reader-title">{book.title}</h1>
-            <p className="reader-goal">{book.goal}</p>
+            <p className="reader-goal">{formattedGoal}</p>
 
             <div className="reader-stats">
               <span className="reader-stat"><Clock size={13} /> {book.readingTimeMins} min read</span>

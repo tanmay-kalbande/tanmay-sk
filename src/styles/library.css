@@ -1101,16 +1101,21 @@ html[data-theme="light"] .lib-hero {
   width: 48px;
   overflow: hidden;
   cursor: pointer;
+  border-right-color: transparent;
 }
 .reader-toc.toc-collapsed:hover {
   background: var(--surface-2);
-  border-right-color: var(--accent);
+  border-right-color: transparent;
 }
 .reader-toc.toc-collapsed .reader-toc-rail-wrap,
 .reader-toc.toc-collapsed .reader-toc-progress-pct,
 .reader-toc.toc-collapsed .reader-toc-header h3 {
   opacity: 0;
   pointer-events: none;
+}
+.reader-toc.toc-collapsed .reader-toc-header {
+  border-bottom: none !important;
+  padding: 12px 0 4px;
 }
 .reader-toc.toc-collapsed .toc-collapse-btn {
   margin: 0 auto;
@@ -1317,49 +1322,52 @@ html[data-theme="light"] .lib-hero {
   box-sizing: border-box;
 }
 
-/* ── Book Header (cover section) ─────────────────────────────────────────────── */
+/* ── Book Header (Hero Section) ─────────────────────────────────────────────── */
 .reader-header {
   position: relative;
   max-width: 840px;
-  margin: 0 auto;
-  padding: clamp(36px, 5vw, 64px) clamp(24px, 4vw, 48px) clamp(28px, 4vw, 44px);
-  border-bottom: 1px solid var(--border);
+  margin: 0 auto 36px;
+  padding: clamp(40px, 6vw, 68px) clamp(24px, 4vw, 48px) clamp(36px, 5vw, 48px);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
   overflow: hidden;
   box-sizing: border-box;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease;
 }
 
-/* Atmospheric glow based on edition */
+/* Top glowing accent bar */
 .reader-header::before {
   content: '';
   position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 120% at 95% -5%, rgba(224,90,53,0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at -5% 105%, rgba(79,70,229,0.09) 0%, transparent 55%);
-}
-.reader-header[data-edition="street"]::before {
-  background:
-    radial-gradient(ellipse 70% 120% at 95% -5%, rgba(255,87,34,0.25) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at -5% 105%, rgba(255,152,0,0.1) 0%, transparent 55%);
-}
-.reader-header[data-edition="desi"]::before {
-  background:
-    radial-gradient(ellipse 70% 120% at 95% -5%, rgba(255,152,0,0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at -5% 105%, rgba(233,30,99,0.1) 0%, transparent 55%);
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent) 0%, #ff9800 60%, transparent 100%);
+  z-index: 2;
 }
 
-/* dot grid */
+/* Atmospheric glow based on edition */
 .reader-header::after {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.3;
-  background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
-  background-size: 26px 26px;
-  mask-image: radial-gradient(ellipse 70% 70% at 80% 50%, black 10%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 80% 50%, black 10%, transparent 80%);
+  background:
+    radial-gradient(ellipse 80% 120% at 90% -10%, rgba(224, 90, 53, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 10% 110%, rgba(79, 70, 229, 0.07) 0%, transparent 50%);
+  z-index: 0;
+}
+
+html[data-theme="light"] .reader-header {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+}
+html[data-theme="light"] .reader-header::after {
+  background:
+    radial-gradient(ellipse 80% 120% at 90% -10%, rgba(224, 90, 53, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 10% 110%, rgba(255, 152, 0, 0.05) 0%, transparent 50%);
 }
 
 .reader-header-meta {
@@ -1368,7 +1376,7 @@ html[data-theme="light"] .lib-hero {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   z-index: 1;
 }
 
@@ -1411,36 +1419,43 @@ html[data-theme="light"] .lib-hero {
 .reader-title {
   position: relative;
   font-family: var(--f-display);
-  font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+  font-size: clamp(2rem, 4.8vw, 3.4rem);
   font-weight: 700;
-  letter-spacing: -0.025em;
-  line-height: 1.1;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
   color: var(--ink);
-  margin: 0 0 14px;
+  margin: 0 0 16px;
   z-index: 1;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.2);
+}
+html[data-theme="light"] .reader-title {
+  text-shadow: none;
 }
 
 .reader-goal {
   position: relative;
-  font-size: 0.9rem;
+  font-family: var(--f-body);
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
   color: var(--ink-2);
-  line-height: 1.7;
-  margin: 0 0 24px;
-  max-width: 680px;
+  line-height: 1.65;
+  margin: 0 0 28px;
+  max-width: 720px;
   z-index: 1;
+  font-style: italic;
+  opacity: 0.9;
 }
 
-/* Stats row */
+/* Glassmorphic Stats bar */
 .reader-stats {
   position: relative;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
   gap: 0;
-  margin-bottom: 24px;
-  padding: 12px 18px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid var(--border-s);
+  margin-bottom: 28px;
+  padding: 10px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   border-radius: 8px;
   width: fit-content;
   z-index: 1;
