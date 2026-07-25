@@ -139,79 +139,106 @@ html[data-theme="dark"] .reader-root,
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem clamp(1.25rem, 5vw, 4rem);
+  padding: 0.75rem clamp(1.25rem, 5vw, 4rem);
+  height: 52px;
   border-bottom: 1px solid var(--border);
-  background: rgba(14, 14, 16, 0.85);
+  background: var(--bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   flex-shrink: 0;
 }
 
 html[data-theme="light"] .lib-nav {
-  background: rgba(245, 245, 243, 0.85);
+  background: rgba(245, 245, 243, 0.95);
 }
 
-/* Landing-style brand inside lib-nav */
-.lib-nav .lv5-nav__brand { display: flex; align-items: center; gap: 0.6rem; }
-.lib-nav .lv5-nav__initials-link { text-decoration: none; }
-.lib-nav .lv5-nav__initials { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink); }
-.lib-nav .lv5-nav__sep { color: var(--ink-3); }
-.lib-nav .lv5-nav__descriptor { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.22em; color: var(--ink-2); }
+.lib-nav a,
+.lib-nav a:visited {
+  text-decoration: none;
+}
 
-.lib-nav-links {
+.lib-nav-back,
+.lib-nav-back:visited {
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2) !important;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.lib-nav-back:hover {
+  color: var(--ink) !important;
+  border-color: var(--ink-2);
+  background: var(--surface-2);
+}
+
+.lib-nav-brand,
+.lib-nav-brand:visited {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-}
-
-.lib-nav .lv5-nav__link {
+  gap: 8px;
   font-family: var(--f-mono);
-  font-size: 0.6rem;
-  font-weight: 400;
-  letter-spacing: 0.16em;
-  color: var(--ink-2);
-  text-decoration: none;
-  padding: 0.4rem 0.75rem;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  transition: color 0.2s, border-color 0.2s;
-}
-.lib-nav .lv5-nav__link:hover { color: var(--ink); border-color: var(--border); }
-.lib-nav .lv5-nav__link--active { color: var(--ink); border-color: var(--border); }
-
-.lib-nav .lv5-nav__cta {
-  font-family: var(--f-mono);
-  font-size: 0.6rem;
+  font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.16em;
-  color: var(--surface);
-  background: var(--ink);
-  border: 1px solid var(--ink);
-  padding: 0.4rem 0.9rem;
-  border-radius: 2px;
-  cursor: pointer;
+  text-transform: uppercase;
+  color: var(--ink) !important;
   text-decoration: none;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
-.lib-nav .lv5-nav__cta:hover { background: var(--accent); border-color: var(--accent); }
+.lib-nav-brand span {
+  color: var(--ink) !important;
+}
 
 .lib-nav .lv5-nav__theme {
-  width: 30px; height: 30px;
-  display: flex; align-items: center; justify-content: center;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   border: 1px solid var(--border);
   border-radius: 2px;
   color: var(--ink-2);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   cursor: pointer;
-  transition: color 0.2s, border-color 0.2s;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
-.lib-nav .lv5-nav__theme:hover { color: var(--ink); border-color: var(--ink-2); }
+.lib-nav .lv5-nav__theme:hover {
+  color: var(--ink);
+  border-color: var(--ink-2);
+  background: var(--surface-2);
+}
 
-/* Generate Your Own button — landing fill style */
-.lib-generate-btn {
+.lib-generate-btn,
+.lib-generate-btn:visited {
+  font-family: var(--f-mono);
   font-size: 0.58rem !important;
-  padding: 0.4rem 0.9rem !important;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #ffffff !important;
+  background: var(--accent) !important;
+  border: 1px solid var(--accent) !important;
+  padding: 0.45rem 0.9rem !important;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s, transform 0.18s;
+  display: inline-flex;
+  align-items: center;
+}
+.lib-generate-btn:hover {
+  background: var(--accent-hover) !important;
+  border-color: var(--accent-hover) !important;
+  transform: translateY(-1px);
 }
 
 .lib-nav-actions {
@@ -409,29 +436,38 @@ html[data-theme="light"] .lib-nav {
   flex-direction: column;
 }
 
-/* Collapsible Hero Block — flat editorial style matching landing */
+/* Collapsible Hero Block — spotlight card effect with sharp 2px corners */
 .lib-hero {
   position: relative;
   max-height: 500px;
   opacity: 1;
   transition: max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease, margin 0.4s ease, padding 0.4s ease;
   margin-bottom: 40px;
-  padding: clamp(28px, 4vw, 48px) 0;
-  border-radius: 0;
-  border: none;
-  border-bottom: 1px solid var(--border);
-  background: transparent;
+  padding: clamp(28px, 4vw, 48px) clamp(24px, 4vw, 44px);
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  background: var(--surface);
   overflow: hidden;
-  box-shadow: none;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.18);
 }
 
 html[data-theme="light"] .lib-hero {
-  box-shadow: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
-/* No card spotlight — transparent hero blends with grain bg */
+/* Card spotlight gradient with subtle grain texture */
 .lib-hero::before {
-  display: none;
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 15% 0%, rgba(224, 90, 53, 0.16) 0%, rgba(224, 90, 53, 0.03) 55%, transparent 75%),
+    radial-gradient(ellipse at 85% 100%, rgba(59, 130, 246, 0.08) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.22;
+  z-index: 0;
+  display: block;
 }
 
 .lib-hero > * {
@@ -1431,15 +1467,17 @@ html[data-theme="light"] .lib-hero {
   display: none;
 }
 
-/* Atmospheric glow based on edition */
+/* Atmospheric spotlight gradient glow & grain overlay */
 .reader-header::after {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 80% 120% at 90% -10%, rgba(224, 90, 53, 0.14) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 10% 110%, rgba(79, 70, 229, 0.07) 0%, transparent 50%);
+    radial-gradient(ellipse 80% 120% at 90% -10%, rgba(224, 90, 53, 0.18) 0%, rgba(224, 90, 53, 0.04) 60%, transparent 80%),
+    radial-gradient(ellipse 60% 80% at 10% 110%, rgba(59, 130, 246, 0.10) 0%, transparent 60%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.25;
   z-index: 0;
 }
 
