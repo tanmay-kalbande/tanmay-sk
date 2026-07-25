@@ -396,8 +396,8 @@ class ProfessionalPdfGenerator {
   private codeFontFamily: string = 'Roboto';
   private headingFontFamily: string = 'Roboto';
 
-  private brandGreen = '#1b4332';
-  private brandGreenDeep = '#14301f';
+  private brandGreen = '#e05a35';
+  private brandGreenDeep = '#c84b28';
   private readonly brandTan = '#a9793f';
   private rowTint = '#eef2ec';
   private codeBg = '#f6f2ea';
@@ -642,7 +642,7 @@ class ProfessionalPdfGenerator {
       partLabel: {
         fontSize: 12,
         bold: true,
-        color: '#1b4332',
+        color: '#e05a35',
         margin: [0, 0, 0, 4],
         characterSpacing: 2
       },
@@ -1486,7 +1486,7 @@ class ProfessionalPdfGenerator {
            const title = this.capitalizeFirstLetter(partMatch[2].trim());
            content.push({ text: '', pageBreak: 'before' });
            isFirstModule = false;
-           content.push({ text: '', margin: [0, 50, 0, 0] });
+           content.push({ text: '', margin: [0, 8, 0, 0] });
            const headingId = `tocTarget${headingIdCounter++}`;
            content.push({ text: label, style: 'partLabel' });
            content.push({ text: this.parseInlineMarkdown(title), style: 'h1Module', alignment: 'left', id: headingId, keepWithNext: true, headlineLevel: 1 });
@@ -1535,7 +1535,7 @@ class ProfessionalPdfGenerator {
            if (isModuleHeading) {
              content.push({ text: '', pageBreak: 'before' });
              isFirstModule = false;
-             content.push({ text: '', margin: [0, 50, 0, 0] });
+             content.push({ text: '', margin: [0, 8, 0, 0] });
            }
            const headingId = `tocTarget${headingIdCounter++}`;
            content.push({ text: formattedText, style: 'h1Module', alignment: 'left', id: headingId, keepWithNext: true, headlineLevel: 1 });

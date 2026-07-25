@@ -6,7 +6,7 @@ import {
   ArrowLeft, Clock, FileText, BookOpen,
   Download, ExternalLink, Check, Calendar, Sun, Moon,
   Type, Minus, Plus, ArrowUp, ChevronLeft, ChevronRight,
-  PanelLeftOpen, PanelLeftClose
+  PanelLeftOpen, PanelLeftClose, Info, X
 } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
@@ -944,6 +944,7 @@ export default function BookReaderPage() {
   const [activeChapter, setActiveChapter] = useState(0);
   const [pdfLoading, setPdfLoading] = useState(false);
   const [pdfProgress, setPdfProgress] = useState(0);
+  const [infoOpen, setInfoOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
   const [tocCollapsed, setTocCollapsed] = useState(true);
@@ -1406,6 +1407,14 @@ export default function BookReaderPage() {
           </div>
           <button
             className="nav-icon-btn"
+            onClick={() => setInfoOpen(true)}
+            aria-label="About this project"
+            title="About Free Library"
+          >
+            <Info size={15} />
+          </button>
+          <button
+            className="nav-icon-btn"
             onClick={toggleTheme}
             aria-label="Toggle theme"
           >
@@ -1574,11 +1583,6 @@ export default function BookReaderPage() {
               <span className="reader-edition-tag" data-edition={book.edition || 'stellar'}>
                 {EDITION_LABEL[book.edition || 'stellar']}
               </span>
-              {book.modelUsed && (
-                <span className="lib-tag model-tag">
-                  🤖 {book.modelUsed}
-                </span>
-              )}
             </div>
 
             <h1 className="reader-title">{book.title}</h1>
@@ -1760,6 +1764,64 @@ export default function BookReaderPage() {
           </div>
         </div>
       </footer>
+
+      {/* About Project Modal */}
+      {infoOpen && (
+        <div className="lib-info-backdrop" onClick={() => setInfoOpen(false)}>
+          <div className="lib-info-modal" onClick={e => e.stopPropagation()}>
+            <div className="lib-info-modal-header">
+              <div className="lib-info-title-group">
+                <span className="lib-info-eyebrow">OPEN-ACCESS KNOWLEDGE</span>
+                <h2>About Free Library</h2>
+              </div>
+              <button
+                className="lib-info-close-btn"
+                onClick={() => setInfoOpen(false)}
+                aria-label="Close dialog"
+              >
+                <X size={16} />
+              </button>
+            </div>
+            <div className="lib-info-modal-body">
+              <p>
+                <strong>Free Library</strong> is an open-access repository of structured, chapter-by-chapter learning roadmaps designed for engineers, students, researchers, and self-directed learners.
+              </p>
+              <p>
+                Every guide breaks down complex topics into intuitive modules, complete with practical exercises, takeaways, and terminology guides.
+              </p>
+              <div className="lib-info-highlights">
+                <div className="lib-info-highlight-item">
+                  <span className="highlight-num">01</span>
+                  <div>
+                    <h4>Structured Curricula</h4>
+                    <p>High-density, step-by-step chapters built for rapid comprehension and deep mastery.</p>
+                  </div>
+                </div>
+                <div className="lib-info-highlight-item">
+                  <span className="highlight-num">02</span>
+                  <div>
+                    <h4>100% Free & Open</h4>
+                    <p>Read online, export clean PDFs, or study anytime without paywalls or signups.</p>
+                  </div>
+                </div>
+                <div className="lib-info-highlight-item">
+                  <span className="highlight-num">03</span>
+                  <div>
+                    <h4>Custom Roadmap Generator</h4>
+                    <p>Create custom curricula on any specialized topic using our generator integration.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="lib-info-modal-footer">
+              <span className="lib-info-author">Curated & Maintained by Tanmay Kalbande</span>
+              <button className="btn-primary" onClick={() => setInfoOpen(false)}>
+                Got it
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
