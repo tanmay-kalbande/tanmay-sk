@@ -1766,69 +1766,6 @@ html[data-theme="light"] .lib-card-new-badge {
   100% { background-position: -200% 0; }
 }
 
-/* ── Card Hover Preview ────────────────────────────────────────────────────── */
-
-.lib-card-preview {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 14px 20px;
-  background: linear-gradient(to top, var(--surface) 60%, transparent);
-  font-family: var(--f-mono);
-  font-size: 0.56rem;
-  line-height: 1.7;
-  letter-spacing: 0.02em;
-  color: var(--ink-2);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-  z-index: 2;
-}
-
-.lib-card:hover .lib-card-preview {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ── Share Button ──────────────────────────────────────────────────────────── */
-
-.lib-card-share {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 2px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  color: var(--ink-3);
-  cursor: pointer;
-  opacity: 0;
-  transform: translateY(-4px);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 3;
-}
-
-.lib-card:hover .lib-card-share {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.lib-card-share:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-}
-
-.lib-card-share.copied {
-  color: var(--c-beginner);
-  border-color: var(--c-beginner);
-}
-
 /* ── Load More Button ──────────────────────────────────────────────────────── */
 
 .lib-load-more-wrap {

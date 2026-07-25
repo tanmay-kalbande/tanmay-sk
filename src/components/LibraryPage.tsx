@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Share2, Check } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import '../styles/library.css';
 
@@ -90,7 +90,6 @@ export default function LibraryPage() {
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>('newest');
   const [visibleCount, setVisibleCount] = useState(BOOKS_PER_PAGE);
-  const [copiedSlug, setCopiedSlug] = useState<string | null>(null);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
   });
@@ -108,16 +107,6 @@ export default function LibraryPage() {
   useEffect(() => {
     setVisibleCount(BOOKS_PER_PAGE);
   }, [activeCategory, activeEdition, search, sortMode]);
-
-  const handleShare = useCallback((e: React.MouseEvent, slug: string) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const url = `${window.location.origin}/library/book/${slug}`;
-    navigator.clipboard.writeText(url).then(() => {
-      setCopiedSlug(slug);
-      setTimeout(() => setCopiedSlug(null), 1500);
-    });
-  }, []);
 
   const formatGeneratedDate = (dateStr?: string) => {
     if (!dateStr) return '';
@@ -496,15 +485,6 @@ export default function LibraryPage() {
                         to={`/library/book/${book.slug}`}
                         className="lib-card"
                       >
-                        {/* Share Button */}
-                        <button
-                          className={`lib-card-share ${copiedSlug === book.slug ? 'copied' : ''}`}
-                          onClick={(e) => handleShare(e, book.slug)}
-                          title="Copy link"
-                        >
-                          {copiedSlug === book.slug ? <Check size={12} /> : <Share2 size={12} />}
-                        </button>
-
                         {/* NEW Badge */}
                         {isNewBook(book.generatedAt) && (
                           <span className="lib-card-new-badge">New</span>
@@ -541,11 +521,6 @@ export default function LibraryPage() {
                         </div>
                         <div className="lib-card-cta">
                           Read now <ArrowRight size={11} />
-                        </div>
-
-                        {/* Hover Preview */}
-                        <div className="lib-card-preview">
-                          {book.metaDescription}
                         </div>
                       </Link>
                     ))}
