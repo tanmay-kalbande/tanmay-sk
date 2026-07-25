@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
+import '../styles/landing.css';
 import '../styles/library.css';
 
 interface BookModule {
@@ -938,7 +939,7 @@ export default function BookReaderPage() {
   const [pdfProgress, setPdfProgress] = useState(0);
   const [copied, setCopied] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
-  const [tocCollapsed, setTocCollapsed] = useState(false);
+  const [tocCollapsed, setTocCollapsed] = useState(true);
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const introRef = useRef<HTMLDivElement | null>(null);
   const summaryRef = useRef<HTMLDivElement | null>(null);
@@ -1276,6 +1277,14 @@ export default function BookReaderPage() {
 
   return (
     <div className="reader-root" data-font-family={fontFamily} data-font-size={fontSize} data-width={contentWidth}>
+      {/* Background — grain + orbs identical to landing */}
+      <div className="lp-bg-wrapper">
+        <div className="lp-grain"></div>
+        <div className="lp-orb lp-orb-a"></div>
+        <div className="lp-orb lp-orb-b"></div>
+        <div className="lp-orb lp-orb-c"></div>
+      </div>
+
       {/* Nav */}
       <nav className="lib-nav">
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

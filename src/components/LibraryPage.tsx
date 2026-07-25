@@ -219,20 +219,15 @@ export default function LibraryPage() {
         <div className="lp-orb lp-orb-c"></div>
       </div>
 
-      {/* Nav — matches landing V5 nav structure */}
+      {/* Nav — Dedicated Library Header */}
       <nav className="lib-nav">
-        <div className="lv5-nav__brand">
-          <Link to="/" className="lv5-nav__initials-link">
-            <span className="lv5-nav__initials">TK</span>
-          </Link>
-          <span className="lv5-nav__sep" aria-hidden="true">·</span>
-          <span className="lv5-nav__descriptor">DATA &amp; AI</span>
-        </div>
-        <div className="lib-nav-links">
-          <Link to="/portfolio" className="lv5-nav__link">WORK</Link>
-          <Link to="/dashboards" className="lv5-nav__link lv5-hide-sm">DASHBOARDS</Link>
-          <Link to="/library" className="lv5-nav__link lv5-nav__link--active">LIBRARY</Link>
-          <Link to="/assistant" className="lv5-nav__cta">ASK AI</Link>
+        <Link to="/" className="lib-nav-back">
+          ← tanmaysk.in
+        </Link>
+        <Link to="/library" className="lib-nav-brand">
+          <span>Free Library</span>
+        </Link>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <button
             className="lv5-nav__theme"
             onClick={toggleTheme}
@@ -244,9 +239,9 @@ export default function LibraryPage() {
             href={PUSTAKAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="lv5-btn lv5-btn--fill lib-generate-btn"
+            className="lib-generate-btn"
           >
-            Generate Your Own
+            Generate Your Own ↗
           </a>
         </div>
       </nav>

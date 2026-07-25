@@ -893,22 +893,38 @@ html[data-theme="light"] .lib-hero {
 .reader-progress-track {
   position: fixed;
   top: 0; left: 0; right: 0;
-  height: 3px;
+  height: 2px;
   background: transparent;
   z-index: 2000;
   pointer-events: none;
 }
 .reader-progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent) 0%, #ff9800 60%, var(--accent) 100%);
-  background-size: 200% 100%;
-  animation: readerProgressShimmer 2.4s linear infinite;
+  background: var(--accent);
   transition: width 0.15s ease-out;
-  box-shadow: 0 0 10px rgba(224,90,53,0.55);
 }
-@keyframes readerProgressShimmer {
-  0%   { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+
+.lib-nav-back {
+  font-family: var(--f-mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  text-decoration: none;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.lib-nav-back:hover {
+  color: var(--ink);
+  border-color: var(--ink-2);
+  background: var(--surface-2);
 }
 
 /* ── Nav Enhancements & Expand Button ────────────────────────────────────────── */
@@ -916,23 +932,23 @@ html[data-theme="light"] .lib-hero {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(224, 90, 53, 0.1);
-  border: 1px solid rgba(224, 90, 53, 0.3);
-  color: var(--accent);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--ink-2);
   font-family: var(--f-mono);
   font-size: 0.58rem;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 4px 10px;
-  border-radius: 5px;
+  padding: 0.35rem 0.7rem;
+  border-radius: 2px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 .nav-toc-expand-btn:hover {
-  background: var(--accent);
-  color: #ffffff;
-  border-color: var(--accent);
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--ink-2);
 }
 
 .nav-icon-btn {
@@ -963,7 +979,7 @@ html[data-theme="light"] .lib-hero {
   width: 285px;
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 2px;
   padding: 16px 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
   z-index: 300;
@@ -1403,21 +1419,16 @@ html[data-theme="light"] .lib-hero {
   padding: clamp(40px, 6vw, 68px) clamp(24px, 4vw, 48px) clamp(36px, 5vw, 48px);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 2px;
   overflow: hidden;
   box-sizing: border-box;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
   transition: all 0.3s ease;
 }
 
-/* Top glowing accent bar */
+/* Disabled electric top accent bar */
 .reader-header::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, var(--accent) 0%, #ff9800 60%, transparent 100%);
-  z-index: 2;
+  display: none;
 }
 
 /* Atmospheric glow based on edition */
@@ -1460,7 +1471,7 @@ html[data-theme="light"] .reader-header::after {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   padding: 3px 9px;
-  border-radius: 3px;
+  border-radius: 2px;
 }
 .reader-complexity.beginner    { color: var(--c-beginner);     border: 1px solid rgba(52,211,153,0.3);  background: rgba(52,211,153,0.07); }
 .reader-complexity.intermediate{ color: var(--c-intermediate); border: 1px solid rgba(251,191,36,0.3); background: rgba(251,191,36,0.07); }
@@ -1474,7 +1485,7 @@ html[data-theme="light"] .reader-header::after {
   color: var(--ink-2);
   padding: 3px 9px;
   border: 1px dashed var(--border);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .reader-edition-tag {
@@ -1482,7 +1493,7 @@ html[data-theme="light"] .reader-header::after {
   font-size: 0.47rem;
   font-weight: 700;
   padding: 3px 9px;
-  border-radius: 3px;
+  border-radius: 2px;
   border: 1px solid;
 }
 .reader-edition-tag[data-edition="stellar"] { color: var(--accent); border-color: rgba(224,90,53,0.35); background: rgba(224,90,53,0.07); }
@@ -1529,7 +1540,7 @@ html[data-theme="light"] .reader-title {
   padding: 10px 16px;
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 2px;
   width: fit-content;
   z-index: 1;
 }
@@ -1862,7 +1873,7 @@ html[data-theme="light"] .code-block-header { background:rgba(0,0,0,0.03); }
   margin: 48px clamp(28px, 5vw, 72px) 0;
   padding: 36px 32px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 2px;
   background: var(--surface);
   position: relative;
   overflow: hidden;
