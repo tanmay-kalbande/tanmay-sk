@@ -1926,13 +1926,13 @@ html[data-theme="light"] .code-block-wrapper {
   font-size: 0.65rem;
 }
 
-/* ── About Project Modal ─────────────────────────────────────────────────── */
+/* ── About Project Modal (High Density) ────────────────────────────────── */
 
 .lib-info-backdrop {
   position: fixed;
   inset: 0;
   z-index: 2000;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.75);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -1950,11 +1950,12 @@ html[data-theme="light"] .code-block-wrapper {
 .lib-info-modal {
   position: relative;
   width: 100%;
-  max-width: 540px;
+  max-width: 640px;
+  max-height: 88vh;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 2px;
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -1975,26 +1976,41 @@ html[data-theme="light"] .lib-info-modal {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  padding: 24px 28px 18px;
+  padding: 20px 24px 16px;
   border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+html[data-theme="light"] .lib-info-modal-header {
+  background: rgba(0, 0, 0, 0.02);
 }
 
 .lib-info-eyebrow {
   font-family: var(--f-mono);
-  font-size: 0.5rem;
+  font-size: 0.48rem;
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--accent);
-  display: block;
-  margin-bottom: 4px;
+}
+
+.lib-info-badge {
+  font-family: var(--f-mono);
+  font-size: 0.46rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  background: rgba(224, 90, 53, 0.1);
+  border: 1px solid rgba(224, 90, 53, 0.3);
+  padding: 2px 7px;
+  border-radius: 2px;
 }
 
 .lib-info-title-group h2 {
   font-family: var(--f-display);
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   font-weight: 700;
-  margin: 0;
+  margin: 4px 0 0;
   color: var(--ink);
   letter-spacing: -0.02em;
 }
@@ -2015,76 +2031,155 @@ html[data-theme="light"] .lib-info-modal {
 .lib-info-close-btn:hover {
   color: var(--ink);
   border-color: var(--ink-2);
-  background: var(--surface-2);
+  background: var(--surface);
 }
 
 .lib-info-modal-body {
-  padding: 24px 28px;
+  padding: 20px 24px;
+  overflow-y: auto;
   font-family: var(--f-body);
-  font-size: 0.92rem;
-  line-height: 1.65;
+  font-size: 0.88rem;
+  line-height: 1.6;
   color: var(--ink-2);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 18px;
 }
 
-.lib-info-modal-body p {
-  margin: 0;
+.lib-info-modal-body::-webkit-scrollbar {
+  width: 4px;
 }
-
-.lib-info-modal-body strong {
-  color: var(--ink);
-}
-
-.lib-info-highlights {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 10px;
-  padding-top: 16px;
-  border-top: 1px dashed var(--border);
-}
-
-.lib-info-highlight-item {
-  display: flex;
-  gap: 14px;
-  align-items: flex-start;
-}
-
-.lib-info-highlight-item .highlight-num {
-  font-family: var(--f-mono);
-  font-size: 0.65rem;
-  font-weight: 700;
-  color: var(--accent);
-  background: rgba(224, 90, 53, 0.08);
-  border: 1px solid rgba(224, 90, 53, 0.25);
-  padding: 2px 6px;
+.lib-info-modal-body::-webkit-scrollbar-thumb {
+  background: var(--border);
   border-radius: 2px;
 }
 
-.lib-info-highlight-item h4 {
-  font-family: var(--f-mono);
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ink);
-  margin: 0 0 2px;
+.lib-info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.lib-info-highlight-item p {
-  font-size: 0.8rem;
+.lib-info-section p {
+  margin: 0;
+}
+
+.lib-info-section strong {
+  color: var(--ink);
+}
+
+.lib-info-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lib-info-section-title h3 {
+  font-family: var(--f-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 0;
+}
+
+.lib-info-section-title .section-icon {
+  color: var(--ink-2);
+}
+.lib-info-section-title .section-icon.accent {
+  color: var(--accent);
+}
+.lib-info-section-title .section-icon.warning {
+  color: #ff9800;
+}
+
+.lib-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.lib-info-grid-card {
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+html[data-theme="light"] .lib-info-grid-card {
+  background: rgba(0, 0, 0, 0.015);
+}
+
+.lib-info-grid-card p {
+  font-size: 0.76rem;
+  line-height: 1.45;
   color: var(--ink-2);
   margin: 0;
-  line-height: 1.45;
+}
+
+.edition-tag {
+  font-family: var(--f-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.edition-tag.stellar { color: var(--accent); }
+.edition-tag.street  { color: #ff5722; }
+.edition-tag.desi    { color: #ff9800; }
+
+.highlight-box {
+  padding: 14px 16px;
+  background: rgba(224, 90, 53, 0.05);
+  border: 1px solid rgba(224, 90, 53, 0.2);
+  border-radius: 2px;
+}
+
+.lib-info-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(224, 90, 53, 0.4);
+}
+.lib-info-link:hover {
+  border-bottom-color: var(--accent);
+}
+
+.disclaimer-box {
+  padding: 14px 16px;
+  background: rgba(255, 152, 0, 0.04);
+  border: 1px solid rgba(255, 152, 0, 0.2);
+  border-radius: 2px;
+}
+
+.disclaimer-list {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.disclaimer-list li {
+  font-size: 0.78rem;
+  line-height: 1.5;
+  color: var(--ink-2);
+}
+
+.disclaimer-list li strong {
+  color: var(--ink);
 }
 
 .lib-info-modal-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 28px;
+  padding: 14px 24px;
   background: var(--surface-2);
   border-top: 1px solid var(--border);
 }
@@ -2098,6 +2193,9 @@ html[data-theme="light"] .lib-info-modal-footer {
   font-size: 0.58rem;
   color: var(--ink-3);
   letter-spacing: 0.04em;
+}
+.lib-info-author strong {
+  color: var(--ink-2);
 }
 
 .code-block-copy {
