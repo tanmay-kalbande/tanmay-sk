@@ -1224,9 +1224,9 @@ export default function BookReaderPage() {
 
   const formattedGoal = useMemo(() => {
     if (!book) return '';
-    const titleClean = book.title.toLowerCase().trim();
-    const goalClean = book.goal.toLowerCase().trim();
-    if (titleClean === goalClean || goalClean.length < 15 || titleClean.includes(goalClean)) {
+    const titleClean = (book.title || '').toLowerCase().trim();
+    const goalClean = (book.goal || '').toLowerCase().trim();
+    if (!goalClean || titleClean === goalClean || goalClean.length < 15 || titleClean.includes(goalClean)) {
       return `An in-depth, structured masterclass guide carefully curated for deep comprehension, practical mastery, and rapid reference.`;
     }
     return book.goal;
