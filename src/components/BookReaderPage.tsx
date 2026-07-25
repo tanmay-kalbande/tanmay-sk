@@ -1180,8 +1180,19 @@ export default function BookReaderPage() {
     };
   }, [activeChapter, book]);
 
+  const scrollToElement = (el: HTMLElement | null) => {
+    if (!el) return;
+    const navHeight = 72;
+    const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+    const offsetPosition = elementPosition - navHeight;
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
+  };
+
   const scrollToChapter = (i: number) => {
-    chapterRefs.current[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    scrollToElement(chapterRefs.current[i]);
   };
 
   const handlePdf = async () => {
@@ -1431,7 +1442,7 @@ export default function BookReaderPage() {
                 <button
                   className={`reader-toc-item reader-toc-item--label ${activeChapter === -1 ? 'active' : ''}`}
                   onClick={() => {
-                    introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    scrollToElement(introRef.current);
                     setTocOpen(false);
                   }}
                 >
@@ -1455,7 +1466,7 @@ export default function BookReaderPage() {
                 <button
                   className="reader-toc-item reader-toc-item--label"
                   onClick={() => {
-                    summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    scrollToElement(summaryRef.current);
                     setTocOpen(false);
                   }}
                 >
@@ -1466,7 +1477,7 @@ export default function BookReaderPage() {
                 <button
                   className="reader-toc-item reader-toc-item--label"
                   onClick={() => {
-                    glossaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    scrollToElement(glossaryRef.current);
                     setTocOpen(false);
                   }}
                 >
@@ -1531,110 +1542,113 @@ export default function BookReaderPage() {
             </div>
           </div>
 
-          {/* Introduction */}
-          {(() => {
-            const intro = extractSection(book.finalBook, 'Introduction');
-            if (!intro) return null;
-            return (
-              <div className="reader-chapter reader-section-intro" ref={introRef}>
-                <div className="reader-chapter-head">
-                  <span className="reader-chapter-ghost" aria-hidden="true">★</span>
-                  <div className="reader-chapter-head-text">
-                    <p className="reader-chapter-number">Introduction</p>
-                    <h2 className="reader-chapter-title">Overview &amp; Foundations</h2>
+          {/* Unified Reading Well — 100% Identical Left Alignment */}
+          <div className="reader-body-well">
+            {/* Introduction */}
+            {(() => {
+              const intro = extractSection(book.finalBook, 'Introduction');
+              if (!intro) return null;
+              return (
+                <div className="reader-chapter reader-section-intro" ref={introRef}>
+                  <div className="reader-chapter-head">
+                    <span className="reader-chapter-ghost" aria-hidden="true">★</span>
+                    <div className="reader-chapter-head-text">
+                      <p className="reader-chapter-number">Introduction</p>
+                      <h2 className="reader-chapter-title">Overview &amp; Foundations</h2>
+                    </div>
                   </div>
+                  <div
+                    className="reader-chapter-body"
+                    dangerouslySetInnerHTML={{ __html: renderMd(intro, book.edition) }}
+                  />
                 </div>
-                <div
-                  className="reader-chapter-body"
-                  dangerouslySetInnerHTML={{ __html: renderMd(intro, book.edition) }}
-                />
-              </div>
-            );
-          })()}
+              );
+            })()}
 
-          {/* Chapters */}
-          {book.modules.map((mod, i) => (
-            <div
-              key={i}
-              className={`reader-chapter edition-${book.edition || 'stellar'}`}
-              ref={el => { chapterRefs.current[i] = el; }}
-            >
-              <div className="reader-chapter-head">
-                <span className="reader-chapter-ghost" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                <div className="reader-chapter-head-text">
-                  <p className="reader-chapter-number">Chapter {i + 1} of {book.modules.length}</p>
-                  <h2 className="reader-chapter-title">{mod.title}</h2>
-                </div>
-              </div>
+            {/* Chapters */}
+            {book.modules.map((mod, i) => (
               <div
-                className="reader-chapter-body"
-                dangerouslySetInnerHTML={{ __html: renderMd(cleanChapterContent(mod.content, mod.title), book.edition) }}
-              />
-            </div>
-          ))}
-
-          {/* Summary */}
-          {(() => {
-            const summary = extractSection(book.finalBook, 'Summary');
-            if (!summary) return null;
-            return (
-              <div className="reader-chapter reader-section-summary" ref={summaryRef}>
-                <div className="reader-chapter-head">
-                  <span className="reader-chapter-ghost" aria-hidden="true">✓</span>
-                  <div className="reader-chapter-head-text">
-                    <p className="reader-chapter-number summary-num">Key Takeaways</p>
-                    <h2 className="reader-chapter-title">Summary &amp; Next Steps</h2>
-                  </div>
-                </div>
-                <div
-                  className="reader-chapter-body"
-                  dangerouslySetInnerHTML={{ __html: renderMd(summary, book.edition) }}
-                />
-              </div>
-            );
-          })()}
-
-          {/* Glossary */}
-          {(() => {
-            const glossary = extractSection(book.finalBook, 'Glossary');
-            if (!glossary) return null;
-            return (
-              <div className="reader-chapter reader-section-glossary" ref={glossaryRef}>
-                <div className="reader-chapter-head">
-                  <span className="reader-chapter-ghost" aria-hidden="true">§</span>
-                  <div className="reader-chapter-head-text">
-                    <p className="reader-chapter-number glossary-num">Reference</p>
-                    <h2 className="reader-chapter-title">Glossary &amp; Terminology</h2>
-                  </div>
-                </div>
-                <div
-                  className="reader-chapter-body"
-                  dangerouslySetInnerHTML={{ __html: renderMd(glossary, book.edition) }}
-                />
-              </div>
-            );
-          })()}
-
-          {/* CTA at bottom */}
-          <div className="reader-cta-box">
-            <span className="reader-cta-eyebrow">Next up</span>
-            <h3>Want a book made just for you?</h3>
-            <p>
-              Generate a fully custom book on any topic — your complexity level, your goals,
-              your learning style. Free to try on Pustakam.
-            </p>
-            <div className="reader-cta-row">
-              <a
-                href={generateUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
+                key={i}
+                className={`reader-chapter edition-${book.edition || 'stellar'}`}
+                ref={el => { chapterRefs.current[i] = el; }}
               >
-                Generate on Pustakam
-              </a>
-              <Link to="/library" className="btn-secondary">
-                ← Browse More Books
-              </Link>
+                <div className="reader-chapter-head">
+                  <span className="reader-chapter-ghost" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                  <div className="reader-chapter-head-text">
+                    <p className="reader-chapter-number">Chapter {i + 1} of {book.modules.length}</p>
+                    <h2 className="reader-chapter-title">{mod.title}</h2>
+                  </div>
+                </div>
+                <div
+                  className="reader-chapter-body"
+                  dangerouslySetInnerHTML={{ __html: renderMd(cleanChapterContent(mod.content, mod.title), book.edition) }}
+                />
+              </div>
+            ))}
+
+            {/* Summary */}
+            {(() => {
+              const summary = extractSection(book.finalBook, 'Summary');
+              if (!summary) return null;
+              return (
+                <div className="reader-chapter reader-section-summary" ref={summaryRef}>
+                  <div className="reader-chapter-head">
+                    <span className="reader-chapter-ghost" aria-hidden="true">✓</span>
+                    <div className="reader-chapter-head-text">
+                      <p className="reader-chapter-number summary-num">Key Takeaways</p>
+                      <h2 className="reader-chapter-title">Summary &amp; Next Steps</h2>
+                    </div>
+                  </div>
+                  <div
+                    className="reader-chapter-body"
+                    dangerouslySetInnerHTML={{ __html: renderMd(summary, book.edition) }}
+                  />
+                </div>
+              );
+            })()}
+
+            {/* Glossary */}
+            {(() => {
+              const glossary = extractSection(book.finalBook, 'Glossary');
+              if (!glossary) return null;
+              return (
+                <div className="reader-chapter reader-section-glossary" ref={glossaryRef}>
+                  <div className="reader-chapter-head">
+                    <span className="reader-chapter-ghost" aria-hidden="true">§</span>
+                    <div className="reader-chapter-head-text">
+                      <p className="reader-chapter-number glossary-num">Reference</p>
+                      <h2 className="reader-chapter-title">Glossary &amp; Terminology</h2>
+                    </div>
+                  </div>
+                  <div
+                    className="reader-chapter-body"
+                    dangerouslySetInnerHTML={{ __html: renderMd(glossary, book.edition) }}
+                  />
+                </div>
+              );
+            })()}
+
+            {/* CTA at bottom */}
+            <div className="reader-cta-box">
+              <span className="reader-cta-eyebrow">Next up</span>
+              <h3>Want a book made just for you?</h3>
+              <p>
+                Generate a fully custom book on any topic — your complexity level, your goals,
+                your learning style. Free to try on Pustakam.
+              </p>
+              <div className="reader-cta-row">
+                <a
+                  href={generateUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary"
+                >
+                  Generate on Pustakam
+                </a>
+                <Link to="/library" className="btn-secondary">
+                  ← Browse More Books
+                </Link>
+              </div>
             </div>
           </div>
         </main>

@@ -1295,6 +1295,7 @@ html[data-theme="light"] .lib-hero {
 .reader-main {
   flex: 1;
   min-width: 0;
+  padding-top: 16px;
   padding-bottom: 80px;
 }
 
@@ -1304,15 +1305,27 @@ html[data-theme="light"] .lib-hero {
 .reader-section-intro,
 .reader-section-summary,
 .reader-section-glossary {
-  scroll-margin-top: 68px;
+  scroll-margin-top: 80px;
+}
+
+/* Reading Well — Unified 100% Identical Column Alignment */
+.reader-body-well {
+  width: 100%;
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 0 clamp(24px, 4vw, 48px);
+  box-sizing: border-box;
 }
 
 /* ── Book Header (cover section) ─────────────────────────────────────────────── */
 .reader-header {
   position: relative;
-  padding: clamp(40px, 6vw, 80px) clamp(28px, 5vw, 72px) clamp(32px, 5vw, 60px);
+  max-width: 840px;
+  margin: 0 auto;
+  padding: clamp(36px, 5vw, 64px) clamp(24px, 4vw, 48px) clamp(28px, 4vw, 44px);
   border-bottom: 1px solid var(--border);
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 /* Atmospheric glow based on edition */
@@ -1466,7 +1479,7 @@ html[data-theme="light"] .reader-stats {
    Chapter styles
    ═══════════════════════════════════════════════════════════════════════════════ */
 .reader-chapter {
-  padding: clamp(40px, 6vw, 72px) clamp(28px, 5vw, 72px) 0;
+  padding: clamp(40px, 6vw, 68px) 0 0 0;
   position: relative;
 }
 
