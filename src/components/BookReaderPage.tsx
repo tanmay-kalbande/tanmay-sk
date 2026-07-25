@@ -959,9 +959,18 @@ export default function BookReaderPage() {
     window.localStorage.setItem('theme', theme);
   }, [theme]);
 
+  const [fontFamily, setFontFamily] = useState<'sans' | 'serif' | 'outfit' | 'lora' | 'mono'>(() => {
+    const saved = window.localStorage.getItem('reader-font-family');
+    return (saved as any) || 'sans';
+  });
+
   useEffect(() => {
     window.localStorage.setItem('reader-font-size', String(fontSize));
   }, [fontSize]);
+
+  useEffect(() => {
+    window.localStorage.setItem('reader-font-family', fontFamily);
+  }, [fontFamily]);
 
   useEffect(() => {
     window.localStorage.setItem('reader-width', contentWidth);
@@ -1234,7 +1243,7 @@ export default function BookReaderPage() {
   }
 
   return (
-    <div className="reader-root" data-font-size={fontSize} data-width={contentWidth}>
+    <div className="reader-root" data-font-family={fontFamily} data-font-size={fontSize} data-width={contentWidth}>
       {/* Reading progress rail */}
       <div className="reader-progress-track" aria-hidden="true">
         <div className="reader-progress-fill" style={{ width: `${scrollPct}%` }} />
@@ -1270,8 +1279,49 @@ export default function BookReaderPage() {
             </button>
             {settingsOpen && (
               <div className="reader-settings-panel" role="dialog" aria-label="Reading preferences">
+                <div className="reader-settings-row vertical">
+                  <span className="reader-settings-label">Font Family</span>
+                  <div className="reader-settings-font-grid">
+                    <button
+                      className={`font-pill-btn ${fontFamily === 'sans' ? 'active' : ''}`}
+                      onClick={() => setFontFamily('sans')}
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      Sans
+                    </button>
+                    <button
+                      className={`font-pill-btn ${fontFamily === 'serif' ? 'active' : ''}`}
+                      onClick={() => setFontFamily('serif')}
+                      style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 700 }}
+                    >
+                      Serif
+                    </button>
+                    <button
+                      className={`font-pill-btn ${fontFamily === 'outfit' ? 'active' : ''}`}
+                      onClick={() => setFontFamily('outfit')}
+                      style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 600 }}
+                    >
+                      Outfit
+                    </button>
+                    <button
+                      className={`font-pill-btn ${fontFamily === 'lora' ? 'active' : ''}`}
+                      onClick={() => setFontFamily('lora')}
+                      style={{ fontFamily: "'Lora', serif", fontWeight: 600 }}
+                    >
+                      Lora
+                    </button>
+                    <button
+                      className={`font-pill-btn ${fontFamily === 'mono' ? 'active' : ''}`}
+                      onClick={() => setFontFamily('mono')}
+                      style={{ fontFamily: "'Roboto Mono', monospace" }}
+                    >
+                      Mono
+                    </button>
+                  </div>
+                </div>
+
                 <div className="reader-settings-row">
-                  <span className="reader-settings-label">Text size</span>
+                  <span className="reader-settings-label">Text Size</span>
                   <div className="reader-settings-stepper">
                     <button
                       onClick={() => setFontSize(f => Math.max(0, f - 1))}
@@ -1290,14 +1340,15 @@ export default function BookReaderPage() {
                     </button>
                   </div>
                 </div>
+
                 <div className="reader-settings-row">
-                  <span className="reader-settings-label">Line width</span>
+                  <span className="reader-settings-label">Line Width</span>
                   <div className="reader-settings-toggle">
                     <button
                       className={contentWidth === 'normal' ? 'active' : ''}
                       onClick={() => setContentWidth('normal')}
                     >
-                      Comfortable
+                      Standard
                     </button>
                     <button
                       className={contentWidth === 'wide' ? 'active' : ''}
