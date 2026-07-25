@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
+import '../styles/landing.css';
 import '../styles/library.css';
 
 type SortMode = 'newest' | 'longest' | 'chapters';
@@ -210,41 +211,40 @@ export default function LibraryPage() {
 
   return (
     <div className="lib-root">
-      {/* Nav */}
+      {/* Background — grain + orbs identical to landing */}
+      <div className="lp-bg-wrapper">
+        <div className="lp-grain"></div>
+        <div className="lp-orb lp-orb-a"></div>
+        <div className="lp-orb lp-orb-b"></div>
+        <div className="lp-orb lp-orb-c"></div>
+      </div>
+
+      {/* Nav — matches landing V5 nav structure */}
       <nav className="lib-nav">
-        <Link to="/" className="lib-nav-back">
-          ← tanmaysk.in
-        </Link>
-        <Link to="/library" className="lib-nav-brand">
-          <span>Free Library</span>
-        </Link>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className="lv5-nav__brand">
+          <Link to="/" className="lv5-nav__initials-link">
+            <span className="lv5-nav__initials">TK</span>
+          </Link>
+          <span className="lv5-nav__sep" aria-hidden="true">·</span>
+          <span className="lv5-nav__descriptor">DATA &amp; AI</span>
+        </div>
+        <div className="lib-nav-links">
+          <Link to="/portfolio" className="lv5-nav__link">WORK</Link>
+          <Link to="/dashboards" className="lv5-nav__link lv5-hide-sm">DASHBOARDS</Link>
+          <Link to="/library" className="lv5-nav__link lv5-nav__link--active">LIBRARY</Link>
+          <Link to="/assistant" className="lv5-nav__cta">ASK AI</Link>
           <button
-            className="theme-toggle-btn"
+            className="lv5-nav__theme"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--ink-2)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '6px',
-              borderRadius: '50%',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.color = 'var(--ink)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'var(--ink-2)'}
           >
-            {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
+            {theme === 'dark' ? '☀' : '☾'}
           </button>
           <a
             href={PUSTAKAM_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary"
+            className="lv5-btn lv5-btn--fill lib-generate-btn"
           >
             Generate Your Own
           </a>

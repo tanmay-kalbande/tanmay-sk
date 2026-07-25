@@ -173,7 +173,6 @@ export default function LandingPage() {
 
                 <motion.div variants={line} className="lv5-cta">
                   <Link to="/portfolio" className="lv5-btn lv5-btn--fill">View Work</Link>
-                  <Link to="/library" className="lv5-btn lv5-btn--outline">Library 📚</Link>
                   <button className="lv5-btn lv5-btn--outline" onClick={() => switchTab("assistant")}>Ask AI ↗</button>
                   <a href={assetUrls.resumePdf} className="lv5-btn lv5-btn--ghost" target="_blank" rel="noopener noreferrer">Resume ↗</a>
                 </motion.div>
