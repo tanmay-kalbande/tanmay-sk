@@ -239,7 +239,7 @@ export default function LibraryPage() {
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              justify-content: 'center',
+              justifyContent: 'center',
               padding: '6px',
               borderRadius: '50%',
               transition: 'all 0.2s',
