@@ -9,6 +9,7 @@ import {
   PanelLeftOpen, PanelLeftClose
 } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
+import { setFavicon } from '../utils/setFavicon';
 import '../styles/library.css';
 
 interface BookModule {
@@ -955,6 +956,7 @@ export default function BookReaderPage() {
   const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
+    setFavicon('/favicon-library.svg');
     document.documentElement.setAttribute('data-theme', theme);
     window.localStorage.setItem('theme', theme);
   }, [theme]);
@@ -1428,12 +1430,10 @@ export default function BookReaderPage() {
             </button>
             <span className="reader-toc-toggle-icon" onClick={() => setTocOpen(!tocOpen)}>{tocOpen ? '−' : '+'}</span>
           </div>
-          {/* Collapsed Sidebar Strip (visible when TOC sidebar is collapsed) */}
+          {/* Collapsed Sidebar Strip */}
           {tocCollapsed ? (
             <div className="reader-toc-collapsed-strip" title={`Progress: ${Math.round(scrollPct)}%`}>
-              <div className="reader-toc-collapsed-rail" aria-hidden="true">
-                <div className="reader-toc-collapsed-fill" style={{ height: `${scrollPct}%` }} />
-              </div>
+              <div className="collapsed-pct-badge">{Math.round(scrollPct)}%</div>
               <div className="reader-toc-collapsed-nums">
                 {extractSection(book.finalBook, 'Introduction') && (
                   <button
@@ -1475,58 +1475,53 @@ export default function BookReaderPage() {
               </div>
             </div>
           ) : (
-            <div className="reader-toc-rail-wrap">
-              <div className="reader-toc-rail" aria-hidden="true">
-                <div className="reader-toc-rail-fill" style={{ height: `${scrollPct}%` }} />
-              </div>
-              <div className="reader-toc-list">
-                {extractSection(book.finalBook, 'Introduction') && (
-                  <button
-                    className={`reader-toc-item reader-toc-item--label ${activeChapter === -1 ? 'active' : ''}`}
-                    onClick={() => {
-                      scrollToElement(introRef.current);
-                      setTocOpen(false);
-                    }}
-                  >
-                    Introduction
-                  </button>
-                )}
-                {book.modules.map((mod, i) => (
-                  <button
-                    key={i}
-                    className={`reader-toc-item ${activeChapter === i ? 'active' : ''}`}
-                    onClick={() => {
-                      scrollToChapter(i);
-                      setTocOpen(false);
-                    }}
-                  >
-                    <span className="reader-toc-num">{String(i + 1).padStart(2, '0')}</span>
-                    <span className="reader-toc-item-title">{mod.title}</span>
-                  </button>
-                ))}
-                {extractSection(book.finalBook, 'Summary') && (
-                  <button
-                    className="reader-toc-item reader-toc-item--label"
-                    onClick={() => {
-                      scrollToElement(summaryRef.current);
-                      setTocOpen(false);
-                    }}
-                  >
-                    Summary
-                  </button>
-                )}
-                {extractSection(book.finalBook, 'Glossary') && (
-                  <button
-                    className="reader-toc-item reader-toc-item--label"
-                    onClick={() => {
-                      scrollToElement(glossaryRef.current);
-                      setTocOpen(false);
-                    }}
-                  >
-                    Glossary
-                  </button>
-                )}
-              </div>
+            <div className="reader-toc-list">
+              {extractSection(book.finalBook, 'Introduction') && (
+                <button
+                  className={`reader-toc-item reader-toc-item--label ${activeChapter === -1 ? 'active' : ''}`}
+                  onClick={() => {
+                    scrollToElement(introRef.current);
+                    setTocOpen(false);
+                  }}
+                >
+                  Introduction
+                </button>
+              )}
+              {book.modules.map((mod, i) => (
+                <button
+                  key={i}
+                  className={`reader-toc-item ${activeChapter === i ? 'active' : ''}`}
+                  onClick={() => {
+                    scrollToChapter(i);
+                    setTocOpen(false);
+                  }}
+                >
+                  <span className="reader-toc-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="reader-toc-item-title">{mod.title}</span>
+                </button>
+              ))}
+              {extractSection(book.finalBook, 'Summary') && (
+                <button
+                  className="reader-toc-item reader-toc-item--label"
+                  onClick={() => {
+                    scrollToElement(summaryRef.current);
+                    setTocOpen(false);
+                  }}
+                >
+                  Summary
+                </button>
+              )}
+              {extractSection(book.finalBook, 'Glossary') && (
+                <button
+                  className="reader-toc-item reader-toc-item--label"
+                  onClick={() => {
+                    scrollToElement(glossaryRef.current);
+                    setTocOpen(false);
+                  }}
+                >
+                  Glossary
+                </button>
+              )}
             </div>
           )}
         </aside>

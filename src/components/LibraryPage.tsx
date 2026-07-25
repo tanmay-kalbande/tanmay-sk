@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
+import { setFavicon } from '../utils/setFavicon';
 import '../styles/library.css';
 
 type SortMode = 'newest' | 'longest' | 'chapters';
@@ -95,6 +96,7 @@ export default function LibraryPage() {
   });
 
   useEffect(() => {
+    setFavicon('/favicon-library.svg');
     document.documentElement.removeAttribute('data-app-page');
     document.body.style.overflow = '';
     document.documentElement.setAttribute('data-theme', theme);

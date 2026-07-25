@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import AssistantChat from "./AssistantChat";
 import { assetUrls, socialLinks, experiences, skills } from "../data/siteData";
+import { setFavicon } from "../utils/setFavicon";
 import "../styles/landing.css";
 
 type Tab = "home" | "assistant";
@@ -74,6 +75,7 @@ export default function LandingPage() {
   const [dir, setDir] = useState(1);
 
   useEffect(() => {
+    setFavicon('/favicon.svg');
     document.documentElement.setAttribute("data-app-page", "landing-v5");
     document.title = "Tanmay Kalbande — Data Analyst";
     const saved = window.localStorage.getItem("theme");
