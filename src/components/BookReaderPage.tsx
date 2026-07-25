@@ -1188,7 +1188,7 @@ export default function BookReaderPage() {
         <Link to="/library" className="lib-nav-back">
           <ArrowLeft size={12} /> Library
         </Link>
-        
+
         <div className="lib-nav-title" title={book.title}>
           <span className="lib-nav-title-text">{book.title}</span>
         </div>
@@ -1235,31 +1235,17 @@ export default function BookReaderPage() {
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
 
-          <button
-            className="btn-secondary"
-            onClick={handleCopyLink}
-            aria-label="Share this book"
-          >
+          <button className="btn-secondary" onClick={handleCopyLink} aria-label="Share this book">
             {copied ? <Check size={12} /> : <ExternalLink size={12} />}
             <span className="btn-text">{copied ? 'Copied' : 'Share'}</span>
           </button>
-          <button
-            className="btn-secondary"
-            onClick={handlePdf}
-            disabled={pdfLoading}
-            aria-label="Download PDF version"
-          >
+          <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading} aria-label="Download PDF">
             <Download size={12} />
             <span className="btn-text">
               {pdfProgress > 0 ? `${pdfProgress}%` : pdfLoading ? 'Preparing...' : 'PDF'}
             </span>
           </button>
-          <a
-            href={generateUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-primary"
-          >
+          <a href={generateUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
             <span className="btn-text-desktop">Generate My Version</span>
             <span className="btn-text-mobile">Generate</span>
           </a>
@@ -1268,12 +1254,17 @@ export default function BookReaderPage() {
 
       {/* Layout */}
       <div className="reader-layout">
-        {/* TOC Sidebar */}
+
+        {/* ── TOC Sidebar ── */}
         <aside className={`reader-toc ${tocOpen ? 'open' : ''}`}>
+          <div className="reader-toc-progress-track">
+            <div className="reader-toc-progress-fill" style={{ height: `${scrollProgress}%` }} />
+          </div>
+
           <div className="reader-toc-header" onClick={() => setTocOpen(!tocOpen)}>
             <div>
               <h3>Contents</h3>
-              <span className="reader-toc-sub">{Math.round(scrollProgress)}% Completed</span>
+              <span className="reader-toc-sub">{Math.round(scrollProgress)}% read</span>
             </div>
             <span className="reader-toc-toggle-icon">{tocOpen ? '−' : '+'}</span>
           </div>
@@ -1295,15 +1286,11 @@ export default function BookReaderPage() {
               const isVisited = visitedChapters.has(i);
               const isActive = activeChapter === i;
               const chapterReadTime = Math.max(1, Math.ceil(mod.wordCount / 220));
-
               return (
                 <button
                   key={i}
                   className={`reader-toc-item ${isActive ? 'active' : ''} ${isVisited ? 'visited' : ''}`}
-                  onClick={() => {
-                    scrollToChapter(i);
-                    setTocOpen(false);
-                  }}
+                  onClick={() => { scrollToChapter(i); setTocOpen(false); }}
                 >
                   <span className="toc-item-indicator">
                     {isActive ? (
@@ -1322,25 +1309,13 @@ export default function BookReaderPage() {
               );
             })}
             {extractSection(book.finalBook, 'Summary') && (
-              <button
-                className="reader-toc-item"
-                onClick={() => {
-                  summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  setTocOpen(false);
-                }}
-              >
+              <button className="reader-toc-item" onClick={() => { summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTocOpen(false); }}>
                 <span className="toc-item-indicator" />
                 <span className="toc-item-label">Summary</span>
               </button>
             )}
             {extractSection(book.finalBook, 'Glossary') && (
-              <button
-                className="reader-toc-item"
-                onClick={() => {
-                  glossaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  setTocOpen(false);
-                }}
-              >
+              <button className="reader-toc-item" onClick={() => { glossaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTocOpen(false); }}>
                 <span className="toc-item-indicator" />
                 <span className="toc-item-label">Glossary</span>
               </button>
@@ -1348,188 +1323,164 @@ export default function BookReaderPage() {
           </div>
         </aside>
 
-        {/* Main Content Area */}
+        {/* ── Main Content ── */}
         <main className="reader-main">
-          {/* Editorial Book Hero Header */}
-          <div className="reader-header">
-            <div className="reader-header-accent-bg" />
-            
-            <div className="reader-header-meta">
-              <span className={`reader-complexity ${book.complexity}`}>{book.complexity}</span>
-              <span className="reader-category">{book.category}</span>
-              {book.tags.slice(0, 2).map(t => (
-                <span key={t} className="lib-tag">{t}</span>
-              ))}
-              <span className="lib-tag edition-pill" style={{
-                borderColor: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)',
-                color: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)'
-              }}>
-                {book.edition === 'street' ? '🔥 Street Edition' : book.edition === 'desi' ? '🇮🇳 Desi Edition' : '✨ Stellar Edition'}
-              </span>
-              {book.modelUsed && (
-                <span className="lib-tag model-tag">
-                  🤖 {book.modelUsed}
+
+          {/* Immersive Hero */}
+          <div className="reader-hero">
+            <div className="reader-hero-glow" aria-hidden="true" />
+            <div className="reader-hero-grid" aria-hidden="true" />
+
+            <div className="reader-hero-content">
+              <div className="reader-header-meta">
+                <span className={`reader-complexity ${book.complexity}`}>{book.complexity}</span>
+                <span className="reader-category">{book.category}</span>
+                {book.tags.slice(0, 2).map(t => (
+                  <span key={t} className="lib-tag">{t}</span>
+                ))}
+                <span className="lib-tag edition-pill" style={{
+                  borderColor: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)',
+                  color: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)'
+                }}>
+                  {book.edition === 'street' ? '🔥 Street Edition' : book.edition === 'desi' ? '🇮🇳 Desi Edition' : '✨ Stellar Edition'}
                 </span>
-              )}
-            </div>
-
-            <h1 className="reader-title">{book.title}</h1>
-            <p className="reader-goal">{book.goal}</p>
-
-            <div className="reader-stats-grid">
-              <div className="reader-stat-card">
-                <Clock size={14} className="stat-icon" />
-                <div>
-                  <span className="stat-value">{book.readingTimeMins} min</span>
-                  <span className="stat-label">Reading Time</span>
-                </div>
+                {book.modelUsed && (
+                  <span className="lib-tag model-tag">🤖 {book.modelUsed}</span>
+                )}
               </div>
-              <div className="reader-stat-card">
-                <FileText size={14} className="stat-icon" />
-                <div>
+
+              <h1 className="reader-title">{book.title}</h1>
+              <p className="reader-goal">{book.goal}</p>
+
+              <div className="reader-stats-row">
+                <div className="reader-stat-item">
+                  <Clock size={13} className="stat-icon" />
+                  <span className="stat-value">{book.readingTimeMins} min</span>
+                  <span className="stat-label">Read</span>
+                </div>
+                <div className="reader-stat-divider" />
+                <div className="reader-stat-item">
+                  <FileText size={13} className="stat-icon" />
                   <span className="stat-value">{book.moduleCount}</span>
                   <span className="stat-label">Chapters</span>
                 </div>
-              </div>
-              <div className="reader-stat-card">
-                <BookOpen size={14} className="stat-icon" />
-                <div>
+                <div className="reader-stat-divider" />
+                <div className="reader-stat-item">
+                  <BookOpen size={13} className="stat-icon" />
                   <span className="stat-value">{book.wordCount.toLocaleString()}</span>
-                  <span className="stat-label">Total Words</span>
+                  <span className="stat-label">Words</span>
                 </div>
+                {book.generatedAt && (
+                  <>
+                    <div className="reader-stat-divider" />
+                    <div className="reader-stat-item">
+                      <Calendar size={13} className="stat-icon" />
+                      <span className="stat-value">{formatGeneratedDate(book.generatedAt)}</span>
+                      <span className="stat-label">Published</span>
+                    </div>
+                  </>
+                )}
               </div>
-              {book.generatedAt && (
-                <div className="reader-stat-card">
-                  <Calendar size={14} className="stat-icon" />
-                  <div>
-                    <span className="stat-value">{formatGeneratedDate(book.generatedAt)}</span>
-                    <span className="stat-label">Published</span>
-                  </div>
-                </div>
-              )}
-            </div>
 
-            <div className="reader-action-row">
-              <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading}>
-                <Download size={13} />
-                {pdfProgress > 0 ? `Generating... ${pdfProgress}%` : pdfLoading ? 'Preparing PDF...' : 'Download PDF'}
-              </button>
-              <a
-                href={generateUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                Generate My Own Version
-                <ExternalLink size={11} />
-              </a>
+              <div className="reader-action-row">
+                <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading}>
+                  <Download size={13} />
+                  {pdfProgress > 0 ? `Generating... ${pdfProgress}%` : pdfLoading ? 'Preparing PDF...' : 'Download PDF'}
+                </button>
+                <a href={generateUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                  Generate My Own Version <ExternalLink size={11} />
+                </a>
+              </div>
             </div>
           </div>
 
-          {/* Introduction */}
-          {(() => {
-            const intro = extractSection(book.finalBook, 'Introduction');
-            if (!intro) return null;
-            return (
-              <div className="reader-chapter reader-section-intro" ref={introRef}>
-                <div className="chapter-header-badge">
-                  <span className="chapter-badge-tag">OVERVIEW</span>
+          {/* ── Reading Well ── */}
+          <div className="reader-reading-well">
+
+            {(() => {
+              const intro = extractSection(book.finalBook, 'Introduction');
+              if (!intro) return null;
+              return (
+                <div className="reader-chapter reader-section-intro" ref={introRef}>
+                  <div className="chapter-ghost-num" aria-hidden="true">00</div>
+                  <div className="chapter-header-meta">
+                    <span className="reader-chapter-number">Overview</span>
+                  </div>
+                  <h2 className="reader-chapter-title">Introduction</h2>
+                  <div className="reader-chapter-body drop-cap" dangerouslySetInnerHTML={{ __html: renderMd(intro, book.edition) }} />
+                  <div className="chapter-divider" />
                 </div>
-                <h2 className="reader-chapter-title">Introduction</h2>
+              );
+            })()}
+
+            {book.modules.map((mod, i) => {
+              const chapterEstTime = Math.max(1, Math.ceil(mod.wordCount / 220));
+              return (
                 <div
-                  className="reader-chapter-body drop-cap"
-                  dangerouslySetInnerHTML={{ __html: renderMd(intro, book.edition) }}
-                />
-                <div className="chapter-divider" />
-              </div>
-            );
-          })()}
-
-          {/* Chapters */}
-          {book.modules.map((mod, i) => {
-            const chapterEstTime = Math.max(1, Math.ceil(mod.wordCount / 220));
-
-            return (
-              <div
-                key={i}
-                className={`reader-chapter edition-${book.edition || 'stellar'}`}
-                ref={el => { chapterRefs.current[i] = el; }}
-              >
-                <div className="chapter-header-meta">
-                  <span className="reader-chapter-number">Chapter {String(i + 1).padStart(2, '0')}</span>
-                  <span className="chapter-read-est"><Clock size={11} /> ~{chapterEstTime} min read</span>
+                  key={i}
+                  className={`reader-chapter edition-${book.edition || 'stellar'}`}
+                  ref={el => { chapterRefs.current[i] = el; }}
+                >
+                  <div className="chapter-ghost-num" aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <div className="chapter-header-meta">
+                    <span className="reader-chapter-number">Chapter {String(i + 1).padStart(2, '0')}</span>
+                    <span className="chapter-read-est"><Clock size={11} /> ~{chapterEstTime} min read</span>
+                  </div>
+                  <h2 className="reader-chapter-title">{mod.title}</h2>
+                  <div className="reader-chapter-body drop-cap" dangerouslySetInnerHTML={{ __html: renderMd(cleanChapterContent(mod.content, mod.title), book.edition) }} />
+                  <div className="chapter-divider" />
                 </div>
+              );
+            })}
 
-                <h2 className="reader-chapter-title">{mod.title}</h2>
-                
-                <div
-                  className="reader-chapter-body drop-cap"
-                  dangerouslySetInnerHTML={{ __html: renderMd(cleanChapterContent(mod.content, mod.title), book.edition) }}
-                />
-
-                <div className="chapter-divider" />
-              </div>
-            );
-          })}
-
-          {/* Summary */}
-          {(() => {
-            const summary = extractSection(book.finalBook, 'Summary');
-            if (!summary) return null;
-            return (
-              <div className="reader-chapter reader-section-summary" ref={summaryRef}>
-                <div className="chapter-header-badge">
-                  <span className="chapter-badge-tag summary-tag">KEY RECAP</span>
+            {(() => {
+              const summary = extractSection(book.finalBook, 'Summary');
+              if (!summary) return null;
+              return (
+                <div className="reader-chapter reader-section-summary" ref={summaryRef}>
+                  <div className="chapter-ghost-num" aria-hidden="true">★</div>
+                  <div className="chapter-header-meta">
+                    <span className="reader-chapter-number summary-num">Key Recap</span>
+                  </div>
+                  <h2 className="reader-chapter-title">Summary</h2>
+                  <div className="reader-chapter-body" dangerouslySetInnerHTML={{ __html: renderMd(summary, book.edition) }} />
+                  <div className="chapter-divider" />
                 </div>
-                <h2 className="reader-chapter-title">Summary</h2>
-                <div
-                  className="reader-chapter-body"
-                  dangerouslySetInnerHTML={{ __html: renderMd(summary, book.edition) }}
-                />
-                <div className="chapter-divider" />
-              </div>
-            );
-          })()}
+              );
+            })()}
 
-          {/* Glossary */}
-          {(() => {
-            const glossary = extractSection(book.finalBook, 'Glossary');
-            if (!glossary) return null;
-            return (
-              <div className="reader-chapter reader-section-glossary" ref={glossaryRef}>
-                <div className="chapter-header-badge">
-                  <span className="chapter-badge-tag glossary-tag">REFERENCE</span>
+            {(() => {
+              const glossary = extractSection(book.finalBook, 'Glossary');
+              if (!glossary) return null;
+              return (
+                <div className="reader-chapter reader-section-glossary" ref={glossaryRef}>
+                  <div className="chapter-ghost-num" aria-hidden="true">§</div>
+                  <div className="chapter-header-meta">
+                    <span className="reader-chapter-number glossary-num">Reference</span>
+                  </div>
+                  <h2 className="reader-chapter-title">Glossary</h2>
+                  <div className="reader-chapter-body" dangerouslySetInnerHTML={{ __html: renderMd(glossary, book.edition) }} />
                 </div>
-                <h2 className="reader-chapter-title">Glossary</h2>
-                <div
-                  className="reader-chapter-body"
-                  dangerouslySetInnerHTML={{ __html: renderMd(glossary, book.edition) }}
-                />
-              </div>
-            );
-          })()}
+              );
+            })()}
 
-          {/* CTA at bottom */}
-          <div className="reader-cta-box">
-            <div className="cta-sparkle">✨</div>
-            <h3>Want a book made just for you?</h3>
-            <p>
-              Generate a fully custom book on any topic — your complexity level, your goals,
-              your learning style. Free to try on Pustakam.
-            </p>
-            <div className="reader-cta-row">
-              <a
-                href={generateUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary"
-              >
-                Generate on Pustakam
-              </a>
-              <Link to="/library" className="btn-secondary">
-                ← Browse More Books
-              </Link>
+            <div className="reader-cta-box">
+              <div className="cta-sparkle">✨</div>
+              <h3>Want a book made just for you?</h3>
+              <p>
+                Generate a fully custom book on any topic — your complexity level, your goals,
+                your learning style. Free to try on Pustakam.
+              </p>
+              <div className="reader-cta-row">
+                <a href={generateUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+                  Generate on Pustakam
+                </a>
+                <Link to="/library" className="btn-secondary">← Browse More Books</Link>
+              </div>
             </div>
+
           </div>
         </main>
       </div>
@@ -1544,14 +1495,7 @@ export default function BookReaderPage() {
           <span className="lv5-footer__copy">© {new Date().getFullYear()} Tanmay Kalbande</span>
           <div className="lv5-footer__socials">
             {socialLinks.map(l => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="lv5-footer__social"
-                aria-label={l.label}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a key={l.href} href={l.href} className="lv5-footer__social" aria-label={l.label} target="_blank" rel="noopener noreferrer">
                 <i className={l.icon} />
               </a>
             ))}
