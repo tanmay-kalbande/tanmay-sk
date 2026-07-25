@@ -42,13 +42,16 @@ export interface BookFile {
  */
 function extractSection(finalBook: string | undefined, sectionName: string): string | null {
   if (!finalBook) return null;
-  const regex = new RegExp(`##\\s+${sectionName}\\s*\n([\\s\\S]*?)(?=\n#{1,2}\\s+|$)`, 'i');
-  const match = finalBook.match(regex);
-  if (!match || !match[1]) return null;
-  let content = match[1].trim();
-  content = content.replace(/(\n\s*---\s*)+$/, '').trim();
-  // Skip if too short (likely empty or just a placeholder)
-  return content.length > 50 ? content : null;
+  try {
+    const regex = new RegExp(`##\\s+${sectionName}\\s*\n([\\s\\S]*?)(?=\n#{1,2}\\s+|$)`, 'i');
+    const match = finalBook.match(regex);
+    if (!match || !match[1]) return null;
+    let content = match[1].trim();
+    content = content.replace(/(\n\s*---\s*)+$/, '').trim();
+    return content.length > 50 ? content : null;
+  } catch (err) {
+    return null;
+  }
 }
 
 const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
@@ -112,7 +115,7 @@ function stripLeadingDuplicateHeading(content: string, moduleTitle: string): str
   if (!headingMatch) return content;
 
   const headingText = headingMatch[1].trim().toLowerCase();
-  const titleText = moduleTitle.trim().toLowerCase();
+  const titleText = (moduleTitle || '').trim().toLowerCase();
   
   const overlaps = titleText.length > 0 && (
     headingText.includes(titleText.slice(0, 15)) || titleText.includes(headingText.slice(0, 15))
@@ -125,16 +128,22 @@ function stripLeadingDuplicateHeading(content: string, moduleTitle: string): str
 
 function cleanChapterContent(content: string, moduleTitle: string): string {
   if (!content) return '';
-  let cleaned = stripLeadingDuplicateHeading(content, moduleTitle);
-  cleaned = cleaned.replace(/^(\s*---\s*\n)+/, '').replace(/(\n\s*---\s*)+$/, '').trim();
-  return cleaned;
+  try {
+    let cleaned = stripLeadingDuplicateHeading(content, moduleTitle);
+    cleaned = cleaned.replace(/^(\s*---\s*\n)+/, '').replace(/(\n\s*---\s*)+$/, '').trim();
+    return cleaned;
+  } catch (err) {
+    return content || '';
+  }
 }
 
 // ── Enhanced Markdown renderer with callout detection & mermaid prep ──
 function renderMd(md: string, edition?: string): string {
+  if (!md) return '';
   // Preprocess to clean up nested headings like "### **### Heading**" or "### ### Heading"
   const cleanedMd = md.replace(/^(\s*#{1,6}\s+)(?:\*\*\s*)?#{1,6}\s*(.*?)(?:\s*\*\*\s*)?\r?$/gm, '$1$2');
-  let html = marked.parse(cleanedMd, { breaks: true, gfm: true }) as string;
+  let rawParsed: any = marked.parse(cleanedMd, { breaks: true, gfm: true, async: false });
+  let html = typeof rawParsed === 'string' ? rawParsed : String(rawParsed || '');
 
   // Post-process callout blocks: detect emoji patterns in blockquotes and add CSS classes
   html = html.replace(
@@ -1454,7 +1463,7 @@ export default function BookReaderPage() {
                     INT
                   </button>
                 )}
-                {book.modules.map((mod, i) => (
+                {(book.modules || []).map((mod, i) => (
                   <button
                     key={i}
                     className={`collapsed-num-btn ${activeChapter === i ? 'active' : ''}`}
@@ -1497,7 +1506,7 @@ export default function BookReaderPage() {
                   Introduction
                 </button>
               )}
-              {book.modules.map((mod, i) => (
+              {(book.modules || []).map((mod, i) => (
                 <button
                   key={i}
                   className={`reader-toc-item ${activeChapter === i ? 'active' : ''}`}
@@ -1613,7 +1622,7 @@ export default function BookReaderPage() {
             })()}
 
             {/* Chapters */}
-            {book.modules.map((mod, i) => (
+            {(book.modules || []).map((mod, i) => (
               <div
                 key={i}
                 className={`reader-chapter edition-${book.edition || 'stellar'}`}
@@ -1622,7 +1631,7 @@ export default function BookReaderPage() {
                 <div className="reader-chapter-head">
                   <span className="reader-chapter-ghost" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
                   <div className="reader-chapter-head-text">
-                    <p className="reader-chapter-number">Chapter {i + 1} of {book.modules.length}</p>
+                    <p className="reader-chapter-number">Chapter {i + 1} of {book.modules?.length || 0}</p>
                     <h2 className="reader-chapter-title">{mod.title}</h2>
                   </div>
                 </div>
