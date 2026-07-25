@@ -4,7 +4,8 @@ import { marked } from 'marked';
 
 import {
   ArrowLeft, Clock, FileText, BookOpen,
-  Download, ExternalLink, Check, Calendar, Sun, Moon
+  Download, ExternalLink, Check, Calendar, Sun, Moon,
+  Type, Minus, Plus, ArrowUp
 } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import '../styles/library.css';
@@ -89,6 +90,14 @@ function getSectionBadgeClass(headingText: string, edition?: string): string | n
   }
   return null;
 }
+
+const EDITION_LABEL: Record<string, string> = {
+  street: '🔥 Street Edition',
+  desi: '🇮🇳 Desi Edition',
+  stellar: '✨ Stellar Edition',
+};
+
+const FONT_SCALE_LABELS = ['S', 'M', 'L', 'XL'];
 
 function stripLeadingDuplicateHeading(content: string, moduleTitle: string): string {
   const lines = content.split('\n');
@@ -918,11 +927,6 @@ export default function BookReaderPage() {
   const [pdfProgress, setPdfProgress] = useState(0);
   const [copied, setCopied] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [fontSize, setFontSize] = useState<'normal' | 'large' | 'xlarge'>('normal');
-  const [fontFamily, setFontFamily] = useState<'serif' | 'sans'>('sans');
-  const [visitedChapters, setVisitedChapters] = useState<Set<number>>(new Set());
-
   const chapterRefs = useRef<(HTMLDivElement | null)[]>([]);
   const introRef = useRef<HTMLDivElement | null>(null);
   const summaryRef = useRef<HTMLDivElement | null>(null);
@@ -932,46 +936,80 @@ export default function BookReaderPage() {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
   });
 
+  // ── Reading preferences: text size & line width, persisted like theme ──
+  const [fontSize, setFontSize] = useState<number>(() => {
+    const saved = window.localStorage.getItem('reader-font-size');
+    const n = saved ? parseInt(saved, 10) : 1;
+    return Number.isFinite(n) && n >= 0 && n <= 3 ? n : 1;
+  });
+  const [contentWidth, setContentWidth] = useState<'normal' | 'wide'>(() => {
+    return (window.localStorage.getItem('reader-width') as 'normal' | 'wide') || 'normal';
+  });
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const settingsRef = useRef<HTMLDivElement | null>(null);
+
+  // ── Scroll-driven reading progress ──
+  const [scrollPct, setScrollPct] = useState(0);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     window.localStorage.setItem('theme', theme);
   }, [theme]);
 
+  useEffect(() => {
+    window.localStorage.setItem('reader-font-size', String(fontSize));
+  }, [fontSize]);
+
+  useEffect(() => {
+    window.localStorage.setItem('reader-width', contentWidth);
+  }, [contentWidth]);
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
   };
 
-  // ── Scroll progress calculation ──
+  // Close the reading-preferences panel on outside click or Escape
   useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      if (totalHeight > 0) {
-        const currentProgress = (window.scrollY / totalHeight) * 100;
-        setScrollProgress(Math.min(100, Math.max(0, currentProgress)));
+    if (!settingsOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
+        setSettingsOpen(false);
       }
     };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setSettingsOpen(false); };
+    document.addEventListener('mousedown', onClick);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('mousedown', onClick);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [settingsOpen]);
 
-  // ── Keyboard shortcuts (J / K for next / prev chapter, Esc to library) ──
+  // Track overall scroll progress for the top progress rail, TOC rail, and back-to-top button
   useEffect(() => {
-    if (!book) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
-      if (e.key === 'j' || e.key === 'J') {
-        if (activeChapter < book.modules.length - 1) {
-          scrollToChapter(activeChapter + 1);
-        }
-      } else if (e.key === 'k' || e.key === 'K') {
-        if (activeChapter > 0) {
-          scrollToChapter(activeChapter - 1);
-        }
-      }
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        const doc = document.documentElement;
+        const scrollTop = doc.scrollTop || document.body.scrollTop;
+        const height = doc.scrollHeight - doc.clientHeight;
+        const pct = height > 0 ? Math.min(100, Math.max(0, (scrollTop / height) * 100)) : 0;
+        setScrollPct(pct);
+        setShowBackToTop(scrollTop > 640);
+        raf = 0;
+      });
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [book, activeChapter]);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [book]);
+
+
 
   useEffect(() => {
     if (!slug) return;
@@ -1061,7 +1099,7 @@ export default function BookReaderPage() {
       });
   }, [slug]);
 
-  // Track which chapter is in view & record visited chapters
+  // Track which chapter is in view
   useEffect(() => {
     if (!book) return;
     const observer = new IntersectionObserver(
@@ -1069,10 +1107,7 @@ export default function BookReaderPage() {
         entries.forEach(e => {
           if (e.isIntersecting) {
             const idx = chapterRefs.current.indexOf(e.target as HTMLDivElement);
-            if (idx !== -1) {
-              setActiveChapter(idx);
-              setVisitedChapters(prev => new Set(prev).add(idx));
-            }
+            if (idx !== -1) setActiveChapter(idx);
           }
         });
       },
@@ -1080,6 +1115,28 @@ export default function BookReaderPage() {
     );
     chapterRefs.current.forEach(el => { if (el) observer.observe(el); });
     return () => observer.disconnect();
+  }, [book]);
+
+  // Gently reveal chapters/sections as the reader scrolls to them (imperative — no re-renders)
+  useEffect(() => {
+    if (!book) return;
+    const revealEls = [
+      introRef.current, summaryRef.current, glossaryRef.current, ...chapterRefs.current,
+    ].filter(Boolean) as HTMLElement[];
+    if (revealEls.length === 0) return;
+    const reveal = new IntersectionObserver(
+      entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            reveal.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -8% 0px' }
+    );
+    revealEls.forEach(el => reveal.observe(el));
+    return () => reveal.disconnect();
   }, [book]);
 
   // Mermaid diagram rendering — lazy-load from CDN only when needed
@@ -1150,7 +1207,7 @@ export default function BookReaderPage() {
       <div className="reader-root">
         <div className="lib-loading" style={{ height: '100vh' }}>
           <div className="lib-spinner" />
-          Preparing Reader Experience...
+          Loading book...
         </div>
       </div>
     );
@@ -1175,77 +1232,101 @@ export default function BookReaderPage() {
   }
 
   return (
-    <div className={`reader-root font-${fontFamily} size-${fontSize}`}>
-      {/* Scroll Reading Progress Bar */}
-      <div
-        className="reading-progress-bar"
-        style={{ width: `${scrollProgress}%` }}
-        aria-hidden="true"
-      />
+    <div className="reader-root" data-font-size={fontSize} data-width={contentWidth}>
+      {/* Reading progress rail */}
+      <div className="reader-progress-track" aria-hidden="true">
+        <div className="reader-progress-fill" style={{ width: `${scrollPct}%` }} />
+      </div>
 
-      {/* Nav Header */}
+      {/* Nav */}
       <nav className="lib-nav">
         <Link to="/library" className="lib-nav-back">
           <ArrowLeft size={12} /> Library
         </Link>
-
-        <div className="lib-nav-title" title={book.title}>
-          <span className="lib-nav-title-text">{book.title}</span>
-        </div>
-
         <div className="lib-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          {/* Typography Controls Toggle */}
-          <div className="typo-controls">
+          <div className="reader-settings" ref={settingsRef}>
             <button
-              className={`typo-btn ${fontFamily === 'serif' ? 'active' : ''}`}
-              onClick={() => setFontFamily(prev => prev === 'serif' ? 'sans' : 'serif')}
-              title="Toggle Serif / Sans Font"
+              className="nav-icon-btn"
+              onClick={() => setSettingsOpen(o => !o)}
+              aria-label="Reading preferences"
+              aria-expanded={settingsOpen}
             >
-              {fontFamily === 'serif' ? 'Serif' : 'Sans'}
+              <Type size={15} />
             </button>
-            <button
-              className="typo-btn"
-              onClick={() => setFontSize(prev => prev === 'normal' ? 'large' : prev === 'large' ? 'xlarge' : 'normal')}
-              title="Adjust Font Size"
-            >
-              A{fontSize === 'large' ? '+' : fontSize === 'xlarge' ? '++' : ''}
-            </button>
+            {settingsOpen && (
+              <div className="reader-settings-panel" role="dialog" aria-label="Reading preferences">
+                <div className="reader-settings-row">
+                  <span className="reader-settings-label">Text size</span>
+                  <div className="reader-settings-stepper">
+                    <button
+                      onClick={() => setFontSize(f => Math.max(0, f - 1))}
+                      disabled={fontSize === 0}
+                      aria-label="Decrease text size"
+                    >
+                      <Minus size={12} />
+                    </button>
+                    <span className="reader-settings-value">{FONT_SCALE_LABELS[fontSize]}</span>
+                    <button
+                      onClick={() => setFontSize(f => Math.min(3, f + 1))}
+                      disabled={fontSize === 3}
+                      aria-label="Increase text size"
+                    >
+                      <Plus size={12} />
+                    </button>
+                  </div>
+                </div>
+                <div className="reader-settings-row">
+                  <span className="reader-settings-label">Line width</span>
+                  <div className="reader-settings-toggle">
+                    <button
+                      className={contentWidth === 'normal' ? 'active' : ''}
+                      onClick={() => setContentWidth('normal')}
+                    >
+                      Comfortable
+                    </button>
+                    <button
+                      className={contentWidth === 'wide' ? 'active' : ''}
+                      onClick={() => setContentWidth('wide')}
+                    >
+                      Wide
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-
           <button
-            className="theme-toggle-btn"
+            className="nav-icon-btn"
             onClick={toggleTheme}
             aria-label="Toggle theme"
-            style={{
-              background: 'transparent',
-              border: 'none',
-              color: 'var(--ink-2)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '6px',
-              borderRadius: '50%',
-              marginRight: '4px',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.color = 'var(--ink)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'var(--ink-2)'}
           >
             {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
           </button>
-
-          <button className="btn-secondary" onClick={handleCopyLink} aria-label="Share this book">
+          <button
+            className="btn-secondary"
+            onClick={handleCopyLink}
+            aria-label="Share this book"
+          >
             {copied ? <Check size={12} /> : <ExternalLink size={12} />}
             <span className="btn-text">{copied ? 'Copied' : 'Share'}</span>
           </button>
-          <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading} aria-label="Download PDF">
+          <button
+            className="btn-secondary"
+            onClick={handlePdf}
+            disabled={pdfLoading}
+            aria-label="Download PDF version"
+          >
             <Download size={12} />
             <span className="btn-text">
               {pdfProgress > 0 ? `${pdfProgress}%` : pdfLoading ? 'Preparing...' : 'PDF'}
             </span>
           </button>
-          <a href={generateUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
+          <a
+            href={generateUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
             <span className="btn-text-desktop">Generate My Version</span>
             <span className="btn-text-mobile">Generate</span>
           </a>
@@ -1254,236 +1335,222 @@ export default function BookReaderPage() {
 
       {/* Layout */}
       <div className="reader-layout">
-
-        {/* ── TOC Sidebar ── */}
+        {/* TOC Sidebar */}
         <aside className={`reader-toc ${tocOpen ? 'open' : ''}`}>
-          <div className="reader-toc-progress-track">
-            <div className="reader-toc-progress-fill" style={{ height: `${scrollProgress}%` }} />
-          </div>
-
           <div className="reader-toc-header" onClick={() => setTocOpen(!tocOpen)}>
-            <div>
-              <h3>Contents</h3>
-              <span className="reader-toc-sub">{Math.round(scrollProgress)}% read</span>
-            </div>
+            <h3>Contents</h3>
+            <span className="reader-toc-progress-pct">{Math.round(scrollPct)}%</span>
             <span className="reader-toc-toggle-icon">{tocOpen ? '−' : '+'}</span>
           </div>
-
-          <div className="reader-toc-list">
-            {extractSection(book.finalBook, 'Introduction') && (
-              <button
-                className={`reader-toc-item ${activeChapter === -1 ? 'active' : ''}`}
-                onClick={() => {
-                  introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                  setTocOpen(false);
-                }}
-              >
-                <span className="toc-item-indicator" />
-                <span className="toc-item-label">Introduction</span>
-              </button>
-            )}
-            {book.modules.map((mod, i) => {
-              const isVisited = visitedChapters.has(i);
-              const isActive = activeChapter === i;
-              const chapterReadTime = Math.max(1, Math.ceil(mod.wordCount / 220));
-              return (
+          <div className="reader-toc-rail-wrap">
+            <div className="reader-toc-rail" aria-hidden="true">
+              <div className="reader-toc-rail-fill" style={{ height: `${scrollPct}%` }} />
+            </div>
+            <div className="reader-toc-list">
+              {extractSection(book.finalBook, 'Introduction') && (
+                <button
+                  className={`reader-toc-item reader-toc-item--label ${activeChapter === -1 ? 'active' : ''}`}
+                  onClick={() => {
+                    introRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTocOpen(false);
+                  }}
+                >
+                  Introduction
+                </button>
+              )}
+              {book.modules.map((mod, i) => (
                 <button
                   key={i}
-                  className={`reader-toc-item ${isActive ? 'active' : ''} ${isVisited ? 'visited' : ''}`}
-                  onClick={() => { scrollToChapter(i); setTocOpen(false); }}
+                  className={`reader-toc-item ${activeChapter === i ? 'active' : ''}`}
+                  onClick={() => {
+                    scrollToChapter(i);
+                    setTocOpen(false);
+                  }}
                 >
-                  <span className="toc-item-indicator">
-                    {isActive ? (
-                      <span className="toc-dot-active" />
-                    ) : isVisited ? (
-                      <span className="toc-dot-visited">✓</span>
-                    ) : (
-                      <span className="toc-dot-unread" />
-                    )}
-                  </span>
-                  <div className="toc-item-content">
-                    <span className="toc-item-title">{i + 1}. {mod.title}</span>
-                    <span className="toc-item-meta">{chapterReadTime} min</span>
-                  </div>
+                  <span className="reader-toc-num">{String(i + 1).padStart(2, '0')}</span>
+                  <span className="reader-toc-item-title">{mod.title}</span>
                 </button>
-              );
-            })}
-            {extractSection(book.finalBook, 'Summary') && (
-              <button className="reader-toc-item" onClick={() => { summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTocOpen(false); }}>
-                <span className="toc-item-indicator" />
-                <span className="toc-item-label">Summary</span>
-              </button>
-            )}
-            {extractSection(book.finalBook, 'Glossary') && (
-              <button className="reader-toc-item" onClick={() => { glossaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }); setTocOpen(false); }}>
-                <span className="toc-item-indicator" />
-                <span className="toc-item-label">Glossary</span>
-              </button>
-            )}
+              ))}
+              {extractSection(book.finalBook, 'Summary') && (
+                <button
+                  className="reader-toc-item reader-toc-item--label"
+                  onClick={() => {
+                    summaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTocOpen(false);
+                  }}
+                >
+                  Summary
+                </button>
+              )}
+              {extractSection(book.finalBook, 'Glossary') && (
+                <button
+                  className="reader-toc-item reader-toc-item--label"
+                  onClick={() => {
+                    glossaryRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTocOpen(false);
+                  }}
+                >
+                  Glossary
+                </button>
+              )}
+            </div>
           </div>
         </aside>
 
-        {/* ── Main Content ── */}
+        {/* Main */}
         <main className="reader-main">
-
-          {/* Immersive Hero */}
-          <div className="reader-hero">
-            <div className="reader-hero-glow" aria-hidden="true" />
-            <div className="reader-hero-grid" aria-hidden="true" />
-
-            <div className="reader-hero-content">
-              <div className="reader-header-meta">
-                <span className={`reader-complexity ${book.complexity}`}>{book.complexity}</span>
-                <span className="reader-category">{book.category}</span>
-                {book.tags.slice(0, 2).map(t => (
-                  <span key={t} className="lib-tag">{t}</span>
-                ))}
-                <span className="lib-tag edition-pill" style={{
-                  borderColor: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)',
-                  color: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)'
-                }}>
-                  {book.edition === 'street' ? '🔥 Street Edition' : book.edition === 'desi' ? '🇮🇳 Desi Edition' : '✨ Stellar Edition'}
+          {/* Book Header */}
+          <div className="reader-header" data-edition={book.edition || 'stellar'}>
+            <div className="reader-header-meta">
+              <span className={`reader-complexity ${book.complexity}`}>{book.complexity}</span>
+              <span className="reader-category">{book.category}</span>
+              {book.tags.slice(0, 2).map(t => (
+                <span key={t} className="lib-tag">{t}</span>
+              ))}
+              <span className="reader-edition-tag" data-edition={book.edition || 'stellar'}>
+                {EDITION_LABEL[book.edition || 'stellar']}
+              </span>
+              {book.modelUsed && (
+                <span className="lib-tag model-tag">
+                  🤖 {book.modelUsed}
                 </span>
-                {book.modelUsed && (
-                  <span className="lib-tag model-tag">🤖 {book.modelUsed}</span>
-                )}
-              </div>
+              )}
+            </div>
 
-              <h1 className="reader-title">{book.title}</h1>
-              <p className="reader-goal">{book.goal}</p>
+            <h1 className="reader-title">{book.title}</h1>
+            <p className="reader-goal">{book.goal}</p>
 
-              <div className="reader-stats-row">
-                <div className="reader-stat-item">
-                  <Clock size={13} className="stat-icon" />
-                  <span className="stat-value">{book.readingTimeMins} min</span>
-                  <span className="stat-label">Read</span>
-                </div>
-                <div className="reader-stat-divider" />
-                <div className="reader-stat-item">
-                  <FileText size={13} className="stat-icon" />
-                  <span className="stat-value">{book.moduleCount}</span>
-                  <span className="stat-label">Chapters</span>
-                </div>
-                <div className="reader-stat-divider" />
-                <div className="reader-stat-item">
-                  <BookOpen size={13} className="stat-icon" />
-                  <span className="stat-value">{book.wordCount.toLocaleString()}</span>
-                  <span className="stat-label">Words</span>
-                </div>
-                {book.generatedAt && (
-                  <>
-                    <div className="reader-stat-divider" />
-                    <div className="reader-stat-item">
-                      <Calendar size={13} className="stat-icon" />
-                      <span className="stat-value">{formatGeneratedDate(book.generatedAt)}</span>
-                      <span className="stat-label">Published</span>
-                    </div>
-                  </>
-                )}
-              </div>
+            <div className="reader-stats">
+              <span className="reader-stat"><Clock size={13} /> {book.readingTimeMins} min read</span>
+              <span className="reader-stat-divider" aria-hidden="true" />
+              <span className="reader-stat"><FileText size={13} /> {book.moduleCount} chapters</span>
+              <span className="reader-stat-divider" aria-hidden="true" />
+              <span className="reader-stat"><BookOpen size={13} /> {book.wordCount.toLocaleString()} words</span>
+              {book.generatedAt && (
+                <>
+                  <span className="reader-stat-divider" aria-hidden="true" />
+                  <span className="reader-stat"><Calendar size={13} /> {formatGeneratedDate(book.generatedAt)}</span>
+                </>
+              )}
+            </div>
 
-              <div className="reader-action-row">
-                <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading}>
-                  <Download size={13} />
-                  {pdfProgress > 0 ? `Generating... ${pdfProgress}%` : pdfLoading ? 'Preparing PDF...' : 'Download PDF'}
-                </button>
-                <a href={generateUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                  Generate My Own Version <ExternalLink size={11} />
-                </a>
-              </div>
+            <div className="reader-action-row">
+              <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading}>
+                <Download size={13} />
+                {pdfProgress > 0 ? `Generating... ${pdfProgress}%` : pdfLoading ? 'Preparing PDF...' : 'Download PDF'}
+              </button>
+              <a
+                href={generateUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
+                Generate My Own Version
+                <ExternalLink size={11} />
+              </a>
             </div>
           </div>
 
-          {/* ── Reading Well ── */}
-          <div className="reader-reading-well">
-
-            {(() => {
-              const intro = extractSection(book.finalBook, 'Introduction');
-              if (!intro) return null;
-              return (
-                <div className="reader-chapter reader-section-intro" ref={introRef}>
-                  <div className="chapter-ghost-num" aria-hidden="true">00</div>
-                  <div className="chapter-header-meta">
-                    <span className="reader-chapter-number">Overview</span>
-                  </div>
-                  <h2 className="reader-chapter-title">Introduction</h2>
-                  <div className="reader-chapter-body drop-cap" dangerouslySetInnerHTML={{ __html: renderMd(intro, book.edition) }} />
-                  <div className="chapter-divider" />
-                </div>
-              );
-            })()}
-
-            {book.modules.map((mod, i) => {
-              const chapterEstTime = Math.max(1, Math.ceil(mod.wordCount / 220));
-              return (
+          {/* Introduction */}
+          {(() => {
+            const intro = extractSection(book.finalBook, 'Introduction');
+            if (!intro) return null;
+            return (
+              <div className="reader-chapter reader-section-intro" ref={introRef}>
+                <p className="reader-chapter-eyebrow">Introduction</p>
                 <div
-                  key={i}
-                  className={`reader-chapter edition-${book.edition || 'stellar'}`}
-                  ref={el => { chapterRefs.current[i] = el; }}
-                >
-                  <div className="chapter-ghost-num" aria-hidden="true">
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-                  <div className="chapter-header-meta">
-                    <span className="reader-chapter-number">Chapter {String(i + 1).padStart(2, '0')}</span>
-                    <span className="chapter-read-est"><Clock size={11} /> ~{chapterEstTime} min read</span>
-                  </div>
-                  <h2 className="reader-chapter-title">{mod.title}</h2>
-                  <div className="reader-chapter-body drop-cap" dangerouslySetInnerHTML={{ __html: renderMd(cleanChapterContent(mod.content, mod.title), book.edition) }} />
-                  <div className="chapter-divider" />
-                </div>
-              );
-            })}
-
-            {(() => {
-              const summary = extractSection(book.finalBook, 'Summary');
-              if (!summary) return null;
-              return (
-                <div className="reader-chapter reader-section-summary" ref={summaryRef}>
-                  <div className="chapter-ghost-num" aria-hidden="true">★</div>
-                  <div className="chapter-header-meta">
-                    <span className="reader-chapter-number summary-num">Key Recap</span>
-                  </div>
-                  <h2 className="reader-chapter-title">Summary</h2>
-                  <div className="reader-chapter-body" dangerouslySetInnerHTML={{ __html: renderMd(summary, book.edition) }} />
-                  <div className="chapter-divider" />
-                </div>
-              );
-            })()}
-
-            {(() => {
-              const glossary = extractSection(book.finalBook, 'Glossary');
-              if (!glossary) return null;
-              return (
-                <div className="reader-chapter reader-section-glossary" ref={glossaryRef}>
-                  <div className="chapter-ghost-num" aria-hidden="true">§</div>
-                  <div className="chapter-header-meta">
-                    <span className="reader-chapter-number glossary-num">Reference</span>
-                  </div>
-                  <h2 className="reader-chapter-title">Glossary</h2>
-                  <div className="reader-chapter-body" dangerouslySetInnerHTML={{ __html: renderMd(glossary, book.edition) }} />
-                </div>
-              );
-            })()}
-
-            <div className="reader-cta-box">
-              <div className="cta-sparkle">✨</div>
-              <h3>Want a book made just for you?</h3>
-              <p>
-                Generate a fully custom book on any topic — your complexity level, your goals,
-                your learning style. Free to try on Pustakam.
-              </p>
-              <div className="reader-cta-row">
-                <a href={generateUrl} target="_blank" rel="noopener noreferrer" className="btn-primary">
-                  Generate on Pustakam
-                </a>
-                <Link to="/library" className="btn-secondary">← Browse More Books</Link>
+                  className="reader-chapter-body"
+                  dangerouslySetInnerHTML={{ __html: renderMd(intro, book.edition) }}
+                />
               </div>
-            </div>
+            );
+          })()}
 
+          {/* Chapters */}
+          {book.modules.map((mod, i) => (
+            <div
+              key={i}
+              className={`reader-chapter edition-${book.edition || 'stellar'}`}
+              ref={el => { chapterRefs.current[i] = el; }}
+            >
+              <div className="reader-chapter-head">
+                <span className="reader-chapter-ghost" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <div className="reader-chapter-head-text">
+                  <p className="reader-chapter-number">Chapter {i + 1} of {book.modules.length}</p>
+                  <h2 className="reader-chapter-title">{mod.title}</h2>
+                </div>
+              </div>
+              <div
+                className="reader-chapter-body"
+                dangerouslySetInnerHTML={{ __html: renderMd(cleanChapterContent(mod.content, mod.title), book.edition) }}
+              />
+            </div>
+          ))}
+
+          {/* Summary */}
+          {(() => {
+            const summary = extractSection(book.finalBook, 'Summary');
+            if (!summary) return null;
+            return (
+              <div className="reader-chapter reader-section-summary" ref={summaryRef}>
+                <p className="reader-chapter-eyebrow">Summary</p>
+                <div
+                  className="reader-chapter-body"
+                  dangerouslySetInnerHTML={{ __html: renderMd(summary, book.edition) }}
+                />
+              </div>
+            );
+          })()}
+
+          {/* Glossary */}
+          {(() => {
+            const glossary = extractSection(book.finalBook, 'Glossary');
+            if (!glossary) return null;
+            return (
+              <div className="reader-chapter reader-section-glossary" ref={glossaryRef}>
+                <p className="reader-chapter-eyebrow">Glossary</p>
+                <div
+                  className="reader-chapter-body"
+                  dangerouslySetInnerHTML={{ __html: renderMd(glossary, book.edition) }}
+                />
+              </div>
+            );
+          })()}
+
+          {/* CTA at bottom */}
+          <div className="reader-cta-box">
+            <span className="reader-cta-eyebrow">Next up</span>
+            <h3>Want a book made just for you?</h3>
+            <p>
+              Generate a fully custom book on any topic — your complexity level, your goals,
+              your learning style. Free to try on Pustakam.
+            </p>
+            <div className="reader-cta-row">
+              <a
+                href={generateUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary"
+              >
+                Generate on Pustakam
+              </a>
+              <Link to="/library" className="btn-secondary">
+                ← Browse More Books
+              </Link>
+            </div>
           </div>
         </main>
       </div>
+
+      {/* Back to top */}
+      <button
+        className={`reader-back-to-top ${showBackToTop ? 'visible' : ''}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        aria-label="Back to top"
+        tabIndex={showBackToTop ? 0 : -1}
+      >
+        <ArrowUp size={16} />
+      </button>
 
       {/* Footer */}
       <footer className="lv5-footer">
@@ -1495,7 +1562,14 @@ export default function BookReaderPage() {
           <span className="lv5-footer__copy">© {new Date().getFullYear()} Tanmay Kalbande</span>
           <div className="lv5-footer__socials">
             {socialLinks.map(l => (
-              <a key={l.href} href={l.href} className="lv5-footer__social" aria-label={l.label} target="_blank" rel="noopener noreferrer">
+              <a
+                key={l.href}
+                href={l.href}
+                className="lv5-footer__social"
+                aria-label={l.label}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <i className={l.icon} />
               </a>
             ))}
@@ -1505,4 +1579,3 @@ export default function BookReaderPage() {
     </div>
   );
 }
-
