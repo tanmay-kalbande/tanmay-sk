@@ -263,7 +263,7 @@ export default function LibraryPage() {
       {/* Main Split Layout */}
       <div className="lib-layout">
         {/* Left Sidebar */}
-        <aside className="lib-sidebar">
+        <aside className={`lib-sidebar ${showAllCategories ? 'expanded' : ''}`}>
           <div className="lib-sidebar-section">
             <h3>Search Library</h3>
             <div className="lib-search-wrap">

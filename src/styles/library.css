@@ -123,11 +123,16 @@ html[data-theme="dark"] .reader-root,
   z-index: 0;
 }
 
-.lib-root .lib-nav,
 .lib-root .lib-layout,
 .lib-root .lv5-footer {
   position: relative;
   z-index: 1;
+}
+
+.lib-root .lib-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 /* ── Navigation ────────────────────────────────────────────────────────────── */
@@ -135,7 +140,7 @@ html[data-theme="dark"] .reader-root,
 .lib-nav {
   position: sticky;
   top: 0;
-  z-index: 100;
+  z-index: 1000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -294,10 +299,32 @@ html[data-theme="light"] .lib-nav-brand span { color: #111111 !important; }
   height: calc(100vh - 52px);
   padding: 32px 24px;
   border-right: 1px solid var(--border);
-  overflow-y: auto;
+  overflow-y: hidden;
   display: flex;
   flex-direction: column;
   gap: 28px;
+}
+
+.lib-sidebar.expanded {
+  overflow-y: auto;
+}
+
+/* Custom sleek scrollbar for expanded sidebar */
+.lib-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.lib-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lib-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.lib-sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
 }
 
 .lib-sidebar-section h3 {
