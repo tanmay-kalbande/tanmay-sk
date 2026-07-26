@@ -30,9 +30,9 @@ on:
         required: false
         default: '1'
       max_books:
-        description: '📖 Codices to Synthesize (Default: 30)'
+        description: '📖 Codices to Synthesize (Default: 20)'
         required: false
-        default: '30'
+        default: '20'
 
 # ── Orbital Lock: Ensures zero matrix collision during synthesis ───────────
 concurrency:
