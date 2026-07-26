@@ -1605,6 +1605,16 @@ html[data-theme="light"] .reader-stats {
   background: var(--border);
   flex-shrink: 0;
 }
+.reader-stat-model .model-icon {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+.reader-stat-model:hover .model-icon {
+  transform: scale(1.15);
+}
 
 /* Action row */
 .reader-action-row {
