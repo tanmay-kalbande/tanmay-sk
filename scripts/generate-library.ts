@@ -43,17 +43,14 @@ const SELECTED_PROVIDER = process.env.PROVIDER || 'zai';
 
 const SELECTED_MODEL = process.env.MODEL || process.env.MODEL_NAME || '';
 
-// Collect Cerebras API keys (from list or individual secrets)
-const cerebrasKeysRaw = process.env.CEREBRAS_API_KEYS || [
-  process.env.CEREBRAS_API_KEY_1,
-  process.env.CEREBRAS_API_KEY_2,
-  process.env.CEREBRAS_API_KEY_3,
-  process.env.CEREBRAS_API_KEY_4,
-  process.env.CEREBRAS_API_KEY_5,
-  process.env.CEREBRAS_API_KEY
-].filter(Boolean).join(',');
+// Collect Cerebras API keys (dynamically detects CEREBRAS_API_KEYS, CEREBRAS_API_KEY_1..10, etc.)
+const cerebrasEnvKeys = Object.keys(process.env)
+  .filter(k => k === 'CEREBRAS_API_KEYS' || k.startsWith('CEREBRAS_API_KEY'))
+  .map(k => process.env[k])
+  .filter(Boolean)
+  .join(',');
 
-const CEREBRAS_API_KEYS = Array.from(new Set(cerebrasKeysRaw.split(',').map(k => k.trim()).filter(Boolean)));
+const CEREBRAS_API_KEYS = Array.from(new Set(cerebrasEnvKeys.split(',').map(k => k.trim()).filter(Boolean)));
 let activeCerebrasKeyIndex = 0;
 
 function getActiveCerebrasKey(): string {
@@ -82,7 +79,9 @@ if (SELECTED_PROVIDER === 'mistral') {
 } else if (SELECTED_PROVIDER === 'cerebras') {
   const validCerebrasModels = ['gemma-4-31b', 'zai-glm-4.7', 'gpt-oss-120b'];
   const modelToUse = validCerebrasModels.includes(SELECTED_MODEL) ? SELECTED_MODEL : '';
-  primaryModel = modelToUse || process.env.CEREBRAS_MODEL || 'gemma-4-31b';
+  const envModelRaw = process.env.CEREBRAS_MODEL || '';
+  const envModel = validCerebrasModels.includes(envModelRaw) ? envModelRaw : '';
+  primaryModel = modelToUse || envModel || 'gemma-4-31b';
   primaryApiUrl = 'https://api.cerebras.ai/v1/chat/completions';
   primaryApiKey = getActiveCerebrasKey();
   primaryProviderName = 'cerebras';
@@ -464,11 +463,16 @@ async function callAI(
         CONFIG.PRIMARY_API_KEY = nextKey;
       }
       if (res.status === 404 && model === 'gemma-4-31b') {
-        console.log(`  🔄 Model gemma-4-31b returned 404 on Cerebras, switching fallback to gpt-oss-120b...`);
+        // gemma-4-31b is a Preview model — this key may not have access.
+        // Switch BOTH the global config AND the local model variable so
+        // withRetry's next attempt actually sends gpt-oss-120b, not gemma-4-31b.
+        console.log(`  🔄 gemma-4-31b returned 404 on Cerebras (Preview access denied), switching to gpt-oss-120b...`);
         if (CONFIG.PRIMARY_MODEL === 'gemma-4-31b') CONFIG.PRIMARY_MODEL = 'gpt-oss-120b';
+        model = 'gpt-oss-120b';
       }
       const e: any = new Error(`${provider} ${res.status}: ${(await res.text()).slice(0, 200)}`);
       e.status = res.status;
+      e.retryModel = model; // carry updated model through to next withRetry attempt
       if (!useFallback) primaryConsecutiveFailures++;
       throw e;
     }

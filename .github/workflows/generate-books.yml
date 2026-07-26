@@ -30,9 +30,9 @@ on:
         required: false
         default: '1'
       max_books:
-        description: '📖 Codices to Synthesize (Default: 10)'
+        description: '📖 Codices to Synthesize (Default: 30)'
         required: false
-        default: '10'
+        default: '30'
 
 # ── Orbital Lock: Ensures zero matrix collision during synthesis ───────────
 concurrency:
@@ -125,7 +125,7 @@ jobs:
           echo "🌌 Pustakam Universal Generator (V5 Core)"
           echo "🕐 Telemetry Timestamp: $(date -u '+%Y-%m-%d %H:%M UTC')"
           echo "📖 Codex Dimension: ${{ github.event.inputs.edition || 'stellar' }}"
-          echo "🤖 Neural Core Engine: ${{ github.event.inputs.provider || 'zai' }} (${{ github.event.inputs.model || 'glm-5.2' }})"
+          echo "🤖 Neural Core Engine: cerebras (gemma-4-31b ⇄ gpt-oss-120b 50/50 split)"
           echo "⚡ Active Channels: ${{ github.event.inputs.concurrency || '1' }}"
           echo "📁 Target Vault Path: pustakam-books-data/"
           EXISTING=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
@@ -137,28 +137,34 @@ jobs:
         env:
           MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
           ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
-          CEREBRAS_API_KEY:  ${{ secrets.CEREBRAS_API_KEY }}
+          CEREBRAS_API_KEYS:  ${{ secrets.CEREBRAS_API_KEYS }}
+          CEREBRAS_API_KEY:   ${{ secrets.CEREBRAS_API_KEY }}
           CEREBRAS_API_KEY_1: ${{ secrets.CEREBRAS_API_KEY_1 }}
           CEREBRAS_API_KEY_2: ${{ secrets.CEREBRAS_API_KEY_2 }}
           CEREBRAS_API_KEY_3: ${{ secrets.CEREBRAS_API_KEY_3 }}
           CEREBRAS_API_KEY_4: ${{ secrets.CEREBRAS_API_KEY_4 }}
           CEREBRAS_API_KEY_5: ${{ secrets.CEREBRAS_API_KEY_5 }}
+          CEREBRAS_API_KEY_6: ${{ secrets.CEREBRAS_API_KEY_6 }}
+          CEREBRAS_API_KEY_7: ${{ secrets.CEREBRAS_API_KEY_7 }}
+          CEREBRAS_API_KEY_8: ${{ secrets.CEREBRAS_API_KEY_8 }}
+          CEREBRAS_API_KEY_9: ${{ secrets.CEREBRAS_API_KEY_9 }}
+          CEREBRAS_API_KEY_10: ${{ secrets.CEREBRAS_API_KEY_10 }}
           ZAI_MODEL:         'glm-5.2'
           MODEL:             ''
           SITE_URL:          'https://tanmaysk.in'
           PROVIDER:          'cerebras'
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '1' }}
-          MAX_BOOKS:         ${{ github.event.inputs.max_books || '10' }}
+          MAX_BOOKS:         ${{ github.event.inputs.max_books || '30' }}
           STREET_LANG:       ${{ github.event.inputs.street_lang || 'english' }}
           OUTPUT_DIR:        'pustakam-books-data'
           CI:                'true'
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Running manual dispatch: generating 10 ${{ github.event.inputs.edition || 'stellar' }} editions via Cerebras with 50/50 model split"
-            MAX_BOOKS="${{ github.event.inputs.max_books || '10' }}" EDITION="${{ github.event.inputs.edition || 'stellar' }}" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
+            echo "Running manual dispatch: generating ${{ github.event.inputs.max_books || '30' }} ${{ github.event.inputs.edition || 'stellar' }} editions via Cerebras with 50/50 model split"
+            MAX_BOOKS="${{ github.event.inputs.max_books || '30' }}" EDITION="${{ github.event.inputs.edition || 'stellar' }}" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
           else
-            echo "Running scheduled run: generating 10 stellar editions with 50/50 model split across Cerebras key pool"
-            MAX_BOOKS="10" EDITION="stellar" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
+            echo "Running scheduled run: generating 30 stellar editions with 50/50 model split across Cerebras key pool"
+            MAX_BOOKS="30" EDITION="stellar" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
           fi
 
       # ── 9. Sync Sitemap back to Main Repo ───────────────────────────────────
