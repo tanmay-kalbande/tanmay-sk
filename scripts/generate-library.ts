@@ -43,6 +43,32 @@ const SELECTED_PROVIDER = process.env.PROVIDER || 'zai';
 
 const SELECTED_MODEL = process.env.MODEL || process.env.MODEL_NAME || '';
 
+// Collect Cerebras API keys (from list or individual secrets)
+const cerebrasKeysRaw = process.env.CEREBRAS_API_KEYS || [
+  process.env.CEREBRAS_API_KEY_1,
+  process.env.CEREBRAS_API_KEY_2,
+  process.env.CEREBRAS_API_KEY_3,
+  process.env.CEREBRAS_API_KEY_4,
+  process.env.CEREBRAS_API_KEY_5,
+  process.env.CEREBRAS_API_KEY
+].filter(Boolean).join(',');
+
+const CEREBRAS_API_KEYS = Array.from(new Set(cerebrasKeysRaw.split(',').map(k => k.trim()).filter(Boolean)));
+let activeCerebrasKeyIndex = 0;
+
+function getActiveCerebrasKey(): string {
+  if (CEREBRAS_API_KEYS.length === 0) return '';
+  return CEREBRAS_API_KEYS[activeCerebrasKeyIndex % CEREBRAS_API_KEYS.length];
+}
+
+function rotateCerebrasKey(): string {
+  if (CEREBRAS_API_KEYS.length <= 1) return getActiveCerebrasKey();
+  activeCerebrasKeyIndex = (activeCerebrasKeyIndex + 1) % CEREBRAS_API_KEYS.length;
+  const newKey = CEREBRAS_API_KEYS[activeCerebrasKeyIndex];
+  console.log(`  🔄 Rate limit hit! Rotated to Cerebras API Key #${activeCerebrasKeyIndex + 1} of ${CEREBRAS_API_KEYS.length}`);
+  return newKey;
+}
+
 let primaryModel = SELECTED_MODEL || process.env.ZAI_MODEL || 'glm-5.2';
 let primaryApiUrl = 'https://api.z.ai/api/paas/v4/chat/completions';
 let primaryApiKey = process.env.ZAI_API_KEY || '';
@@ -56,7 +82,7 @@ if (SELECTED_PROVIDER === 'mistral') {
 } else if (SELECTED_PROVIDER === 'cerebras') {
   primaryModel = SELECTED_MODEL || process.env.CEREBRAS_MODEL || 'gemma-4-31b';
   primaryApiUrl = 'https://api.cerebras.ai/v1/chat/completions';
-  primaryApiKey = process.env.CEREBRAS_API_KEY || '';
+  primaryApiKey = getActiveCerebrasKey();
   primaryProviderName = 'cerebras';
 }
 
@@ -79,11 +105,11 @@ const CONFIG = {
   PRIMARY_API_KEY:       primaryApiKey,
   PRIMARY_PROVIDER:      primaryProviderName,
 
-  // Keep a separate provider available if Z.ai is temporarily unavailable.
-  FALLBACK_MODEL:        process.env.MISTRAL_FALLBACK_MODEL || 'mistral-small-2506',
-  FALLBACK_API_URL:      'https://api.mistral.ai/v1/chat/completions',
-  FALLBACK_API_KEY:      process.env.MISTRAL_API_KEY || '',
-  FALLBACK_PROVIDER:     'mistral',
+  // Fallback configuration (supports secondary Cerebras model or Mistral)
+  FALLBACK_MODEL:        process.env.CEREBRAS_FALLBACK_MODEL || (primaryProviderName === 'cerebras' ? 'gpt-oss-120b' : 'mistral-small-2506'),
+  FALLBACK_API_URL:      primaryProviderName === 'cerebras' ? 'https://api.cerebras.ai/v1/chat/completions' : 'https://api.mistral.ai/v1/chat/completions',
+  FALLBACK_API_KEY:      primaryProviderName === 'cerebras' ? getActiveCerebrasKey() : (process.env.MISTRAL_API_KEY || ''),
+  FALLBACK_PROVIDER:     primaryProviderName === 'cerebras' ? 'cerebras' : 'mistral',
 
   // Cooldown between sequential module generations (ms)
   MODULE_COOLDOWN:       primaryProviderName === 'mistral' ? 3000 : 1000,
@@ -129,54 +155,100 @@ interface TopicSeed {
   language?: string;
 }
 
-// ── Category normalizer — maps AI variations to canonical slugs ─────────────
+// ── Keyword-based similarity detection ─────────────────────────────────────────
+
+/** Extract meaningful keywords from a goal/title string (strips stop words). */
+function extractKeywords(text: string): Set<string> {
+  const STOP_WORDS = new Set([
+    'a', 'an', 'the', 'to', 'for', 'of', 'in', 'on', 'and', 'or', 'with',
+    'from', 'your', 'how', 'what', 'is', 'are', 'by', 'at', 'as', 'its',
+    'that', 'this', 'it', 'be', 'do', 'get', 'has', 'have', 'you', 'our',
+    'learn', 'guide', 'complete', 'ultimate', 'step', 'stepbystep', 'step-by-step',
+    'beginners', 'beginner', 'intermediate', 'advanced', 'basics', 'basic',
+    'introduction', 'intro', 'start', 'started', 'getting', 'comprehensive',
+    'roadmap', 'practical', 'tips', 'strategies', 'techniques', 'mastering',
+    'master', 'build', 'create', 'make', 'using', 'use',
+  ]);
+  return new Set(
+    text.toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, '')
+      .split(/[\s-]+/)
+      .filter(w => w.length >= 2 && !STOP_WORDS.has(w))
+  );
+}
+
+/** Returns the fraction of keywords shared between two texts (Jaccard-ish). */
+function keywordSimilarity(a: string, b: string): number {
+  const kA = extractKeywords(a);
+  const kB = extractKeywords(b);
+  if (kA.size === 0 || kB.size === 0) return 0;
+  let overlap = 0;
+  for (const w of kA) if (kB.has(w)) overlap++;
+  // Use the SMALLER set as denominator so "Shopify Dropshipping" (2 keywords)
+  // matching against "How to Start Shopify Dropshipping Store" (3 keywords)
+  // correctly scores as 2/2 = 1.0, not 2/3 = 0.67.
+  return overlap / Math.min(kA.size, kB.size);
+}
+
+/** Filter out seeds that are too similar to existing books. */
+function filterSimilarSeeds(
+  seeds: TopicSeed[],
+  existing: Array<{ title: string; goal?: string }>,
+  threshold = 0.6
+): TopicSeed[] {
+  const existingTexts = existing.map(b => b.title + ' ' + (b.goal || ''));
+  return seeds.filter(seed => {
+    for (const existing of existingTexts) {
+      if (keywordSimilarity(seed.goal, existing) >= threshold) {
+        console.log(`  🔁 Skipping duplicate seed: "${seed.goal}" (too similar to existing book)`);
+        return false;
+      }
+    }
+    // Also check against other seeds in this batch (avoid intra-batch dupes)
+    return true;
+  });
+}
+
+/** Deduplicate seeds within the batch itself. */
+function deduplicateSeedBatch(seeds: TopicSeed[], threshold = 0.6): TopicSeed[] {
+  const kept: TopicSeed[] = [];
+  for (const seed of seeds) {
+    const isDupe = kept.some(k => keywordSimilarity(seed.goal, k.goal) >= threshold);
+    if (isDupe) {
+      console.log(`  🔁 Removing intra-batch duplicate: "${seed.goal}"`);
+    } else {
+      kept.push(seed);
+    }
+  }
+  return kept;
+}
+
+// ── Category normalizer — minimal cleanup only, AI has full freedom ──────────
 function normalizeCategory(raw: string): string {
-  const CATEGORY_MAP: Record<string, string> = {
+  // Only deduplicate obvious plural/synonym collisions — never collapse
+  // distinct topics into a generic parent. The AI picks whatever category
+  // it wants; we just clean up the slug.
+  const DEDUP_MAP: Record<string, string> = {
     'languages': 'language',
-    'tech': 'programming',
     'coding': 'programming',
-    'software': 'programming',
-    'web-development': 'programming',
-    'ml': 'ai',
-    'machine-learning': 'ai',
-    'artificial-intelligence': 'ai',
-    'deep-learning': 'ai',
-    'money': 'finance',
-    'investing': 'finance',
-    'trading': 'finance',
-    'personal-finance': 'finance',
-    'fitness': 'health',
-    'wellness': 'health',
-    'nutrition': 'health',
-    'mental-health': 'health',
-    'jobs': 'career',
-    'interview': 'career',
-    'resume': 'career',
-    'job-search': 'career',
-    'self-help': 'productivity',
-    'self-improvement': 'productivity',
-    'time-management': 'productivity',
-    'marketing': 'business',
-    'entrepreneurship': 'business',
-    'startup': 'business',
-    'freelancing': 'business',
+    'tech': 'technology',
+    'ml': 'machine-learning',
+    'ai': 'artificial-intelligence',
     'test-prep': 'exams',
     'certification': 'exams',
-    'art': 'design',
-    'graphic-design': 'design',
-    'ui-ux': 'design',
-    'food': 'cooking',
-    'baking': 'cooking',
-    'recipes': 'cooking',
-    'instruments': 'music',
-    'guitar': 'music',
-    'piano': 'music',
     'photo': 'photography',
-    'video': 'photography',
-    'editing': 'photography',
+    'recipes': 'cooking',
+    'baking': 'cooking',
+    'instruments': 'music',
+    'jobs': 'career',
+    'job-search': 'career',
+    'money': 'finance',
+    'investing': 'finance',
+    'self-help': 'personal-development',
+    'self-improvement': 'personal-development',
   };
   const slug = raw.toLowerCase().trim().replace(/\s+/g, '-');
-  return CATEGORY_MAP[slug] || slug;
+  return DEDUP_MAP[slug] || slug;
 }
 
 interface Checkpoint {
@@ -344,17 +416,18 @@ async function callAI(
   estInputTokens = 500,
   kind: RequestKind = 'chapter',
   forceFallback = false,
-  systemPrompt?: string
+  systemPrompt?: string,
+  modelOverride?: string
 ): Promise<Completion> {
   const useFallback = forceFallback || (!CONFIG.PRIMARY_API_KEY && Boolean(CONFIG.FALLBACK_API_KEY)) ||
     (primaryConsecutiveFailures >= FALLBACK_THRESHOLD && CONFIG.FALLBACK_API_KEY);
 
-  const model   = useFallback ? CONFIG.FALLBACK_MODEL   : CONFIG.PRIMARY_MODEL;
+  let model     = modelOverride || (useFallback ? CONFIG.FALLBACK_MODEL : CONFIG.PRIMARY_MODEL);
   const apiUrl  = useFallback ? CONFIG.FALLBACK_API_URL  : CONFIG.PRIMARY_API_URL;
-  const apiKey  = useFallback ? CONFIG.FALLBACK_API_KEY  : CONFIG.PRIMARY_API_KEY;
+  let apiKey    = useFallback ? (CONFIG.FALLBACK_PROVIDER === 'cerebras' ? getActiveCerebrasKey() : CONFIG.FALLBACK_API_KEY) : (CONFIG.PRIMARY_PROVIDER === 'cerebras' ? getActiveCerebrasKey() : CONFIG.PRIMARY_API_KEY);
   const provider = useFallback ? CONFIG.FALLBACK_PROVIDER : CONFIG.PRIMARY_PROVIDER;
 
-  if (!apiKey) throw new Error(`No API key configured for ${useFallback ? 'Mistral fallback' : CONFIG.PRIMARY_PROVIDER}`);
+  if (!apiKey) throw new Error(`No API key configured for ${useFallback ? 'fallback' : CONFIG.PRIMARY_PROVIDER}`);
 
   const estTotal = estInputTokens + 2000;
   await tokenBudget.acquire(estTotal);
@@ -376,6 +449,12 @@ async function callAI(
   });
 
   if (res.status === 429) {
+    if (provider === 'cerebras') {
+      const nextKey = rotateCerebrasKey();
+      if (nextKey) {
+        CONFIG.PRIMARY_API_KEY = nextKey;
+      }
+    }
     const e: any = new Error(`429 rate limited (${provider})`);
     e.status = 429;
     if (!useFallback) primaryConsecutiveFailures++;
@@ -402,9 +481,10 @@ async function callWriter(
   prompt: string,
   estInputTokens = 500,
   kind: RequestKind = 'chapter',
-  systemPrompt?: string
+  systemPrompt?: string,
+  modelOverride?: string
 ): Promise<Completion> {
-  return callAI(prompt, estInputTokens, kind, false, systemPrompt);
+  return callAI(prompt, estInputTokens, kind, false, systemPrompt, modelOverride);
 }
 
 // ── Prompts ────────────────────────────────────────────────────────────────────
@@ -816,7 +896,8 @@ function generateTableOfContents(modules: Array<{ title: string }>): string {
  */
 async function generateIntroduction(
   seed: TopicSeed,
-  roadmap: { title?: string; modules: Array<{ title: string }> }
+  roadmap: { title?: string; modules: Array<{ title: string }> },
+  modelOverride?: string
 ): Promise<string> {
   const prompt = `Generate a compelling introduction for: "${seed.goal}"
 
@@ -831,7 +912,7 @@ Write 800-1200 words covering: welcome and purpose, what readers will learn, boo
 ${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ? 'TONE: Hardcore Hinglish tapori style — gaali + gyaan combo, savage but loving. Same persona as the rest of the book. Vary your opening hook wildly based on the topic. Do NOT repeat generic lines like "Abe sun, ye introduction hai". Make it unique and directly tied to the subject matter.' : EDITION === 'street' ? 'TONE: Raw, unfiltered, street-prophet style — curse when it hits, roast the reader for even thinking about skipping the intro. Same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, knowledgeable, mentor-like. Make the reader excited about what they\'re about to learn.'}`;
 
   const result = await withRetry(
-    () => callWriter(prompt, 800, 'assemble'),
+    () => callWriter(prompt, 800, 'assemble', undefined, modelOverride),
     'introduction'
   );
   return result.text;
@@ -843,7 +924,8 @@ ${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ?
  */
 async function generateSummary(
   seed: TopicSeed,
-  modules: Array<{ title: string }>
+  modules: Array<{ title: string }>,
+  modelOverride?: string
 ): Promise<string> {
   const prompt = `Generate a summary for: "${seed.goal}"
 
@@ -855,7 +937,7 @@ Write 600-900 words covering: key learning outcomes, important concepts recap, n
 ${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ? 'TONE: Hinglish tapori wrap-up — "Bas bhai, itna seekh liya toh tu set hai. Ab jaake duniya hila." Same savage-but-proud persona.' : EDITION === 'street' ? 'TONE: Raw, street-smart, wrap-up — celebrate the reader like a psychotic coach. "You beautiful disaster, you actually made it through. Now go destroy mediocrity." Pure English, no Hindi/Hinglish.' : 'TONE: Warm, encouraging, forward-looking. Celebrate their progress and point them to next steps.'}`;
 
   const result = await withRetry(
-    () => callWriter(prompt, 600, 'assemble'),
+    () => callWriter(prompt, 600, 'assemble', undefined, modelOverride),
     'summary'
   );
   return result.text;
@@ -866,7 +948,8 @@ ${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ?
  * Ported from Pustakam bookService.ts generateGlossary()
  */
 async function generateGlossarySection(
-  modules: Array<{ title: string; content: string }>
+  modules: Array<{ title: string; content: string }>,
+  modelOverride?: string
 ): Promise<string> {
   // Extract signal lines from module content
   const uniqueSignals = Array.from(new Set(
@@ -898,7 +981,7 @@ Format:
 **Term**: Definition.`;
 
   try {
-    const result = await callWriter(primaryPrompt, 1200, 'glossary');
+    const result = await callWriter(primaryPrompt, 1200, 'glossary', undefined, modelOverride);
     return result.text;
   } catch (primaryError) {
     console.warn('  ⚠️  Primary glossary prompt failed, retrying with smaller seed set...');
@@ -923,7 +1006,7 @@ Format:
 **Term**: Definition.`;
 
   try {
-    const result = await callWriter(fallbackPrompt, 800, 'glossary');
+    const result = await callWriter(fallbackPrompt, 800, 'glossary', undefined, modelOverride);
     return result.text;
   } catch (fallbackError) {
     console.warn('  ⚠️  Fallback glossary prompt also failed, building local glossary...');
@@ -1000,9 +1083,15 @@ function parseJSON(raw: string): any {
 // ── Core generator ─────────────────────────────────────────────────────────────
 
 async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' | 'fail'> {
+  // Determine model for this book (50/50 split between gemma-4-31b and gpt-oss-120b if Cerebras)
+  let targetModel: string | undefined = undefined;
+  if (CONFIG.PRIMARY_PROVIDER === 'cerebras' && !SELECTED_MODEL) {
+    targetModel = workerIndex % 2 === 1 ? 'gemma-4-31b' : 'gpt-oss-120b';
+  }
+
   // Slug will be regenerated from roadmap title after roadmap is generated
   let slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
-  const tag = `[W${workerIndex}]`;
+  const tag = `[W${workerIndex}]${targetModel ? ` [${targetModel}]` : ''}`;
   const modelsUsed = new Set<string>();
 
   // ─── Step 1: Roadmap ────────────────────────────────────────────────────────
@@ -1010,7 +1099,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
   try {
     roadmap = await withRetry(
       async () => {
-        const result = await callWriter(buildRoadmapPrompt(seed), 500, 'roadmap');
+        const result = await callWriter(buildRoadmapPrompt(seed), 500, 'roadmap', undefined, targetModel);
         modelsUsed.add(result.model);
         const parsed = parseJSON(result.text);
         assertAndNormalizeRoadmap(parsed);  // normalises focus→description, adds estimatedTime
@@ -1022,7 +1111,15 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     // Regenerate slug from SEO-friendly roadmap title if available
     if (roadmap.title) {
       const editionPrefix = EDITION === 'desi' ? 'desi-' : EDITION === 'street' ? 'street-' : '';
-      slug = editionPrefix + toSlug(roadmap.title);
+      const newSlug = editionPrefix + toSlug(roadmap.title);
+      // Check if this roadmap-generated slug already exists (prevents duplicates
+      // when the AI generates a roadmap title similar to an existing book)
+      const existingBookPath = path.join(CONFIG.OUTPUT_DIR, 'books', `${newSlug}.json`);
+      if (fs.existsSync(existingBookPath)) {
+        console.log(`  ⏭️  ${tag} Skipping — book with slug "${newSlug}" already exists`);
+        return 'ok'; // Count as success so it doesn't retry
+      }
+      slug = newSlug;
     }
   } catch (e: any) {
     console.error(`\n❌ ${tag} roadmap failed: ${slug} — ${String(e.message).slice(0, 80)}`);
@@ -1041,7 +1138,8 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
             promptObj.userPrompt,
             1500,
             'chapter',
-            promptObj.systemPrompt
+            promptObj.systemPrompt,
+            targetModel
           );
           assertChapter(completion.text);
           return completion;
@@ -1072,17 +1170,17 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
 
   try {
     console.log(`  📝 ${tag} Generating introduction...`);
-    introduction = await generateIntroduction(seed, roadmap);
+    introduction = await generateIntroduction(seed, roadmap, targetModel);
     introduction = stripLeadingDuplicateHeading(introduction, 'Introduction');
     await sleep(CONFIG.MODULE_COOLDOWN);
 
     console.log(`  📝 ${tag} Generating summary...`);
-    summary = await generateSummary(seed, modules);
+    summary = await generateSummary(seed, modules, targetModel);
     summary = stripLeadingDuplicateHeading(summary, 'Summary');
     await sleep(CONFIG.MODULE_COOLDOWN);
 
     console.log(`  📝 ${tag} Generating glossary...`);
-    glossary = await generateGlossarySection(modules);
+    glossary = await generateGlossarySection(modules, targetModel);
   } catch (assemblyError: any) {
     console.warn(`  ⚠️  ${tag} Assembly partially failed: ${String(assemblyError?.message || assemblyError).slice(0, 100)}`);
     // Continue with whatever we have — the book still has all its chapters
@@ -1140,23 +1238,97 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
   return 'ok';
 }
 
-// ── Topic seeds (Fallback/Bootstrap seeds) ─────────────────────────────────────
+// ── Topic seeds (Fallback/Bootstrap seeds — diverse categories) ────────────────
 
 const BOOTSTRAP_SEEDS: TopicSeed[] = [
+  // Programming & Tech
   { goal: 'Learn Python programming from zero to real projects', category: 'programming', tags: ['python', 'coding'], complexity: 'beginner' },
   { goal: 'Understand data structures and algorithms for tech interviews', category: 'programming', tags: ['dsa', 'algorithms'], complexity: 'intermediate' },
-  { goal: 'Understand prompt engineering and build LLM apps', category: 'ai', tags: ['llm', 'prompt-engineering'], complexity: 'advanced' },
+  // AI
+  { goal: 'Understand prompt engineering and build LLM apps', category: 'artificial-intelligence', tags: ['llm', 'prompt-engineering'], complexity: 'advanced' },
+  // Finance
   { goal: 'Learn stock market investing for beginners in India', category: 'finance', tags: ['stocks', 'india'], complexity: 'beginner' },
+  // Business
   { goal: 'Launch a startup from idea to product', category: 'business', tags: ['startup', 'entrepreneurship'], complexity: 'intermediate' },
+  // Exams
   { goal: 'Crack UPSC CSE Prelims with systematic preparation', category: 'exams', tags: ['upsc', 'ias'], complexity: 'beginner' },
-  { goal: 'Score band 7+ in IELTS writing and speaking', category: 'exams', tags: ['ielts', 'english'], complexity: 'advanced' },
+  // Language
   { goal: 'Improve spoken English fluency for Indian speakers', category: 'language', tags: ['english', 'speaking'], complexity: 'beginner' },
-  { goal: 'Build a consistent gym workout routine for beginners', category: 'health', tags: ['gym', 'fitness'], complexity: 'beginner' },
-  { goal: 'Learn UI/UX design from scratch with Figma', category: 'design', tags: ['uiux', 'figma'], complexity: 'intermediate' }
+  // Health & Fitness
+  { goal: 'Build a consistent gym workout routine for beginners', category: 'fitness', tags: ['gym', 'workout'], complexity: 'beginner' },
+  // Design
+  { goal: 'Learn UI/UX design from scratch with Figma', category: 'design', tags: ['uiux', 'figma'], complexity: 'intermediate' },
+  // Cooking
+  { goal: 'Learn to cook Italian food at home from scratch', category: 'cooking', tags: ['italian', 'recipes'], complexity: 'beginner' },
+  // Music
+  { goal: 'Learn guitar for beginners step by step', category: 'music', tags: ['guitar', 'instruments'], complexity: 'beginner' },
+  // Photography
+  { goal: 'Digital photography composition and lighting basics', category: 'photography', tags: ['camera', 'composition'], complexity: 'beginner' },
+  // Gardening
+  { goal: 'Start a vegetable garden from scratch at home', category: 'gardening', tags: ['vegetables', 'organic'], complexity: 'beginner' },
+  // Parenting
+  { goal: 'Positive parenting techniques for toddlers', category: 'parenting', tags: ['toddlers', 'discipline'], complexity: 'beginner' },
+  // Travel
+  { goal: 'Budget travel hacking tips and strategies', category: 'travel', tags: ['budget', 'flights'], complexity: 'intermediate' },
+  // Crafts
+  { goal: 'Learn knitting for beginners step by step', category: 'crafts', tags: ['knitting', 'handmade'], complexity: 'beginner' },
+  // Automotive
+  { goal: 'Basic car maintenance and repair for beginners', category: 'automotive', tags: ['cars', 'diy-repair'], complexity: 'beginner' },
+  // Pets
+  { goal: 'Dog training basics for first-time owners', category: 'pets', tags: ['dogs', 'training'], complexity: 'beginner' },
+  // Yoga & Meditation
+  { goal: 'Yoga for beginners complete home practice guide', category: 'yoga', tags: ['flexibility', 'mindfulness'], complexity: 'beginner' },
+  { goal: 'Mindfulness meditation for stress and anxiety relief', category: 'meditation', tags: ['mindfulness', 'stress'], complexity: 'beginner' },
+  // Sports
+  { goal: 'Learn to swim as an adult beginner', category: 'sports', tags: ['swimming', 'water'], complexity: 'beginner' },
+  // Writing
+  { goal: 'Creative writing for beginners fiction and stories', category: 'writing', tags: ['fiction', 'storytelling'], complexity: 'beginner' },
+  // Home Improvement
+  { goal: 'DIY home renovation projects for beginners', category: 'home-improvement', tags: ['diy', 'renovation'], complexity: 'beginner' },
+  // Woodworking
+  { goal: 'Woodworking projects for beginners with hand tools', category: 'woodworking', tags: ['furniture', 'hand-tools'], complexity: 'beginner' },
+  // Marketing
+  { goal: 'Social media marketing strategy for small business', category: 'marketing', tags: ['social-media', 'growth'], complexity: 'intermediate' },
+  // Data Science
+  { goal: 'Data science with Python for beginners', category: 'data-science', tags: ['python', 'analytics'], complexity: 'beginner' },
+  // Cybersecurity
+  { goal: 'Cybersecurity fundamentals for beginners', category: 'cybersecurity', tags: ['security', 'networking'], complexity: 'beginner' },
+  // Personal Development
+  { goal: 'Build self-confidence and overcome social anxiety', category: 'personal-development', tags: ['confidence', 'anxiety'], complexity: 'beginner' },
+  // Sustainability
+  { goal: 'Zero waste living for beginners practical guide', category: 'sustainability', tags: ['eco-friendly', 'zero-waste'], complexity: 'beginner' },
+  // Real Estate
+  { goal: 'Real estate investing for beginners complete guide', category: 'real-estate', tags: ['property', 'investing'], complexity: 'beginner' },
+  // Astronomy
+  { goal: 'Backyard astronomy and stargazing for beginners', category: 'astronomy', tags: ['stars', 'telescope'], complexity: 'beginner' },
+  // Electronics
+  { goal: 'Arduino projects for beginners step by step', category: 'electronics', tags: ['arduino', 'circuits'], complexity: 'beginner' },
 ];
 
 async function generateSeedsViaAI(count: number, existing: BookMeta[]): Promise<TopicSeed[]> {
-  const existingList = existing.map(b => `- ${b.title} (${b.category}, ${b.complexity})`).join('\n');
+  // Compress existing book list — group by keyword clusters so the AI can
+  // actually process it. Dumping 440+ full titles overwhelms the context.
+  const existingTitles = existing.map(b => b.title);
+  const compactExisting = existingTitles.length > 100
+    ? existing
+        .sort((a, b) => a.title.localeCompare(b.title))
+        .map(b => `- ${b.title}`)
+        .join('\n')
+        .substring(0, 8000) + '\n... (list truncated — there are more, check carefully!)'
+    : existing.map(b => `- ${b.title} (${b.category}, ${b.complexity})`).join('\n');
+
+  // Build a set of categories already well-represented so the AI avoids them
+  const categoryCounts: Record<string, number> = {};
+  for (const b of existing) {
+    categoryCounts[b.category] = (categoryCounts[b.category] || 0) + 1;
+  }
+  const overRepresented = Object.entries(categoryCounts)
+    .filter(([, count]) => count >= 15)
+    .map(([cat]) => cat);
+  const avoidBlock = overRepresented.length > 0
+    ? `\nCATEGORIES ALREADY WELL-COVERED (generate FEWER of these, focus on fresh categories instead):\n${overRepresented.join(', ')}\n`
+    : '';
+
   const prompt = `You are a curriculum curator for a free online book library. Generate exactly ${count} completely new learning guide topics.
 
 CRITICAL — SEO & USER SEARCH INTENT:
@@ -1165,14 +1337,19 @@ Every goal MUST be something a real person would type into Google when they want
 GOOD goals (real search queries):
 - "Learn Python programming from scratch"
 - "How to start investing in the stock market"
-- "IELTS preparation guide for band 7+"
-- "Build a personal website with HTML and CSS"
-- "Basics of machine learning with Python"
-- "How to write a resume that gets interviews"
-- "Learn Excel for data analysis"
-- "Digital marketing for small businesses"
-- "How to lose weight with strength training"
-- "Learn JavaScript for web development"
+- "Beginner's guide to watercolor painting"
+- "How to train a puppy at home"
+- "Learn to play ukulele for beginners"
+- "Beginner's guide to indoor herb gardening"
+- "How to start a podcast from scratch"
+- "Basic car engine repair for beginners"
+- "Learn Korean for beginners step by step"
+- "How to do calligraphy for beginners"
+- "Meditation for anxiety and stress relief"
+- "How to brew beer at home"
+- "Learn chess strategy for intermediate players"
+- "How to raise backyard chickens"
+- "Pottery and ceramics for beginners"
 
 BAD goals (nobody searches for these):
 - "Engineer hyperlocal bacterial cellulose textiles from kombucha SCOBY waste"
@@ -1180,21 +1357,23 @@ BAD goals (nobody searches for these):
 - "Manipulate the autonomic nervous system to induce targeted torpor"
 - "Decode and speak Toki Pona to radically simplify thought patterns"
 
-Existing guides in the library (DO NOT duplicate or overlap):
-${existingList || 'None yet.'}
-
+Existing guides in the library (DO NOT duplicate, overlap, or rephrase any of these — a topic about the same subject with slightly different wording is STILL a duplicate):
+${compactExisting || 'None yet.'}
+${avoidBlock}
 Rules:
 1. Goals must be 5-10 words max — short, clear, reads like a Google search query.
-2. Topics must span diverse popular categories: programming, finance, health, career, exams, design, languages, business, productivity, science.
+2. YOU CHOOSE THE CATEGORY — pick whatever category naturally fits each topic. Be creative and diverse! There is NO fixed list of categories. Use specific, descriptive category names like "cooking", "woodworking", "astronomy", "parenting", "martial-arts", "gardening", "pets", "music", "pottery", "chess", "hiking", "knitting", "brewing", etc. The more diverse and unexpected the categories, the better.
 3. Mix complexities: 'beginner', 'intermediate', 'advanced'.
 4. Every goal must pass this test: "Would at least 1000 people per month search for this on Google?"
-5. NO hyper-specialized, academic, or bizarre niche topics.
-6. Return ONLY a valid JSON array (no markdown, no wrap):
+5. NO hyper-specialized, academic, or bizarre niche topics. Topics should be practical and useful.
+6. MAXIMIZE CATEGORY DIVERSITY — avoid repeating the same category more than twice in your response. Spread across as many different categories as possible.
+7. ZERO TOLERANCE FOR DUPLICATES — if a similar topic already exists in the library (even with different wording), DO NOT generate it. "How to start a Shopify store" and "Build a Shopify dropshipping store" are THE SAME TOPIC. "Learn Python from scratch" and "Python programming for beginners" are THE SAME TOPIC. Check the existing list carefully.
+8. Return ONLY a valid JSON array (no markdown, no wrap):
 [
   {
-    "goal": "Learn Python programming from scratch",
-    "category": "programming",
-    "tags": ["python", "coding", "beginners"],
+    "goal": "Learn pottery and ceramics for beginners",
+    "category": "pottery",
+    "tags": ["ceramics", "clay", "handmade"],
     "complexity": "beginner"
   }
 ]`;
@@ -1203,12 +1382,20 @@ Rules:
     const result = await callWriter(prompt, 500, 'seeds-generator');
     const parsed = parseJSON(result.text);
     if (Array.isArray(parsed) && parsed.length > 0) {
-      return parsed.map(s => ({
+      let seeds: TopicSeed[] = parsed.map(s => ({
         goal: s.goal,
         category: normalizeCategory(s.category || 'general'),
         tags: s.tags || [],
-        complexity: s.complexity || 'beginner'
+        complexity: (s.complexity || 'beginner') as TopicSeed['complexity']
       }));
+
+      // Post-generation dedup: filter out seeds too similar to existing books
+      seeds = filterSimilarSeeds(seeds, existing);
+      // Also remove intra-batch duplicates
+      seeds = deduplicateSeedBatch(seeds);
+
+      console.log(`  ✅ ${seeds.length} unique seeds after similarity filtering (from ${parsed.length} AI-generated)`);
+      return seeds;
     }
   } catch (e) {
     console.error('Failed to generate seeds dynamically, using bootstrap fallbacks:', e);
