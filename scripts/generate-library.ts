@@ -80,7 +80,7 @@ if (SELECTED_PROVIDER === 'mistral') {
   primaryApiKey = process.env.MISTRAL_API_KEY || '';
   primaryProviderName = 'mistral';
 } else if (SELECTED_PROVIDER === 'cerebras') {
-  const validCerebrasModels = ['gemma-4-31b', 'zai-glm-4.7', 'gpt-oss-120b', 'llama3.1-8b', 'llama3.1-70b'];
+  const validCerebrasModels = ['gemma-4-31b', 'zai-glm-4.7', 'gpt-oss-120b'];
   const modelToUse = validCerebrasModels.includes(SELECTED_MODEL) ? SELECTED_MODEL : '';
   primaryModel = modelToUse || process.env.CEREBRAS_MODEL || 'gemma-4-31b';
   primaryApiUrl = 'https://api.cerebras.ai/v1/chat/completions';

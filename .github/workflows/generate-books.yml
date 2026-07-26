@@ -25,40 +25,14 @@ on:
           - english
           - hinglish
         default: 'english'
-      provider:
-        description: '🧠 Select Neural Engine Core (AI Provider)'
-        required: false
-        type: choice
-        options:
-          - zai
-          - mistral
-          - cerebras
-        default: 'zai'
-      model:
-        description: '🚀 Select AI Model Engine Override'
-        required: false
-        type: choice
-        options:
-          - glm-5.2
-          - glm-5.1
-          - glm-5
-          - GLM-4.7-FlashX
-          - mistral-large-latest
-          - mistral-medium-latest
-          - mistral-small-latest
-          - mistral-small-2506
-          - gemma-4-31b
-          - gpt-oss-120b
-          - zai-glm-4.7
-        default: 'glm-5.2'
       concurrency:
         description: '⚡ Processing Channels (Default: 1 for maximum stability)'
         required: false
         default: '1'
       max_books:
-        description: '📖 Codices to Synthesize (0 = All Unmapped Dimensions)'
+        description: '📖 Codices to Synthesize (Default: 10)'
         required: false
-        default: '0'
+        default: '10'
 
 # ── Orbital Lock: Ensures zero matrix collision during synthesis ───────────
 concurrency:
@@ -170,18 +144,18 @@ jobs:
           CEREBRAS_API_KEY_4: ${{ secrets.CEREBRAS_API_KEY_4 }}
           CEREBRAS_API_KEY_5: ${{ secrets.CEREBRAS_API_KEY_5 }}
           ZAI_MODEL:         'glm-5.2'
-          MODEL:             ${{ github.event.inputs.model || '' }}
+          MODEL:             ''
           SITE_URL:          'https://tanmaysk.in'
-          PROVIDER:          ${{ github.event.inputs.provider || 'cerebras' }}
+          PROVIDER:          'cerebras'
           CONCURRENCY:       ${{ github.event.inputs.concurrency || '1' }}
-          MAX_BOOKS:         ${{ github.event.inputs.max_books || '0' }}
+          MAX_BOOKS:         ${{ github.event.inputs.max_books || '10' }}
           STREET_LANG:       ${{ github.event.inputs.street_lang || 'english' }}
           OUTPUT_DIR:        'pustakam-books-data'
           CI:                'true'
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Running manual dispatch for edition: ${{ github.event.inputs.edition }}"
-            EDITION="${{ github.event.inputs.edition || 'stellar' }}" npx tsx scripts/generate-library.ts
+            echo "Running manual dispatch: generating 10 ${{ github.event.inputs.edition || 'stellar' }} editions via Cerebras with 50/50 model split"
+            MAX_BOOKS="${{ github.event.inputs.max_books || '10' }}" EDITION="${{ github.event.inputs.edition || 'stellar' }}" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
           else
             echo "Running scheduled run: generating 10 stellar editions with 50/50 model split across Cerebras key pool"
             MAX_BOOKS="10" EDITION="stellar" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
