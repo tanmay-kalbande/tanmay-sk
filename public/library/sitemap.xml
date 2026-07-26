@@ -6,6 +6,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/budget-travel-hacking-tips-and-strategies</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/mastering-uiux-design-with-figma-a-comprehensive-g</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-07-26</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/data-science-with-python-a-beginners-guide</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
