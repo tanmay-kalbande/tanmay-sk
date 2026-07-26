@@ -80,7 +80,9 @@ if (SELECTED_PROVIDER === 'mistral') {
   primaryApiKey = process.env.MISTRAL_API_KEY || '';
   primaryProviderName = 'mistral';
 } else if (SELECTED_PROVIDER === 'cerebras') {
-  primaryModel = SELECTED_MODEL || process.env.CEREBRAS_MODEL || 'gemma-4-31b';
+  const validCerebrasModels = ['gemma-4-31b', 'zai-glm-4.7', 'gpt-oss-120b', 'llama3.1-8b', 'llama3.1-70b'];
+  const modelToUse = validCerebrasModels.includes(SELECTED_MODEL) ? SELECTED_MODEL : '';
+  primaryModel = modelToUse || process.env.CEREBRAS_MODEL || 'gemma-4-31b';
   primaryApiUrl = 'https://api.cerebras.ai/v1/chat/completions';
   primaryApiKey = getActiveCerebrasKey();
   primaryProviderName = 'cerebras';
@@ -391,10 +393,17 @@ function pLimit(concurrency: number) {
 
 // ── Retry ──────────────────────────────────────────────────────────────────────
 
+/** Throw this to skip all retries — for permanent errors like 402 Payment Required. */
+class NonRetryableError extends Error {
+  constructor(msg: string) { super(msg); this.name = 'NonRetryableError'; }
+}
+
 async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
   const delays = [5000, 15000, 30000, 60000, 120000];
   for (let attempt = 1; attempt <= CONFIG.RETRY_MAX; attempt++) {
     try { return await fn(); } catch (e: any) {
+      // Don't retry permanent failures (payment required, auth errors, etc.)
+      if (e instanceof NonRetryableError) throw e;
       if (attempt === CONFIG.RETRY_MAX) throw e;
       const delay = delays[attempt - 1] || 120000;
       console.warn(`  ⚠️  ${label} retry ${attempt}/${CONFIG.RETRY_MAX} in ${Math.ceil(delay/1000)}s`);
@@ -448,17 +457,33 @@ async function callAI(
     }),
   });
 
-  if (res.status === 429) {
+  if (res.status === 429 || res.status === 402 || res.status === 404 || res.status === 401 || res.status === 403) {
     if (provider === 'cerebras') {
       const nextKey = rotateCerebrasKey();
       if (nextKey) {
         CONFIG.PRIMARY_API_KEY = nextKey;
       }
+      if (res.status === 404 && model === 'gemma-4-31b') {
+        console.log(`  🔄 Model gemma-4-31b returned 404 on Cerebras, switching fallback to gpt-oss-120b...`);
+        if (CONFIG.PRIMARY_MODEL === 'gemma-4-31b') CONFIG.PRIMARY_MODEL = 'gpt-oss-120b';
+      }
+      const e: any = new Error(`${provider} ${res.status}: ${(await res.text()).slice(0, 200)}`);
+      e.status = res.status;
+      if (!useFallback) primaryConsecutiveFailures++;
+      throw e;
     }
-    const e: any = new Error(`429 rate limited (${provider})`);
-    e.status = 429;
-    if (!useFallback) primaryConsecutiveFailures++;
-    throw e;
+  }
+
+  if (res.status === 402) {
+    // Payment Required — retrying will never fix this; fail immediately
+    const body = (await res.text()).slice(0, 200);
+    throw new NonRetryableError(`${provider} 402 Payment Required (check billing/quota): ${body}`);
+  }
+
+  if (res.status === 401 || res.status === 403) {
+    // Auth errors are also non-retryable
+    const body = (await res.text()).slice(0, 200);
+    throw new NonRetryableError(`${provider} ${res.status} Auth error: ${body}`);
   }
 
   if (!res.ok) {
@@ -1085,7 +1110,7 @@ function parseJSON(raw: string): any {
 async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' | 'fail'> {
   // Determine model for this book (50/50 split between gemma-4-31b and gpt-oss-120b if Cerebras)
   let targetModel: string | undefined = undefined;
-  if (CONFIG.PRIMARY_PROVIDER === 'cerebras' && !SELECTED_MODEL) {
+  if (CONFIG.PRIMARY_PROVIDER === 'cerebras' && (!SELECTED_MODEL || !['gemma-4-31b', 'zai-glm-4.7', 'gpt-oss-120b'].includes(SELECTED_MODEL))) {
     targetModel = workerIndex % 2 === 1 ? 'gemma-4-31b' : 'gpt-oss-120b';
   }
 
@@ -1460,30 +1485,27 @@ async function main() {
   // Apply MAX_BOOKS limit if set (useful for test runs or CI time limits)
   if (CONFIG.MAX_BOOKS > 0) pending.splice(CONFIG.MAX_BOOKS);
 
-  const limit = pLimit(CONFIG.CONCURRENCY);
+  // Strictly sequential: process one book at a time — no worker pool, no concurrency
   let done = 0; let failed = 0;
   const startTime = Date.now();
 
-  const tasks = pending.map((seed, i) =>
-    limit(async () => {
-      console.log(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      console.log(`📚 Book ${i + 1}/${pending.length}: "${seed.goal}" (${seed.complexity})`);
-      console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
+  for (let i = 0; i < pending.length; i++) {
+    const seed = pending[i];
+    console.log(`\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+    console.log(`📚 Book ${i + 1}/${pending.length}: "${seed.goal}" (${seed.complexity})`);
+    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 
-      const result = await generateBook(seed, i + 1);
-      const slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
+    const result = await generateBook(seed, i + 1);
+    const slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
 
-      if (result === 'ok') { checkpoint.completedSlugs.push(slug); done++; }
-      else { checkpoint.failedSlugs.push(slug); failed++; }
+    if (result === 'ok') { checkpoint.completedSlugs.push(slug); done++; }
+    else { checkpoint.failedSlugs.push(slug); failed++; }
 
-      saveCheckpoint(checkpoint);
-      const elapsed = (Date.now() - startTime) / 60000;
-      const rate = done / Math.max(elapsed, 0.01);
-      console.log(`\n📊 Progress: ${done + failed}/${pending.length} | ✅${done} ❌${failed} | ${rate.toFixed(1)} books/min | ~${((pending.length - done - failed) / Math.max(rate, 0.01)).toFixed(0)}min left\n`);
-    })
-  );
-
-  await Promise.all(tasks);
+    saveCheckpoint(checkpoint);
+    const elapsed = (Date.now() - startTime) / 60000;
+    const rate = done / Math.max(elapsed, 0.01);
+    console.log(`\n📊 Progress: ${done + failed}/${pending.length} | ✅${done} ❌${failed} | ${rate.toFixed(1)} books/min | ~${((pending.length - done - failed) / Math.max(rate, 0.01)).toFixed(0)}min left\n`);
+  }
   saveCheckpoint(checkpoint);
 
   // Rebuild index.json and sitemap.xml from all files

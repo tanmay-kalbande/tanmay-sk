@@ -184,7 +184,7 @@ jobs:
             EDITION="${{ github.event.inputs.edition || 'stellar' }}" npx tsx scripts/generate-library.ts
           else
             echo "Running scheduled run: generating 10 stellar editions with 50/50 model split across Cerebras key pool"
-            MAX_BOOKS="10" EDITION="stellar" npx tsx scripts/generate-library.ts
+            MAX_BOOKS="10" EDITION="stellar" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
           fi
 
       # ── 9. Sync Sitemap back to Main Repo ───────────────────────────────────
