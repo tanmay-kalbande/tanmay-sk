@@ -62,8 +62,12 @@ function rotateCerebrasKey(): string {
   if (CEREBRAS_API_KEYS.length <= 1) return getActiveCerebrasKey();
   activeCerebrasKeyIndex = (activeCerebrasKeyIndex + 1) % CEREBRAS_API_KEYS.length;
   const newKey = CEREBRAS_API_KEYS[activeCerebrasKeyIndex];
-  console.log(`  🔄 Rate limit hit! Rotated to Cerebras API Key #${activeCerebrasKeyIndex + 1} of ${CEREBRAS_API_KEYS.length}`);
   return newKey;
+}
+
+function getActiveCerebrasKeyTag(): string {
+  if (CEREBRAS_API_KEYS.length === 0) return '';
+  return ` [K${(activeCerebrasKeyIndex % CEREBRAS_API_KEYS.length) + 1}/${CEREBRAS_API_KEYS.length}]`;
 }
 
 let primaryModel = SELECTED_MODEL || process.env.ZAI_MODEL || 'glm-5.2';
@@ -1120,7 +1124,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
 
   // Slug will be regenerated from roadmap title after roadmap is generated
   let slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
-  const tag = `[W${workerIndex}]${targetModel ? ` [${targetModel}]` : ''}`;
+  const getTag = () => `[W${workerIndex}]${targetModel ? ` [${targetModel}]` : ''}${getActiveCerebrasKeyTag()}`;
   const modelsUsed = new Set<string>();
 
   // ─── Step 1: Roadmap ────────────────────────────────────────────────────────
@@ -1134,9 +1138,9 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
         assertAndNormalizeRoadmap(parsed);  // normalises focus→description, adds estimatedTime
         return parsed;
       },
-      `${tag} roadmap`
+      `${getTag()} roadmap`
     );
-    console.log(`  📋 ${tag} Roadmap: "${roadmap.title}" — ${roadmap.modules.length} modules`);
+    console.log(`  📋 ${getTag()} Roadmap: "${roadmap.title}" — ${roadmap.modules.length} modules`);
     // Regenerate slug from SEO-friendly roadmap title if available
     if (roadmap.title) {
       const editionPrefix = EDITION === 'desi' ? 'desi-' : EDITION === 'street' ? 'street-' : '';
@@ -1145,13 +1149,13 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
       // when the AI generates a roadmap title similar to an existing book)
       const existingBookPath = path.join(CONFIG.OUTPUT_DIR, 'books', `${newSlug}.json`);
       if (fs.existsSync(existingBookPath)) {
-        console.log(`  ⏭️  ${tag} Skipping — book with slug "${newSlug}" already exists`);
+        console.log(`  ⏭️  ${getTag()} Skipping — book with slug "${newSlug}" already exists`);
         return 'ok'; // Count as success so it doesn't retry
       }
       slug = newSlug;
     }
   } catch (e: any) {
-    console.error(`\n❌ ${tag} roadmap failed: ${slug} — ${String(e.message).slice(0, 80)}`);
+    console.error(`\n❌ ${getTag()} roadmap failed: ${slug} — ${String(e.message).slice(0, 80)}`);
     return 'fail';
   }
 
@@ -1173,45 +1177,45 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
           assertChapter(completion.text);
           return completion;
         },
-        `${tag} module ${i + 1}/${roadmap.modules.length}`
+        `${getTag()} module ${i + 1}/${roadmap.modules.length}`
       );
       modelsUsed.add(result.model);
       const content = stripLeadingDuplicateHeading(result.text, mod.title);
       modules.push({ title: mod.title, content, wordCount: countWords(content) });
-      process.stdout.write(`  📖 ${tag} Chapter ${i + 1}/${roadmap.modules.length}: ${mod.title} (${countWords(content)} words)\n`);
+      process.stdout.write(`  📖 ${getTag()} Chapter ${i + 1}/${roadmap.modules.length}: ${mod.title} (${countWords(content)} words)\n`);
 
       // Cooldown between modules to avoid rate limiting
       if (i < roadmap.modules.length - 1) {
         await sleep(CONFIG.MODULE_COOLDOWN);
       }
     } catch (error: any) {
-      console.error(`\n❌ ${tag} module ${i + 1} failed: ${String(error?.message || error).slice(0, 120)}`);
+      console.error(`\n❌ ${getTag()} module ${i + 1} failed: ${String(error?.message || error).slice(0, 120)}`);
       return 'fail';
     }
   }
 
   // ─── Step 3: Assembly (Introduction + Summary + Glossary) ───────────────────
-  console.log(`  🔨 ${tag} Assembling book...`);
+  console.log(`  🔨 ${getTag()} Assembling book...`);
 
   let introduction = '';
   let summary = '';
   let glossary = '';
 
   try {
-    console.log(`  📝 ${tag} Generating introduction...`);
+    console.log(`  📝 ${getTag()} Generating introduction...`);
     introduction = await generateIntroduction(seed, roadmap, targetModel);
     introduction = stripLeadingDuplicateHeading(introduction, 'Introduction');
     await sleep(CONFIG.MODULE_COOLDOWN);
 
-    console.log(`  📝 ${tag} Generating summary...`);
+    console.log(`  📝 ${getTag()} Generating summary...`);
     summary = await generateSummary(seed, modules, targetModel);
     summary = stripLeadingDuplicateHeading(summary, 'Summary');
     await sleep(CONFIG.MODULE_COOLDOWN);
 
-    console.log(`  📝 ${tag} Generating glossary...`);
+    console.log(`  📝 ${getTag()} Generating glossary...`);
     glossary = await generateGlossarySection(modules, targetModel);
   } catch (assemblyError: any) {
-    console.warn(`  ⚠️  ${tag} Assembly partially failed: ${String(assemblyError?.message || assemblyError).slice(0, 100)}`);
+    console.warn(`  ⚠️  ${getTag()} Assembly partially failed: ${String(assemblyError?.message || assemblyError).slice(0, 100)}`);
     // Continue with whatever we have — the book still has all its chapters
   }
 
@@ -1263,7 +1267,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
   };
 
   saveBook(bookFile);
-  console.log(`\n✅ ${tag} ${slug} — ${totalWords.toLocaleString()} words, ${modules.length} chapters → public/library/books/${slug}.json`);
+  console.log(`\n✅ ${getTag()} ${slug} — ${totalWords.toLocaleString()} words, ${modules.length} chapters → public/library/books/${slug}.json`);
   return 'ok';
 }
 
