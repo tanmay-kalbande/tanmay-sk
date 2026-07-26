@@ -534,10 +534,24 @@
     "how-to-start-an-affiliate-marketing-blog-beginner",
     "learn-spanish-for-beginners-online-beginner",
     "how-to-pass-the-comptia-a-exam-intermediate",
-    "how-to-start-a-shopify-dropshipping-store-beginner",
-    "how-to-fix-lower-back-pain-at-home-beginner"
+    "how-to-fix-lower-back-pain-at-home-beginner",
+    "comptia-a-exam-prep-core-1-core-2-guide",
+    "how-to-fix-lower-back-pain-at-home-a-beginners-gui",
+    "how-to-start-a-shopify-dropshipping-store-for-begi",
+    "learn-spanish-for-beginners-online-a-practical-gui"
   ],
-  "failedSlugs": [],
+  "failedSlugs": [
+    "learn-python-programming-from-zero-to-real-project",
+    "understand-data-structures-and-algorithms-for-tech",
+    "understand-prompt-engineering-and-build-llm-apps-a",
+    "learn-stock-market-investing-for-beginners-in-indi",
+    "launch-a-startup-from-idea-to-product-intermediate",
+    "crack-upsc-cse-prelims-with-systematic-preparation",
+    "improve-spoken-english-fluency-for-indian-speakers",
+    "build-a-consistent-gym-workout-routine-for-beginne",
+    "learn-uiux-design-from-scratch-with-figma-intermed",
+    "learn-to-cook-italian-food-at-home-from-scratch-be"
+  ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-07-26T00:45:05.889Z"
+  "lastUpdated": "2026-07-26T03:33:39.158Z"
 }
