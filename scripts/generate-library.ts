@@ -460,7 +460,7 @@ async function callAI(
     }),
   });
 
-  if (res.status === 429 || res.status === 402 || res.status === 404 || res.status === 401 || res.status === 403) {
+  if (res.status === 429 || res.status === 404) {
     if (provider === 'cerebras') {
       const nextKey = rotateCerebrasKey();
       if (nextKey) {
@@ -483,9 +483,13 @@ async function callAI(
   }
 
   if (res.status === 402) {
-    // Payment Required — retrying will never fix this; fail immediately
+    // Payment Required — free quota exhausted on this key; rotate and fail immediately
+    // (retrying with the same key won't help — quota resets on a monthly cycle)
+    if (provider === 'cerebras') {
+      rotateCerebrasKey();
+    }
     const body = (await res.text()).slice(0, 200);
-    throw new NonRetryableError(`${provider} 402 Payment Required (check billing/quota): ${body}`);
+    throw new NonRetryableError(`cerebras 402: ${body}`);
   }
 
   if (res.status === 401 || res.status === 403) {
@@ -518,6 +522,43 @@ async function callWriter(
   modelOverride?: string
 ): Promise<Completion> {
   return callAI(prompt, estInputTokens, kind, false, systemPrompt, modelOverride);
+}
+
+// ── GLM-4.7-Flash fallback ──────────────────────────────────────────────────────
+// Free ZAI model used when Cerebras quota (402) is exhausted mid-book.
+// Keeps already-generated chapters alive instead of discarding the whole book.
+async function callGLMFallback(
+  prompt: string,
+  estInputTokens = 500,
+  kind: RequestKind = 'chapter',
+  systemPrompt?: string
+): Promise<Completion> {
+  const glmApiKey = process.env.ZAI_API_KEY || '';
+  if (!glmApiKey) throw new Error('ZAI_API_KEY not set — cannot use GLM-4.7-Flash fallback');
+  const messages = systemPrompt
+    ? [{ role: 'system', content: systemPrompt }, { role: 'user', content: prompt }]
+    : [{ role: 'user', content: prompt }];
+  const estTotal = estInputTokens + 2000;
+  await tokenBudget.acquire(estTotal);
+  const res = await fetch('https://api.z.ai/api/paas/v4/chat/completions', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${glmApiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'glm-4-flash',
+      messages,
+      temperature: 0.7,
+      max_tokens: CONFIG.MAX_TOKENS,
+    }),
+  });
+  if (!res.ok) {
+    const body = (await res.text()).slice(0, 200);
+    throw new Error(`GLM-4.7-Flash fallback ${res.status}: ${body}`);
+  }
+  const data = await res.json() as any;
+  tokenBudget.record(data.usage?.total_tokens || estTotal);
+  const text = data.choices?.[0]?.message?.content?.trim() || '';
+  if (!text) throw new Error('GLM-4.7-Flash fallback returned no content');
+  return { text, model: 'glm-4-flash' };
 }
 
 // ── Prompts ────────────────────────────────────────────────────────────────────
@@ -1139,7 +1180,18 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
         return parsed;
       },
       `${getTag()} roadmap`
-    );
+    ).catch(async (e: any) => {
+      // On Cerebras quota exhaustion, try GLM-4.7-Flash before abandoning
+      if (e instanceof NonRetryableError && process.env.ZAI_API_KEY) {
+        console.log(`  🔄 ${getTag()} Cerebras quota exhausted — retrying roadmap with GLM-4.7-Flash...`);
+        const result = await callGLMFallback(buildRoadmapPrompt(seed), 500, 'roadmap');
+        modelsUsed.add(result.model);
+        const parsed = parseJSON(result.text);
+        assertAndNormalizeRoadmap(parsed);
+        return parsed;
+      }
+      throw e;
+    });
     console.log(`  📋 ${getTag()} Roadmap: "${roadmap.title}" — ${roadmap.modules.length} modules`);
     // Regenerate slug from SEO-friendly roadmap title if available
     if (roadmap.title) {
@@ -1178,7 +1230,17 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
           return completion;
         },
         `${getTag()} module ${i + 1}/${roadmap.modules.length}`
-      );
+      ).catch(async (e: any) => {
+        // Cerebras quota exhausted — rescue already-written chapters by switching to GLM
+        if (e instanceof NonRetryableError && process.env.ZAI_API_KEY) {
+          console.log(`  🔄 ${getTag()} Cerebras quota — rescuing chapter ${i + 1}/${roadmap.modules.length} with GLM-4.7-Flash...`);
+          const promptObj = buildModulePrompt(seed, roadmap, mod, i, roadmap.modules.length, modules);
+          const completion = await callGLMFallback(promptObj.userPrompt, 1500, 'chapter', promptObj.systemPrompt);
+          assertChapter(completion.text);
+          return completion;
+        }
+        throw e;
+      });
       modelsUsed.add(result.model);
       const content = stripLeadingDuplicateHeading(result.text, mod.title);
       modules.push({ title: mod.title, content, wordCount: countWords(content) });
@@ -1467,9 +1529,24 @@ async function main() {
   console.log(`🤖 Target books to generate this run: ${countToGenerate}`);
   console.log(`✅ Already done in library: ${completedSet.size}`);
   
-  console.log(`🤖 Generating unique topic seeds via ${CONFIG.PRIMARY_PROVIDER.toUpperCase()}...`);
-  const pending = await generateSeedsViaAI(countToGenerate, existingBooks);
-  
+  // Request 1.5× more seeds than needed so we have buffer after pre-filtering duplicates
+  const seedCount = Math.min(Math.ceil(countToGenerate * 1.5), 40);
+  console.log(`🤖 Generating ${seedCount} candidate seeds via ${CONFIG.PRIMARY_PROVIDER.toUpperCase()} (will trim to ${countToGenerate} after dedup)...`);
+  const rawSeeds = await generateSeedsViaAI(seedCount, existingBooks);
+
+  // Pre-filter: discard seeds whose preliminary slug already exists on disk.
+  // This avoids burning a full roadmap API call on a topic that would be skipped anyway.
+  const existingSlugsOnDisk = new Set(getExistingSlugs());
+  const pending = rawSeeds.filter(seed => {
+    const editionPrefix = EDITION === 'desi' ? 'desi-' : EDITION === 'street' ? 'street-' : '';
+    const prelimSlug = editionPrefix + toSlug(`${seed.goal} ${seed.complexity || 'beginner'}`);
+    if (existingSlugsOnDisk.has(prelimSlug)) {
+      console.log(`  🔁 Pre-filtered "${seed.goal}" — slug already on disk`);
+      return false;
+    }
+    return true;
+  }).slice(0, countToGenerate);
+
   if (pending.length === 0) {
     console.log('ℹ️  No new topics generated or all bootstrap topics exhausted. Exiting.');
     return;
