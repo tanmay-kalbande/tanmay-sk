@@ -544,7 +544,7 @@ async function callGLMFallback(
     method: 'POST',
     headers: { Authorization: `Bearer ${glmApiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'glm-4-flash',
+      model: 'glm-4.7-flash',
       messages,
       temperature: 0.7,
       max_tokens: CONFIG.MAX_TOKENS,
@@ -1500,8 +1500,31 @@ Rules:
       console.log(`  ✅ ${seeds.length} unique seeds after similarity filtering (from ${parsed.length} AI-generated)`);
       return seeds;
     }
-  } catch (e) {
-    console.error('Failed to generate seeds dynamically, using bootstrap fallbacks:', e);
+  } catch (e: any) {
+    // If Cerebras quota is exhausted, retry seed generation via GLM-4.7-Flash
+    if (e instanceof NonRetryableError && process.env.ZAI_API_KEY) {
+      console.log('  🔄 Cerebras quota exhausted for seeds — retrying seed generation with GLM-4.7-Flash...');
+      try {
+        const result = await callGLMFallback(prompt, 500, 'seeds-generator');
+        const parsed = parseJSON(result.text);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          let seeds: TopicSeed[] = parsed.map((s: any) => ({
+            goal: s.goal,
+            category: normalizeCategory(s.category || 'general'),
+            tags: s.tags || [],
+            complexity: (s.complexity || 'beginner') as TopicSeed['complexity']
+          }));
+          seeds = filterSimilarSeeds(seeds, existing);
+          seeds = deduplicateSeedBatch(seeds);
+          console.log(`  ✅ ${seeds.length} unique seeds via GLM fallback (from ${parsed.length} generated)`);
+          return seeds;
+        }
+      } catch (glmErr) {
+        console.error('GLM seed fallback also failed:', glmErr);
+      }
+    } else {
+      console.error('Failed to generate seeds dynamically, using bootstrap fallbacks:', e);
+    }
   }
 
   // Fallback to bootstrap seeds that aren't already completed
