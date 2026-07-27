@@ -96,7 +96,9 @@ const CONFIG = {
   CONCURRENCY:           Number(process.env.CONCURRENCY || 1),
   MAX_BOOKS:             Number(process.env.MAX_BOOKS   || 0), // 0 = no limit
 
-  TOKENS_PER_MIN_LIMIT:  450_000,
+  // Cerebras real rate limit: 30,000 tokens/minute per key
+  // (was incorrectly set to 450,000 — which let all requests through and caused 429s)
+  TOKENS_PER_MIN_LIMIT:  30_000,
 
   // Match Pustakam's word targets (1800-3200 per module)
   MODULE_WORD_TARGET:    '1800-3200',
