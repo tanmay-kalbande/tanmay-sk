@@ -526,13 +526,13 @@ async function callWriter(
   return callAI(prompt, estInputTokens, kind, false, systemPrompt, modelOverride);
 }
 
-// ── ZAI model caller — supports both glm-4.7-flash (free fallback) and glm-5.2 (top-end seeds) ──
+// ── ZAI model caller — uses glm-5.2 by default for all generation tasks ─────────────────
 async function callGLMFallback(
   prompt: string,
   estInputTokens = 500,
   kind: RequestKind = 'chapter',
   systemPrompt?: string,
-  model = 'glm-4.7-flash'          // override with 'glm-5.2' for seed generation
+  model = 'glm-5.2'          // top-end ZAI model, free for this account
 ): Promise<Completion> {
   const glmApiKey = process.env.ZAI_API_KEY || '';
   if (!glmApiKey) throw new Error('ZAI_API_KEY not set — cannot use ZAI fallback');
@@ -1495,12 +1495,11 @@ Rules:
   }
 ]`;
 
-  // Use top-end GLM-5.2 for seed generation if ZAI key is available.
-  // This is called via callGLMFallback (ZAI endpoint) not callWriter (Cerebras),
-  // because 'glm-5.2' is a ZAI model — passing it to callWriter would 400 on Cerebras.
+  // GLM-5.2 is the default in callGLMFallback — no need to pass model explicitly here.
+  // Cerebras fallback (no ZAI key) uses callWriter directly.
   try {
     const result = process.env.ZAI_API_KEY
-      ? await callGLMFallback(prompt, 500, 'seeds-generator', undefined, 'glm-5.2')
+      ? await callGLMFallback(prompt, 500, 'seeds-generator')
       : await callWriter(prompt, 500, 'seeds-generator');
     const parsed = parseJSON(result.text);
     if (Array.isArray(parsed) && parsed.length > 0) {
@@ -1518,11 +1517,11 @@ Rules:
       return seeds;
     }
   } catch (e: any) {
-    // Primary seed call (glm-5.2) failed — fall back to the faster glm-4.7-flash
+    // glm-5.2 failed — retry once with glm-4.7-flash as a last resort
     if (process.env.ZAI_API_KEY) {
-      console.log('  🔄 Primary seed model failed — retrying with GLM-4.7-Flash...');
+      console.log('  🔄 GLM-5.2 seed call failed — retrying with GLM-4.7-Flash as last resort...');
       try {
-        const result = await callGLMFallback(prompt, 500, 'seeds-generator');
+        const result = await callGLMFallback(prompt, 500, 'seeds-generator', undefined, 'glm-4.7-flash');
         const parsed = parseJSON(result.text);
         if (Array.isArray(parsed) && parsed.length > 0) {
           let seeds: TopicSeed[] = parsed.map((s: any) => ({
@@ -1533,11 +1532,11 @@ Rules:
           }));
           seeds = filterSimilarSeeds(seeds, existing);
           seeds = deduplicateSeedBatch(seeds);
-          console.log(`  ✅ ${seeds.length} unique seeds via GLM-4.7-Flash (from ${parsed.length} generated)`);
+          console.log(`  ✅ ${seeds.length} unique seeds via GLM-4.7-Flash fallback (from ${parsed.length} generated)`);
           return seeds;
         }
       } catch (glmErr) {
-        console.error('GLM-4.7-Flash seed fallback also failed:', glmErr);
+        console.error('GLM-4.7-Flash last-resort seed fallback also failed:', glmErr);
       }
     } else {
       console.error('Failed to generate seeds, using bootstrap fallbacks:', e);
