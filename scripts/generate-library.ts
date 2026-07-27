@@ -1410,28 +1410,45 @@ const BOOTSTRAP_SEEDS: TopicSeed[] = [
   { goal: 'Arduino projects for beginners step by step', category: 'electronics', tags: ['arduino', 'circuits'], complexity: 'beginner' },
 ];
 
-async function generateSeedsViaAI(count: number, existing: BookMeta[]): Promise<TopicSeed[]> {
-  // Compress existing book list — group by keyword clusters so the AI can
-  // actually process it. Dumping 440+ full titles overwhelms the context.
-  const existingTitles = existing.map(b => b.title);
-  const compactExisting = existingTitles.length > 100
-    ? existing
-        .sort((a, b) => a.title.localeCompare(b.title))
-        .map(b => `- ${b.title}`)
-        .join('\n')
-        .substring(0, 8000) + '\n... (list truncated — there are more, check carefully!)'
-    : existing.map(b => `- ${b.title} (${b.category}, ${b.complexity})`).join('\n');
+function buildCategorySummaryMap(existing: BookMeta[]): string {
+  const byCategory: Record<string, string[]> = {};
+  for (const b of existing) {
+    const cat = b.category || 'general';
+    if (!byCategory[cat]) byCategory[cat] = [];
+    byCategory[cat].push(b.title);
+  }
 
-  // Build a set of categories already well-represented so the AI avoids them
+  const lines: string[] = [];
+  for (const [cat, titles] of Object.entries(byCategory)) {
+    const sample = titles.slice(0, 10).map(t => `"${t}"`).join(', ');
+    const more = titles.length > 10 ? ` (+${titles.length - 10} more)` : '';
+    lines.push(`• Category "${cat}" (${titles.length} books): ${sample}${more}`);
+  }
+  return lines.join('\n');
+}
+
+async function generateSeedsViaAI(
+  count: number,
+  existing: BookMeta[],
+  domainHint = ''
+): Promise<TopicSeed[]> {
+  const compactCategoryMap = buildCategorySummaryMap(existing);
+
+  // Build a set of categories already well-represented (>= 10 books)
   const categoryCounts: Record<string, number> = {};
   for (const b of existing) {
     categoryCounts[b.category] = (categoryCounts[b.category] || 0) + 1;
   }
   const overRepresented = Object.entries(categoryCounts)
-    .filter(([, count]) => count >= 15)
+    .filter(([, c]) => c >= 10)
     .map(([cat]) => cat);
+
   const avoidBlock = overRepresented.length > 0
-    ? `\nCATEGORIES ALREADY WELL-COVERED (generate FEWER of these, focus on fresh categories instead):\n${overRepresented.join(', ')}\n`
+    ? `\nCATEGORIES ALREADY SATURATED (DO NOT generate topics in these categories):\n${overRepresented.join(', ')}\n`
+    : '';
+
+  const focusBlock = domainHint
+    ? `\nDOMAIN FOCUS FOR THIS BATCH: ${domainHint}\n`
     : '';
 
   const prompt = `You are a curriculum curator for a free online book library. Generate exactly ${count} completely new learning guide topics.
@@ -1459,21 +1476,17 @@ GOOD goals (real search queries):
 BAD goals (nobody searches for these):
 - "Engineer hyperlocal bacterial cellulose textiles from kombucha SCOBY waste"
 - "Construct a survival-state psychological profile to dominate high-stakes hostage negotiations"
-- "Manipulate the autonomic nervous system to induce targeted torpor"
-- "Decode and speak Toki Pona to radically simplify thought patterns"
 
-Existing guides in the library (DO NOT duplicate, overlap, or rephrase any of these — a topic about the same subject with slightly different wording is STILL a duplicate):
-${compactExisting || 'None yet.'}
-${avoidBlock}
+CURRENT LIBRARY SUMMARY BY CATEGORY (DO NOT duplicate, overlap, or rephrase any existing topics):
+${compactCategoryMap || 'None yet.'}
+${avoidBlock}${focusBlock}
 Rules:
 1. Goals must be 5-10 words max — short, clear, reads like a Google search query.
-2. YOU CHOOSE THE CATEGORY — pick whatever category naturally fits each topic. Be creative and diverse! There is NO fixed list of categories. Use specific, descriptive category names like "cooking", "woodworking", "astronomy", "parenting", "martial-arts", "gardening", "pets", "music", "pottery", "chess", "hiking", "knitting", "brewing", etc. The more diverse and unexpected the categories, the better.
+2. YOU CHOOSE THE CATEGORY — pick under-represented or brand new categories (e.g., "trades", "crafts", "culinary", "gardening", "woodworking", "mechanics", "music", "pottery", "sports", "martial-arts", "languages", "health", "astronomy", "hobbies", "software-tools").
 3. Mix complexities: 'beginner', 'intermediate', 'advanced'.
 4. Every goal must pass this test: "Would at least 1000 people per month search for this on Google?"
-5. NO hyper-specialized, academic, or bizarre niche topics. Topics should be practical and useful.
-6. MAXIMIZE CATEGORY DIVERSITY — avoid repeating the same category more than twice in your response. Spread across as many different categories as possible.
-7. ZERO TOLERANCE FOR DUPLICATES — if a similar topic already exists in the library (even with different wording), DO NOT generate it. "How to start a Shopify store" and "Build a Shopify dropshipping store" are THE SAME TOPIC. "Learn Python from scratch" and "Python programming for beginners" are THE SAME TOPIC. Check the existing list carefully.
-8. Return ONLY a valid JSON array (no markdown, no wrap):
+5. ZERO TOLERANCE FOR DUPLICATES — check the existing catalog above carefully!
+6. Return ONLY a valid JSON array (no markdown, no wrap):
 [
   {
     "goal": "Learn pottery and ceramics for beginners",
@@ -1483,8 +1496,11 @@ Rules:
   }
 ]`;
 
+  // Prefer top-end model (glm-5.2) if ZAI API key is configured
+  const seedModel = process.env.ZAI_API_KEY ? 'glm-5.2' : undefined;
+
   try {
-    const result = await callWriter(prompt, 500, 'seeds-generator');
+    const result = await callWriter(prompt, 500, 'seeds-generator', undefined, seedModel);
     const parsed = parseJSON(result.text);
     if (Array.isArray(parsed) && parsed.length > 0) {
       let seeds: TopicSeed[] = parsed.map(s => ({
@@ -1494,9 +1510,7 @@ Rules:
         complexity: (s.complexity || 'beginner') as TopicSeed['complexity']
       }));
 
-      // Post-generation dedup: filter out seeds too similar to existing books
       seeds = filterSimilarSeeds(seeds, existing);
-      // Also remove intra-batch duplicates
       seeds = deduplicateSeedBatch(seeds);
 
       console.log(`  ✅ ${seeds.length} unique seeds after similarity filtering (from ${parsed.length} AI-generated)`);
@@ -1529,9 +1543,6 @@ Rules:
     }
   }
 
-  // Fallback to bootstrap seeds that aren't already completed
-  // Use keyword similarity (same as AI path) — NOT slug matching, because book slugs
-  // come from roadmap-generated TITLES which differ from seed goal text.
   let bootstrapSeeds = filterSimilarSeeds(BOOTSTRAP_SEEDS, existing, 0.6);
   bootstrapSeeds = deduplicateSeedBatch(bootstrapSeeds);
   return bootstrapSeeds.slice(0, count);
@@ -1563,26 +1574,43 @@ async function main() {
   console.log(`🤖 Target books to generate this run: ${countToGenerate}`);
   console.log(`✅ Already done in library: ${completedSet.size}`);
   
-  // Request 1.5× more seeds than needed so we have buffer after pre-filtering duplicates
-  const seedCount = Math.min(Math.ceil(countToGenerate * 1.5), 40);
-  console.log(`🤖 Generating ${seedCount} candidate seeds via ${CONFIG.PRIMARY_PROVIDER.toUpperCase()} (will trim to ${countToGenerate} after dedup)...`);
-  const rawSeeds = await generateSeedsViaAI(seedCount, existingBooks);
-
-  // Pre-filter: discard seeds whose preliminary slug already exists on disk.
-  // This avoids burning a full roadmap API call on a topic that would be skipped anyway.
+  // Multi-pass seed generation loop to collect countToGenerate guaranteed fresh, unique seeds
   const existingSlugsOnDisk = new Set(getExistingSlugs());
-  const pending = rawSeeds.filter(seed => {
-    const editionPrefix = EDITION === 'desi' ? 'desi-' : EDITION === 'street' ? 'street-' : '';
-    const prelimSlug = editionPrefix + toSlug(`${seed.goal} ${seed.complexity || 'beginner'}`);
-    if (existingSlugsOnDisk.has(prelimSlug)) {
-      console.log(`  🔁 Pre-filtered "${seed.goal}" — slug already on disk`);
-      return false;
+  const pending: TopicSeed[] = [];
+  const domainHints = [
+    '', // General topics across missing categories
+    'Focus on practical trades, home DIY, crafts, woodworking, culinary arts, mechanics, gardening',
+    'Focus on specialized software tools, digital creative arts, music production, languages, outdoor sports',
+    'Focus on health, wellness, martial arts, astronomy, writing, photography, niche practical hobbies',
+  ];
+
+  let hintIndex = 0;
+  while (pending.length < countToGenerate && hintIndex < domainHints.length * 2) {
+    const hint = domainHints[hintIndex % domainHints.length];
+    hintIndex++;
+    const needed = Math.min((countToGenerate - pending.length) * 2, 40);
+    console.log(`🤖 Seed Generation Attempt ${hintIndex}: requesting ${needed} candidate seeds...`);
+    const rawSeeds = await generateSeedsViaAI(needed, existingBooks, hint);
+
+    for (const seed of rawSeeds) {
+      if (pending.length >= countToGenerate) break;
+      const editionPrefix = EDITION === 'desi' ? 'desi-' : EDITION === 'street' ? 'street-' : '';
+      const prelimSlug = editionPrefix + toSlug(`${seed.goal} ${seed.complexity || 'beginner'}`);
+
+      const isDiskDupe = existingSlugsOnDisk.has(prelimSlug);
+      const isPendingDupe = pending.some(p => keywordSimilarity(seed.goal, p.goal) >= 0.6);
+
+      if (!isDiskDupe && !isPendingDupe) {
+        pending.push(seed);
+      } else {
+        console.log(`  🔁 Pre-filtered candidate: "${seed.goal}"`);
+      }
     }
-    return true;
-  }).slice(0, countToGenerate);
+    if (rawSeeds.length === 0) break;
+  }
 
   if (pending.length === 0) {
-    console.log('ℹ️  No new topics generated or all bootstrap topics exhausted. Exiting.');
+    console.log('ℹ️  No new topics generated or all topics exhausted. Exiting.');
     return;
   }
 
