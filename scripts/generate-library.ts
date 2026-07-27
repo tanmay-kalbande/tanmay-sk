@@ -526,17 +526,16 @@ async function callWriter(
   return callAI(prompt, estInputTokens, kind, false, systemPrompt, modelOverride);
 }
 
-// ── GLM-4.7-Flash fallback ──────────────────────────────────────────────────────
-// Free ZAI model used when Cerebras quota (402) is exhausted mid-book.
-// Keeps already-generated chapters alive instead of discarding the whole book.
+// ── ZAI model caller — supports both glm-4.7-flash (free fallback) and glm-5.2 (top-end seeds) ──
 async function callGLMFallback(
   prompt: string,
   estInputTokens = 500,
   kind: RequestKind = 'chapter',
-  systemPrompt?: string
+  systemPrompt?: string,
+  model = 'glm-4.7-flash'          // override with 'glm-5.2' for seed generation
 ): Promise<Completion> {
   const glmApiKey = process.env.ZAI_API_KEY || '';
-  if (!glmApiKey) throw new Error('ZAI_API_KEY not set — cannot use GLM-4.7-Flash fallback');
+  if (!glmApiKey) throw new Error('ZAI_API_KEY not set — cannot use ZAI fallback');
   const messages = systemPrompt
     ? [{ role: 'system', content: systemPrompt }, { role: 'user', content: prompt }]
     : [{ role: 'user', content: prompt }];
@@ -546,7 +545,7 @@ async function callGLMFallback(
     method: 'POST',
     headers: { Authorization: `Bearer ${glmApiKey}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'glm-4.7-flash',
+      model,
       messages,
       temperature: 0.7,
       max_tokens: CONFIG.MAX_TOKENS,
@@ -554,13 +553,13 @@ async function callGLMFallback(
   });
   if (!res.ok) {
     const body = (await res.text()).slice(0, 200);
-    throw new Error(`GLM-4.7-Flash fallback ${res.status}: ${body}`);
+    throw new Error(`ZAI ${model} ${res.status}: ${body}`);
   }
   const data = await res.json() as any;
   tokenBudget.record(data.usage?.total_tokens || estTotal);
   const text = data.choices?.[0]?.message?.content?.trim() || '';
-  if (!text) throw new Error('GLM-4.7-Flash fallback returned no content');
-  return { text, model: 'glm-4-flash' };
+  if (!text) throw new Error(`ZAI ${model} returned no content`);
+  return { text, model };
 }
 
 // ── Prompts ────────────────────────────────────────────────────────────────────
@@ -1496,11 +1495,13 @@ Rules:
   }
 ]`;
 
-  // Prefer top-end model (glm-5.2) if ZAI API key is configured
-  const seedModel = process.env.ZAI_API_KEY ? 'glm-5.2' : undefined;
-
+  // Use top-end GLM-5.2 for seed generation if ZAI key is available.
+  // This is called via callGLMFallback (ZAI endpoint) not callWriter (Cerebras),
+  // because 'glm-5.2' is a ZAI model — passing it to callWriter would 400 on Cerebras.
   try {
-    const result = await callWriter(prompt, 500, 'seeds-generator', undefined, seedModel);
+    const result = process.env.ZAI_API_KEY
+      ? await callGLMFallback(prompt, 500, 'seeds-generator', undefined, 'glm-5.2')
+      : await callWriter(prompt, 500, 'seeds-generator');
     const parsed = parseJSON(result.text);
     if (Array.isArray(parsed) && parsed.length > 0) {
       let seeds: TopicSeed[] = parsed.map(s => ({
@@ -1517,9 +1518,9 @@ Rules:
       return seeds;
     }
   } catch (e: any) {
-    // If Cerebras quota is exhausted, retry seed generation via GLM-4.7-Flash
-    if (e instanceof NonRetryableError && process.env.ZAI_API_KEY) {
-      console.log('  🔄 Cerebras quota exhausted for seeds — retrying seed generation with GLM-4.7-Flash...');
+    // Primary seed call (glm-5.2) failed — fall back to the faster glm-4.7-flash
+    if (process.env.ZAI_API_KEY) {
+      console.log('  🔄 Primary seed model failed — retrying with GLM-4.7-Flash...');
       try {
         const result = await callGLMFallback(prompt, 500, 'seeds-generator');
         const parsed = parseJSON(result.text);
@@ -1532,14 +1533,14 @@ Rules:
           }));
           seeds = filterSimilarSeeds(seeds, existing);
           seeds = deduplicateSeedBatch(seeds);
-          console.log(`  ✅ ${seeds.length} unique seeds via GLM fallback (from ${parsed.length} generated)`);
+          console.log(`  ✅ ${seeds.length} unique seeds via GLM-4.7-Flash (from ${parsed.length} generated)`);
           return seeds;
         }
       } catch (glmErr) {
-        console.error('GLM seed fallback also failed:', glmErr);
+        console.error('GLM-4.7-Flash seed fallback also failed:', glmErr);
       }
     } else {
-      console.error('Failed to generate seeds dynamically, using bootstrap fallbacks:', e);
+      console.error('Failed to generate seeds, using bootstrap fallbacks:', e);
     }
   }
 
@@ -1585,12 +1586,23 @@ async function main() {
   ];
 
   let hintIndex = 0;
+  let consecutiveEmpty = 0;           // break early if AI consistently returns nothing
   while (pending.length < countToGenerate && hintIndex < domainHints.length * 2) {
     const hint = domainHints[hintIndex % domainHints.length];
     hintIndex++;
     const needed = Math.min((countToGenerate - pending.length) * 2, 40);
-    console.log(`🤖 Seed Generation Attempt ${hintIndex}: requesting ${needed} candidate seeds...`);
+    console.log(`🤖 Seed Attempt ${hintIndex}: requesting ${needed} candidates (need ${countToGenerate - pending.length} more)...`);
     const rawSeeds = await generateSeedsViaAI(needed, existingBooks, hint);
+
+    if (rawSeeds.length === 0) {
+      consecutiveEmpty++;
+      if (consecutiveEmpty >= 2) {
+        console.log('  ⚠️  Two consecutive empty seed batches — stopping seed loop to avoid waste.');
+        break;
+      }
+    } else {
+      consecutiveEmpty = 0;
+    }
 
     for (const seed of rawSeeds) {
       if (pending.length >= countToGenerate) break;
@@ -1603,10 +1615,9 @@ async function main() {
       if (!isDiskDupe && !isPendingDupe) {
         pending.push(seed);
       } else {
-        console.log(`  🔁 Pre-filtered candidate: "${seed.goal}"`);
+        console.log(`  🔁 Pre-filtered: "${seed.goal}"`);
       }
     }
-    if (rawSeeds.length === 0) break;
   }
 
   if (pending.length === 0) {
