@@ -1156,7 +1156,7 @@ function parseJSON(raw: string): any {
 
 // ── Core generator ─────────────────────────────────────────────────────────────
 
-async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' | 'fail'> {
+async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles: string[]): Promise<'ok' | 'fail'> {
   // Determine model for this book (50/50 split between gemma-4-31b and gpt-oss-120b if Cerebras)
   let targetModel: string | undefined = undefined;
   if (CONFIG.PRIMARY_PROVIDER === 'cerebras' && (!SELECTED_MODEL || !['gemma-4-31b', 'zai-glm-4.7', 'gpt-oss-120b'].includes(SELECTED_MODEL))) {
@@ -1197,12 +1197,20 @@ async function generateBook(seed: TopicSeed, workerIndex: number): Promise<'ok' 
     if (roadmap.title) {
       const editionPrefix = EDITION === 'desi' ? 'desi-' : EDITION === 'street' ? 'street-' : '';
       const newSlug = editionPrefix + toSlug(roadmap.title);
-      // Check if this roadmap-generated slug already exists (prevents duplicates
-      // when the AI generates a roadmap title similar to an existing book)
+      // 1. Exact slug check (fast path)
       const existingBookPath = path.join(CONFIG.OUTPUT_DIR, 'books', `${newSlug}.json`);
       if (fs.existsSync(existingBookPath)) {
         console.log(`  ⏭️  ${getTag()} Skipping — book with slug "${newSlug}" already exists`);
-        return 'ok'; // Count as success so it doesn't retry
+        return 'ok';
+      }
+      // 2. Keyword similarity check against ALL known titles (catches same topic with
+      //    different subtitle — e.g. "A Complete Guide" vs "A Comprehensive Guide")
+      for (const existingTitle of existingTitles) {
+        const sim = keywordSimilarity(roadmap.title, existingTitle);
+        if (sim >= 0.75) {
+          console.log(`  ⏭️  ${getTag()} Skipping — "${roadmap.title}" is ${(sim * 100).toFixed(0)}% similar to existing "${existingTitle}"`);
+          return 'ok';
+        }
       }
       slug = newSlug;
     }
@@ -1497,10 +1505,11 @@ Rules:
   }
 
   // Fallback to bootstrap seeds that aren't already completed
-  const completedSet = new Set(existing.map(b => b.slug));
-  return BOOTSTRAP_SEEDS
-    .filter(s => !completedSet.has(toSlug(`${s.goal} ${s.complexity || 'beginner'}`)))
-    .slice(0, count);
+  // Use keyword similarity (same as AI path) — NOT slug matching, because book slugs
+  // come from roadmap-generated TITLES which differ from seed goal text.
+  let bootstrapSeeds = filterSimilarSeeds(BOOTSTRAP_SEEDS, existing, 0.6);
+  bootstrapSeeds = deduplicateSeedBatch(bootstrapSeeds);
+  return bootstrapSeeds.slice(0, count);
 }
 
 // ── Main ───────────────────────────────────────────────────────────────────────
@@ -1570,6 +1579,10 @@ async function main() {
   // Apply MAX_BOOKS limit if set (useful for test runs or CI time limits)
   if (CONFIG.MAX_BOOKS > 0) pending.splice(CONFIG.MAX_BOOKS);
 
+  // Build a live title list — seeded from catalog, updated as new books are generated
+  // within the same run so intra-run duplicates are also caught.
+  const liveTitles: string[] = existingBooks.map(b => b.title);
+
   // Strictly sequential: process one book at a time — no worker pool, no concurrency
   let done = 0; let failed = 0;
   const startTime = Date.now();
@@ -1580,11 +1593,22 @@ async function main() {
     console.log(`📚 Book ${i + 1}/${pending.length}: "${seed.goal}" (${seed.complexity})`);
     console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`);
 
-    const result = await generateBook(seed, i + 1);
+    const result = await generateBook(seed, i + 1, liveTitles);
     const slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
 
-    if (result === 'ok') { checkpoint.completedSlugs.push(slug); done++; }
-    else { checkpoint.failedSlugs.push(slug); failed++; }
+    if (result === 'ok') {
+      checkpoint.completedSlugs.push(slug);
+      done++;
+      // Track the title so the next book in this run won't duplicate it
+      const bookPath = path.join(CONFIG.OUTPUT_DIR, 'books', `${slug}.json`);
+      try {
+        const saved = JSON.parse(fs.readFileSync(bookPath, 'utf8'));
+        if (saved.title) liveTitles.push(saved.title);
+      } catch { /* slug may differ from roadmap title — just skip */ }
+    } else {
+      checkpoint.failedSlugs.push(slug);
+      failed++;
+    }
 
     saveCheckpoint(checkpoint);
     const elapsed = (Date.now() - startTime) / 60000;
