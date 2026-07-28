@@ -1310,106 +1310,180 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
         }
         if (!glossary) {
           console.log(`  📝 ${getTag()} Generating glossary (GLM)...`);
-          const glossaryPrompt = `Create a glossary of 10-15 key terms with definitions from a book about: ${seed.goal}.`;
-          const res = await callGLMFallback(glossaryPrompt, 300, 'chapter');
-          glossary = res.text.trim();
-        }
-        console.log(`  ✅ ${getTag()} Assembly rescued via GLM-4.7-Flash`);
-      } catch (glmAssemblyErr: any) {
-        console.warn(`  ⚠️  ${getTag()} GLM assembly rescue also failed: ${String(glmAssemblyErr?.message || '').slice(0, 80)}`);
-      }
-    }
-    // Continue with whatever we have — the book still has all its chapters
-  }
-
-  const totalWords = modules.reduce((s, m) => s + m.wordCount, 0)
-    + countWords(introduction) + countWords(summary) + countWords(glossary);
-
-  const modelName = [...modelsUsed].join(', ');
-
-  // Build the final book in Pustakam format
-  const finalBook = [
-    `# ${roadmap.title || seed.goal}\n\n`,
-    `**Generated:** ${new Date().toLocaleDateString()}\n`,
-    `**Words:** ${totalWords.toLocaleString()}\n`,
-    `**Model:** ${modelName}\n\n`,
-    `---\n\n## Table of Contents\n\n`,
-    generateTableOfContents(modules),
-    `\n\n---\n\n`,
-    // Introduction
-    introduction ? `## Introduction\n\n${introduction}\n\n---\n\n` : '',
-    // Chapters
-    ...modules.map((m, i) => {
-      return `# Chapter ${i + 1}: ${m.title}\n\n${m.content}\n\n${i < modules.length - 1 ? '---\n\n' : ''}`;
-    }),
-    // Summary
-    summary ? `\n---\n\n## Summary\n\n${summary}\n\n` : '',
-    // Glossary
-    glossary ? `---\n\n## Glossary\n\n${glossary}` : '',
-  ].join('');
-
-  // ─── Step 4: Save to LOCAL FILE ─────────────────────────────────────────────
-  const bookFile: BookFile = {
-    slug,
-    title: roadmap.title || seed.goal,
-    goal: seed.goal,
-    category: normalizeCategory(seed.category),
-    tags: seed.tags,
-    language: seed.language || 'en',
-    complexity: seed.complexity || 'beginner',
-    wordCount: totalWords,
-    moduleCount: modules.length,
-    readingTimeMins: Math.ceil(totalWords / 250),
-    metaDescription: makeMetaDescription(roadmap.title || seed.goal, seed),
-    modelUsed: modelName,
-    generatedAt: new Date().toISOString(),
-    edition: EDITION,
-    roadmap,
-    modules,
-    finalBook,
-  };
-
-  saveBook(bookFile);
-  console.log(`\n✅ ${getTag()} ${slug} — ${totalWords.toLocaleString()} words, ${modules.length} chapters → public/library/books/${slug}.json`);
-  return 'ok';
-}
-
-// ── Topic seeds (Fallback/Bootstrap seeds — diverse categories) ────────────────
+          const glossaryPrompt = `Create a glossary of 10-15 key terms with definitions // ── Topic seeds (Fallback pool — 140+ diverse seeds across global + India-specific) ────────
+// Used when AI seed generation fails. Large enough that even with 700+ books in library,
+// there are always fresh, non-duplicate seeds available after filterSimilarSeeds().
 
 const BOOTSTRAP_SEEDS: TopicSeed[] = [
-  // Programming & Tech
-  { goal: 'Learn Python programming from zero to real projects', category: 'programming', tags: ['python', 'coding'], complexity: 'beginner' },
-  { goal: 'Understand data structures and algorithms for tech interviews', category: 'programming', tags: ['dsa', 'algorithms'], complexity: 'intermediate' },
-  // AI
-  { goal: 'Understand prompt engineering and build LLM apps', category: 'artificial-intelligence', tags: ['llm', 'prompt-engineering'], complexity: 'advanced' },
+  // Crafts & Making
+  { goal: 'How to make candles at home for beginners', category: 'crafts', tags: ['candles', 'wax'], complexity: 'beginner' },
+  { goal: 'Learn soap making from scratch at home', category: 'crafts', tags: ['soap', 'natural'], complexity: 'beginner' },
+  { goal: 'How to make macrame wall hangings', category: 'crafts', tags: ['macrame', 'rope'], complexity: 'beginner' },
+  { goal: 'Resin art pour painting for beginners', category: 'crafts', tags: ['resin', 'pour-art'], complexity: 'beginner' },
+  { goal: 'How to make terracotta clay jewelry', category: 'crafts', tags: ['clay', 'jewelry'], complexity: 'beginner' },
+  { goal: 'Paper quilling art designs for beginners', category: 'crafts', tags: ['paper', 'quilling'], complexity: 'beginner' },
+  { goal: 'Learn basket weaving techniques for beginners', category: 'crafts', tags: ['weaving', 'basket'], complexity: 'beginner' },
+  { goal: 'How to tie dye fabric at home step by step', category: 'crafts', tags: ['tye-dye', 'fabric'], complexity: 'beginner' },
+  { goal: 'Needle felting wool animals for beginners', category: 'crafts', tags: ['felting', 'wool'], complexity: 'beginner' },
+  { goal: 'How to make friendship bracelets at home', category: 'crafts', tags: ['braiding', 'friendship'], complexity: 'beginner' },
+  { goal: 'Crochet stuffed animals amigurumi for beginners', category: 'crafts', tags: ['crochet', 'amigurumi'], complexity: 'intermediate' },
+  { goal: 'How to make bath bombs from scratch at home', category: 'crafts', tags: ['bath-bombs', 'natural'], complexity: 'beginner' },
+  { goal: 'Origami art for beginners step by step', category: 'crafts', tags: ['origami', 'paper-folding'], complexity: 'beginner' },
+  // Culinary (Specific)
+  { goal: 'How to make homemade pasta from scratch', category: 'cooking', tags: ['pasta', 'italian'], complexity: 'beginner' },
+  { goal: 'Beginner guide to making sushi at home', category: 'cooking', tags: ['sushi', 'japanese'], complexity: 'intermediate' },
+  { goal: 'How to make croissants at home step by step', category: 'cooking', tags: ['croissants', 'baking'], complexity: 'intermediate' },
+  { goal: 'Korean cooking basics for beginners at home', category: 'cooking', tags: ['korean', 'bibimbap'], complexity: 'beginner' },
+  { goal: 'Thai cooking stir fry basics for beginners', category: 'cooking', tags: ['thai', 'stir-fry'], complexity: 'beginner' },
+  { goal: 'How to make kombucha at home for beginners', category: 'cooking', tags: ['kombucha', 'fermentation'], complexity: 'beginner' },
+  { goal: 'Homemade ice cream without a machine', category: 'cooking', tags: ['ice-cream', 'dessert'], complexity: 'beginner' },
+  { goal: 'How to ferment vegetables kimchi and pickles', category: 'cooking', tags: ['fermentation', 'kimchi'], complexity: 'beginner' },
+  { goal: 'How to make ramen from scratch at home', category: 'cooking', tags: ['ramen', 'japanese'], complexity: 'intermediate' },
+  { goal: 'Mexican cooking basics tacos and salsas', category: 'cooking', tags: ['mexican', 'tacos'], complexity: 'beginner' },
+  { goal: 'How to brew beer at home for beginners', category: 'cooking', tags: ['brewing', 'beer'], complexity: 'intermediate' },
+  { goal: 'How to make pizza dough from scratch', category: 'cooking', tags: ['pizza', 'dough'], complexity: 'beginner' },
+  // Music (Specific instruments)
+  { goal: 'Learn ukulele chords and songs for beginners', category: 'music', tags: ['ukulele', 'chords'], complexity: 'beginner' },
+  { goal: 'How to play harmonica blues for beginners', category: 'music', tags: ['harmonica', 'blues'], complexity: 'beginner' },
+  { goal: 'Learn to play drums for beginners at home', category: 'music', tags: ['drums', 'rhythm'], complexity: 'beginner' },
+  { goal: 'Beginner violin lessons technique and practice', category: 'music', tags: ['violin', 'strings'], complexity: 'beginner' },
+  { goal: 'Music production basics in Ableton Live', category: 'music', tags: ['ableton', 'production'], complexity: 'beginner' },
+  { goal: 'Learn music theory basics for all musicians', category: 'music', tags: ['theory', 'harmony'], complexity: 'intermediate' },
+  { goal: 'How to DJ and mix music for beginners', category: 'music', tags: ['dj', 'mixing'], complexity: 'beginner' },
+  { goal: 'Learn to sing and develop your voice', category: 'music', tags: ['singing', 'vocal'], complexity: 'beginner' },
+  // Languages (Specific)
+  { goal: 'Learn Spanish speaking basics for beginners', category: 'language', tags: ['spanish', 'speaking'], complexity: 'beginner' },
+  { goal: 'Japanese language hiragana basics for beginners', category: 'language', tags: ['japanese', 'hiragana'], complexity: 'beginner' },
+  { goal: 'Learn French conversation basics for beginners', category: 'language', tags: ['french', 'conversation'], complexity: 'beginner' },
+  { goal: 'Mandarin Chinese tones and basics for beginners', category: 'language', tags: ['mandarin', 'tones'], complexity: 'beginner' },
+  { goal: 'Learn Arabic alphabet and basics from scratch', category: 'language', tags: ['arabic', 'alphabet'], complexity: 'beginner' },
+  { goal: 'Portuguese conversation basics for beginners', category: 'language', tags: ['portuguese', 'conversation'], complexity: 'beginner' },
+  { goal: 'Learn German grammar basics for beginners', category: 'language', tags: ['german', 'grammar'], complexity: 'beginner' },
+  { goal: 'Italian for complete beginners at home', category: 'language', tags: ['italian', 'conversation'], complexity: 'beginner' },
+  { goal: 'Learn sign language ASL for beginners', category: 'language', tags: ['asl', 'sign-language'], complexity: 'beginner' },
+  // Sports & Martial Arts
+  { goal: 'Learn rock climbing bouldering for beginners', category: 'sports', tags: ['climbing', 'bouldering'], complexity: 'beginner' },
+  { goal: 'How to skateboard ollie tricks for beginners', category: 'sports', tags: ['skateboarding', 'tricks'], complexity: 'beginner' },
+  { goal: 'Learn boxing basics punching technique', category: 'sports', tags: ['boxing', 'punching'], complexity: 'beginner' },
+  { goal: 'Muay Thai kickboxing basics for beginners', category: 'sports', tags: ['muay-thai', 'kickboxing'], complexity: 'beginner' },
+  { goal: 'Brazilian jiu-jitsu BJJ basics for beginners', category: 'sports', tags: ['bjj', 'grappling'], complexity: 'beginner' },
+  { goal: 'Badminton techniques smash and footwork', category: 'sports', tags: ['badminton', 'smash'], complexity: 'beginner' },
+  { goal: 'Table tennis spin techniques for beginners', category: 'sports', tags: ['ping-pong', 'spin'], complexity: 'beginner' },
+  { goal: 'Learn fencing sword fighting for beginners', category: 'sports', tags: ['fencing', 'sword'], complexity: 'beginner' },
+  { goal: 'How to do handstands calisthenics at home', category: 'fitness', tags: ['calisthenics', 'handstand'], complexity: 'intermediate' },
+  { goal: 'Learn archery for beginners at home', category: 'sports', tags: ['archery', 'bow'], complexity: 'beginner' },
+  // Art & Drawing
+  { goal: 'How to draw realistic portraits for beginners', category: 'art', tags: ['portrait', 'drawing'], complexity: 'beginner' },
+  { goal: 'Learn oil painting basics for beginners', category: 'art', tags: ['oil-painting', 'canvas'], complexity: 'beginner' },
+  { goal: 'Digital art illustration using Procreate', category: 'art', tags: ['procreate', 'digital'], complexity: 'beginner' },
+  { goal: 'How to draw anime manga characters step by step', category: 'art', tags: ['anime', 'manga'], complexity: 'beginner' },
+  { goal: 'Learn gouache painting for beginners', category: 'art', tags: ['gouache', 'painting'], complexity: 'beginner' },
+  { goal: 'Urban sketching with pen and ink for beginners', category: 'art', tags: ['sketching', 'urban'], complexity: 'beginner' },
+  { goal: 'Charcoal drawing shading and blending basics', category: 'art', tags: ['charcoal', 'shading'], complexity: 'beginner' },
+  { goal: 'Linocut printmaking for beginners at home', category: 'art', tags: ['linocut', 'printmaking'], complexity: 'beginner' },
+  // Technology (Specific)
+  { goal: 'Learn React JS build web apps from scratch', category: 'programming', tags: ['react', 'javascript'], complexity: 'intermediate' },
+  { goal: 'Docker containers basics for developers', category: 'technology', tags: ['docker', 'devops'], complexity: 'intermediate' },
+  { goal: 'Linux command line bash scripting basics', category: 'technology', tags: ['linux', 'bash'], complexity: 'beginner' },
+  { goal: 'Learn SQL and database design from scratch', category: 'programming', tags: ['sql', 'database'], complexity: 'beginner' },
+  { goal: 'Build a website with HTML CSS JavaScript', category: 'programming', tags: ['html', 'css'], complexity: 'beginner' },
+  { goal: 'Learn TypeScript for JavaScript developers', category: 'programming', tags: ['typescript', 'javascript'], complexity: 'intermediate' },
+  { goal: 'Blender 3D modelling basics for beginners', category: 'technology', tags: ['blender', '3d'], complexity: 'beginner' },
+  { goal: 'Raspberry Pi home automation projects', category: 'electronics', tags: ['raspberry-pi', 'automation'], complexity: 'intermediate' },
+  { goal: 'Learn Git version control for beginners', category: 'programming', tags: ['git', 'github'], complexity: 'beginner' },
+  // Health & Wellness
+  { goal: 'How to do intermittent fasting for beginners', category: 'health', tags: ['fasting', 'nutrition'], complexity: 'beginner' },
+  { goal: 'Running couch to 5k plan for beginners', category: 'fitness', tags: ['running', '5k'], complexity: 'beginner' },
+  { goal: 'Beginner stretching and flexibility training', category: 'fitness', tags: ['stretching', 'flexibility'], complexity: 'beginner' },
+  { goal: 'How to track macros and calories for fitness', category: 'health', tags: ['macros', 'nutrition'], complexity: 'intermediate' },
+  { goal: 'Resistance band full body workout for beginners', category: 'fitness', tags: ['resistance-bands', 'strength'], complexity: 'beginner' },
+  { goal: 'Learn acupressure and pressure point therapy', category: 'health', tags: ['acupressure', 'massage'], complexity: 'beginner' },
+  { goal: 'Cold exposure and ice bath therapy basics', category: 'health', tags: ['cold-therapy', 'recovery'], complexity: 'beginner' },
+  // Home & Garden
+  { goal: 'How to paint a room interior wall step by step', category: 'home-improvement', tags: ['painting', 'walls'], complexity: 'beginner' },
+  { goal: 'How to fix a leaking tap plumbing basics', category: 'home-improvement', tags: ['plumbing', 'diy'], complexity: 'beginner' },
+  { goal: 'Install ceramic floor tiles for beginners', category: 'home-improvement', tags: ['tiling', 'flooring'], complexity: 'intermediate' },
+  { goal: 'Basic home electrical repairs and rewiring', category: 'home-improvement', tags: ['electrical', 'wiring'], complexity: 'intermediate' },
+  { goal: 'How to build a raised garden bed at home', category: 'gardening', tags: ['raised-bed', 'vegetables'], complexity: 'beginner' },
+  { goal: 'Learn companion planting for vegetable gardens', category: 'gardening', tags: ['companion-planting', 'organic'], complexity: 'intermediate' },
+  { goal: 'How to prune fruit trees correctly', category: 'gardening', tags: ['pruning', 'fruit-trees'], complexity: 'intermediate' },
+  { goal: 'Composting at home beginners guide', category: 'gardening', tags: ['composting', 'soil'], complexity: 'beginner' },
   // Finance
-  { goal: 'Learn stock market investing for beginners in India', category: 'finance', tags: ['stocks', 'india'], complexity: 'beginner' },
-  // Business
-  { goal: 'Launch a startup from idea to product', category: 'business', tags: ['startup', 'entrepreneurship'], complexity: 'intermediate' },
-  // Exams
-  { goal: 'Crack UPSC CSE Prelims with systematic preparation', category: 'exams', tags: ['upsc', 'ias'], complexity: 'beginner' },
-  // Language
-  { goal: 'Improve spoken English fluency for Indian speakers', category: 'language', tags: ['english', 'speaking'], complexity: 'beginner' },
-  // Health & Fitness
-  { goal: 'Build a consistent gym workout routine for beginners', category: 'fitness', tags: ['gym', 'workout'], complexity: 'beginner' },
-  // Design
-  { goal: 'Learn UI/UX design from scratch with Figma', category: 'design', tags: ['uiux', 'figma'], complexity: 'intermediate' },
-  // Cooking
-  { goal: 'Learn to cook Italian food at home from scratch', category: 'cooking', tags: ['italian', 'recipes'], complexity: 'beginner' },
-  // Music
-  { goal: 'Learn guitar for beginners step by step', category: 'music', tags: ['guitar', 'instruments'], complexity: 'beginner' },
-  // Photography
-  { goal: 'Digital photography composition and lighting basics', category: 'photography', tags: ['camera', 'composition'], complexity: 'beginner' },
-  // Gardening
-  { goal: 'Start a vegetable garden from scratch at home', category: 'gardening', tags: ['vegetables', 'organic'], complexity: 'beginner' },
-  // Parenting
-  { goal: 'Positive parenting techniques for toddlers', category: 'parenting', tags: ['toddlers', 'discipline'], complexity: 'beginner' },
-  // Travel
-  { goal: 'Budget travel hacking tips and strategies', category: 'travel', tags: ['budget', 'flights'], complexity: 'intermediate' },
-  // Crafts
-  { goal: 'Learn knitting for beginners step by step', category: 'crafts', tags: ['knitting', 'handmade'], complexity: 'beginner' },
+  { goal: 'How to read stock charts technical analysis', category: 'finance', tags: ['stocks', 'charts'], complexity: 'intermediate' },
+  { goal: 'How to create a personal budget from scratch', category: 'finance', tags: ['budgeting', 'savings'], complexity: 'beginner' },
+  { goal: 'Cryptocurrency basics bitcoin and blockchain', category: 'finance', tags: ['crypto', 'bitcoin'], complexity: 'beginner' },
+  { goal: 'How to invest in index funds for beginners', category: 'finance', tags: ['index-funds', 'passive'], complexity: 'beginner' },
+  { goal: 'Options trading basics for stock market beginners', category: 'finance', tags: ['options', 'trading'], complexity: 'intermediate' },
+  { goal: 'Tax basics for freelancers and self-employed', category: 'finance', tags: ['taxes', 'freelance'], complexity: 'intermediate' },
+  // Animals & Pets
+  { goal: 'How to care for a pet gecko at home', category: 'pets', tags: ['gecko', 'reptile'], complexity: 'beginner' },
+  { goal: 'Beekeeping basics hives and honey for beginners', category: 'pets', tags: ['bees', 'honey'], complexity: 'beginner' },
+  { goal: 'How to raise backyard chickens for eggs', category: 'pets', tags: ['chickens', 'eggs'], complexity: 'beginner' },
+  { goal: 'Freshwater aquarium fishkeeping for beginners', category: 'pets', tags: ['aquarium', 'fish'], complexity: 'beginner' },
+  { goal: 'Parrot care and basic training for beginners', category: 'pets', tags: ['parrot', 'bird'], complexity: 'beginner' },
+  { goal: 'How to care for succulents and cacti', category: 'gardening', tags: ['succulents', 'indoor-plants'], complexity: 'beginner' },
+  // Photography & Video
+  { goal: 'Portrait photography natural light techniques', category: 'photography', tags: ['portrait', 'natural-light'], complexity: 'intermediate' },
+  { goal: 'Product photography basics at home studio', category: 'photography', tags: ['product', 'studio'], complexity: 'beginner' },
+  { goal: 'Learn film photography and developing rolls', category: 'photography', tags: ['film', 'analog'], complexity: 'beginner' },
+  { goal: 'How to make YouTube videos from scratch', category: 'video', tags: ['youtube', 'filming'], complexity: 'beginner' },
+  { goal: 'Video editing in DaVinci Resolve for beginners', category: 'video', tags: ['davinci', 'editing'], complexity: 'beginner' },
+  { goal: 'Drone photography and flying basics', category: 'photography', tags: ['drone', 'aerial'], complexity: 'intermediate' },
+  // Personal Development
+  { goal: 'How to practice daily gratitude journaling', category: 'personal-development', tags: ['gratitude', 'journaling'], complexity: 'beginner' },
+  { goal: 'Speed reading and memory techniques', category: 'personal-development', tags: ['speed-reading', 'memory'], complexity: 'intermediate' },
+  { goal: 'How to develop a morning routine for productivity', category: 'personal-development', tags: ['morning-routine', 'habits'], complexity: 'beginner' },
+  { goal: 'Learn public speaking and overcoming stage fright', category: 'personal-development', tags: ['public-speaking', 'confidence'], complexity: 'beginner' },
+  { goal: 'Emotional intelligence skills for everyday life', category: 'personal-development', tags: ['emotional-intelligence', 'eq'], complexity: 'intermediate' },
+  // Outdoor & Adventure
+  { goal: 'How to plan a backpacking trip for beginners', category: 'outdoor', tags: ['backpacking', 'hiking'], complexity: 'beginner' },
+  { goal: 'Wilderness camping and outdoor survival basics', category: 'outdoor', tags: ['camping', 'survival'], complexity: 'beginner' },
+  { goal: 'Learn kayaking for beginners on flat water', category: 'outdoor', tags: ['kayak', 'paddling'], complexity: 'beginner' },
+  { goal: 'How to navigate with map and compass', category: 'outdoor', tags: ['navigation', 'orienteering'], complexity: 'intermediate' },
+  { goal: 'Shore fishing basics for complete beginners', category: 'outdoor', tags: ['fishing', 'angling'], complexity: 'beginner' },
+  // Writing & Communication
+  { goal: 'Learn copywriting for websites and ads', category: 'writing', tags: ['copywriting', 'conversion'], complexity: 'intermediate' },
+  { goal: 'How to write a blog post that ranks on Google', category: 'writing', tags: ['blogging', 'seo'], complexity: 'intermediate' },
+  { goal: 'How to write children picture books for beginners', category: 'writing', tags: ['childrens-books', 'publishing'], complexity: 'beginner' },
+  { goal: 'Podcast production and recording for beginners', category: 'writing', tags: ['podcast', 'audio'], complexity: 'beginner' },
   // Automotive
-  { goal: 'Basic car maintenance and repair for beginners', category: 'automotive', tags: ['cars', 'diy-repair'], complexity: 'beginner' },
+  { goal: 'How to change car brake pads yourself', category: 'automotive', tags: ['brakes', 'diy'], complexity: 'intermediate' },
+  { goal: 'How to detail a car professionally at home', category: 'automotive', tags: ['detailing', 'polish'], complexity: 'beginner' },
+  { goal: 'Motorcycle riding safety basics for beginners', category: 'automotive', tags: ['motorcycle', 'riding'], complexity: 'beginner' },
+  { goal: 'How to change a flat tyre roadside guide', category: 'automotive', tags: ['tyre', 'roadside'], complexity: 'beginner' },
+  // Dance
+  { goal: 'Learn salsa dancing basics for beginners', category: 'dance', tags: ['salsa', 'latin'], complexity: 'beginner' },
+  { goal: 'How to learn hip hop dance at home', category: 'dance', tags: ['hip-hop', 'street-dance'], complexity: 'beginner' },
+  { goal: 'Beginner swing dancing and lindy hop basics', category: 'dance', tags: ['swing', 'lindy-hop'], complexity: 'beginner' },
+  { goal: 'Learn belly dancing at home for beginners', category: 'dance', tags: ['belly-dance', 'fitness'], complexity: 'beginner' },
+  // Business & Freelancing
+  { goal: 'How to start a dropshipping business from scratch', category: 'business', tags: ['dropshipping', 'ecommerce'], complexity: 'beginner' },
+  { goal: 'Etsy shop setup and selling handmade products', category: 'business', tags: ['etsy', 'handmade'], complexity: 'beginner' },
+  { goal: 'How to start freelancing on Fiverr and Upwork', category: 'business', tags: ['freelancing', 'fiverr'], complexity: 'beginner' },
+  { goal: 'Print on demand business setup for beginners', category: 'business', tags: ['print-on-demand', 'merch'], complexity: 'beginner' },
+  { goal: 'How to pitch to investors beginner guide', category: 'business', tags: ['pitch', 'funding'], complexity: 'intermediate' },
+  // India-specific (Desi edition primary pool)
+  { goal: 'How to cook dal tadka from scratch at home', category: 'cooking', tags: ['dal', 'indian'], complexity: 'beginner' },
+  { goal: 'Making biryani from scratch at home', category: 'cooking', tags: ['biryani', 'rice'], complexity: 'intermediate' },
+  { goal: 'How to make paneer from scratch at home', category: 'cooking', tags: ['paneer', 'dairy'], complexity: 'beginner' },
+  { goal: 'Learn to make roti and chapati at home', category: 'cooking', tags: ['roti', 'bread'], complexity: 'beginner' },
+  { goal: 'How to make Indian street food chaat at home', category: 'cooking', tags: ['chaat', 'street-food'], complexity: 'beginner' },
+  { goal: 'How to crack SBI PO exam from scratch', category: 'exams', tags: ['banking', 'sbi'], complexity: 'beginner' },
+  { goal: 'SSC CGL preparation complete guide for beginners', category: 'exams', tags: ['ssc', 'government'], complexity: 'beginner' },
+  { goal: 'How to prepare for CAT exam from zero', category: 'exams', tags: ['cat', 'mba'], complexity: 'intermediate' },
+  { goal: 'NEET biology preparation strategy for beginners', category: 'exams', tags: ['neet', 'biology'], complexity: 'intermediate' },
+  { goal: 'Learn Hindi typing and keyboard shortcuts', category: 'technology', tags: ['hindi', 'typing'], complexity: 'beginner' },
+  { goal: 'How to invest in Indian mutual funds for beginners', category: 'finance', tags: ['mutual-funds', 'sip'], complexity: 'beginner' },
+  { goal: 'How to file GST returns for small business', category: 'finance', tags: ['gst', 'tax'], complexity: 'intermediate' },
+  { goal: 'Ayurvedic home remedies for common ailments', category: 'health', tags: ['ayurveda', 'remedies'], complexity: 'beginner' },
+  { goal: 'How to start a tiffin service business at home', category: 'business', tags: ['tiffin', 'food-business'], complexity: 'beginner' },
+  { goal: 'Learn classical Indian music ragas for beginners', category: 'music', tags: ['ragas', 'classical'], complexity: 'beginner' },
+  { goal: 'Bharatanatyam dance basics for beginners', category: 'dance', tags: ['bharatanatyam', 'classical'], complexity: 'beginner' },
+  { goal: 'How to grow tulsi and medicinal herbs at home', category: 'gardening', tags: ['tulsi', 'herbs'], complexity: 'beginner' },
+  { goal: 'Learn mehendi henna art for beginners', category: 'crafts', tags: ['mehendi', 'henna'], complexity: 'beginner' },
+  { goal: 'How to make Indian pickles achar at home', category: 'cooking', tags: ['achar', 'preserving'], complexity: 'beginner' },
+  { goal: 'Trekking in Himalayas beginner preparation guide', category: 'outdoor', tags: ['himalaya', 'trekking'], complexity: 'intermediate' },
+];epair for beginners', category: 'automotive', tags: ['cars', 'diy-repair'], complexity: 'beginner' },
   // Pets
   { goal: 'Dog training basics for first-time owners', category: 'pets', tags: ['dogs', 'training'], complexity: 'beginner' },
   // Yoga & Meditation
@@ -1527,53 +1601,67 @@ Rules:
   }
 ]`;
 
-  // GLM-5.2 is the default in callGLMFallback — no need to pass model explicitly here.
-  // Cerebras fallback (no ZAI key) uses callWriter directly.
-  try {
-    const result = process.env.ZAI_API_KEY
-      ? await callGLMFallback(prompt, 500, 'seeds-generator')
-      : await callWriter(prompt, 500, 'seeds-generator');
-    const parsed = parseJSON(result.text);
-    if (Array.isArray(parsed) && parsed.length > 0) {
-      let seeds: TopicSeed[] = parsed.map(s => ({
-        goal: s.goal,
-        category: normalizeCategory(s.category || 'general'),
-        tags: s.tags || [],
-        complexity: (s.complexity || 'beginner') as TopicSeed['complexity']
-      }));
-
-      seeds = filterSimilarSeeds(seeds, existing);
-      seeds = deduplicateSeedBatch(seeds);
-
-      console.log(`  ✅ ${seeds.length} unique seeds after similarity filtering (from ${parsed.length} AI-generated)`);
-      return seeds;
-    }
-  } catch (e: any) {
-    // glm-5.2 failed — retry once with glm-4.7-flash as a last resort
-    if (process.env.ZAI_API_KEY) {
-      console.log('  🔄 GLM-5.2 seed call failed — retrying with GLM-4.7-Flash as last resort...');
-      try {
-        const result = await callGLMFallback(prompt, 500, 'seeds-generator', undefined, 'glm-4.7-flash');
-        const parsed = parseJSON(result.text);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          let seeds: TopicSeed[] = parsed.map((s: any) => ({
-            goal: s.goal,
+  // Seed generation: try ZAI (glm-4.7-flash, free) first, then Cerebras, then fallback pool.
+  // max_tokens capped at 3000 to prevent GLM from truncating the JSON array mid-element.
+  const seedCallOpts = { maxTokens: 3000 }; // override for seed generation only
+  const trySeedParse = (text: string): TopicSeed[] | null => {
+    try {
+      const parsed = parseJSON(text);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        let seeds: TopicSeed[] = parsed
+          .filter((s: any) => s && typeof s.goal === 'string' && s.goal.trim())
+          .map((s: any) => ({
+            goal: s.goal.trim(),
             category: normalizeCategory(s.category || 'general'),
-            tags: s.tags || [],
+            tags: Array.isArray(s.tags) ? s.tags : [],
             complexity: (s.complexity || 'beginner') as TopicSeed['complexity']
           }));
-          seeds = filterSimilarSeeds(seeds, existing);
-          seeds = deduplicateSeedBatch(seeds);
-          console.log(`  ✅ ${seeds.length} unique seeds via GLM-4.7-Flash fallback (from ${parsed.length} generated)`);
-          return seeds;
-        }
-      } catch (glmErr) {
-        console.error('GLM-4.7-Flash last-resort seed fallback also failed:', glmErr);
+        seeds = filterSimilarSeeds(seeds, existing);
+        seeds = deduplicateSeedBatch(seeds);
+        return seeds;
       }
-    } else {
-      console.error('Failed to generate seeds, using bootstrap fallbacks:', e);
+    } catch {}
+    return null;
+  };
+
+  // Attempt 1: Cerebras — same primary model as the rest of the pipeline
+  if (CONFIG.PRIMARY_API_KEY) {
+    try {
+      const result = await callWriter(prompt, 500, 'seeds-generator');
+      const seeds = trySeedParse(result.text);
+      if (seeds && seeds.length > 0) {
+        console.log(`  ✅ ${seeds.length} unique seeds via Cerebras`);
+        return seeds;
+      }
+    } catch (e: any) {
+      console.log(`  ⚠️  Cerebras seed call failed: ${String(e?.message || e).slice(0, 80)}`);
     }
   }
+
+  // Attempt 2: ZAI glm-4.7-flash (free, 200K context) — fallback if Cerebras 402s
+  if (process.env.ZAI_API_KEY) {
+    try {
+      console.log('  🔄 Cerebras unavailable — trying ZAI glm-4.7-flash for seeds...');
+      const res = await fetch('https://api.z.ai/api/paas/v4/chat/completions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${process.env.ZAI_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model: 'glm-4.7-flash', messages: [{ role: 'user', content: prompt }], temperature: 0.9, max_tokens: 3000 }),
+      });
+      if (res.ok) {
+        const data = await res.json() as any;
+        const text = data.choices?.[0]?.message?.content?.trim() || '';
+        const seeds = text ? trySeedParse(text) : null;
+        if (seeds && seeds.length > 0) {
+          console.log(`  ✅ ${seeds.length} unique seeds via ZAI glm-4.7-flash`);
+          return seeds;
+        }
+      }
+    } catch (e: any) {
+      console.log(`  ⚠️  ZAI seed call failed: ${String(e?.message || e).slice(0, 80)}`);
+    }
+  }
+
+  console.log('  ⚠️  All AI seed sources failed — using fallback seed pool...');
 
   let bootstrapSeeds = filterSimilarSeeds(BOOTSTRAP_SEEDS, existing, 0.6);
   bootstrapSeeds = deduplicateSeedBatch(bootstrapSeeds);
@@ -1604,7 +1692,7 @@ async function main() {
 
   console.log('\n🚀 Pustakam Library Generator — Full Pipeline (Sequential)');
   console.log(`🤖 Target books to generate this run: ${countToGenerate}`);
-  console.log(`✅ Already done in library: ${completedSet.size}`);
+  console.log(`✅ Already done in library: ${getExistingSlugs().length} books on disk`);
   
   // Multi-pass seed generation loop to collect countToGenerate guaranteed fresh, unique seeds
   const existingSlugsOnDisk = new Set(getExistingSlugs());
