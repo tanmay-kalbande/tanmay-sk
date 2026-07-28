@@ -1299,7 +1299,8 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
       try {
         if (!introduction) {
           console.log(`  📝 ${getTag()} Generating introduction (GLM)...`);
-          const res = await callGLMFallback(buildIntroductionPrompt(seed, roadmap), 300, 'chapter');
+          const introPrompt = `Generate a compelling introduction for: "${seed.goal}"\nROADMAP:\n${roadmap.modules.map(m => `- ${m.title}`).join('\n')}\nTARGET: ${seed.complexity || 'beginner'} learners\nCATEGORY: ${seed.category}`;
+          const res = await callGLMFallback(introPrompt, 300, 'chapter');
           introduction = stripLeadingDuplicateHeading(res.text.trim(), 'Introduction');
         }
         if (!summary) {
@@ -1310,7 +1311,71 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
         }
         if (!glossary) {
           console.log(`  📝 ${getTag()} Generating glossary (GLM)...`);
-          const glossaryPrompt = `Create a glossary of 10-15 key terms with definitions // ── Topic seeds (Fallback pool — 140+ diverse seeds across global + India-specific) ────────
+          const glossaryPrompt = `Create a glossary of 10-15 key terms with definitions from a book about: ${seed.goal}.`;
+          const res = await callGLMFallback(glossaryPrompt, 300, 'chapter');
+          glossary = res.text.trim();
+        }
+        console.log(`  ✅ ${getTag()} Assembly rescued via GLM-4.7-Flash`);
+      } catch (glmAssemblyErr: any) {
+        console.warn(`  ⚠️  ${getTag()} GLM assembly rescue also failed: ${String(glmAssemblyErr?.message || '').slice(0, 80)}`);
+      }
+    }
+    // Continue with whatever we have — the book still has all its chapters
+  }
+
+  const totalWords = modules.reduce((s, m) => s + m.wordCount, 0)
+    + countWords(introduction) + countWords(summary) + countWords(glossary);
+
+  const modelName = [...modelsUsed].join(', ');
+
+  // Build the final book in Pustakam format
+  const finalBook = [
+    `# ${roadmap.title || seed.goal}\n\n`,
+    `**Generated:** ${new Date().toLocaleDateString()}\n`,
+    `**Words:** ${totalWords.toLocaleString()}\n`,
+    `**Model:** ${modelName}\n\n`,
+    `---\n\n## Table of Contents\n\n`,
+    generateTableOfContents(modules),
+    `\n\n---\n\n`,
+    // Introduction
+    introduction ? `## Introduction\n\n${introduction}\n\n---\n\n` : '',
+    // Chapters
+    ...modules.map((m, i) => {
+      return `# Chapter ${i + 1}: ${m.title}\n\n${m.content}\n\n${i < modules.length - 1 ? '---\n\n' : ''}`;
+    }),
+    // Summary
+    summary ? `\n---\n\n## Summary\n\n${summary}\n\n` : '',
+    // Glossary
+    glossary ? `---\n\n## Glossary\n\n${glossary}` : '',
+  ].join('');
+
+  // ─── Step 4: Save to LOCAL FILE ─────────────────────────────────────────────
+  const bookFile: BookFile = {
+    slug,
+    title: roadmap.title || seed.goal,
+    goal: seed.goal,
+    category: normalizeCategory(seed.category),
+    tags: seed.tags,
+    language: seed.language || 'en',
+    complexity: seed.complexity || 'beginner',
+    wordCount: totalWords,
+    moduleCount: modules.length,
+    readingTimeMins: Math.ceil(totalWords / 250),
+    metaDescription: makeMetaDescription(roadmap.title || seed.goal, seed),
+    modelUsed: modelName,
+    generatedAt: new Date().toISOString(),
+    edition: EDITION,
+    roadmap,
+    modules,
+    finalBook,
+  };
+
+  saveBook(bookFile);
+  console.log(`\n✅ ${getTag()} ${slug} — ${totalWords.toLocaleString()} words, ${modules.length} chapters → public/library/books/${slug}.json`);
+  return 'ok';
+}
+
+// ── Topic seeds (Fallback pool — 140+ diverse seeds across global + India-specific) ────────
 // Used when AI seed generation fails. Large enough that even with 700+ books in library,
 // there are always fresh, non-duplicate seeds available after filterSimilarSeeds().
 
@@ -1481,38 +1546,7 @@ const BOOTSTRAP_SEEDS: TopicSeed[] = [
   { goal: 'Bharatanatyam dance basics for beginners', category: 'dance', tags: ['bharatanatyam', 'classical'], complexity: 'beginner' },
   { goal: 'How to grow tulsi and medicinal herbs at home', category: 'gardening', tags: ['tulsi', 'herbs'], complexity: 'beginner' },
   { goal: 'Learn mehendi henna art for beginners', category: 'crafts', tags: ['mehendi', 'henna'], complexity: 'beginner' },
-  { goal: 'How to make Indian pickles achar at home', category: 'cooking', tags: ['achar', 'preserving'], complexity: 'beginner' },
   { goal: 'Trekking in Himalayas beginner preparation guide', category: 'outdoor', tags: ['himalaya', 'trekking'], complexity: 'intermediate' },
-];epair for beginners', category: 'automotive', tags: ['cars', 'diy-repair'], complexity: 'beginner' },
-  // Pets
-  { goal: 'Dog training basics for first-time owners', category: 'pets', tags: ['dogs', 'training'], complexity: 'beginner' },
-  // Yoga & Meditation
-  { goal: 'Yoga for beginners complete home practice guide', category: 'yoga', tags: ['flexibility', 'mindfulness'], complexity: 'beginner' },
-  { goal: 'Mindfulness meditation for stress and anxiety relief', category: 'meditation', tags: ['mindfulness', 'stress'], complexity: 'beginner' },
-  // Sports
-  { goal: 'Learn to swim as an adult beginner', category: 'sports', tags: ['swimming', 'water'], complexity: 'beginner' },
-  // Writing
-  { goal: 'Creative writing for beginners fiction and stories', category: 'writing', tags: ['fiction', 'storytelling'], complexity: 'beginner' },
-  // Home Improvement
-  { goal: 'DIY home renovation projects for beginners', category: 'home-improvement', tags: ['diy', 'renovation'], complexity: 'beginner' },
-  // Woodworking
-  { goal: 'Woodworking projects for beginners with hand tools', category: 'woodworking', tags: ['furniture', 'hand-tools'], complexity: 'beginner' },
-  // Marketing
-  { goal: 'Social media marketing strategy for small business', category: 'marketing', tags: ['social-media', 'growth'], complexity: 'intermediate' },
-  // Data Science
-  { goal: 'Data science with Python for beginners', category: 'data-science', tags: ['python', 'analytics'], complexity: 'beginner' },
-  // Cybersecurity
-  { goal: 'Cybersecurity fundamentals for beginners', category: 'cybersecurity', tags: ['security', 'networking'], complexity: 'beginner' },
-  // Personal Development
-  { goal: 'Build self-confidence and overcome social anxiety', category: 'personal-development', tags: ['confidence', 'anxiety'], complexity: 'beginner' },
-  // Sustainability
-  { goal: 'Zero waste living for beginners practical guide', category: 'sustainability', tags: ['eco-friendly', 'zero-waste'], complexity: 'beginner' },
-  // Real Estate
-  { goal: 'Real estate investing for beginners complete guide', category: 'real-estate', tags: ['property', 'investing'], complexity: 'beginner' },
-  // Astronomy
-  { goal: 'Backyard astronomy and stargazing for beginners', category: 'astronomy', tags: ['stars', 'telescope'], complexity: 'beginner' },
-  // Electronics
-  { goal: 'Arduino projects for beginners step by step', category: 'electronics', tags: ['arduino', 'circuits'], complexity: 'beginner' },
 ];
 
 function buildCategorySummaryMap(existing: BookMeta[]): string {
