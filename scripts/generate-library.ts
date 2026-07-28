@@ -527,41 +527,103 @@ async function callWriter(
 }
 
 // ── ZAI GLM-4.7-Flash fallback ────────────────────────────────────────────────────────────
-// Free ZAI model used when Cerebras quota (402) is exhausted mid-book.
-async function callGLMFallback(
+// Fallback model caller used when Cerebras quota (402) is exhausted mid-book.
+// Order: Mistral Small (mistral-small-2506) FIRST (rock-solid, high rate limits),
+// then ZAI GLM-4.7-Flash SECOND (with retries for 429 overload errors).
+async function callFallback(
   prompt: string,
   estInputTokens = 500,
   kind: RequestKind = 'chapter',
   systemPrompt?: string,
-  model = 'glm-4.7-flash'
+  modelOverride?: string
 ): Promise<Completion> {
-  const glmApiKey = process.env.ZAI_API_KEY || '';
-  if (!glmApiKey) throw new Error('ZAI_API_KEY not set — cannot use ZAI fallback');
   const messages = systemPrompt
     ? [{ role: 'system', content: systemPrompt }, { role: 'user', content: prompt }]
     : [{ role: 'user', content: prompt }];
   const estTotal = estInputTokens + 2000;
-  await tokenBudget.acquire(estTotal);
-  const res = await fetch('https://api.z.ai/api/paas/v4/chat/completions', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${glmApiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model,
-      messages,
-      temperature: 0.7,
-      max_tokens: CONFIG.MAX_TOKENS,
-    }),
-  });
-  if (!res.ok) {
-    const body = (await res.text()).slice(0, 200);
-    throw new Error(`ZAI ${model} ${res.status}: ${body}`);
+
+  // 1. Primary Fallback: Mistral Small (mistral-small-2506)
+  const mistralKey = process.env.MISTRAL_API_KEY || '';
+  if (mistralKey) {
+    try {
+      const mistralModel = modelOverride || 'mistral-small-2506';
+      console.log(`  🔄 Cerebras quota exhausted — using Mistral (${mistralModel})...`);
+      const mistralRes = await fetch('https://api.mistral.ai/v1/chat/completions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${mistralKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: mistralModel,
+          messages,
+          temperature: 0.7,
+          max_tokens: CONFIG.MAX_TOKENS,
+        }),
+      });
+
+      if (mistralRes.ok) {
+        const data = await mistralRes.json() as any;
+        const text = data.choices?.[0]?.message?.content?.trim() || '';
+        if (text) return { text, model: mistralModel };
+      } else {
+        const body = (await mistralRes.text()).slice(0, 150);
+        console.warn(`  ⚠️  Mistral ${mistralRes.status}: ${body}`);
+      }
+    } catch (e: any) {
+      console.warn(`  ⚠️  Mistral fallback error: ${String(e?.message || e).slice(0, 100)}`);
+    }
   }
-  const data = await res.json() as any;
-  tokenBudget.record(data.usage?.total_tokens || estTotal);
-  const text = data.choices?.[0]?.message?.content?.trim() || '';
-  if (!text) throw new Error(`ZAI ${model} returned no content`);
-  return { text, model };
+
+  // 2. Secondary Fallback: ZAI GLM-4.7-Flash (free, with 5 retries for 429 overload)
+  const glmApiKey = process.env.ZAI_API_KEY || '';
+  if (glmApiKey) {
+    const glmModel = 'glm-4.7-flash';
+    console.log(`  🔄 Trying ZAI ${glmModel} secondary fallback...`);
+    const maxRetries = 5;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await tokenBudget.acquire(estTotal);
+        const res = await fetch('https://api.z.ai/api/paas/v4/chat/completions', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${glmApiKey}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: glmModel,
+            messages,
+            temperature: 0.7,
+            max_tokens: CONFIG.MAX_TOKENS,
+          }),
+        });
+
+        if (res.status === 429 || res.status === 503 || res.status === 500) {
+          const body = (await res.text()).slice(0, 150);
+          const delaySec = attempt * 5; // 5s, 10s, 15s, 20s, 25s
+          console.warn(`  ⚠️  ZAI ${glmModel} ${res.status} (${body}) — retry ${attempt}/${maxRetries} in ${delaySec}s...`);
+          await sleep(delaySec * 1000);
+          continue;
+        }
+
+        if (!res.ok) {
+          const body = (await res.text()).slice(0, 200);
+          throw new Error(`ZAI ${glmModel} ${res.status}: ${body}`);
+        }
+
+        const data = await res.json() as any;
+        tokenBudget.record(data.usage?.total_tokens || estTotal);
+        const text = data.choices?.[0]?.message?.content?.trim() || '';
+        if (!text) throw new Error(`ZAI ${glmModel} returned no content`);
+        return { text, model: `zai-${glmModel}` };
+      } catch (err: any) {
+        if (attempt === maxRetries || err.message?.includes('401') || err.message?.includes('403')) {
+          console.warn(`  ⚠️  ZAI fallback failed after ${attempt} attempts: ${String(err?.message || err).slice(0, 100)}`);
+          break;
+        }
+      }
+    }
+  }
+
+  throw new Error('All fallbacks (Mistral + ZAI GLM) exhausted');
 }
+
+// Alias for backwards compatibility across call sites
+const callGLMFallback = callFallback;
 
 // ── Prompts ────────────────────────────────────────────────────────────────────
 
