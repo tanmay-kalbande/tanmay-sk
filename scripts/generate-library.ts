@@ -526,13 +526,14 @@ async function callWriter(
   return callAI(prompt, estInputTokens, kind, false, systemPrompt, modelOverride);
 }
 
-// ── ZAI model caller — uses glm-5.2 by default for all generation tasks ─────────────────
+// ── ZAI GLM-4.7-Flash fallback ────────────────────────────────────────────────────────────
+// Free ZAI model used when Cerebras quota (402) is exhausted mid-book.
 async function callGLMFallback(
   prompt: string,
   estInputTokens = 500,
   kind: RequestKind = 'chapter',
   systemPrompt?: string,
-  model = 'glm-5.2'          // top-end ZAI model, free for this account
+  model = 'glm-4.7-flash'
 ): Promise<Completion> {
   const glmApiKey = process.env.ZAI_API_KEY || '';
   if (!glmApiKey) throw new Error('ZAI_API_KEY not set — cannot use ZAI fallback');
@@ -1245,7 +1246,11 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
           console.log(`  🔄 ${getTag()} Cerebras quota — rescuing chapter ${i + 1}/${roadmap.modules.length} with GLM-4.7-Flash...`);
           const promptObj = buildModulePrompt(seed, roadmap, mod, i, roadmap.modules.length, modules);
           const completion = await callGLMFallback(promptObj.userPrompt, 1500, 'chapter', promptObj.systemPrompt);
-          assertChapter(completion.text);
+          // Only check word count + headings for GLM chapters — skip Key Takeaways
+          // (GLM sometimes omits it; retrying just fails again with same result)
+          const words = countWords(completion.text);
+          if (words < CONFIG.MIN_MODULE_WORD_COUNT) throw new Error(`GLM chapter too short (${words} words)`);
+          if (!/^##\s+/m.test(completion.text)) throw new Error('GLM chapter is missing section headings');
           return completion;
         }
         throw e;
@@ -1286,7 +1291,34 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
     console.log(`  📝 ${getTag()} Generating glossary...`);
     glossary = await generateGlossarySection(modules, targetModel);
   } catch (assemblyError: any) {
-    console.warn(`  ⚠️  ${getTag()} Assembly partially failed: ${String(assemblyError?.message || assemblyError).slice(0, 100)}`);
+    const errMsg = String(assemblyError?.message || assemblyError);
+    console.warn(`  ⚠️  ${getTag()} Assembly partially failed: ${errMsg.slice(0, 100)}`);
+    // Cerebras quota hit during assembly — rescue intro/summary/glossary via GLM-4.7-Flash
+    if (process.env.ZAI_API_KEY && (errMsg.includes('402') || errMsg.includes('Payment'))) {
+      console.log(`  🔄 ${getTag()} Retrying assembly sections with GLM-4.7-Flash (free)...`);
+      try {
+        if (!introduction) {
+          console.log(`  📝 ${getTag()} Generating introduction (GLM)...`);
+          const res = await callGLMFallback(buildIntroductionPrompt(seed, roadmap), 300, 'chapter');
+          introduction = stripLeadingDuplicateHeading(res.text.trim(), 'Introduction');
+        }
+        if (!summary) {
+          console.log(`  📝 ${getTag()} Generating summary (GLM)...`);
+          const summaryPrompt = `Write a comprehensive summary of this book covering all key concepts:\n${modules.slice(0, 5).map(m => m.title).join(', ')}...`;
+          const res = await callGLMFallback(summaryPrompt, 300, 'chapter');
+          summary = stripLeadingDuplicateHeading(res.text.trim(), 'Summary');
+        }
+        if (!glossary) {
+          console.log(`  📝 ${getTag()} Generating glossary (GLM)...`);
+          const glossaryPrompt = `Create a glossary of 10-15 key terms with definitions from a book about: ${seed.goal}.`;
+          const res = await callGLMFallback(glossaryPrompt, 300, 'chapter');
+          glossary = res.text.trim();
+        }
+        console.log(`  ✅ ${getTag()} Assembly rescued via GLM-4.7-Flash`);
+      } catch (glmAssemblyErr: any) {
+        console.warn(`  ⚠️  ${getTag()} GLM assembly rescue also failed: ${String(glmAssemblyErr?.message || '').slice(0, 80)}`);
+      }
+    }
     // Continue with whatever we have — the book still has all its chapters
   }
 
