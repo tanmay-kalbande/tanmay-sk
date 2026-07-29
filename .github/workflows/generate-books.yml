@@ -192,8 +192,13 @@ jobs:
       - name: 📈 Post-Synthesis Transmission Audit
         run: |
           TOTAL=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
+          SNAPSHOTS=$(find public/library/book -name "index.html" 2>/dev/null | wc -l || echo "0")
           SITEMAP_URLS=$(grep -c '<url>' public/library/sitemap.xml 2>/dev/null || echo "0")
           CATALOG_SIZE=$(wc -c < pustakam-books-data/catalog.json 2>/dev/null || echo "0")
+          if [ "$TOTAL" -gt 0 ] && [ "$SNAPSHOTS" -lt "$TOTAL" ]; then
+            echo "SEO snapshot audit failed: $SNAPSHOTS snapshots for $TOTAL books"
+            exit 1
+          fi
           echo "🪐 ──────────────────────────────────────────"
           echo "✅ Quantum Synthesis Complete"
           echo "📖 Total Codices in Data Vault: $TOTAL"
@@ -248,6 +253,8 @@ jobs:
           git config user.email "quantum-bot@pustakam.app"
           # Includes sitemap plus the crawlable HTML snapshots generated above.
           git add public/library scripts/.library-checkpoint.json
+          # Force-add the generated book snapshots so they are never skipped by ignore rules.
+          git add -f public/library/book
           git add -u
           if git diff --staged --quiet; then
             echo "ℹ️ No sitemap/checkpoint changes to commit"

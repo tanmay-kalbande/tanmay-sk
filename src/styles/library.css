@@ -3064,6 +3064,12 @@ html[data-theme="light"] .lib-card-new-badge {
   outline: none;
 }
 .lib-discovery input::placeholder { color: var(--ink-3); }
+.lib-discovery-help {
+  margin: 8px 0 0;
+  color: var(--ink-3);
+  font: 600 .54rem var(--f-mono);
+  letter-spacing: .03em;
+}
 .lib-learning-dashboard {
   margin: 0 0 22px;
   padding: 17px;
@@ -3162,6 +3168,20 @@ html[data-theme="light"] .lib-card-new-badge {
 .lib-discovery-book small { color: var(--ink-3); font: .54rem var(--f-mono); }
 .lib-discovery-book svg { flex: 0 0 auto; margin-left: auto; color: var(--accent); }
 .lib-discovery-empty { margin: 0; color: var(--ink-2); font: .68rem var(--f-mono); }
+.lib-discovery-path {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: -3px 0 14px;
+  color: var(--ink-2);
+  font: 600 .61rem/1.65 var(--f-mono);
+}
+.lib-discovery-path span {
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
 
 .lib-card-cover {
   position: relative;
@@ -3235,6 +3255,22 @@ html[data-theme="light"] .lib-card-new-badge {
 .lib-card-cover[data-category="fitness"] { background: linear-gradient(135deg, #38523d, #1f3528); }
 .lib-card-cover[data-category="career"],
 .lib-card-cover[data-category="productivity"] { background: linear-gradient(135deg, #5d421f, #392513); }
+
+/* Keep the catalog first: discovery is useful, but it should not overpower browsing. */
+.lib-hero {
+  margin-bottom: 22px;
+  padding: clamp(24px, 3vw, 34px) clamp(22px, 3.5vw, 38px);
+}
+.lib-hero h1 { font-size: clamp(2rem, 4vw, 3.1rem); line-height: 1; }
+.lib-hero-badge { margin-bottom: 15px; }
+.lib-hero-sub { max-width: 640px; }
+.lib-discovery {
+  max-width: 720px;
+  margin-top: 18px;
+  background: color-mix(in srgb, var(--surface) 86%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+}
+.lib-discovery-results { margin-bottom: 20px; }
 
 @media (max-width: 720px) {
   .lib-dashboard-grid,

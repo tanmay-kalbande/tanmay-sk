@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, X, Sparkles, GraduationCap } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, X, Sparkles } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import { AboutModal } from './AboutModal';
@@ -513,10 +513,11 @@ export default function LibraryPage() {
                 aria-label="Describe what you want to learn"
               />
             </div>
+            <p className="lib-discovery-help">Start typing to see matching guides and a suggested learning path.</p>
             <div className="lib-hero-rule" />
           </div>
 
-          {!isFilterActive && (
+          {false && (
             <section className="lib-learning-dashboard" aria-label="Your learning dashboard">
               <div className="lib-dashboard-heading">
                 <div>
@@ -544,7 +545,7 @@ export default function LibraryPage() {
             </section>
           )}
 
-          {!isFilterActive && lastRead && lastRead.progress >= 2 && lastRead.progress < 100 && (
+          {false && lastRead && lastRead.progress >= 2 && lastRead.progress < 100 && (
             <section className="lib-resume-card" aria-label="Continue reading">
               <div className="lib-resume-copy">
                 <span className="lib-resume-eyebrow">Continue learning</span>
@@ -566,6 +567,7 @@ export default function LibraryPage() {
                 </div>
                 <button onClick={() => setLearningGoal('')} aria-label="Clear learning goal">Clear</button>
               </div>
+              <p className="lib-discovery-path"><span>Suggested path</span>{suggestedPath(learningGoal).join(' → ')}</p>
               {discoveryResults.length > 0 ? (
                 <div className="lib-discovery-grid">
                   {discoveryResults.map((book, index) => (
