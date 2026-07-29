@@ -4,6 +4,10 @@
   "outputDirectory": "dist",
   "rewrites": [
     {
+      "source": "/library/category/:category",
+      "destination": "/index.html"
+    },
+    {
       "source": "/((?!api/|assets/|favicon\\.svg|library/).*)",
       "destination": "/index.html"
     }

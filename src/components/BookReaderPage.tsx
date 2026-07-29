@@ -11,6 +11,14 @@ import {
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import { AboutModal } from './AboutModal';
+import {
+  CourseProgress,
+  getCourseProgress,
+  getReadingPosition,
+  markBookCompleted,
+  saveCourseProgress,
+  saveReadingPosition,
+} from '../lib/learning';
 import '../styles/landing.css';
 import '../styles/library.css';
 
@@ -36,25 +44,6 @@ export interface BookFile {
   edition?: 'stellar' | 'street' | 'desi';
   modules: BookModule[];
   finalBook?: string;
-}
-
-interface ReadingProgress {
-  slug: string;
-  title: string;
-  chapter: number;
-  progress: number;
-  savedAt: string;
-}
-
-const READING_PROGRESS_KEY = 'pustakam-last-reading-position';
-
-function getSavedReadingProgress(): ReadingProgress | null {
-  try {
-    const value = window.localStorage.getItem(READING_PROGRESS_KEY);
-    return value ? JSON.parse(value) as ReadingProgress : null;
-  } catch {
-    return null;
-  }
 }
 
 /**
@@ -992,7 +981,8 @@ export default function BookReaderPage() {
   // ── Scroll-driven reading progress ──
   const [scrollPct, setScrollPct] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const [savedProgress, setSavedProgress] = useState<ReadingProgress | null>(getSavedReadingProgress);
+  const [savedProgress, setSavedProgress] = useState(getReadingPosition);
+  const [courseProgress, setCourseProgress] = useState<CourseProgress>(() => getCourseProgress(slug || ''));
 
   useEffect(() => {
     setFavicon('/favicon_final.svg');
@@ -1064,7 +1054,7 @@ export default function BookReaderPage() {
   // Save a reader's place locally without requiring an account.
   useEffect(() => {
     if (!book || scrollPct < 2) return;
-    const progress: ReadingProgress = {
+    const progress = {
       slug: book.slug,
       title: book.title,
       chapter: activeChapter,
@@ -1073,12 +1063,17 @@ export default function BookReaderPage() {
     };
     const timer = window.setTimeout(() => {
       try {
-        window.localStorage.setItem(READING_PROGRESS_KEY, JSON.stringify(progress));
+        saveReadingPosition(progress);
         setSavedProgress(progress);
       } catch {}
     }, 500);
     return () => window.clearTimeout(timer);
   }, [book, scrollPct, activeChapter]);
+
+  useEffect(() => {
+    if (!book) return;
+    saveCourseProgress(book.slug, courseProgress);
+  }, [book, courseProgress]);
 
 
 
@@ -1089,6 +1084,7 @@ export default function BookReaderPage() {
       .then(r => r.ok ? r.json() : Promise.reject('Book not found'))
       .then((data: BookFile) => {
         setBook(data);
+        setCourseProgress(getCourseProgress(data.slug));
         // ── SEO: Page title ──
         document.title = `${data.title} — Free Book | Tanmay Kalbande`;
         
@@ -1263,6 +1259,29 @@ export default function BookReaderPage() {
     }
     scrollToChapter(savedProgress.chapter);
   };
+
+  const completedChapterCount = useMemo(
+    () => courseProgress.completedChapters.filter(index => index >= 0 && index < (book?.modules.length || 0)).length,
+    [book, courseProgress.completedChapters]
+  );
+
+  const toggleChapterComplete = (chapterIndex: number) => {
+    setCourseProgress(current => {
+      const completedChapters = current.completedChapters.includes(chapterIndex)
+        ? current.completedChapters.filter(index => index !== chapterIndex)
+        : [...current.completedChapters, chapterIndex].sort((a, b) => a - b);
+      return { ...current, completedChapters, updatedAt: new Date().toISOString() };
+    });
+  };
+
+  useEffect(() => {
+    if (!book || book.modules.length === 0 || completedChapterCount !== book.modules.length) return;
+    markBookCompleted({
+      slug: book.slug,
+      title: book.title,
+      completedAt: new Date().toISOString(),
+    });
+  }, [book, completedChapterCount]);
 
   const handlePdf = async () => {
     if (!book) return;
@@ -1691,6 +1710,16 @@ export default function BookReaderPage() {
               })()}
             </div>
 
+            <div className="reader-course-strip" aria-label="Course progress">
+              <div>
+                <span className="reader-course-label">Course mode</span>
+                <strong>{completedChapterCount} of {book.modules.length} chapters complete</strong>
+              </div>
+              <div className="reader-course-meter" aria-hidden="true">
+                <span style={{ width: ((book.modules.length ? completedChapterCount / book.modules.length : 0) * 100) + '%' }} />
+              </div>
+            </div>
+
             <div className="reader-action-row">
               {savedProgress?.slug === book.slug && savedProgress.progress >= 2 && savedProgress.progress < 100 && (
                 <button className="btn-secondary reader-resume-btn" onClick={resumeReading}>
@@ -1712,6 +1741,20 @@ export default function BookReaderPage() {
                 <ExternalLink size={11} />
               </a>
             </div>
+
+            <details className="reader-note-panel">
+              <summary>Personal notes <span>Saved only on this device</span></summary>
+              <textarea
+                value={courseProgress.note}
+                onChange={event => setCourseProgress(current => ({
+                  ...current,
+                  note: event.target.value,
+                  updatedAt: new Date().toISOString(),
+                }))}
+                placeholder="Capture an idea, next action, or question while you read…"
+                aria-label="Personal notes for this guide"
+              />
+            </details>
           </div>
 
           {/* Unified Reading Well — 100% Identical Left Alignment */}
@@ -1749,6 +1792,14 @@ export default function BookReaderPage() {
                     <p className="reader-chapter-number">Chapter {i + 1} of {book.modules?.length || 0}</p>
                     <h2 className="reader-chapter-title">{mod.title}</h2>
                   </div>
+                  <button
+                    className={'reader-chapter-complete ' + (courseProgress.completedChapters.includes(i) ? 'is-complete' : '')}
+                    onClick={() => toggleChapterComplete(i)}
+                    aria-pressed={courseProgress.completedChapters.includes(i)}
+                  >
+                    <Check size={13} />
+                    {courseProgress.completedChapters.includes(i) ? 'Completed' : 'Mark complete'}
+                  </button>
                 </div>
                 <div
                   className="reader-chapter-body"

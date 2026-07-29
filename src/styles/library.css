@@ -2871,6 +2871,308 @@ html[data-theme="light"] .lib-card-new-badge {
   .lib-resume-card { align-items: flex-start; flex-direction: column; }
 }
 
+/* Course mode — progress and personal study tools in the reader. */
+.reader-course-strip {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px;
+  align-items: center;
+  gap: 16px;
+  margin: -6px 0 18px;
+  padding: 11px 14px;
+  background: rgba(224, 90, 53, 0.06);
+  border: 1px solid rgba(224, 90, 53, 0.18);
+  border-radius: 3px;
+}
+.reader-course-strip > div:first-child { display: grid; gap: 1px; }
+.reader-course-label {
+  color: var(--accent);
+  font-family: var(--f-mono);
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.reader-course-strip strong {
+  color: var(--ink);
+  font-family: var(--f-display);
+  font-size: 1rem;
+}
+.reader-course-meter {
+  height: 5px;
+  overflow: hidden;
+  background: var(--border);
+  border-radius: 999px;
+}
+.reader-course-meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), #ffb347);
+  border-radius: inherit;
+  transition: width 0.25s ease;
+}
+.reader-note-panel {
+  position: relative;
+  z-index: 1;
+  margin-top: 16px;
+  color: var(--ink-2);
+  font-family: var(--f-mono);
+  font-size: 0.62rem;
+}
+.reader-note-panel summary {
+  width: fit-content;
+  cursor: pointer;
+  list-style: none;
+  color: var(--accent);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.reader-note-panel summary::-webkit-details-marker { display: none; }
+.reader-note-panel summary span {
+  margin-left: 8px;
+  color: var(--ink-3);
+  font-size: 0.53rem;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-transform: none;
+}
+.reader-note-panel textarea {
+  display: block;
+  width: 100%;
+  min-height: 110px;
+  margin-top: 10px;
+  padding: 12px;
+  resize: vertical;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.65;
+}
+.reader-note-panel textarea:focus { border-color: var(--accent); outline: none; }
+.reader-chapter-complete {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  padding: 6px 9px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  color: var(--ink-2);
+  cursor: pointer;
+  font-family: var(--f-mono);
+  font-size: 0.52rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: 0.18s ease;
+}
+.reader-chapter-complete:hover,
+.reader-chapter-complete.is-complete {
+  border-color: rgba(52, 211, 153, 0.5);
+  background: rgba(52, 211, 153, 0.1);
+  color: var(--c-beginner);
+}
+@media (max-width: 620px) {
+  .reader-course-strip { grid-template-columns: 1fr; gap: 9px; }
+  .reader-chapter-head { align-items: flex-start; flex-wrap: wrap; }
+  .reader-chapter-complete { margin-left: 0; }
+}
+
+/* Library discovery, category hubs, and generative cover system. */
+.lib-discovery {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 640px;
+  padding: 10px 12px;
+  background: rgba(0, 0, 0, 0.16);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+.lib-discovery svg { color: var(--accent); flex: 0 0 auto; }
+.lib-discovery input {
+  width: 100%;
+  padding: 2px 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  font: 600 0.72rem var(--f-mono);
+  outline: none;
+}
+.lib-discovery input::placeholder { color: var(--ink-3); }
+.lib-learning-dashboard {
+  margin: 0 0 22px;
+  padding: 17px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.1);
+}
+.lib-dashboard-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.lib-dashboard-heading > div { display: grid; gap: 2px; }
+.lib-dashboard-heading span,
+.lib-dashboard-grid span,
+.lib-discovery-heading span {
+  color: var(--ink-3);
+  font: 800 0.52rem var(--f-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.lib-dashboard-heading strong,
+.lib-discovery-heading strong {
+  color: var(--ink);
+  font-family: var(--f-display);
+  font-size: 1.2rem;
+}
+.lib-dashboard-heading svg { color: var(--accent); }
+.lib-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid var(--border);
+}
+.lib-dashboard-grid > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+  padding: 13px 14px 0;
+  border-left: 1px solid var(--border);
+}
+.lib-dashboard-grid > div:first-child { padding-left: 0; border-left: 0; }
+.lib-dashboard-grid strong,
+.lib-dashboard-grid a {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--ink);
+  font: 700 0.68rem var(--f-mono);
+  text-decoration: none;
+}
+.lib-dashboard-grid a { color: var(--accent); }
+.lib-dashboard-grid a:hover { color: var(--ink); }
+.lib-discovery-results {
+  margin: 0 0 22px;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(224,90,53,0.12), var(--surface));
+  border: 1px solid rgba(224,90,53,0.24);
+  border-radius: 3px;
+}
+.lib-discovery-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+.lib-discovery-heading > div { display: grid; gap: 3px; }
+.lib-discovery-heading button {
+  padding: 4px 0;
+  background: transparent;
+  border: 0;
+  color: var(--ink-2);
+  cursor: pointer;
+  font: 700 0.58rem var(--f-mono);
+  text-transform: uppercase;
+}
+.lib-discovery-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.lib-discovery-book {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  text-decoration: none;
+  transition: transform .18s ease, border-color .18s ease;
+}
+.lib-discovery-book:hover { border-color: var(--accent); transform: translateY(-2px); }
+.lib-discovery-book > span { color: var(--accent); font: 800 .57rem var(--f-mono); }
+.lib-discovery-book > div { display: grid; min-width: 0; gap: 2px; }
+.lib-discovery-book strong { overflow: hidden; font: 700 .74rem var(--f-mono); text-overflow: ellipsis; white-space: nowrap; }
+.lib-discovery-book small { color: var(--ink-3); font: .54rem var(--f-mono); }
+.lib-discovery-book svg { flex: 0 0 auto; margin-left: auto; color: var(--accent); }
+.lib-discovery-empty { margin: 0; color: var(--ink-2); font: .68rem var(--f-mono); }
+
+.lib-card-cover {
+  position: relative;
+  display: flex;
+  height: 104px;
+  align-items: flex-end;
+  justify-content: space-between;
+  overflow: hidden;
+  margin: -1px -1px 15px;
+  padding: 12px;
+  background: linear-gradient(135deg, #76351f, #241712);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.lib-card-cover::before {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  top: -58px;
+  right: -34px;
+  background: rgba(255,255,255,.12);
+  border-radius: 50%;
+  content: '';
+}
+.lib-card-cover::after {
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  bottom: -30px;
+  left: 32%;
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 50%;
+  content: '';
+}
+.lib-card-cover span {
+  position: relative;
+  z-index: 1;
+  color: rgba(255,255,255,.72);
+  font: 700 .48rem var(--f-mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.lib-card-cover strong {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font: 700 2.25rem var(--f-display);
+  line-height: 1;
+}
+.lib-card-cover[data-category="programming"],
+.lib-card-cover[data-category="technology"] { background: linear-gradient(135deg, #17324d, #102033); }
+.lib-card-cover[data-category="data-science"],
+.lib-card-cover[data-category="ai"] { background: linear-gradient(135deg, #2b1b52, #142946); }
+.lib-card-cover[data-category="business"],
+.lib-card-cover[data-category="finance"] { background: linear-gradient(135deg, #1e4b3a, #163128); }
+.lib-card-cover[data-category="design"],
+.lib-card-cover[data-category="art"] { background: linear-gradient(135deg, #633047, #331d45); }
+.lib-card-cover[data-category="health"],
+.lib-card-cover[data-category="fitness"] { background: linear-gradient(135deg, #38523d, #1f3528); }
+.lib-card-cover[data-category="career"],
+.lib-card-cover[data-category="productivity"] { background: linear-gradient(135deg, #5d421f, #392513); }
+
+@media (max-width: 720px) {
+  .lib-dashboard-grid,
+  .lib-discovery-grid { grid-template-columns: 1fr; }
+  .lib-dashboard-grid > div { padding: 11px 0 0; border-left: 0; }
+  .lib-dashboard-grid > div + div { border-top: 1px solid var(--border); }
+  .lib-discovery-book { min-height: 56px; }
+}
+
 /* Keyboard users get the same clear navigation cues as mouse users. */
 .lib-root a:focus-visible,
 .lib-root button:focus-visible,

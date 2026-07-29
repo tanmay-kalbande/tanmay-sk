@@ -37,6 +37,7 @@ export default function App() {
         <Route path="/assistant" element={<AssistantPage />} />
         {/* ── Book Library (SEO acquisition engine) ── */}
         <Route path="/library" element={<LibraryPage />} />
+        <Route path="/library/category/:category" element={<LibraryPage />} />
         <Route path="/library/book/:slug" element={<BookReaderPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

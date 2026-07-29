@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, X } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, X, Sparkles, GraduationCap } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import { AboutModal } from './AboutModal';
+import { getCompletedBooks, getReadingPosition, ReadingPosition } from '../lib/learning';
 import '../styles/landing.css';
 import '../styles/library.css';
 
@@ -53,25 +54,6 @@ interface LibraryIndex {
   books: BookMeta[];
 }
 
-interface ReadingProgress {
-  slug: string;
-  title: string;
-  chapter: number;
-  progress: number;
-}
-
-const READING_PROGRESS_KEY = 'pustakam-last-reading-position';
-
-function getLastReadingProgress(): ReadingProgress | null {
-  try {
-    const value = window.localStorage.getItem(READING_PROGRESS_KEY);
-    const saved = value ? JSON.parse(value) as ReadingProgress : null;
-    return saved?.slug && saved.title ? saved : null;
-  } catch {
-    return null;
-  }
-}
-
 const KNOWN_LABELS: Record<string, string> = {
   all: 'All',
   programming: 'Programming',
@@ -102,7 +84,27 @@ function getCategoryLabel(slug: string): string {
 
 const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
 
+function intentTokens(value: string): string[] {
+  return value.toLowerCase().split(/[^a-z0-9]+/).filter(token =>
+    token.length > 2 && !['learn', 'want', 'need', 'with', 'from', 'into', 'help', 'become', 'build', 'start'].includes(token)
+  );
+}
+
+function suggestedPath(goal: string): string[] {
+  const text = goal.toLowerCase();
+  if (/(data|analyst|sql|power bi|tableau)/.test(text)) return ['SQL foundations', 'Spreadsheets & dashboards', 'Data analysis projects'];
+  if (/(program|developer|web|coding|software)/.test(text)) return ['Programming foundations', 'Build practical projects', 'Ship and share your work'];
+  if (/(business|freelance|marketing|startup)/.test(text)) return ['Core business skills', 'Audience & offer', 'Launch your first project'];
+  if (/(career|job|interview|resume)/.test(text)) return ['Career foundations', 'Portfolio & proof of work', 'Interview preparation'];
+  return ['Start with foundations', 'Practice with a guided project', 'Build your next skill'];
+}
+
+function coverInitials(title: string): string {
+  return title.split(/\s+/).filter(Boolean).slice(0, 2).map(word => word[0]).join('').toUpperCase();
+}
+
 export default function LibraryPage() {
+  const { category: routeCategory } = useParams<{ category?: string }>();
   const [index, setIndex] = useState<LibraryIndex | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -113,7 +115,9 @@ export default function LibraryPage() {
   const [infoOpen, setInfoOpen] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>('newest');
   const [visibleCount, setVisibleCount] = useState(BOOKS_PER_PAGE);
-  const [lastRead] = useState<ReadingProgress | null>(getLastReadingProgress);
+  const [lastRead] = useState<ReadingPosition | null>(getReadingPosition);
+  const [completedBooks] = useState(() => getCompletedBooks());
+  const [learningGoal, setLearningGoal] = useState('');
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
   });
@@ -134,6 +138,10 @@ export default function LibraryPage() {
   useEffect(() => {
     setVisibleCount(BOOKS_PER_PAGE);
   }, [activeCategory, activeEdition, search, sortMode]);
+
+  useEffect(() => {
+    if (routeCategory) setActiveCategory(routeCategory);
+  }, [routeCategory]);
 
   const formatGeneratedDate = (dateStr?: string) => {
     if (!dateStr) return '';
@@ -221,9 +229,24 @@ export default function LibraryPage() {
   const visibleBooks = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount]);
   const hasMore = visibleCount < filtered.length;
 
+  const discoveryResults = useMemo(() => {
+    if (!index || intentTokens(learningGoal).length === 0) return [];
+    const tokens = intentTokens(learningGoal);
+    return [...index.books]
+      .map(book => {
+        const haystack = [book.title, book.goal, book.category, ...book.tags].join(' ').toLowerCase();
+        const score = tokens.reduce((total, token) => total + (haystack.includes(token) ? 1 : 0), 0);
+        return { book, score };
+      })
+      .filter(item => item.score > 0)
+      .sort((a, b) => b.score - a.score || new Date(b.book.generatedAt).getTime() - new Date(a.book.generatedAt).getTime())
+      .slice(0, 3)
+      .map(item => item.book);
+  }, [index, learningGoal]);
+
   const isFilterActive = useMemo(() => {
-    return search.trim() !== '' || activeCategory !== 'all' || activeEdition !== 'all';
-  }, [search, activeCategory, activeEdition]);
+    return search.trim() !== '' || (!routeCategory && activeCategory !== 'all') || activeEdition !== 'all';
+  }, [search, activeCategory, activeEdition, routeCategory]);
 
   const handleResetFilters = () => {
     setSearch('');
@@ -457,17 +480,69 @@ export default function LibraryPage() {
             <div className="lib-hero-badge">
               Open-Access · Free to Read
             </div>
-            <h1>
-              <span className="first-name">A Curated Library of</span><br />
-              <span className="accent">Structured</span><br />
-              Learning Guides
-            </h1>
-            <p className="lib-hero-sub">
-              Structured, chapter-by-chapter roadmaps on programming, finance, exams, and more.
-              Every curriculum is free to read. Build a custom version on your exact topic with Pustakam.
-            </p>
+            {routeCategory ? (
+              <>
+                <h1>
+                  <span className="first-name">{getCategoryLabel(routeCategory)} learning</span><br />
+                  <span className="accent">Hub</span>
+                </h1>
+                <p className="lib-hero-sub">
+                  A focused collection of free, structured {getCategoryLabel(routeCategory).toLowerCase()} guides.
+                  Start with a foundation, practice through projects, and keep progressing.
+                </p>
+              </>
+            ) : (
+              <>
+                <h1>
+                  <span className="first-name">A Curated Library of</span><br />
+                  <span className="accent">Structured</span><br />
+                  Learning Guides
+                </h1>
+                <p className="lib-hero-sub">
+                  Structured, chapter-by-chapter roadmaps on programming, finance, exams, and more.
+                  Every curriculum is free to read. Build a custom version on your exact topic with Pustakam.
+                </p>
+              </>
+            )}
+            <div className="lib-discovery">
+              <Sparkles size={15} aria-hidden="true" />
+              <input
+                value={learningGoal}
+                onChange={event => setLearningGoal(event.target.value)}
+                placeholder="Tell us what you want to learn…"
+                aria-label="Describe what you want to learn"
+              />
+            </div>
             <div className="lib-hero-rule" />
           </div>
+
+          {!isFilterActive && (
+            <section className="lib-learning-dashboard" aria-label="Your learning dashboard">
+              <div className="lib-dashboard-heading">
+                <div>
+                  <span>Your learning</span>
+                  <strong>Make every visit count.</strong>
+                </div>
+                <GraduationCap size={20} aria-hidden="true" />
+              </div>
+              <div className="lib-dashboard-grid">
+                <div>
+                  <span>In progress</span>
+                  <strong>{lastRead && lastRead.progress < 100 ? '1 guide' : 'Ready to start'}</strong>
+                </div>
+                <div>
+                  <span>Completed</span>
+                  <strong>{completedBooks.length} {completedBooks.length === 1 ? 'guide' : 'guides'}</strong>
+                </div>
+                <div>
+                  <span>Explore a hub</span>
+                  {top3Categories[0] ? (
+                    <Link to={'/library/category/' + top3Categories[0].id}>{top3Categories[0].label} <ArrowRight size={12} /></Link>
+                  ) : <strong>Loading…</strong>}
+                </div>
+              </div>
+            </section>
+          )}
 
           {!isFilterActive && lastRead && lastRead.progress >= 2 && lastRead.progress < 100 && (
             <section className="lib-resume-card" aria-label="Continue reading">
@@ -479,6 +554,34 @@ export default function LibraryPage() {
               <Link to={'/library/book/' + lastRead.slug} className="lib-resume-link">
                 Resume <ArrowRight size={13} />
               </Link>
+            </section>
+          )}
+
+          {learningGoal.trim().length >= 3 && (
+            <section className="lib-discovery-results" aria-live="polite">
+              <div className="lib-discovery-heading">
+                <div>
+                  <span>Suggested learning path</span>
+                  <strong>{suggestedPath(learningGoal).join('  →  ')}</strong>
+                </div>
+                <button onClick={() => setLearningGoal('')} aria-label="Clear learning goal">Clear</button>
+              </div>
+              {discoveryResults.length > 0 ? (
+                <div className="lib-discovery-grid">
+                  {discoveryResults.map((book, index) => (
+                    <Link key={book.slug} to={'/library/book/' + book.slug} className="lib-discovery-book">
+                      <span>{String(index + 1).padStart(2, '0')}</span>
+                      <div>
+                        <strong>{book.title}</strong>
+                        <small>{book.readingTimeMins} min · {getCategoryLabel(book.category)}</small>
+                      </div>
+                      <ArrowRight size={15} />
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <p className="lib-discovery-empty">No exact guide yet. Try a broader goal, or generate a custom guide.</p>
+              )}
             </section>
           )}
 
@@ -555,6 +658,10 @@ export default function LibraryPage() {
                         to={`/library/book/${book.slug}`}
                         className="lib-card"
                       >
+                        <div className="lib-card-cover" data-category={book.category}>
+                          <span>{getCategoryLabel(book.category)}</span>
+                          <strong>{coverInitials(book.title)}</strong>
+                        </div>
 
 
                         <div className="lib-card-top">
