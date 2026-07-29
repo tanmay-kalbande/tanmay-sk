@@ -1198,6 +1198,35 @@ function assertChapter(content: string): void {
   }
 }
 
+/**
+ * A publish gate, not a ranking trick. Books that fail these objective checks
+ * remain out of the catalog and sitemap so the scheduled workflow never
+ * publishes obviously incomplete, repetitive, or thin pages.
+ */
+function assertBookQuality(book: BookFile): void {
+  if (book.modules.length < 6) {
+    throw new Error('Book needs at least 6 substantive chapters');
+  }
+  if (book.wordCount < Math.max(6_000, book.modules.length * CONFIG.MIN_MODULE_WORD_COUNT)) {
+    throw new Error('Book does not meet the minimum total word count');
+  }
+  if (!book.metaDescription || book.metaDescription.length < 70 || book.metaDescription.length > 160) {
+    throw new Error('Book is missing a useful meta description');
+  }
+  const titles = book.modules.map(module => module.title.trim().toLowerCase());
+  if (new Set(titles).size !== titles.length) {
+    throw new Error('Book has duplicate chapter titles');
+  }
+  for (const module of book.modules) {
+    if (module.wordCount < CONFIG.MIN_MODULE_WORD_COUNT || !/^##\s+/m.test(module.content)) {
+      throw new Error('Book contains an incomplete chapter');
+    }
+  }
+  if (/(lorem ipsum|insert content|todo\b|tbd\b)/i.test(book.finalBook)) {
+    throw new Error('Book contains placeholder content');
+  }
+}
+
 function makeMetaDescription(title: string, seed: TopicSeed): string {
   const complexity = seed.complexity || 'beginner';
   const desc = `${title} — a free ${complexity}-level guide covering ${seed.goal.toLowerCase()}. Learn with clear explanations, real examples, and hands-on exercises.`;
@@ -1431,6 +1460,13 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
     modules,
     finalBook,
   };
+
+  try {
+    assertBookQuality(bookFile);
+  } catch (error: any) {
+    console.error('❌ Quality gate rejected ' + slug + ': ' + String(error?.message || error));
+    return 'fail';
+  }
 
   saveBook(bookFile);
   console.log(`\n✅ ${getTag()} ${slug} — ${totalWords.toLocaleString()} words, ${modules.length} chapters → public/library/books/${slug}.json`);

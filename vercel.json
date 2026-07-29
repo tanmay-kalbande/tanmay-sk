@@ -6,10 +6,7 @@
     {
       "source": "/((?!api/|assets/|favicon\\.svg|library/).*)",
       "destination": "/index.html"
-    },
-    { "source": "/library",            "destination": "/index.html" },
-    { "source": "/library/book/:slug", "destination": "/index.html" }
+    }
   ]
 }
-
 

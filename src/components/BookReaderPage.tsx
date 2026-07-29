@@ -1246,7 +1246,7 @@ export default function BookReaderPage() {
     const titleClean = (book.title || '').toLowerCase().trim();
     const goalClean = (book.goal || '').toLowerCase().trim();
     if (!goalClean || titleClean === goalClean || goalClean.length < 15 || titleClean.includes(goalClean)) {
-      return `An in-depth, structured masterclass guide carefully curated for deep comprehension, practical mastery, and rapid reference.`;
+      return 'A structured guide covering the core concepts, practical examples, and next steps for this topic.';
     }
     return book.goal;
   }, [book]);

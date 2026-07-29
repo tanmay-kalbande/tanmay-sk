@@ -3,7 +3,8 @@ name: 🌌 Quantum Archives Synthesizer
 on:
   # ── Automatic Orbital Cycles: runs every 1 hour ─────────────────────────────
   schedule:
-    - cron: '0 * * * *'
+    # Fully automatic daily publishing at 06:00 UTC. It does not self-trigger.
+    - cron: '0 6 * * *'
 
   # ── Manual Transmission: Trigger from GitHub Console ───────────────────────
   workflow_dispatch:
@@ -163,9 +164,18 @@ jobs:
             echo "Running manual dispatch: generating ${{ github.event.inputs.max_books || '20' }} ${{ github.event.inputs.edition || 'stellar' }} editions via Cerebras with 50/50 model split"
             MAX_BOOKS="${{ github.event.inputs.max_books || '20' }}" EDITION="${{ github.event.inputs.edition || 'stellar' }}" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
           else
-            echo "Running scheduled run: generating 20 stellar editions with 50/50 model split across Cerebras key pool"
+            echo "Running scheduled run: targeting 20 stellar editions with quality gates"
             MAX_BOOKS="20" EDITION="stellar" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
           fi
+
+      # Publish server-rendered snapshots so crawlers receive book content and
+      # book-specific metadata without relying on client-side JavaScript.
+      - name: Generate crawlable library pages
+        env:
+          OUTPUT_DIR: pustakam-books-data
+          SEO_OUTPUT_DIR: public/library
+          SITE_URL: https://tanmaysk.in
+        run: npx tsx scripts/generate-seo-pages.ts
 
       # ── 9. Sync Sitemap back to Main Repo ───────────────────────────────────
       - name: 🗺️ Syncing Sitemap to Primary Vault
@@ -236,7 +246,8 @@ jobs:
         run: |
           git config user.name  "Pustakam Quantum Bot"
           git config user.email "quantum-bot@pustakam.app"
-          git add public/library/sitemap.xml scripts/.library-checkpoint.json
+          # Includes sitemap plus the crawlable HTML snapshots generated above.
+          git add public/library scripts/.library-checkpoint.json
           git add -u
           if git diff --staged --quiet; then
             echo "ℹ️ No sitemap/checkpoint changes to commit"
@@ -248,7 +259,9 @@ jobs:
 
       # ── 15. Continuous Generation Loop: Auto-trigger next cycle ────────────
       - name: 🔄 Auto-Triggering Next Continuous Synthesis Cycle
-        if: always()
+        # Continue only after this run finishes; the workflow concurrency lock
+        # prevents overlapping generation jobs.
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

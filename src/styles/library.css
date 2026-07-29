@@ -2816,3 +2816,14 @@ html[data-theme="light"] .lib-card-new-badge {
   box-shadow: 0 0 10px rgba(224, 90, 53, 0.5);
   transform: scale(1.15);
 }
+
+/* Keyboard users get the same clear navigation cues as mouse users. */
+.lib-root a:focus-visible,
+.lib-root button:focus-visible,
+.lib-root input:focus-visible,
+.lib-root select:focus-visible,
+.reader-root a:focus-visible,
+.reader-root button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
