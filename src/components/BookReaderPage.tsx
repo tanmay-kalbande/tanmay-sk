@@ -1285,6 +1285,15 @@ export default function BookReaderPage() {
 
   const isCourseComplete = Boolean(book?.modules.length && completedChapterCount === book.modules.length);
 
+  const completeAllChapters = () => {
+    if (!book) return;
+    setCourseProgress(current => ({
+      ...current,
+      completedChapters: book.modules.map((_, index) => index),
+      updatedAt: new Date().toISOString(),
+    }));
+  };
+
   const printCertificate = () => {
     if (!book) return;
     const safeTitle = book.title.replace(/[&<>"']/g, char => ({
@@ -1903,21 +1912,31 @@ export default function BookReaderPage() {
               );
             })()}
 
-            {isCourseComplete && (
-              <section className="reader-completion-card" aria-label="Course completed">
-                <span className="reader-cta-eyebrow">Course complete</span>
-                <h2>You finished {book.title}.</h2>
-                <p>Your chapter progress and notes are saved on this device. Celebrate the work, then choose what to learn next.</p>
-                <div className="reader-completion-actions">
-                  <button className="btn-primary" onClick={printCertificate}>
-                    <Download size={13} /> Print certificate
+            <section className="reader-completion-card" aria-label="Reading completion">
+              <span className="reader-cta-eyebrow">{isCourseComplete ? 'Course complete' : 'Finish your reading'}</span>
+              <h2>{isCourseComplete ? `You finished ${book.title}.` : `${completedChapterCount} of ${book.modules.length} chapters complete.`}</h2>
+              <p>
+                {isCourseComplete
+                  ? 'Your chapter progress and notes are saved on this device. Celebrate the work, then choose what to learn next.'
+                  : 'You are at the end of the book. Confirm your reading to unlock your completion certificate.'}
+              </p>
+              <div className="reader-completion-actions">
+                {isCourseComplete ? (
+                  <>
+                    <button className="btn-primary" onClick={printCertificate}>
+                      <Download size={13} /> Print certificate
+                    </button>
+                    <button className="btn-secondary" onClick={shareCompletion}>
+                      <ExternalLink size={13} /> {copied ? 'Copied' : 'Share completion'}
+                    </button>
+                  </>
+                ) : (
+                  <button className="btn-primary" onClick={completeAllChapters}>
+                    <Check size={13} /> Complete all chapters &amp; unlock certificate
                   </button>
-                  <button className="btn-secondary" onClick={shareCompletion}>
-                    <ExternalLink size={13} /> {copied ? 'Copied' : 'Share completion'}
-                  </button>
-                </div>
-              </section>
-            )}
+                )}
+              </div>
+            </section>
 
             {/* CTA at bottom */}
             <div className="reader-cta-box">
