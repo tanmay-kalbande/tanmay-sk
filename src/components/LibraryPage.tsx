@@ -659,8 +659,9 @@ export default function LibraryPage() {
                         className="lib-card"
                       >
                         <div className="lib-card-cover" data-category={book.category}>
-                          <span>{getCategoryLabel(book.category)}</span>
+                          <span>{getCategoryLabel(book.category)} · {book.complexity}</span>
                           <strong>{coverInitials(book.title)}</strong>
+                          <em>{book.readingTimeMins} min guide</em>
                         </div>
 
 

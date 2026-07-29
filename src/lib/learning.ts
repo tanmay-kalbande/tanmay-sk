@@ -8,6 +8,7 @@ export interface ReadingPosition {
 
 export interface CourseProgress {
   completedChapters: number[];
+  bookmarks: number[];
   note: string;
   updatedAt: string;
 }
@@ -50,7 +51,9 @@ export function saveReadingPosition(position: ReadingPosition): void {
 
 export function getCourseProgress(slug: string): CourseProgress {
   const progress = readJson<CourseProgress | null>(courseKey(slug), null);
-  return progress || { completedChapters: [], note: '', updatedAt: '' };
+  return progress
+    ? { completedChapters: progress.completedChapters || [], bookmarks: progress.bookmarks || [], note: progress.note || '', updatedAt: progress.updatedAt || '' }
+    : { completedChapters: [], bookmarks: [], note: '', updatedAt: '' };
 }
 
 export function saveCourseProgress(slug: string, progress: CourseProgress): void {

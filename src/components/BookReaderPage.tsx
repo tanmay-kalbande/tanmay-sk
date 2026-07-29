@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { marked } from 'marked';
 
 import {
-  ArrowLeft, Clock, FileText, BookOpen,
+  ArrowLeft, Clock, FileText, BookOpen, Bookmark,
   Download, ExternalLink, Check, Calendar, Sun, Moon,
   Type, Minus, Plus, ArrowUp, ChevronLeft, ChevronRight,
   PanelLeftOpen, PanelLeftClose, Info, X
@@ -1274,6 +1274,48 @@ export default function BookReaderPage() {
     });
   };
 
+  const toggleChapterBookmark = (chapterIndex: number) => {
+    setCourseProgress(current => {
+      const bookmarks = current.bookmarks.includes(chapterIndex)
+        ? current.bookmarks.filter(index => index !== chapterIndex)
+        : [...current.bookmarks, chapterIndex].sort((a, b) => a - b);
+      return { ...current, bookmarks, updatedAt: new Date().toISOString() };
+    });
+  };
+
+  const isCourseComplete = Boolean(book?.modules.length && completedChapterCount === book.modules.length);
+
+  const printCertificate = () => {
+    if (!book) return;
+    const safeTitle = book.title.replace(/[&<>"']/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[char] || char));
+    const certificateWindow = window.open('', '_blank');
+    if (!certificateWindow) return;
+    certificateWindow.document.write(
+      '<!doctype html><html><head><title>Completion Certificate</title><style>'
+      + 'body{margin:0;display:grid;place-items:center;min-height:100vh;background:#f8f2eb;color:#201a17;font-family:Georgia,serif}.certificate{width:min(820px,88vw);padding:74px;text-align:center;background:#fff;border:10px solid #201a17;outline:3px solid #c95932;outline-offset:-18px}.eyebrow{font:700 12px Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:#c95932}.name{font-size:52px;margin:26px 0 16px}.title{font-size:30px;line-height:1.2;margin:22px 0}.date{font:14px Arial,sans-serif;color:#625b56}@media print{body{background:#fff}.certificate{width:auto;min-height:80vh}}</style></head><body>'
+      + '<main class="certificate"><p class="eyebrow">Pustakam Library</p><h1>Certificate of Completion</h1><p>This certifies completion of</p><p class="title">' + safeTitle + '</p><p>Completed by a Pustakam learner</p><p class="date">Issued ' + new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) + '</p></main></body></html>'
+    );
+    certificateWindow.document.close();
+    certificateWindow.focus();
+    window.setTimeout(() => certificateWindow.print(), 250);
+  };
+
+  const shareCompletion = async () => {
+    if (!book) return;
+    const text = 'I completed “' + book.title + '” on Pustakam Library.';
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Pustakam completion', text, url: window.location.href });
+      } else {
+        await navigator.clipboard.writeText(text + ' ' + window.location.href);
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 1800);
+      }
+    } catch {}
+  };
+
   useEffect(() => {
     if (!book || book.modules.length === 0 || completedChapterCount !== book.modules.length) return;
     markBookCompleted({
@@ -1792,14 +1834,25 @@ export default function BookReaderPage() {
                     <p className="reader-chapter-number">Chapter {i + 1} of {book.modules?.length || 0}</p>
                     <h2 className="reader-chapter-title">{mod.title}</h2>
                   </div>
-                  <button
-                    className={'reader-chapter-complete ' + (courseProgress.completedChapters.includes(i) ? 'is-complete' : '')}
-                    onClick={() => toggleChapterComplete(i)}
-                    aria-pressed={courseProgress.completedChapters.includes(i)}
-                  >
-                    <Check size={13} />
-                    {courseProgress.completedChapters.includes(i) ? 'Completed' : 'Mark complete'}
-                  </button>
+                  <div className="reader-chapter-actions">
+                    <button
+                      className={'reader-chapter-bookmark ' + (courseProgress.bookmarks.includes(i) ? 'is-bookmarked' : '')}
+                      onClick={() => toggleChapterBookmark(i)}
+                      aria-pressed={courseProgress.bookmarks.includes(i)}
+                      aria-label={courseProgress.bookmarks.includes(i) ? 'Remove chapter bookmark' : 'Bookmark chapter'}
+                      title={courseProgress.bookmarks.includes(i) ? 'Remove bookmark' : 'Bookmark chapter'}
+                    >
+                      <Bookmark size={13} />
+                    </button>
+                    <button
+                      className={'reader-chapter-complete ' + (courseProgress.completedChapters.includes(i) ? 'is-complete' : '')}
+                      onClick={() => toggleChapterComplete(i)}
+                      aria-pressed={courseProgress.completedChapters.includes(i)}
+                    >
+                      <Check size={13} />
+                      {courseProgress.completedChapters.includes(i) ? 'Completed' : 'Mark complete'}
+                    </button>
+                  </div>
                 </div>
                 <div
                   className="reader-chapter-body"
@@ -1849,6 +1902,22 @@ export default function BookReaderPage() {
                 </div>
               );
             })()}
+
+            {isCourseComplete && (
+              <section className="reader-completion-card" aria-label="Course completed">
+                <span className="reader-cta-eyebrow">Course complete</span>
+                <h2>You finished {book.title}.</h2>
+                <p>Your chapter progress and notes are saved on this device. Celebrate the work, then choose what to learn next.</p>
+                <div className="reader-completion-actions">
+                  <button className="btn-primary" onClick={printCertificate}>
+                    <Download size={13} /> Print certificate
+                  </button>
+                  <button className="btn-secondary" onClick={shareCompletion}>
+                    <ExternalLink size={13} /> {copied ? 'Copied' : 'Share completion'}
+                  </button>
+                </div>
+              </section>
+            )}
 
             {/* CTA at bottom */}
             <div className="reader-cta-box">
