@@ -38,6 +38,25 @@ export interface BookFile {
   finalBook?: string;
 }
 
+interface ReadingProgress {
+  slug: string;
+  title: string;
+  chapter: number;
+  progress: number;
+  savedAt: string;
+}
+
+const READING_PROGRESS_KEY = 'pustakam-last-reading-position';
+
+function getSavedReadingProgress(): ReadingProgress | null {
+  try {
+    const value = window.localStorage.getItem(READING_PROGRESS_KEY);
+    return value ? JSON.parse(value) as ReadingProgress : null;
+  } catch {
+    return null;
+  }
+}
+
 /**
  * Extract a named section (Introduction, Summary, Glossary) from the finalBook markdown.
  * Looks for ## SectionName and captures until the next # or ## heading or end of string.
@@ -973,6 +992,7 @@ export default function BookReaderPage() {
   // ── Scroll-driven reading progress ──
   const [scrollPct, setScrollPct] = useState(0);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [savedProgress, setSavedProgress] = useState<ReadingProgress | null>(getSavedReadingProgress);
 
   useEffect(() => {
     setFavicon('/favicon_final.svg');
@@ -1040,6 +1060,25 @@ export default function BookReaderPage() {
       if (raf) cancelAnimationFrame(raf);
     };
   }, [book]);
+
+  // Save a reader's place locally without requiring an account.
+  useEffect(() => {
+    if (!book || scrollPct < 2) return;
+    const progress: ReadingProgress = {
+      slug: book.slug,
+      title: book.title,
+      chapter: activeChapter,
+      progress: Math.round(scrollPct),
+      savedAt: new Date().toISOString(),
+    };
+    const timer = window.setTimeout(() => {
+      try {
+        window.localStorage.setItem(READING_PROGRESS_KEY, JSON.stringify(progress));
+        setSavedProgress(progress);
+      } catch {}
+    }, 500);
+    return () => window.clearTimeout(timer);
+  }, [book, scrollPct, activeChapter]);
 
 
 
@@ -1214,6 +1253,15 @@ export default function BookReaderPage() {
 
   const scrollToChapter = (i: number) => {
     scrollToElement(chapterRefs.current[i]);
+  };
+
+  const resumeReading = () => {
+    if (!savedProgress || savedProgress.slug !== book?.slug) return;
+    if (savedProgress.chapter < 0) {
+      scrollToElement(introRef.current);
+      return;
+    }
+    scrollToChapter(savedProgress.chapter);
   };
 
   const handlePdf = async () => {
@@ -1644,6 +1692,12 @@ export default function BookReaderPage() {
             </div>
 
             <div className="reader-action-row">
+              {savedProgress?.slug === book.slug && savedProgress.progress >= 2 && savedProgress.progress < 100 && (
+                <button className="btn-secondary reader-resume-btn" onClick={resumeReading}>
+                  <BookOpen size={13} />
+                  Continue · Ch {Math.max(1, savedProgress.chapter + 1)}
+                </button>
+              )}
               <button className="btn-secondary" onClick={handlePdf} disabled={pdfLoading}>
                 <Download size={13} />
                 {pdfProgress > 0 ? `Generating... ${pdfProgress}%` : pdfLoading ? 'Preparing PDF...' : 'Download PDF'}

@@ -53,6 +53,25 @@ interface LibraryIndex {
   books: BookMeta[];
 }
 
+interface ReadingProgress {
+  slug: string;
+  title: string;
+  chapter: number;
+  progress: number;
+}
+
+const READING_PROGRESS_KEY = 'pustakam-last-reading-position';
+
+function getLastReadingProgress(): ReadingProgress | null {
+  try {
+    const value = window.localStorage.getItem(READING_PROGRESS_KEY);
+    const saved = value ? JSON.parse(value) as ReadingProgress : null;
+    return saved?.slug && saved.title ? saved : null;
+  } catch {
+    return null;
+  }
+}
+
 const KNOWN_LABELS: Record<string, string> = {
   all: 'All',
   programming: 'Programming',
@@ -94,6 +113,7 @@ export default function LibraryPage() {
   const [infoOpen, setInfoOpen] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>('newest');
   const [visibleCount, setVisibleCount] = useState(BOOKS_PER_PAGE);
+  const [lastRead] = useState<ReadingProgress | null>(getLastReadingProgress);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
   });
@@ -448,6 +468,19 @@ export default function LibraryPage() {
             </p>
             <div className="lib-hero-rule" />
           </div>
+
+          {!isFilterActive && lastRead && lastRead.progress >= 2 && lastRead.progress < 100 && (
+            <section className="lib-resume-card" aria-label="Continue reading">
+              <div className="lib-resume-copy">
+                <span className="lib-resume-eyebrow">Continue learning</span>
+                <strong>{lastRead.title}</strong>
+                <span>Chapter {Math.max(1, lastRead.chapter + 1)} · {lastRead.progress}% complete</span>
+              </div>
+              <Link to={'/library/book/' + lastRead.slug} className="lib-resume-link">
+                Resume <ArrowRight size={13} />
+              </Link>
+            </section>
+          )}
 
           {/* Active Filter Header */}
           {isFilterActive && (
