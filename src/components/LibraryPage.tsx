@@ -123,6 +123,8 @@ export default function LibraryPage() {
   });
   const heroSearchRef = useRef<HTMLInputElement>(null);
   const [heroSearchActive, setHeroSearchActive] = useState(false);
+  const heroSectionRef = useRef<HTMLElement>(null);
+  const [catalogNavVisible, setCatalogNavVisible] = useState(false);
 
   useEffect(() => {
     setFavicon('/favicon_final.svg');
@@ -141,6 +143,16 @@ export default function LibraryPage() {
     };
     window.addEventListener('keydown', focusLibrarySearch);
     return () => window.removeEventListener('keydown', focusLibrarySearch);
+  }, []);
+
+  useEffect(() => {
+    const updateCatalogNavigation = () => {
+      const heroBottom = heroSectionRef.current?.getBoundingClientRect().bottom ?? Number.POSITIVE_INFINITY;
+      setCatalogNavVisible(heroBottom < 84);
+    };
+    updateCatalogNavigation();
+    window.addEventListener('scroll', updateCatalogNavigation, { passive: true });
+    return () => window.removeEventListener('scroll', updateCatalogNavigation);
   }, []);
 
   const toggleTheme = () => {
@@ -278,7 +290,7 @@ export default function LibraryPage() {
       </div>
 
       {/* Nav */}
-      <nav className="lib-nav">
+      <nav className={`lib-nav ${catalogNavVisible ? 'is-catalog-active' : ''}`}>
         <Link to="/" className="lib-nav-back">
           ← tanmaysk.in
         </Link>
@@ -338,9 +350,20 @@ export default function LibraryPage() {
             Generate Your Own
           </a>
         </div>
+        {catalogNavVisible && (
+          <div className="lib-nav-catalog-controls" aria-label="Quick library filters">
+            <span>Browse</span>
+            <div>
+              <button className={activeEdition === 'all' ? 'active' : ''} onClick={() => setActiveEdition('all')}>All</button>
+              {top3Categories.map(category => (
+                <button key={category.id} className={activeCategory === category.id ? 'active' : ''} onClick={() => setActiveCategory(category.id)}>{category.label}</button>
+              ))}
+            </div>
+          </div>
+        )}
       </nav>
 
-      <section className={`lib-home-hero ${(heroSearchActive || search.trim()) ? 'is-condensed' : ''}`} aria-label="Pustakam Library introduction">
+      <section ref={heroSectionRef} className={`lib-home-hero ${(heroSearchActive || search.trim()) ? 'is-condensed' : ''}`} aria-label="Pustakam Library introduction">
         <div className="lib-home-hero-copy">
           <span className="lib-home-kicker">Pustakam · Open learning archive</span>
           {routeCategory ? (
@@ -374,14 +397,18 @@ export default function LibraryPage() {
             <span><strong>0</strong> paywalls</span>
           </div>
         </div>
-        <div className="lib-home-visual" aria-hidden="true">
-          <div className="lib-visual-grid" />
-          <div className="lib-visual-line lib-visual-line-a" />
-          <div className="lib-visual-line lib-visual-line-b" />
-          <div className="lib-visual-line lib-visual-line-c" />
-          <div className="lib-visual-orbit lib-visual-orbit-a" />
-          <div className="lib-visual-orbit lib-visual-orbit-b" />
-          <span>READ / BUILD / REPEAT</span>
+        <div className="lib-home-visual" aria-label="Popular directions in the library">
+          <span className="lib-visual-label">Start somewhere useful</span>
+          <strong>{index?.total?.toLocaleString() || '700+'}<small> guides, one next step</small></strong>
+          <p>Popular directions</p>
+          <div className="lib-visual-category-list">
+            {top3Categories.map((category, categoryIndex) => (
+              <Link key={category.id} to={'/library/category/' + category.id} className="lib-visual-category-link">
+                <span>{String(categoryIndex + 1).padStart(2, '0')}</span>{category.label}<ArrowRight size={13} />
+              </Link>
+            ))}
+          </div>
+          <div className="lib-visual-footer">Browse freely · read at your pace</div>
         </div>
       </section>
 
@@ -722,6 +749,7 @@ export default function LibraryPage() {
                           <span>{getCategoryLabel(book.category)} · {book.complexity}</span>
                           <strong>{coverInitials(book.title)}</strong>
                           <em>{book.readingTimeMins} min guide</em>
+                          <div className="lib-cover-graphic" aria-hidden="true"><i /><i /><i /></div>
                         </div>
 
 
