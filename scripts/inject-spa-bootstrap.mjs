@@ -12,9 +12,10 @@ if (!fs.existsSync(library) || !fs.existsSync(appShell)) {
 
 const rootHtml = fs.readFileSync(appShell, 'utf8');
 const scripts = rootHtml.match(/<script[^>]+type="module"[^>]*src="[^"]+"[^>]*><\/script>/gi) || [];
+const styles = rootHtml.match(/<link[^>]+rel="stylesheet"[^>]*>/gi) || [];
 if (scripts.length === 0) throw new Error('Could not find the Vite application module.');
 
-const bootstrap = scripts.join('') + '<script>document.documentElement.dataset.seoSnapshot="true";</script>';
+const bootstrap = styles.join('') + scripts.join('') + '<script>document.documentElement.dataset.seoSnapshot="true";</script>';
 const files = [];
 const walk = directory => {
   for (const item of fs.readdirSync(directory, { withFileTypes: true })) {
