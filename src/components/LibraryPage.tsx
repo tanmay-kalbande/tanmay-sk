@@ -158,13 +158,13 @@ export default function LibraryPage() {
   const formatGeneratedDate = (dateStr?: string) => {
     if (!dateStr) return '';
     const d = new Date(dateStr);
-    return d.toLocaleDateString(undefined, { 
-      month: 'short', 
-      day: 'numeric', 
-      year: 'numeric' 
-    }) + ' ' + d.toLocaleTimeString(undefined, { 
-      hour: '2-digit', 
-      minute: '2-digit' 
+    return d.toLocaleDateString(undefined, {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    }) + ' ' + d.toLocaleTimeString(undefined, {
+      hour: '2-digit',
+      minute: '2-digit'
     });
   };
 
@@ -182,7 +182,7 @@ export default function LibraryPage() {
   // Compute category list with book counts
   const categoriesWithCounts = useMemo(() => {
     if (!index) return [{ id: 'all', label: 'All', count: 0 }];
-    
+
     const counts: Record<string, number> = { all: index.books.length };
     index.books.forEach(b => {
       counts[b.category] = (counts[b.category] || 0) + 1;
@@ -370,7 +370,17 @@ export default function LibraryPage() {
           </div>
         </div>
         <div className="lib-home-visual" aria-hidden="true">
-          <div className="lib-visual-grid" />
+          {/* ── Cascading perspective grids (sloping into distance) ── */}
+          <div className="lib-visual-grid lib-visual-grid--primary" />
+          <div className="lib-visual-grid lib-visual-grid--secondary" />
+
+          {/* Depth-haze layers for atmosphere */}
+          <div className="lib-visual-haze lib-visual-haze--top" />
+          <div className="lib-visual-haze lib-visual-haze--mid" />
+          <div className="lib-visual-haze lib-visual-haze--bottom" />
+
+          {/* Horizon glow line */}
+          <div className="lib-visual-horizon" />
 
           {/* Central open-book silhouette */}
           <div className="lib-visual-book">
@@ -385,23 +395,40 @@ export default function LibraryPage() {
           <div className="lib-visual-ray lib-visual-ray-3" />
           <div className="lib-visual-ray lib-visual-ray-4" />
           <div className="lib-visual-ray lib-visual-ray-5" />
+          <div className="lib-visual-ray lib-visual-ray-6" />
+          <div className="lib-visual-ray lib-visual-ray-7" />
 
           {/* Floating chapter/page layers */}
           <div className="lib-visual-page lib-visual-page-1" />
           <div className="lib-visual-page lib-visual-page-2" />
           <div className="lib-visual-page lib-visual-page-3" />
+          <div className="lib-visual-page lib-visual-page-4" />
 
-          {/* Neural connection lines */}
+          {/* Neural connection lines — expanded network */}
           <svg className="lib-visual-connections" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Primary spokes from center */}
             <path d="M200 200 L320 80" stroke="rgba(223,118,84,0.3)" strokeWidth="1" />
-            <path d="M200 200 L80 90" stroke="rgba(223,118,84,0.2)" strokeWidth="1" />
+            <path d="M200 200 L80 90" stroke="rgba(223,118,84,0.22)" strokeWidth="1" />
             <path d="M200 200 L340 260" stroke="rgba(223,118,84,0.25)" strokeWidth="1" />
-            <path d="M200 200 L60 280" stroke="rgba(223,118,84,0.15)" strokeWidth="1" />
+            <path d="M200 200 L60 280" stroke="rgba(223,118,84,0.16)" strokeWidth="1" />
             <path d="M200 200 L280 350" stroke="rgba(223,118,84,0.2)" strokeWidth="1" />
             <path d="M200 200 L120 340" stroke="rgba(223,118,84,0.18)" strokeWidth="1" />
+            <path d="M200 200 L360 170" stroke="rgba(223,118,84,0.14)" strokeWidth="0.8" />
+            <path d="M200 200 L40 180" stroke="rgba(223,118,84,0.12)" strokeWidth="0.8" />
+            {/* Secondary branches */}
             <path d="M320 80 L380 40" stroke="rgba(223,118,84,0.12)" strokeWidth="0.5" strokeDasharray="3 4" />
+            <path d="M320 80 L350 120" stroke="rgba(223,118,84,0.09)" strokeWidth="0.5" strokeDasharray="2 5" />
             <path d="M80 90 L30 50" stroke="rgba(223,118,84,0.1)" strokeWidth="0.5" strokeDasharray="3 4" />
+            <path d="M80 90 L50 140" stroke="rgba(223,118,84,0.08)" strokeWidth="0.5" strokeDasharray="2 5" />
             <path d="M340 260 L390 310" stroke="rgba(223,118,84,0.1)" strokeWidth="0.5" strokeDasharray="3 4" />
+            <path d="M340 260 L370 220" stroke="rgba(223,118,84,0.07)" strokeWidth="0.5" strokeDasharray="2 5" />
+            <path d="M60 280 L20 330" stroke="rgba(223,118,84,0.08)" strokeWidth="0.5" strokeDasharray="3 4" />
+            <path d="M280 350 L320 390" stroke="rgba(223,118,84,0.07)" strokeWidth="0.5" strokeDasharray="2 5" />
+            <path d="M120 340 L80 380" stroke="rgba(223,118,84,0.06)" strokeWidth="0.5" strokeDasharray="3 4" />
+            {/* Cross-links between outer nodes */}
+            <path d="M320 80 L340 260" stroke="rgba(223,118,84,0.05)" strokeWidth="0.4" strokeDasharray="4 8" />
+            <path d="M80 90 L60 280" stroke="rgba(223,118,84,0.04)" strokeWidth="0.4" strokeDasharray="4 8" />
+            <path d="M360 170 L340 260" stroke="rgba(223,118,84,0.05)" strokeWidth="0.4" strokeDasharray="4 8" />
           </svg>
 
           {/* Constellation knowledge dots */}
@@ -411,19 +438,26 @@ export default function LibraryPage() {
           <div className="lib-visual-dot lib-visual-dot-4" />
           <div className="lib-visual-dot lib-visual-dot-5" />
           <div className="lib-visual-dot lib-visual-dot-6" />
+          <div className="lib-visual-dot lib-visual-dot-7" />
+          <div className="lib-visual-dot lib-visual-dot-8" />
+          <div className="lib-visual-dot lib-visual-dot-9" />
 
           {/* Pulsing core from center of the book */}
           <div className="lib-visual-core" />
-          <div className="lib-visual-core-ring" />
+          <div className="lib-visual-core-ring lib-visual-core-ring--inner" />
+          <div className="lib-visual-core-ring lib-visual-core-ring--outer" />
 
           {/* Orbit rings around the book */}
           <div className="lib-visual-orbit lib-visual-orbit-a" />
           <div className="lib-visual-orbit lib-visual-orbit-b" />
+          <div className="lib-visual-orbit lib-visual-orbit-c" />
 
           {/* Data flow particles */}
           <div className="lib-visual-particle lib-visual-particle-1" />
           <div className="lib-visual-particle lib-visual-particle-2" />
           <div className="lib-visual-particle lib-visual-particle-3" />
+          <div className="lib-visual-particle lib-visual-particle-4" />
+          <div className="lib-visual-particle lib-visual-particle-5" />
 
           {/* Bottom data stream ticker */}
           <div className="lib-visual-stream">
@@ -686,102 +720,102 @@ export default function LibraryPage() {
                   </div>
                 ) : (
                   <>
-                  <div className="lib-grid">
-                    {visibleBooks.map((book, cardIndex) => (
-                      <Link
-                        key={book.slug}
-                        to={`/library/book/${book.slug}`}
-                        className={`lib-card ${cardIndex === 0 ? 'lib-card--featured' : ''}`}
-                      >
-                        <div className="lib-card-cover" data-category={book.category}>
-                          <span>{getCategoryLabel(book.category)} · {book.complexity}</span>
-                          <strong>{coverInitials(book.title)}</strong>
-                          <em>{book.readingTimeMins} min guide</em>
-                          <div className="lib-cover-graphic" aria-hidden="true"><i /><i /><i /></div>
-                        </div>
-
-
-                        <div className="lib-card-top">
-                          <p className="lib-card-title">{book.title}</p>
-                          <span className={`lib-card-complexity ${book.complexity}`}>
-                            {book.complexity}
-                          </span>
-                        </div>
-                        <div className="lib-card-meta">
-                          <span><Clock size={10} /> {book.readingTimeMins} min</span>
-                          <span><FileText size={10} /> {book.moduleCount} ch</span>
-                          <span>{(book.wordCount / 1000).toFixed(1)}K words</span>
-                          {book.generatedAt && (
-                            <span className="lib-card-date" style={{ opacity: 0.65, fontSize: '0.62rem' }}>
-                              <Calendar size={9} /> {formatGeneratedDate(book.generatedAt)}
-                            </span>
-                          )}
-                          {book.modelUsed && (() => {
-                            const m = book.modelUsed.toLowerCase();
-                            let iconComponent = null;
-                            if (m.includes('gemma')) {
-                              iconComponent = (
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
-                                  <path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" />
-                                </svg>
-                              );
-                            } else if (m.includes('gpt-oss') || m.includes('openai')) {
-                              iconComponent = (
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
-                                  <path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619-.357-1.356-.523-2.117-.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.946-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z" />
-                                </svg>
-                              );
-                            } else if (m.includes('mistral')) {
-                              iconComponent = (
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
-                                  <path d="M3.428 3.4h3.429v3.428H3.428V3.4zm13.714 0h3.43v3.428h-3.43V3.4zM3.428 6.828h6.857v3.429H3.429V6.828zm10.286 0h6.857v3.429h-6.857V6.828zM3.428 10.258h17.144v3.428H3.428v-3.428zM3.428 13.686h3.429v3.428H3.428v-3.428zm6.858 0h3.429v3.428h-3.429v-3.428zm6.856 0h3.43v3.428h-3.43v-3.428zM0 17.114h10.286v3.429H0v-3.429zm13.714 0H24v3.429H13.714v-3.429z" />
-                                </svg>
-                              );
-                            } else if (m.includes('zai') || m.includes('glm')) {
-                              iconComponent = (
-                                <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
-                                  <path d="M12.105 2L9.927 4.953H.653L2.83 2h9.276zM23.254 19.048L21.078 22h-9.242l2.174-2.952h9.244zM24 2L9.264 22H0L14.736 2H24z" />
-                                </svg>
-                              );
-                            }
-                            return (
-                              <span title={`Generated by ${book.modelUsed}`} style={{ display: 'inline-flex', alignItems: 'center' }}>
-                                {iconComponent}
-                              </span>
-                            );
-                          })()}
-                        </div>
-                        <div className="lib-card-tags">
-                          {book.tags.slice(0, 3).map(t => (
-                            <span key={t} className="lib-tag">{t}</span>
-                          ))}
-                          <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)', color: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)' }}>
-                            {book.edition === 'street' ? '🔥 Street' : book.edition === 'desi' ? '🇮🇳 Desi' : '✨ Stellar'}
-                          </span>
-                        </div>
-                        <div className="lib-card-cta">
-                          Read now <ArrowRight size={11} />
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-
-                  {/* Load More */}
-                  {hasMore && (
-                    <div className="lib-load-more-wrap">
-                      <div>
-                        <button
-                          className="lib-load-more-btn"
-                          onClick={() => setVisibleCount(prev => prev + BOOKS_PER_PAGE)}
+                    <div className="lib-grid">
+                      {visibleBooks.map((book, cardIndex) => (
+                        <Link
+                          key={book.slug}
+                          to={`/library/book/${book.slug}`}
+                          className={`lib-card ${cardIndex === 0 ? 'lib-card--featured' : ''}`}
                         >
-                          Load More Books
-                        </button>
-                        <div className="lib-load-more-count">
-                          Showing {visibleBooks.length} of {filtered.length}
+                          <div className="lib-card-cover" data-category={book.category}>
+                            <span>{getCategoryLabel(book.category)} · {book.complexity}</span>
+                            <strong>{coverInitials(book.title)}</strong>
+                            <em>{book.readingTimeMins} min guide</em>
+                            <div className="lib-cover-graphic" aria-hidden="true"><i /><i /><i /></div>
+                          </div>
+
+
+                          <div className="lib-card-top">
+                            <p className="lib-card-title">{book.title}</p>
+                            <span className={`lib-card-complexity ${book.complexity}`}>
+                              {book.complexity}
+                            </span>
+                          </div>
+                          <div className="lib-card-meta">
+                            <span><Clock size={10} /> {book.readingTimeMins} min</span>
+                            <span><FileText size={10} /> {book.moduleCount} ch</span>
+                            <span>{(book.wordCount / 1000).toFixed(1)}K words</span>
+                            {book.generatedAt && (
+                              <span className="lib-card-date" style={{ opacity: 0.65, fontSize: '0.62rem' }}>
+                                <Calendar size={9} /> {formatGeneratedDate(book.generatedAt)}
+                              </span>
+                            )}
+                            {book.modelUsed && (() => {
+                              const m = book.modelUsed.toLowerCase();
+                              let iconComponent = null;
+                              if (m.includes('gemma')) {
+                                iconComponent = (
+                                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+                                    <path d="M20.616 10.835a14.147 14.147 0 01-4.45-3.001 14.111 14.111 0 01-3.678-6.452.503.503 0 00-.975 0 14.134 14.134 0 01-3.679 6.452 14.155 14.155 0 01-4.45 3.001c-.65.28-1.318.505-2.002.678a.502.502 0 000 .975c.684.172 1.35.397 2.002.677a14.147 14.147 0 014.45 3.001 14.112 14.112 0 013.679 6.453.502.502 0 00.975 0c.172-.685.397-1.351.677-2.003a14.145 14.145 0 013.001-4.45 14.113 14.113 0 016.453-3.678.503.503 0 000-.975 13.245 13.245 0 01-2.003-.678z" />
+                                  </svg>
+                                );
+                              } else if (m.includes('gpt-oss') || m.includes('openai')) {
+                                iconComponent = (
+                                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+                                    <path d="M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619-.357-1.356-.523-2.117-.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.946-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z" />
+                                  </svg>
+                                );
+                              } else if (m.includes('mistral')) {
+                                iconComponent = (
+                                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+                                    <path d="M3.428 3.4h3.429v3.428H3.428V3.4zm13.714 0h3.43v3.428h-3.43V3.4zM3.428 6.828h6.857v3.429H3.429V6.828zm10.286 0h6.857v3.429h-6.857V6.828zM3.428 10.258h17.144v3.428H3.428v-3.428zM3.428 13.686h3.429v3.428H3.428v-3.428zm6.858 0h3.429v3.428h-3.429v-3.428zm6.856 0h3.43v3.428h-3.43v-3.428zM0 17.114h10.286v3.429H0v-3.429zm13.714 0H24v3.429H13.714v-3.429z" />
+                                  </svg>
+                                );
+                              } else if (m.includes('zai') || m.includes('glm')) {
+                                iconComponent = (
+                                  <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor" style={{ flexShrink: 0 }}>
+                                    <path d="M12.105 2L9.927 4.953H.653L2.83 2h9.276zM23.254 19.048L21.078 22h-9.242l2.174-2.952h9.244zM24 2L9.264 22H0L14.736 2H24z" />
+                                  </svg>
+                                );
+                              }
+                              return (
+                                <span title={`Generated by ${book.modelUsed}`} style={{ display: 'inline-flex', alignItems: 'center' }}>
+                                  {iconComponent}
+                                </span>
+                              );
+                            })()}
+                          </div>
+                          <div className="lib-card-tags">
+                            {book.tags.slice(0, 3).map(t => (
+                              <span key={t} className="lib-tag">{t}</span>
+                            ))}
+                            <span className="lib-tag" style={{ borderStyle: 'solid', borderColor: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)', color: book.edition === 'street' ? '#ff5722' : book.edition === 'desi' ? '#ff9800' : 'var(--accent)' }}>
+                              {book.edition === 'street' ? '🔥 Street' : book.edition === 'desi' ? '🇮🇳 Desi' : '✨ Stellar'}
+                            </span>
+                          </div>
+                          <div className="lib-card-cta">
+                            Read now <ArrowRight size={11} />
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+
+                    {/* Load More */}
+                    {hasMore && (
+                      <div className="lib-load-more-wrap">
+                        <div>
+                          <button
+                            className="lib-load-more-btn"
+                            onClick={() => setVisibleCount(prev => prev + BOOKS_PER_PAGE)}
+                          >
+                            Load More Books
+                          </button>
+                          <div className="lib-load-more-count">
+                            Showing {visibleBooks.length} of {filtered.length}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  )}
+                    )}
                   </>
                 )}
               </>
