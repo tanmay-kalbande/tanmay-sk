@@ -110,7 +110,6 @@ export default function LibraryPage() {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
-  const [activeEdition, setActiveEdition] = useState<'all' | 'stellar' | 'street' | 'desi'>('all');
   const [showAllCategories, setShowAllCategories] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>('newest');
@@ -163,7 +162,7 @@ export default function LibraryPage() {
   // Reset visible count when filters change
   useEffect(() => {
     setVisibleCount(BOOKS_PER_PAGE);
-  }, [activeCategory, activeEdition, search, sortMode]);
+  }, [activeCategory, search, sortMode]);
 
   useEffect(() => {
     if (routeCategory) setActiveCategory(routeCategory);
@@ -231,7 +230,6 @@ export default function LibraryPage() {
     if (!index) return [];
     let books = [...index.books];
     if (activeCategory !== 'all') books = books.filter(b => b.category === activeCategory);
-    if (activeEdition !== 'all') books = books.filter(b => (b.edition || 'stellar') === activeEdition);
     if (search.trim()) {
       const q = search.toLowerCase();
       books = books.filter(b =>
@@ -250,7 +248,7 @@ export default function LibraryPage() {
       books.sort((a, b) => b.moduleCount - a.moduleCount);
     }
     return books;
-  }, [index, activeCategory, activeEdition, search, sortMode]);
+  }, [index, activeCategory, search, sortMode]);
 
   const visibleBooks = useMemo(() => filtered.slice(0, visibleCount), [filtered, visibleCount]);
   const hasMore = visibleCount < filtered.length;
@@ -271,13 +269,12 @@ export default function LibraryPage() {
   }, [index, learningGoal]);
 
   const isFilterActive = useMemo(() => {
-    return search.trim() !== '' || (!routeCategory && activeCategory !== 'all') || activeEdition !== 'all';
-  }, [search, activeCategory, activeEdition, routeCategory]);
+    return search.trim() !== '' || (!routeCategory && activeCategory !== 'all');
+  }, [search, activeCategory, routeCategory]);
 
   const handleResetFilters = () => {
     setSearch('');
     setActiveCategory('all');
-    setActiveEdition('all');
   };
 
   return (
@@ -355,7 +352,7 @@ export default function LibraryPage() {
           <div className="lib-nav-catalog-controls" aria-label="Quick library filters">
             <span>Browse</span>
             <div className="lib-nav-quick-chips">
-              <button className={activeEdition === 'all' ? 'active' : ''} onClick={() => setActiveEdition('all')}>All</button>
+              <button className={activeCategory === 'all' ? 'active' : ''} onClick={() => setActiveCategory('all')}>All</button>
               {top3Categories.map(category => (
                 <button key={category.id} className={activeCategory === category.id ? 'active' : ''} onClick={() => setActiveCategory(category.id)}>{category.label}</button>
               ))}
@@ -374,14 +371,6 @@ export default function LibraryPage() {
                 <div className="lib-nav-filter-popover-head">
                   <span>Refine the library</span>
                   <button type="button" onClick={() => setHeaderFiltersOpen(false)} aria-label="Close library filters"><X size={14} /></button>
-                </div>
-                <div className="lib-nav-filter-group">
-                  <span>Edition</span>
-                  <div>
-                    {([['all', 'All'], ['stellar', '✨ Stellar'], ['street', '🔥 Street'], ['desi', '🇮🇳 Desi']] as const).map(([edition, label]) => (
-                      <button key={edition} type="button" className={activeEdition === edition ? 'active' : ''} onClick={() => setActiveEdition(edition)}>{label}</button>
-                    ))}
-                  </div>
                 </div>
                 <div className="lib-nav-filter-group">
                   <span>Category</span>
@@ -457,36 +446,6 @@ export default function LibraryPage() {
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
-            </div>
-          </div>
-
-          <div className="lib-sidebar-section">
-            <h3>Editions</h3>
-            <div className="lib-edition-filter">
-              <button 
-                className={`lib-edition-btn ${activeEdition === 'all' ? 'active' : ''}`}
-                onClick={() => setActiveEdition('all')}
-              >
-                All
-              </button>
-              <button 
-                className={`lib-edition-btn ${activeEdition === 'stellar' ? 'active' : ''}`}
-                onClick={() => setActiveEdition('stellar')}
-              >
-                ✨ Stellar
-              </button>
-              <button 
-                className={`lib-edition-btn ${activeEdition === 'street' ? 'active' : ''}`}
-                onClick={() => setActiveEdition('street')}
-              >
-                🔥 Street
-              </button>
-              <button 
-                className={`lib-edition-btn ${activeEdition === 'desi' ? 'active' : ''}`}
-                onClick={() => setActiveEdition('desi')}
-              >
-                🇮🇳 Desi
-              </button>
             </div>
           </div>
 
