@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, Sparkles } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, Sparkles, GraduationCap } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import { AboutModal } from './AboutModal';
@@ -596,7 +596,7 @@ export default function LibraryPage() {
               <div className="lib-dashboard-grid">
                 <div>
                   <span>In progress</span>
-                  <strong>{lastRead && lastRead.progress < 100 ? '1 guide' : 'Ready to start'}</strong>
+                  <strong>{lastRead && (lastRead!.progress || 0) < 100 ? '1 guide' : 'Ready to start'}</strong>
                 </div>
                 <div>
                   <span>Completed</span>
@@ -612,14 +612,14 @@ export default function LibraryPage() {
             </section>
           )}
 
-          {false && lastRead && lastRead.progress >= 2 && lastRead.progress < 100 && (
+          {Boolean(false && lastRead && typeof lastRead!.progress === 'number' && lastRead!.progress >= 2 && lastRead!.progress < 100) && (
             <section className="lib-resume-card" aria-label="Continue reading">
               <div className="lib-resume-copy">
                 <span className="lib-resume-eyebrow">Continue learning</span>
-                <strong>{lastRead.title}</strong>
-                <span>Chapter {Math.max(1, lastRead.chapter + 1)} · {lastRead.progress}% complete</span>
+                <strong>{lastRead?.title || ''}</strong>
+                <span>Chapter {Math.max(1, (lastRead?.chapter || 0) + 1)} · {lastRead?.progress || 0}% complete</span>
               </div>
-              <Link to={'/library/book/' + lastRead.slug} className="lib-resume-link">
+              <Link to={'/library/book/' + lastRead?.slug} className="lib-resume-link">
                 Resume <ArrowRight size={13} />
               </Link>
             </section>
