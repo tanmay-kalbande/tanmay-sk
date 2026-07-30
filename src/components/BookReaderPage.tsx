@@ -1762,16 +1762,6 @@ export default function BookReaderPage() {
               })()}
             </div>
 
-            <div className="reader-course-strip" aria-label="Course progress">
-              <div>
-                <span className="reader-course-label">Course mode</span>
-                <strong>{completedChapterCount} of {book.modules.length} chapters complete</strong>
-              </div>
-              <div className="reader-course-meter" aria-hidden="true">
-                <span style={{ width: ((book.modules.length ? completedChapterCount / book.modules.length : 0) * 100) + '%' }} />
-              </div>
-            </div>
-
             <div className="reader-action-row">
               {savedProgress?.slug === book.slug && savedProgress.progress >= 2 && savedProgress.progress < 100 && (
                 <button className="btn-secondary reader-resume-btn" onClick={resumeReading}>

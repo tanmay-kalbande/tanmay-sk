@@ -3,8 +3,8 @@ name: 🌌 Quantum Archives Synthesizer
 on:
   # ── Automatic Orbital Cycles: runs every 1 hour ─────────────────────────────
   schedule:
-    # Fully automatic daily publishing at 06:00 UTC. It does not self-trigger.
-    - cron: '0 6 * * *'
+    # Automatic publishing every three hours. No manual trigger or date cutoff is required.
+    - cron: '0 */3 * * *'
 
   # ── Manual Transmission: Trigger from GitHub Console ───────────────────────
   workflow_dispatch:
