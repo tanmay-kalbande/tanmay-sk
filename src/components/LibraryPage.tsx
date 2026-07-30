@@ -470,16 +470,7 @@ export default function LibraryPage() {
             </div>
           </div>
 
-          {/* Ticker stream footer */}
-          <div className="lib-visual-stream">
-            <span>794 GUIDES</span>
-            <span>·</span>
-            <span>24M WORDS</span>
-            <span>·</span>
-            <span>OPEN LEARNING ARCHIVE</span>
-          </div>
 
-          <span className="lib-visual-tag">LEARN / BUILD / GROW</span>
         </div>
       </section>
 
