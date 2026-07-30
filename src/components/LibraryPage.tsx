@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, X, Sparkles } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, Sparkles } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import { AboutModal } from './AboutModal';
@@ -110,6 +110,7 @@ export default function LibraryPage() {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
+  const [showAllCategories, setShowAllCategories] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>('newest');
   const [visibleCount, setVisibleCount] = useState(BOOKS_PER_PAGE);
@@ -121,9 +122,6 @@ export default function LibraryPage() {
   });
   const heroSearchRef = useRef<HTMLInputElement>(null);
   const [heroSearchActive, setHeroSearchActive] = useState(false);
-  const heroSectionRef = useRef<HTMLElement>(null);
-  const [catalogNavVisible, setCatalogNavVisible] = useState(false);
-  const [headerFiltersOpen, setHeaderFiltersOpen] = useState(false);
 
   useEffect(() => {
     setFavicon('/favicon_final.svg');
@@ -142,16 +140,6 @@ export default function LibraryPage() {
     };
     window.addEventListener('keydown', focusLibrarySearch);
     return () => window.removeEventListener('keydown', focusLibrarySearch);
-  }, []);
-
-  useEffect(() => {
-    const updateCatalogNavigation = () => {
-      const heroBottom = heroSectionRef.current?.getBoundingClientRect().bottom ?? Number.POSITIVE_INFINITY;
-      setCatalogNavVisible(heroBottom < 84);
-    };
-    updateCatalogNavigation();
-    window.addEventListener('scroll', updateCatalogNavigation, { passive: true });
-    return () => window.removeEventListener('scroll', updateCatalogNavigation);
   }, []);
 
   const toggleTheme = () => {
@@ -221,6 +209,8 @@ export default function LibraryPage() {
     return categoriesWithCounts.slice(1, 4);
   }, [categoriesWithCounts]);
 
+  const remainingCategories = useMemo(() => categoriesWithCounts.slice(4), [categoriesWithCounts]);
+
   const filtered = useMemo(() => {
     if (!index) return [];
     let books = [...index.books];
@@ -283,7 +273,7 @@ export default function LibraryPage() {
       </div>
 
       {/* Nav */}
-      <nav className={`lib-nav ${catalogNavVisible ? 'is-catalog-active' : ''}`}>
+      <nav className="lib-nav">
         <Link to="/" className="lib-nav-back">
           ← tanmaysk.in
         </Link>
@@ -343,44 +333,9 @@ export default function LibraryPage() {
             Generate Your Own
           </a>
         </div>
-        {catalogNavVisible && (
-          <div className="lib-nav-catalog-controls" aria-label="Quick library filters">
-            <div className="lib-nav-quick-chips">
-              <button className={activeCategory === 'all' ? 'active' : ''} onClick={() => setActiveCategory('all')}>All</button>
-              {top3Categories.map(category => (
-                <button key={category.id} className={activeCategory === category.id ? 'active' : ''} onClick={() => setActiveCategory(category.id)}>{category.label}</button>
-              ))}
-            </div>
-            <button
-              className="lib-nav-all-filters"
-              type="button"
-              onClick={() => setHeaderFiltersOpen(open => !open)}
-              aria-expanded={headerFiltersOpen}
-              aria-controls="library-header-filters"
-            >
-              {headerFiltersOpen ? 'Close filters' : 'All filters'}
-            </button>
-            {headerFiltersOpen && (
-              <div id="library-header-filters" className="lib-nav-filter-popover">
-                <div className="lib-nav-filter-popover-head">
-                  <span>Refine the library</span>
-                  <button type="button" onClick={() => setHeaderFiltersOpen(false)} aria-label="Close library filters"><X size={14} /></button>
-                </div>
-                <div className="lib-nav-filter-group">
-                  <span>Category</span>
-                  <div>
-                    {categoriesWithCounts.map(category => (
-                      <button key={category.id} type="button" className={activeCategory === category.id ? 'active' : ''} onClick={() => { setActiveCategory(category.id); setHeaderFiltersOpen(false); }}>{category.label}<small>{category.count}</small></button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
       </nav>
 
-      <section ref={heroSectionRef} className={`lib-home-hero ${(heroSearchActive || search.trim()) ? 'is-condensed' : ''}`} aria-label="Pustakam Library introduction">
+      <section className={`lib-home-hero ${(heroSearchActive || search.trim()) ? 'is-condensed' : ''}`} aria-label="Pustakam Library introduction">
         <div className="lib-home-hero-copy">
           <span className="lib-home-kicker">Pustakam · Open learning archive</span>
           {routeCategory ? (
@@ -440,6 +395,28 @@ export default function LibraryPage() {
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
+            </div>
+          </div>
+
+          <div className="lib-sidebar-section">
+            <h3>Categories</h3>
+            <div className="lib-category-list">
+              {categoriesWithCounts.slice(0, showAllCategories ? undefined : 6).map(category => (
+                <button
+                  key={category.id}
+                  type="button"
+                  className={`lib-sidebar-cat-btn ${activeCategory === category.id ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(category.id)}
+                >
+                  <span>{category.label}</span>
+                  <span className="lib-sidebar-cat-count">{category.count}</span>
+                </button>
+              ))}
+              {remainingCategories.length > 0 && (
+                <button className="lib-sidebar-more" type="button" onClick={() => setShowAllCategories(open => !open)}>
+                  {showAllCategories ? 'Show fewer' : `+ ${remainingCategories.length} more`}
+                </button>
+              )}
             </div>
           </div>
 
