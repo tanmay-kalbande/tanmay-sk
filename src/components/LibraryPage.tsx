@@ -125,6 +125,7 @@ export default function LibraryPage() {
   const [heroSearchActive, setHeroSearchActive] = useState(false);
   const heroSectionRef = useRef<HTMLElement>(null);
   const [catalogNavVisible, setCatalogNavVisible] = useState(false);
+  const [headerFiltersOpen, setHeaderFiltersOpen] = useState(false);
 
   useEffect(() => {
     setFavicon('/favicon_final.svg');
@@ -353,12 +354,45 @@ export default function LibraryPage() {
         {catalogNavVisible && (
           <div className="lib-nav-catalog-controls" aria-label="Quick library filters">
             <span>Browse</span>
-            <div>
+            <div className="lib-nav-quick-chips">
               <button className={activeEdition === 'all' ? 'active' : ''} onClick={() => setActiveEdition('all')}>All</button>
               {top3Categories.map(category => (
                 <button key={category.id} className={activeCategory === category.id ? 'active' : ''} onClick={() => setActiveCategory(category.id)}>{category.label}</button>
               ))}
             </div>
+            <button
+              className="lib-nav-all-filters"
+              type="button"
+              onClick={() => setHeaderFiltersOpen(open => !open)}
+              aria-expanded={headerFiltersOpen}
+              aria-controls="library-header-filters"
+            >
+              {headerFiltersOpen ? 'Close filters' : 'All filters'}
+            </button>
+            {headerFiltersOpen && (
+              <div id="library-header-filters" className="lib-nav-filter-popover">
+                <div className="lib-nav-filter-popover-head">
+                  <span>Refine the library</span>
+                  <button type="button" onClick={() => setHeaderFiltersOpen(false)} aria-label="Close library filters"><X size={14} /></button>
+                </div>
+                <div className="lib-nav-filter-group">
+                  <span>Edition</span>
+                  <div>
+                    {([['all', 'All'], ['stellar', '✨ Stellar'], ['street', '🔥 Street'], ['desi', '🇮🇳 Desi']] as const).map(([edition, label]) => (
+                      <button key={edition} type="button" className={activeEdition === edition ? 'active' : ''} onClick={() => setActiveEdition(edition)}>{label}</button>
+                    ))}
+                  </div>
+                </div>
+                <div className="lib-nav-filter-group">
+                  <span>Category</span>
+                  <div>
+                    {categoriesWithCounts.map(category => (
+                      <button key={category.id} type="button" className={activeCategory === category.id ? 'active' : ''} onClick={() => { setActiveCategory(category.id); setHeaderFiltersOpen(false); }}>{category.label}<small>{category.count}</small></button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </nav>
@@ -397,18 +431,14 @@ export default function LibraryPage() {
             <span><strong>0</strong> paywalls</span>
           </div>
         </div>
-        <div className="lib-home-visual" aria-label="Popular directions in the library">
-          <span className="lib-visual-label">Start somewhere useful</span>
-          <strong>{index?.total?.toLocaleString() || '700+'}<small> guides, one next step</small></strong>
-          <p>Popular directions</p>
-          <div className="lib-visual-category-list">
-            {top3Categories.map((category, categoryIndex) => (
-              <Link key={category.id} to={'/library/category/' + category.id} className="lib-visual-category-link">
-                <span>{String(categoryIndex + 1).padStart(2, '0')}</span>{category.label}<ArrowRight size={13} />
-              </Link>
-            ))}
-          </div>
-          <div className="lib-visual-footer">Browse freely · read at your pace</div>
+        <div className="lib-home-visual" aria-hidden="true">
+          <div className="lib-visual-grid" />
+          <div className="lib-visual-line lib-visual-line-a" />
+          <div className="lib-visual-line lib-visual-line-b" />
+          <div className="lib-visual-line lib-visual-line-c" />
+          <div className="lib-visual-orbit lib-visual-orbit-a" />
+          <div className="lib-visual-orbit lib-visual-orbit-b" />
+          <span>READ / BUILD / REPEAT</span>
         </div>
       </section>
 

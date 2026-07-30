@@ -3576,41 +3576,42 @@ html[data-theme="light"] .lib-card-new-badge {
   .lib-sidebar-section:last-child { display: none; }
 }
 
-/* The right panel is an actionable way into the library, not a decorative interruption. */
-.lib-home-hero h1 { line-height: .98; }
-.lib-home-hero h1 em { display: block; padding-top: .07em; }
+/* Keep the original abstract reading visual; only motion is added. */
+.lib-home-hero h1 { line-height: .95; }
+.lib-home-hero h1 em { display: inline; padding-top: 0; }
+.lib-home-visual { display: block; min-height: 320px; padding: 0; background: rgba(255,255,255,.025); }
 .lib-visual-grid,
 .lib-visual-line,
 .lib-visual-orbit,
-.lib-home-visual > span:not(.lib-visual-label) { display: none; }
-.lib-home-visual {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 320px;
-  padding: clamp(25px, 4vw, 46px);
-  background: linear-gradient(145deg, rgba(255,255,255,.055), rgba(255,255,255,.015));
-}
-.lib-visual-label { display: block; color: #df7654; font: 800 .53rem var(--f-mono); letter-spacing: .17em; text-transform: uppercase; }
-.lib-home-visual > strong { display: block; margin-top: 16px; color: #f5efe9; font: 700 clamp(3rem, 5vw, 5.4rem)/.84 var(--f-display); letter-spacing: -.05em; }
-.lib-home-visual > strong small { display: block; margin-top: 11px; color: rgba(245,239,233,.56); font: 600 .58rem var(--f-mono); letter-spacing: .06em; }
-.lib-home-visual > p { margin: 34px 0 11px; color: rgba(245,239,233,.44); font: 700 .5rem var(--f-mono); letter-spacing: .14em; text-transform: uppercase; }
-.lib-visual-category-list { display: grid; gap: 6px; }
-.lib-visual-category-link { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 8px; padding: 10px 0; color: #f5efe9; font: 600 .64rem var(--f-mono); text-decoration: none; border-top: 1px solid rgba(255,255,255,.09); transition: color .2s, padding .2s; }
-.lib-visual-category-link:hover { padding-left: 6px; color: #df7654; }
-.lib-visual-category-link > span { display: block; color: rgba(245,239,233,.38); font-size: .48rem; }
-.lib-visual-category-link svg { color: #df7654; }
-.lib-visual-footer { margin-top: 22px; color: rgba(245,239,233,.35); font: 600 .48rem var(--f-mono); letter-spacing: .08em; text-transform: uppercase; }
+.lib-home-visual > span { display: block; }
+.lib-visual-line { animation: lib-visual-drift 9s ease-in-out infinite alternate; will-change: transform; }
+.lib-visual-line-b { animation-delay: -3s; }
+.lib-visual-line-c { animation-delay: -6s; }
+.lib-visual-orbit-a { animation: lib-orbit-float 13s ease-in-out infinite; will-change: transform; }
+.lib-visual-orbit-b { animation: lib-orbit-float 9s ease-in-out -2s infinite reverse; will-change: transform; }
+@keyframes lib-visual-drift { from { transform: rotate(-24deg) skewX(-10deg) translateX(-8px); } to { transform: rotate(-20deg) skewX(-8deg) translateX(10px); } }
+@keyframes lib-orbit-float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(-10px, 12px, 0); } }
 
 /* The full filter deck moves into the navigation only after the hero is passed. */
-.lib-nav { flex-wrap: wrap; transition: padding .24s ease, box-shadow .24s ease; }
+.lib-nav { height: auto; min-height: 52px; flex-wrap: wrap; transition: padding .24s ease, box-shadow .24s ease; }
 .lib-nav.is-catalog-active { padding-top: .65rem; padding-bottom: .65rem; box-shadow: 0 8px 22px rgba(0,0,0,.12); }
 .lib-nav-catalog-controls { display: flex; align-items: center; gap: 12px; order: 4; width: 100%; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); animation: lib-nav-controls-in .22s ease both; }
 .lib-nav-catalog-controls > span { color: var(--ink-3); font: 800 .48rem var(--f-mono); letter-spacing: .16em; text-transform: uppercase; }
-.lib-nav-catalog-controls > div { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
-.lib-nav-catalog-controls > div::-webkit-scrollbar { display: none; }
+.lib-nav-catalog-controls > .lib-nav-quick-chips { display: flex; gap: 5px; overflow-x: auto; scrollbar-width: none; }
+.lib-nav-catalog-controls > .lib-nav-quick-chips::-webkit-scrollbar { display: none; }
 .lib-nav-catalog-controls button { flex: 0 0 auto; padding: 5px 8px; color: var(--ink-2); font: 700 .53rem var(--f-mono); letter-spacing: .06em; text-transform: uppercase; background: transparent; border: 1px solid var(--border); border-radius: 2px; cursor: pointer; }
 .lib-nav-catalog-controls button.active { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); background: color-mix(in srgb, var(--accent) 10%, transparent); }
+.lib-nav-all-filters { margin-left: auto; }
+.lib-nav-filter-popover { position: absolute; z-index: 30; top: calc(100% + 10px); right: clamp(18px, 5vw, 76px); width: min(670px, calc(100vw - 36px)); padding: 16px; background: var(--surface); border: 1px solid var(--border); box-shadow: 0 18px 48px rgba(0,0,0,.2); animation: lib-filter-popover-in .18s ease both; }
+.lib-nav-filter-popover-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+.lib-nav-filter-popover-head > span,
+.lib-nav-filter-group > span { color: var(--ink-3); font: 800 .5rem var(--f-mono); letter-spacing: .15em; text-transform: uppercase; }
+.lib-nav-filter-popover-head button { display: grid; place-items: center; width: 28px; height: 28px; padding: 0; }
+.lib-nav-filter-group { display: grid; gap: 9px; padding-top: 14px; }
+.lib-nav-filter-group > div { display: flex; flex-wrap: wrap; gap: 6px; }
+.lib-nav-filter-group button { display: inline-flex; align-items: center; gap: 6px; }
+.lib-nav-filter-group button small { color: var(--ink-3); font: inherit; }
+@keyframes lib-filter-popover-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 .lib-nav.is-catalog-active ~ .lib-layout { margin-top: 10px; }
 .lib-nav.is-catalog-active ~ .lib-layout .lib-sidebar { max-height: 0; min-height: 0; margin: 0; padding-top: 0; padding-bottom: 0; opacity: 0; overflow: hidden; border-width: 0; pointer-events: none; }
 @keyframes lib-nav-controls-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
@@ -3632,10 +3633,15 @@ html[data-theme="light"] .lib-card-new-badge {
 .lib-card--featured .lib-cover-graphic { right: 22px; bottom: 22px; transform: scale(1.35); transform-origin: bottom right; }
 
 @media (max-width: 720px) {
-  .lib-home-visual { min-height: 0; padding: 28px 22px; }
-  .lib-home-visual > strong { font-size: 3.5rem; }
+  .lib-home-visual { min-height: 170px; padding: 0; }
   .lib-nav-catalog-controls { gap: 8px; }
   .lib-nav-catalog-controls > span { display: none; }
+  .lib-nav-filter-popover { right: 12px; width: calc(100vw - 24px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lib-visual-line,
+  .lib-visual-orbit { animation: none; }
 }
 
 /* Keyboard users get the same clear navigation cues as mouse users. */
