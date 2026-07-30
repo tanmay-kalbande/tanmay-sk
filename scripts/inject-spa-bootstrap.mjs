@@ -30,7 +30,7 @@ for (const file of files) {
   const html = fs.readFileSync(file, 'utf8');
   if (html.includes('data-seo-snapshot')) continue;
   const enhanced = html
-    .replace('<body>', '<body><div id="root">')
+    .replace('<body>', '<body><style>#root[data-seo-loading]{visibility:hidden}</style><div id="root" data-seo-loading>')
     .replace('</body>', '</div>' + bootstrap + '</body>');
   fs.writeFileSync(file, enhanced, 'utf8');
 }
