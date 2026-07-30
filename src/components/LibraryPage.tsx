@@ -122,6 +122,7 @@ export default function LibraryPage() {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
   });
   const heroSearchRef = useRef<HTMLInputElement>(null);
+  const [heroSearchActive, setHeroSearchActive] = useState(false);
 
   useEffect(() => {
     setFavicon('/favicon_final.svg');
@@ -339,7 +340,7 @@ export default function LibraryPage() {
         </div>
       </nav>
 
-      <section className="lib-home-hero" aria-label="Pustakam Library introduction">
+      <section className={`lib-home-hero ${(heroSearchActive || search.trim()) ? 'is-condensed' : ''}`} aria-label="Pustakam Library introduction">
         <div className="lib-home-hero-copy">
           <span className="lib-home-kicker">Pustakam · Open learning archive</span>
           {routeCategory ? (
@@ -360,6 +361,8 @@ export default function LibraryPage() {
               type="search"
               value={search}
               onChange={event => setSearch(event.target.value)}
+              onFocus={() => setHeroSearchActive(true)}
+              onBlur={() => { if (!search.trim()) setHeroSearchActive(false); }}
               placeholder="Search guides, skills, or topics"
               aria-label="Search the Pustakam library"
             />
