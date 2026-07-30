@@ -371,12 +371,70 @@ export default function LibraryPage() {
         </div>
         <div className="lib-home-visual" aria-hidden="true">
           <div className="lib-visual-grid" />
-          <div className="lib-visual-line lib-visual-line-a" />
-          <div className="lib-visual-line lib-visual-line-b" />
-          <div className="lib-visual-line lib-visual-line-c" />
+
+          {/* Central open-book silhouette */}
+          <div className="lib-visual-book">
+            <div className="lib-visual-book-spine" />
+            <div className="lib-visual-book-left" />
+            <div className="lib-visual-book-right" />
+          </div>
+
+          {/* Knowledge rays radiating from the book */}
+          <div className="lib-visual-ray lib-visual-ray-1" />
+          <div className="lib-visual-ray lib-visual-ray-2" />
+          <div className="lib-visual-ray lib-visual-ray-3" />
+          <div className="lib-visual-ray lib-visual-ray-4" />
+          <div className="lib-visual-ray lib-visual-ray-5" />
+
+          {/* Floating chapter/page layers */}
+          <div className="lib-visual-page lib-visual-page-1" />
+          <div className="lib-visual-page lib-visual-page-2" />
+          <div className="lib-visual-page lib-visual-page-3" />
+
+          {/* Neural connection lines */}
+          <svg className="lib-visual-connections" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M200 200 L320 80" stroke="rgba(223,118,84,0.3)" strokeWidth="1" />
+            <path d="M200 200 L80 90" stroke="rgba(223,118,84,0.2)" strokeWidth="1" />
+            <path d="M200 200 L340 260" stroke="rgba(223,118,84,0.25)" strokeWidth="1" />
+            <path d="M200 200 L60 280" stroke="rgba(223,118,84,0.15)" strokeWidth="1" />
+            <path d="M200 200 L280 350" stroke="rgba(223,118,84,0.2)" strokeWidth="1" />
+            <path d="M200 200 L120 340" stroke="rgba(223,118,84,0.18)" strokeWidth="1" />
+            <path d="M320 80 L380 40" stroke="rgba(223,118,84,0.12)" strokeWidth="0.5" strokeDasharray="3 4" />
+            <path d="M80 90 L30 50" stroke="rgba(223,118,84,0.1)" strokeWidth="0.5" strokeDasharray="3 4" />
+            <path d="M340 260 L390 310" stroke="rgba(223,118,84,0.1)" strokeWidth="0.5" strokeDasharray="3 4" />
+          </svg>
+
+          {/* Constellation knowledge dots */}
+          <div className="lib-visual-dot lib-visual-dot-1" />
+          <div className="lib-visual-dot lib-visual-dot-2" />
+          <div className="lib-visual-dot lib-visual-dot-3" />
+          <div className="lib-visual-dot lib-visual-dot-4" />
+          <div className="lib-visual-dot lib-visual-dot-5" />
+          <div className="lib-visual-dot lib-visual-dot-6" />
+
+          {/* Pulsing core from center of the book */}
+          <div className="lib-visual-core" />
+          <div className="lib-visual-core-ring" />
+
+          {/* Orbit rings around the book */}
           <div className="lib-visual-orbit lib-visual-orbit-a" />
           <div className="lib-visual-orbit lib-visual-orbit-b" />
-          <span>READ / BUILD / REPEAT</span>
+
+          {/* Data flow particles */}
+          <div className="lib-visual-particle lib-visual-particle-1" />
+          <div className="lib-visual-particle lib-visual-particle-2" />
+          <div className="lib-visual-particle lib-visual-particle-3" />
+
+          {/* Bottom data stream ticker */}
+          <div className="lib-visual-stream">
+            <span>782 GUIDES</span>
+            <span>·</span>
+            <span>24M WORDS</span>
+            <span>·</span>
+            <span>∞ KNOWLEDGE</span>
+          </div>
+
+          <span>LEARN / BUILD / GROW</span>
         </div>
       </section>
 

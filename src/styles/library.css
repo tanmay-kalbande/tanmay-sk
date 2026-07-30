@@ -3685,19 +3685,363 @@ html[data-theme="light"] .lib-card-new-badge {
   .lib-home-visual::after { animation: none; }
 }
 
-/* Exact original abstract visual treatment: grid, three editorial arcs, and two orbits. */
-.lib-home-visual { position: relative; min-height: 320px; align-self: stretch; overflow: hidden; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.025); }
-.lib-home-visual::before,
-.lib-home-visual::after { display: none; content: none; animation: none; }
-.lib-visual-grid { position: absolute; inset: 0; opacity: .34; transform: none; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 18px 18px; mask-image: linear-gradient(to bottom, black, transparent); }
-.lib-visual-line { position: absolute; right: -10%; width: 112%; height: 38%; border: 1px solid rgba(223,118,84,.7); border-radius: 50%; filter: none; }
-.lib-visual-line-a { top: 23%; box-shadow: 0 -7px 0 rgba(223,118,84,.42), 0 -14px 0 rgba(223,118,84,.24), 0 -21px 0 rgba(223,118,84,.13); }
-.lib-visual-line-b { top: 37%; border-color: rgba(231,176,126,.5); box-shadow: 0 7px 0 rgba(223,118,84,.36), 0 14px 0 rgba(223,118,84,.2), 0 21px 0 rgba(223,118,84,.1); }
-.lib-visual-line-c { top: 50%; border-color: rgba(223,118,84,.3); }
-.lib-visual-orbit { position: absolute; border: 1px solid rgba(255,255,255,.15); border-radius: 50%; }
-.lib-visual-orbit-a { width: 220px; height: 220px; top: -80px; right: -40px; }
-.lib-visual-orbit-b { width: 80px; height: 80px; bottom: 25px; left: 25px; border-color: rgba(223,118,84,.75); box-shadow: none; }
-.lib-home-visual > span { position: absolute; right: 18px; bottom: 16px; color: rgba(245,239,233,.54); font: 700 .5rem var(--f-mono); letter-spacing: .16em; }
+/* ═══════════════════════════════════════════════════════════════════════
+   BOOK / KNOWLEDGE VISUAL — Premium abstract composition for the library.
+   Central open-book radiates knowledge through rays, neural paths, and
+   floating chapter pages. Every element ties back to learning & books.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+.lib-home-visual {
+  position: relative;
+  min-height: 320px;
+  align-self: stretch;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.08);
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 48%, rgba(223,118,84,.06), transparent 65%),
+    radial-gradient(ellipse 50% 50% at 75% 25%, rgba(200,140,90,.04), transparent),
+    rgba(255,255,255,.02);
+}
+.lib-home-visual::before { display: none; }
+.lib-home-visual::after  { display: none; }
+
+/* Background grid — perspective floor */
+.lib-visual-grid {
+  position: absolute; inset: 0;
+  opacity: .3;
+  background-image:
+    linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  transform: perspective(560px) rotateX(58deg) scale(1.4);
+  transform-origin: center bottom;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 90%, black 15%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 90%, black 15%, transparent 72%);
+}
+
+/* ── Open Book ─────────────────────────────────────── */
+.lib-visual-book {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 120px; height: 80px;
+  transform: translate(-50%, -50%) perspective(400px) rotateX(14deg);
+}
+.lib-visual-book-spine {
+  position: absolute;
+  left: 50%; top: 0;
+  width: 2px; height: 100%;
+  background: linear-gradient(to bottom, rgba(223,118,84,.9), rgba(223,118,84,.3));
+  transform: translateX(-50%);
+  box-shadow: 0 0 18px rgba(223,118,84,.4), 0 0 40px rgba(223,118,84,.15);
+}
+.lib-visual-book-left,
+.lib-visual-book-right {
+  position: absolute;
+  top: 8%; height: 84%;
+  width: 46%;
+  border: 1px solid rgba(245,239,233,.2);
+  background: linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.01));
+  backdrop-filter: blur(1px);
+}
+.lib-visual-book-left {
+  left: 2%;
+  border-right: none;
+  border-radius: 3px 0 0 3px;
+  transform: rotateY(12deg);
+  box-shadow: inset 2px 0 12px rgba(223,118,84,.04);
+}
+.lib-visual-book-right {
+  right: 2%;
+  border-left: none;
+  border-radius: 0 3px 3px 0;
+  transform: rotateY(-12deg);
+  box-shadow: inset -2px 0 12px rgba(223,118,84,.04);
+}
+
+/* Page line texture inside each page */
+.lib-visual-book-left::after,
+.lib-visual-book-right::after {
+  content: '';
+  position: absolute;
+  top: 14%; left: 14%; right: 14%; bottom: 18%;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(245,239,233,.08) 0px,
+    rgba(245,239,233,.08) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+}
+
+/* ── Knowledge Rays ────────────────────────────────── */
+.lib-visual-ray {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 1px;
+  background: linear-gradient(to top, rgba(223,118,84,.5), rgba(223,118,84,.0));
+  transform-origin: bottom center;
+  animation: ray-pulse 4s ease-in-out infinite;
+}
+.lib-visual-ray-1 { height: 110px; transform: translate(-50%, -100%) rotate(-40deg); animation-delay: 0s; }
+.lib-visual-ray-2 { height: 130px; transform: translate(-50%, -100%) rotate(-15deg); animation-delay: .5s; }
+.lib-visual-ray-3 { height: 145px; transform: translate(-50%, -100%) rotate(5deg); animation-delay: 1s; }
+.lib-visual-ray-4 { height: 125px; transform: translate(-50%, -100%) rotate(25deg); animation-delay: .7s; }
+.lib-visual-ray-5 { height: 100px; transform: translate(-50%, -100%) rotate(45deg); animation-delay: 1.3s; }
+
+@keyframes ray-pulse {
+  0%, 100% { opacity: .25; }
+  50% { opacity: .7; }
+}
+
+/* ── Floating Chapter Pages ────────────────────────── */
+.lib-visual-page {
+  position: absolute;
+  border: 1px solid rgba(245,239,233,.12);
+  background: rgba(255,255,255,.03);
+  border-radius: 2px;
+  box-shadow: 0 4px 20px rgba(0,0,0,.15);
+}
+.lib-visual-page-1 {
+  width: 48px; height: 60px;
+  top: 14%; right: 16%;
+  transform: rotate(8deg);
+  animation: page-float 7s ease-in-out infinite;
+}
+.lib-visual-page-2 {
+  width: 40px; height: 52px;
+  bottom: 18%; left: 12%;
+  transform: rotate(-12deg);
+  animation: page-float 9s ease-in-out -3s infinite;
+}
+.lib-visual-page-3 {
+  width: 34px; height: 44px;
+  top: 24%; left: 18%;
+  transform: rotate(4deg);
+  animation: page-float 8s ease-in-out -5s infinite;
+  opacity: .5;
+}
+
+/* Page line detail */
+.lib-visual-page::after {
+  content: '';
+  position: absolute;
+  top: 18%; left: 16%; right: 16%; bottom: 20%;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(245,239,233,.1) 0px,
+    rgba(245,239,233,.1) 1px,
+    transparent 1px,
+    transparent 6px
+  );
+}
+
+@keyframes page-float {
+  0%, 100% { transform: rotate(var(--r, 8deg)) translateY(0); }
+  50% { transform: rotate(var(--r, 8deg)) translateY(-10px); }
+}
+.lib-visual-page-1 { --r: 8deg; }
+.lib-visual-page-2 { --r: -12deg; }
+.lib-visual-page-3 { --r: 4deg; }
+
+/* ── SVG Neural Connections ────────────────────────── */
+.lib-visual-connections {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  opacity: .65;
+  animation: connections-breathe 8s ease-in-out infinite;
+}
+@keyframes connections-breathe {
+  0%, 100% { opacity: .55; }
+  50% { opacity: .8; }
+}
+
+/* ── Constellation Dots ────────────────────────────── */
+.lib-visual-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(245,239,233,.6);
+  z-index: 2;
+  animation: dot-twinkle 3s ease-in-out infinite;
+}
+.lib-visual-dot-1 { width: 4px; height: 4px; top: 20%; right: 20%; animation-delay: 0s; }
+.lib-visual-dot-2 { width: 3px; height: 3px; top: 22%; left: 20%; animation-delay: .8s; }
+.lib-visual-dot-3 { width: 5px; height: 5px; bottom: 30%; right: 15%; animation-delay: 1.2s; background: rgba(223,118,84,.7); }
+.lib-visual-dot-4 { width: 3px; height: 3px; bottom: 28%; left: 15%; animation-delay: .4s; }
+.lib-visual-dot-5 { width: 4px; height: 4px; top: 70%; right: 30%; animation-delay: 1.8s; background: rgba(223,118,84,.5); }
+.lib-visual-dot-6 { width: 3px; height: 3px; top: 85%; left: 35%; animation-delay: 2.2s; }
+
+@keyframes dot-twinkle {
+  0%, 100% { opacity: .3; transform: scale(.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+/* ── Pulsing Core ──────────────────────────────────── */
+.lib-visual-core {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 10px; height: 10px;
+  transform: translate(-50%, -50%);
+  background: #df7654;
+  border-radius: 50%;
+  z-index: 3;
+  box-shadow:
+    0 0 12px rgba(223,118,84,.8),
+    0 0 36px rgba(223,118,84,.35),
+    0 0 60px rgba(223,118,84,.12);
+  animation: core-glow 3s ease-in-out infinite;
+}
+.lib-visual-core-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 36px; height: 36px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(223,118,84,.2);
+  border-radius: 50%;
+  z-index: 2;
+  animation: core-ring-expand 3s ease-in-out infinite;
+}
+
+@keyframes core-glow {
+  0%, 100% { transform: translate(-50%, -50%) scale(.85); box-shadow: 0 0 12px rgba(223,118,84,.8), 0 0 36px rgba(223,118,84,.35), 0 0 60px rgba(223,118,84,.12); }
+  50% { transform: translate(-50%, -50%) scale(1.15); box-shadow: 0 0 18px rgba(223,118,84,1), 0 0 48px rgba(223,118,84,.5), 0 0 80px rgba(223,118,84,.2); }
+}
+@keyframes core-ring-expand {
+  0%, 100% { transform: translate(-50%, -50%) scale(.8); opacity: .5; }
+  50% { transform: translate(-50%, -50%) scale(1.4); opacity: .15; }
+}
+
+/* ── Orbit Rings ───────────────────────────────────── */
+.lib-visual-orbit {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(245,239,233,.1);
+}
+.lib-visual-orbit-a {
+  width: 220px; height: 220px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(-20deg);
+  border-color: rgba(223,118,84,.18);
+  animation: orbit-spin 28s linear infinite;
+}
+.lib-visual-orbit-b {
+  width: 320px; height: 320px;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) rotate(10deg);
+  border-color: rgba(245,239,233,.07);
+  border-style: dashed;
+  animation: orbit-spin 42s linear infinite reverse;
+}
+
+@keyframes orbit-spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ── Flowing Particles on orbits ───────────────────── */
+.lib-visual-particle {
+  position: absolute;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(223,118,84,.65);
+  z-index: 3;
+  box-shadow: 0 0 8px rgba(223,118,84,.4);
+}
+.lib-visual-particle-1 {
+  animation: particle-orbit-1 12s linear infinite;
+}
+.lib-visual-particle-2 {
+  width: 3px; height: 3px;
+  background: rgba(245,239,233,.55);
+  box-shadow: 0 0 6px rgba(245,239,233,.3);
+  animation: particle-orbit-2 18s linear infinite;
+}
+.lib-visual-particle-3 {
+  width: 3px; height: 3px;
+  animation: particle-orbit-3 15s linear infinite reverse;
+}
+
+@keyframes particle-orbit-1 {
+  from { top: 50%; left: 50%; transform: rotate(0deg) translateX(110px) rotate(0deg); }
+  to   { top: 50%; left: 50%; transform: rotate(360deg) translateX(110px) rotate(-360deg); }
+}
+@keyframes particle-orbit-2 {
+  from { top: 50%; left: 50%; transform: rotate(0deg) translateX(160px) rotate(0deg); }
+  to   { top: 50%; left: 50%; transform: rotate(360deg) translateX(160px) rotate(-360deg); }
+}
+@keyframes particle-orbit-3 {
+  from { top: 50%; left: 50%; transform: rotate(120deg) translateX(110px) rotate(-120deg); }
+  to   { top: 50%; left: 50%; transform: rotate(480deg) translateX(110px) rotate(-480deg); }
+}
+
+/* ── Data Stream Ticker ────────────────────────────── */
+.lib-visual-stream {
+  position: absolute;
+  bottom: 38px; left: 0; right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  z-index: 4;
+}
+.lib-visual-stream span {
+  color: rgba(223,118,84,.4);
+  font: 700 .42rem var(--f-mono);
+  letter-spacing: .2em;
+}
+.lib-visual-stream span:nth-child(even) {
+  color: rgba(245,239,233,.15);
+}
+
+/* ── Tagline label ─────────────────────────────────── */
+.lib-home-visual > span {
+  position: absolute;
+  right: 18px; bottom: 16px;
+  color: rgba(245,239,233,.54);
+  font: 700 .5rem var(--f-mono);
+  letter-spacing: .16em;
+  z-index: 4;
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 900px) {
+  .lib-home-visual { min-height: 250px; }
+  .lib-visual-book { width: 90px; height: 60px; }
+  .lib-visual-orbit-b { width: 240px; height: 240px; }
+  .lib-visual-page-3 { display: none; }
+}
+@media (max-width: 560px) {
+  .lib-home-visual { min-height: 180px; }
+  .lib-visual-book { width: 72px; height: 50px; }
+  .lib-visual-ray { display: none; }
+  .lib-visual-page { display: none; }
+  .lib-visual-orbit-a { width: 160px; height: 160px; }
+  .lib-visual-orbit-b { width: 200px; height: 200px; }
+  .lib-visual-stream { bottom: 30px; gap: 6px; }
+  .lib-visual-stream span { font-size: .38rem; }
+}
+
+/* ── Condensed state (search mode) ─────────────────── */
+.lib-home-hero.is-condensed .lib-home-visual { min-height: 88px; opacity: .72; transform: scale(.96); }
+.lib-home-hero.is-condensed .lib-home-visual > span { font-size: .42rem; }
+.lib-home-hero.is-condensed .lib-visual-book { transform: translate(-50%, -50%) scale(.65); }
+.lib-home-hero.is-condensed .lib-visual-stream { display: none; }
+
+@media (max-width: 720px) {
+  .lib-home-hero.is-condensed .lib-home-visual { display: none; }
+}
+
+/* ── Reduced motion ────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .lib-visual-ray,
+  .lib-visual-page,
+  .lib-visual-core,
+  .lib-visual-core-ring,
+  .lib-visual-orbit,
+  .lib-visual-particle,
+  .lib-visual-connections,
+  .lib-visual-dot { animation: none !important; }
+}
 
 /* Keyboard users get the same clear navigation cues as mouse users. */
 .lib-root a:focus-visible,
@@ -3713,15 +4057,4 @@ html[data-theme="light"] .lib-card-new-badge {
 /* The hero search already signals focus through its outer field, so avoid a second inner outline. */
 .lib-root .lib-home-search input:focus-visible { outline: none; }
 
-/* Restore the earlier abstract composition the hero was designed around. */
-.lib-home-visual::before { display: block; position: absolute; inset: 10% 8%; content: ''; border: 1px solid rgba(223,118,84,.24); border-radius: 48% 52% 42% 58%; box-shadow: inset 0 0 70px rgba(223,118,84,.06), 0 0 48px rgba(223,118,84,.06); transform: rotate(-12deg); animation: lib-visual-frame 15s ease-in-out infinite; }
-.lib-home-visual::after { display: block; position: absolute; top: 44%; left: 48%; width: 10px; height: 10px; content: ''; background: #df7654; border-radius: 50%; box-shadow: 0 0 0 7px rgba(223,118,84,.12), 0 0 28px rgba(223,118,84,.8); animation: lib-visual-pulse 3.6s ease-in-out infinite; }
-.lib-visual-grid { opacity: .45; transform: perspective(480px) rotateX(54deg) scale(1.28); transform-origin: center bottom; }
-.lib-visual-line { border-color: rgba(223,118,84,.78); filter: drop-shadow(0 0 7px rgba(223,118,84,.16)); }
-@keyframes lib-visual-frame { 0%, 100% { transform: rotate(-12deg) scale(.98); } 50% { transform: rotate(-7deg) scale(1.03); } }
-@keyframes lib-visual-pulse { 0%, 100% { transform: scale(.82); opacity: .78; } 50% { transform: scale(1.18); opacity: 1; } }
 .lib-sidebar-more { width: 100%; padding: 7px 8px; color: var(--accent); font: 700 .53rem var(--f-mono); text-align: left; text-transform: uppercase; letter-spacing: .08em; background: transparent; border: 0; cursor: pointer; }
-@media (prefers-reduced-motion: reduce) {
-  .lib-home-visual::before,
-  .lib-home-visual::after { animation: none; }
-}
