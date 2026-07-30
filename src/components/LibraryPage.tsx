@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, X, Sparkles } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
@@ -121,6 +121,7 @@ export default function LibraryPage() {
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     return (window.localStorage.getItem('theme') as 'light' | 'dark') || 'dark';
   });
+  const heroSearchRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setFavicon('/favicon_final.svg');
@@ -129,6 +130,17 @@ export default function LibraryPage() {
     document.documentElement.setAttribute('data-theme', theme);
     window.localStorage.setItem('theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    const focusLibrarySearch = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'k') {
+        event.preventDefault();
+        heroSearchRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', focusLibrarySearch);
+    return () => window.removeEventListener('keydown', focusLibrarySearch);
+  }, []);
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
@@ -344,6 +356,7 @@ export default function LibraryPage() {
           <div className="lib-home-search">
             <Search size={17} aria-hidden="true" />
             <input
+              ref={heroSearchRef}
               type="search"
               value={search}
               onChange={event => setSearch(event.target.value)}
@@ -696,11 +709,11 @@ export default function LibraryPage() {
                 ) : (
                   <>
                   <div className="lib-grid">
-                    {visibleBooks.map(book => (
+                    {visibleBooks.map((book, cardIndex) => (
                       <Link
                         key={book.slug}
                         to={`/library/book/${book.slug}`}
-                        className="lib-card"
+                        className={`lib-card ${cardIndex === 0 ? 'lib-card--featured' : ''}`}
                       >
                         <div className="lib-card-cover" data-category={book.category}>
                           <span>{getCategoryLabel(book.category)} · {book.complexity}</span>
