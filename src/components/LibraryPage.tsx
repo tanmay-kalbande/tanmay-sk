@@ -110,7 +110,6 @@ export default function LibraryPage() {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
-  const [showAllCategories, setShowAllCategories] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
   const [sortMode, setSortMode] = useState<SortMode>('newest');
   const [visibleCount, setVisibleCount] = useState(BOOKS_PER_PAGE);
@@ -220,10 +219,6 @@ export default function LibraryPage() {
 
   const top3Categories = useMemo(() => {
     return categoriesWithCounts.slice(1, 4);
-  }, [categoriesWithCounts]);
-
-  const remainingCategories = useMemo(() => {
-    return categoriesWithCounts.slice(4);
   }, [categoriesWithCounts]);
 
   const filtered = useMemo(() => {
@@ -350,7 +345,6 @@ export default function LibraryPage() {
         </div>
         {catalogNavVisible && (
           <div className="lib-nav-catalog-controls" aria-label="Quick library filters">
-            <span>Browse</span>
             <div className="lib-nav-quick-chips">
               <button className={activeCategory === 'all' ? 'active' : ''} onClick={() => setActiveCategory('all')}>All</button>
               {top3Categories.map(category => (
@@ -434,7 +428,7 @@ export default function LibraryPage() {
       {/* Main Split Layout */}
       <div className="lib-layout">
         {/* Left Sidebar */}
-        <aside className={`lib-sidebar ${showAllCategories ? 'expanded' : ''}`}>
+        <aside className="lib-sidebar">
           <div className="lib-sidebar-section lib-sidebar-search">
             <h3>Search Library</h3>
             <div className="lib-search-wrap">
@@ -446,76 +440,6 @@ export default function LibraryPage() {
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
-            </div>
-          </div>
-
-          <div className="lib-sidebar-section">
-            <h3>Categories</h3>
-            <div className="lib-category-list">
-              {/* Always show "All" first */}
-              {categoriesWithCounts.slice(0, 1).map(cat => (
-                <button
-                  key={cat.id}
-                  className={`lib-sidebar-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
-                  onClick={() => setActiveCategory(cat.id)}
-                >
-                  <span>{cat.label}</span>
-                  {index && <span className="lib-sidebar-cat-count">{cat.count}</span>}
-                </button>
-              ))}
-
-              {/* Show top 3 sorted categories */}
-              {top3Categories.map(cat => (
-                <button
-                  key={cat.id}
-                  className={`lib-sidebar-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
-                  onClick={() => setActiveCategory(cat.id)}
-                >
-                  <span>{cat.label}</span>
-                  {index && <span className="lib-sidebar-cat-count">{cat.count}</span>}
-                </button>
-              ))}
-
-              {/* Show the rest if expanded */}
-              {showAllCategories && remainingCategories.map(cat => (
-                <button
-                  key={cat.id}
-                  className={`lib-sidebar-cat-btn ${activeCategory === cat.id ? 'active' : ''}`}
-                  onClick={() => setActiveCategory(cat.id)}
-                >
-                  <span>{cat.label}</span>
-                  {index && <span className="lib-sidebar-cat-count">{cat.count}</span>}
-                </button>
-              ))}
-
-              {remainingCategories.length > 0 && (
-                <button
-                  onClick={() => setShowAllCategories(!showAllCategories)}
-                  style={{ 
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    width: '100%',
-                    padding: '8px 12px',
-                    background: 'transparent',
-                    border: 'none',
-                    fontFamily: 'var(--f-mono)',
-                    fontSize: '0.62rem',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.12em',
-                    color: 'var(--accent)', 
-                    cursor: 'pointer',
-                    transition: 'all 0.2s',
-                    marginTop: '8px',
-                    opacity: 0.85
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.opacity = '1'}
-                  onMouseLeave={e => e.currentTarget.style.opacity = '0.85'}
-                >
-                  {showAllCategories ? '← Show Less' : `+ ${remainingCategories.length} More Categories`}
-                </button>
-              )}
             </div>
           </div>
 
