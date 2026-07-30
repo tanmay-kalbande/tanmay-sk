@@ -3914,25 +3914,11 @@ html[data-theme="light"] .lib-card-new-badge {
 }
 
 .lib-card-cover::before {
-  position: absolute;
-  width: 130px;
-  height: 130px;
-  top: -58px;
-  right: -34px;
-  background: rgba(255, 255, 255, .12);
-  border-radius: 50%;
-  content: '';
+  display: none;
 }
 
 .lib-card-cover::after {
-  position: absolute;
-  width: 58px;
-  height: 58px;
-  bottom: -30px;
-  left: 32%;
-  border: 1px solid rgba(255, 255, 255, .2);
-  border-radius: 50%;
-  content: '';
+  display: none;
 }
 
 .lib-card-cover em {
@@ -4102,7 +4088,7 @@ html[data-theme="light"] .lib-card-new-badge {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, .85fr);
   gap: clamp(30px, 6vw, 100px);
   width: min(1600px, calc(100% - clamp(32px, 8vw, 128px)));
   min-height: 510px;
@@ -4131,6 +4117,8 @@ html[data-theme="light"] .lib-card-new-badge {
 .lib-home-hero-copy {
   align-self: center;
   max-width: 720px;
+  z-index: 2;
+  position: relative;
 }
 
 .lib-home-kicker {
@@ -5132,51 +5120,30 @@ html[data-theme="light"] .lib-card-new-badge {
   }
 }
 
-/* Covers now have a small visual signature without competing with their metadata. */
-.lib-card-cover>span,
-.lib-card-cover>strong,
-.lib-card-cover>em {
-  z-index: 2;
-}
-
-.lib-cover-graphic {
-  position: absolute;
-  right: 14px;
-  bottom: 16px;
-  display: flex;
-  align-items: flex-end;
-  gap: 4px;
-  height: 46px;
-  opacity: .6;
-}
-
-.lib-cover-graphic i {
-  display: block;
-  width: 5px;
-  height: 22px;
-  background: rgba(255, 255, 255, .42);
-  border-radius: 8px;
-  transform: skewY(-22deg);
-}
-
-.lib-cover-graphic i:nth-child(2) {
-  height: 39px;
-  background: rgba(255, 255, 255, .7);
-}
-
-.lib-cover-graphic i:nth-child(3) {
-  height: 29px;
-}
-
+/* Cover em repositioned for cleaner layout (no graphic bars). */
 .lib-card-cover em {
-  right: 46px;
+  right: 16px;
 }
 
-.lib-card--featured .lib-cover-graphic {
-  right: 22px;
-  bottom: 22px;
-  transform: scale(1.35);
-  transform-origin: bottom right;
+/* AI model icon — fixed to top-right of card body (below cover) */
+.lib-card-ai-icon {
+  position: absolute;
+  top: 172px;
+  right: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  color: var(--accent, #e05a35);
+  opacity: 0.5;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.lib-card-ai-icon svg {
+  width: 11px;
+  height: 11px;
 }
 
 @media (max-width: 720px) {
