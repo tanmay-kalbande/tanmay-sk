@@ -5125,23 +5125,25 @@ html[data-theme="light"] .lib-card-new-badge {
   right: 16px;
 }
 
-/* AI model icon — fixed to top-right of card body (below cover) */
-.lib-card-ai-icon {
+/* AI model icon badge — pinned cleanly to top-right of book cover header */
+.lib-cover-ai-badge {
   position: absolute;
-  top: 172px;
+  top: 12px;
   right: 14px;
+  z-index: 3;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 22px;
   height: 22px;
-  color: var(--accent, #e05a35);
-  opacity: 0.5;
-  z-index: 3;
-  pointer-events: none;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
 }
 
-.lib-card-ai-icon svg {
+.lib-cover-ai-badge svg {
   width: 11px;
   height: 11px;
 }
