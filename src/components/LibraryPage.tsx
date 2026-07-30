@@ -370,105 +370,116 @@ export default function LibraryPage() {
           </div>
         </div>
         <div className="lib-home-visual" aria-hidden="true">
-          {/* ── Cascading perspective grids (sloping into distance) ── */}
-          <div className="lib-visual-grid lib-visual-grid--primary" />
-          <div className="lib-visual-grid lib-visual-grid--secondary" />
+          {/* ── 2D Orthographic Technical Grid Overlay ── */}
+          <div className="lib-visual-grid" />
 
-          {/* Depth-haze layers for atmosphere */}
-          <div className="lib-visual-haze lib-visual-haze--top" />
-          <div className="lib-visual-haze lib-visual-haze--mid" />
-          <div className="lib-visual-haze lib-visual-haze--bottom" />
+          {/* Corner Crosshair Ticks */}
+          <span className="lib-visual-corner lib-visual-corner--tl">+</span>
+          <span className="lib-visual-corner lib-visual-corner--tr">+</span>
+          <span className="lib-visual-corner lib-visual-corner--bl">+</span>
+          <span className="lib-visual-corner lib-visual-corner--br">+</span>
 
-          {/* Horizon glow line */}
-          <div className="lib-visual-horizon" />
+          {/* Central Technical Radar Diagram SVG */}
+          <svg className="lib-visual-blueprint" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+            {/* Concentric Radar Rings */}
+            <circle cx="200" cy="160" r="130" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="1" strokeDasharray="4 4" />
+            <circle cx="200" cy="160" r="95" stroke="rgba(255, 255, 255, 0.09)" strokeWidth="1" />
+            <circle cx="200" cy="160" r="55" stroke="rgba(224, 90, 53, 0.25)" strokeWidth="1" strokeDasharray="3 3" />
+            <circle cx="200" cy="160" r="22" stroke="rgba(224, 90, 53, 0.4)" strokeWidth="1.2" />
 
-          {/* Central open-book silhouette */}
-          <div className="lib-visual-book">
-            <div className="lib-visual-book-spine" />
-            <div className="lib-visual-book-left" />
-            <div className="lib-visual-book-right" />
-          </div>
+            {/* Axis Lines & Degree Hash Marks */}
+            <line x1="200" y1="20" x2="200" y2="300" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="1" />
+            <line x1="40" y1="160" x2="360" y2="160" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="1" />
+            <line x1="80" y1="40" x2="320" y2="280" stroke="rgba(255, 255, 255, 0.035)" strokeWidth="1" strokeDasharray="2 4" />
+            <line x1="80" y1="280" x2="320" y2="40" stroke="rgba(255, 255, 255, 0.035)" strokeWidth="1" strokeDasharray="2 4" />
 
-          {/* Knowledge rays radiating from the book */}
-          <div className="lib-visual-ray lib-visual-ray-1" />
-          <div className="lib-visual-ray lib-visual-ray-2" />
-          <div className="lib-visual-ray lib-visual-ray-3" />
-          <div className="lib-visual-ray lib-visual-ray-4" />
-          <div className="lib-visual-ray lib-visual-ray-5" />
-          <div className="lib-visual-ray lib-visual-ray-6" />
-          <div className="lib-visual-ray lib-visual-ray-7" />
+            {/* Rotating Radar Sweep Line */}
+            <g className="lib-visual-sweep-group">
+              <line x1="200" y1="160" x2="310" y2="80" stroke="url(#sweepGrad)" strokeWidth="1.5" />
+              <path d="M 200 160 L 310 80 A 130 130 0 0 0 200 30 Z" fill="url(#sweepSector)" opacity="0.15" />
+            </g>
 
-          {/* Floating chapter/page layers */}
-          <div className="lib-visual-page lib-visual-page-1" />
-          <div className="lib-visual-page lib-visual-page-2" />
-          <div className="lib-visual-page lib-visual-page-3" />
-          <div className="lib-visual-page lib-visual-page-4" />
+            {/* Gradients for Radar Sweep */}
+            <defs>
+              <linearGradient id="sweepGrad" x1="200" y1="160" x2="310" y2="80" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#e05a35" stopOpacity="1" />
+                <stop offset="100%" stopColor="#e05a35" stopOpacity="0.2" />
+              </linearGradient>
+              <radialGradient id="sweepSector" cx="200" cy="160" r="130" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stopColor="#e05a35" stopOpacity="0.4" />
+                <stop offset="100%" stopColor="#e05a35" stopOpacity="0" />
+              </radialGradient>
+            </defs>
 
-          {/* Neural connection lines — expanded network */}
-          <svg className="lib-visual-connections" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Primary spokes from center */}
-            <path d="M200 200 L320 80" stroke="rgba(223,118,84,0.3)" strokeWidth="1" />
-            <path d="M200 200 L80 90" stroke="rgba(223,118,84,0.22)" strokeWidth="1" />
-            <path d="M200 200 L340 260" stroke="rgba(223,118,84,0.25)" strokeWidth="1" />
-            <path d="M200 200 L60 280" stroke="rgba(223,118,84,0.16)" strokeWidth="1" />
-            <path d="M200 200 L280 350" stroke="rgba(223,118,84,0.2)" strokeWidth="1" />
-            <path d="M200 200 L120 340" stroke="rgba(223,118,84,0.18)" strokeWidth="1" />
-            <path d="M200 200 L360 170" stroke="rgba(223,118,84,0.14)" strokeWidth="0.8" />
-            <path d="M200 200 L40 180" stroke="rgba(223,118,84,0.12)" strokeWidth="0.8" />
-            {/* Secondary branches */}
-            <path d="M320 80 L380 40" stroke="rgba(223,118,84,0.12)" strokeWidth="0.5" strokeDasharray="3 4" />
-            <path d="M320 80 L350 120" stroke="rgba(223,118,84,0.09)" strokeWidth="0.5" strokeDasharray="2 5" />
-            <path d="M80 90 L30 50" stroke="rgba(223,118,84,0.1)" strokeWidth="0.5" strokeDasharray="3 4" />
-            <path d="M80 90 L50 140" stroke="rgba(223,118,84,0.08)" strokeWidth="0.5" strokeDasharray="2 5" />
-            <path d="M340 260 L390 310" stroke="rgba(223,118,84,0.1)" strokeWidth="0.5" strokeDasharray="3 4" />
-            <path d="M340 260 L370 220" stroke="rgba(223,118,84,0.07)" strokeWidth="0.5" strokeDasharray="2 5" />
-            <path d="M60 280 L20 330" stroke="rgba(223,118,84,0.08)" strokeWidth="0.5" strokeDasharray="3 4" />
-            <path d="M280 350 L320 390" stroke="rgba(223,118,84,0.07)" strokeWidth="0.5" strokeDasharray="2 5" />
-            <path d="M120 340 L80 380" stroke="rgba(223,118,84,0.06)" strokeWidth="0.5" strokeDasharray="3 4" />
-            {/* Cross-links between outer nodes */}
-            <path d="M320 80 L340 260" stroke="rgba(223,118,84,0.05)" strokeWidth="0.4" strokeDasharray="4 8" />
-            <path d="M80 90 L60 280" stroke="rgba(223,118,84,0.04)" strokeWidth="0.4" strokeDasharray="4 8" />
-            <path d="M360 170 L340 260" stroke="rgba(223,118,84,0.05)" strokeWidth="0.4" strokeDasharray="4 8" />
+            {/* Center Book Node Symbol */}
+            <g transform="translate(186, 148)">
+              {/* Book outline */}
+              <path d="M 2 4 C 8 2 12 5 14 6 C 16 5 20 2 26 4 L 26 22 C 20 20 16 22 14 23 C 12 22 8 20 2 22 Z" fill="#0e0e10" stroke="#e05a35" strokeWidth="1.5" />
+              <line x1="14" y1="6" x2="14" y2="23" stroke="#e05a35" strokeWidth="1.5" />
+              {/* Internal page detail lines */}
+              <line x1="6" y1="9" x2="10" y2="8" stroke="rgba(240, 237, 232, 0.4)" strokeWidth="1" />
+              <line x1="6" y1="13" x2="10" y2="12" stroke="rgba(240, 237, 232, 0.4)" strokeWidth="1" />
+              <line x1="18" y1="8" x2="22" y2="9" stroke="rgba(240, 237, 232, 0.4)" strokeWidth="1" />
+              <line x1="18" y1="12" x2="22" y2="13" stroke="rgba(240, 237, 232, 0.4)" strokeWidth="1" />
+            </g>
+
+            {/* Center Glowing Core Dot */}
+            <circle cx="200" cy="160" r="3" fill="#e05a35" />
+
+            {/* Network Node Lines to Outer Floating Cards */}
+            <path d="M 200 160 L 90 75" stroke="rgba(224, 90, 53, 0.3)" strokeWidth="1" />
+            <path d="M 200 160 L 310 75" stroke="rgba(224, 90, 53, 0.3)" strokeWidth="1" />
+            <path d="M 200 160 L 85 245" stroke="rgba(224, 90, 53, 0.25)" strokeWidth="1" />
+            <path d="M 200 160 L 315 245" stroke="rgba(224, 90, 53, 0.25)" strokeWidth="1" />
+
+            {/* Node Dots at Intersections */}
+            <circle cx="90" cy="75" r="4" fill="#e05a35" stroke="#0e0e10" strokeWidth="1.5" />
+            <circle cx="310" cy="75" r="4" fill="#e05a35" stroke="#0e0e10" strokeWidth="1.5" />
+            <circle cx="85" cy="245" r="3.5" fill="#e05a35" stroke="#0e0e10" strokeWidth="1.5" opacity="0.8" />
+            <circle cx="315" cy="245" r="3.5" fill="#e05a35" stroke="#0e0e10" strokeWidth="1.5" opacity="0.8" />
           </svg>
 
-          {/* Constellation knowledge dots */}
-          <div className="lib-visual-dot lib-visual-dot-1" />
-          <div className="lib-visual-dot lib-visual-dot-2" />
-          <div className="lib-visual-dot lib-visual-dot-3" />
-          <div className="lib-visual-dot lib-visual-dot-4" />
-          <div className="lib-visual-dot lib-visual-dot-5" />
-          <div className="lib-visual-dot lib-visual-dot-6" />
-          <div className="lib-visual-dot lib-visual-dot-7" />
-          <div className="lib-visual-dot lib-visual-dot-8" />
-          <div className="lib-visual-dot lib-visual-dot-9" />
+          {/* Floating Chapter Page Cards (Blueprint Nodes) */}
+          <div className="lib-visual-card lib-visual-card--tl">
+            <span className="lib-visual-card-tag">GUIDE.01</span>
+            <div className="lib-visual-card-lines">
+              <span />
+              <span />
+            </div>
+          </div>
 
-          {/* Pulsing core from center of the book */}
-          <div className="lib-visual-core" />
-          <div className="lib-visual-core-ring lib-visual-core-ring--inner" />
-          <div className="lib-visual-core-ring lib-visual-core-ring--outer" />
+          <div className="lib-visual-card lib-visual-card--tr">
+            <span className="lib-visual-card-tag">GUIDE.02</span>
+            <div className="lib-visual-card-lines">
+              <span />
+              <span />
+            </div>
+          </div>
 
-          {/* Orbit rings around the book */}
-          <div className="lib-visual-orbit lib-visual-orbit-a" />
-          <div className="lib-visual-orbit lib-visual-orbit-b" />
-          <div className="lib-visual-orbit lib-visual-orbit-c" />
+          <div className="lib-visual-card lib-visual-card--bl">
+            <span className="lib-visual-card-tag">GUIDE.03</span>
+            <div className="lib-visual-card-lines">
+              <span />
+            </div>
+          </div>
 
-          {/* Data flow particles */}
-          <div className="lib-visual-particle lib-visual-particle-1" />
-          <div className="lib-visual-particle lib-visual-particle-2" />
-          <div className="lib-visual-particle lib-visual-particle-3" />
-          <div className="lib-visual-particle lib-visual-particle-4" />
-          <div className="lib-visual-particle lib-visual-particle-5" />
+          <div className="lib-visual-card lib-visual-card--br">
+            <span className="lib-visual-card-tag">GUIDE.04</span>
+            <div className="lib-visual-card-lines">
+              <span />
+            </div>
+          </div>
 
-          {/* Bottom data stream ticker */}
+          {/* Ticker stream footer */}
           <div className="lib-visual-stream">
-            <span>782 GUIDES</span>
+            <span>794 GUIDES</span>
             <span>·</span>
             <span>24M WORDS</span>
             <span>·</span>
-            <span>∞ KNOWLEDGE</span>
+            <span>OPEN LEARNING ARCHIVE</span>
           </div>
 
-          <span>LEARN / BUILD / GROW</span>
+          <span className="lib-visual-tag">LEARN / BUILD / GROW</span>
         </div>
       </section>
 
