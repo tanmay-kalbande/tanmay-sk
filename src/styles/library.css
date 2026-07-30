@@ -3315,6 +3315,135 @@ html[data-theme="light"] .lib-card-new-badge {
   .lib-card-cover { height: 118px; }
 }
 
+/* ── Library home redesign: mirrors the portfolio's dark editorial landing system. */
+.lib-home-hero {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(330px, .85fr);
+  gap: clamp(30px, 6vw, 100px);
+  width: min(1600px, calc(100% - clamp(32px, 8vw, 128px)));
+  min-height: 510px;
+  margin: clamp(22px, 4vw, 54px) auto 0;
+  padding: clamp(34px, 5vw, 76px);
+  overflow: hidden;
+  color: #f5efe9;
+  background: #151512;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 3px;
+  box-shadow: 0 26px 70px rgba(0,0,0,.22);
+}
+.lib-home-hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  opacity: .38;
+  background:
+    radial-gradient(circle at 12% 110%, rgba(200,69,26,.32), transparent 31%),
+    radial-gradient(circle at 88% 5%, rgba(219,169,124,.12), transparent 28%),
+    linear-gradient(110deg, transparent 35%, rgba(255,255,255,.025));
+}
+.lib-home-hero-copy { align-self: center; max-width: 720px; }
+.lib-home-kicker {
+  display: block;
+  margin-bottom: 20px;
+  color: #df7654;
+  font: 800 .59rem var(--f-mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+}
+.lib-home-hero h1 {
+  max-width: 720px;
+  margin: 0;
+  color: #f5efe9;
+  font: 700 clamp(3.1rem, 6.2vw, 6.8rem)/.86 var(--f-display);
+  letter-spacing: -.055em;
+}
+.lib-home-hero h1 em { color: #df7654; font-style: italic; }
+.lib-home-hero p {
+  max-width: 590px;
+  margin: 26px 0 0;
+  color: rgba(245,239,233,.7);
+  font: 500 clamp(.72rem, 1.1vw, .9rem)/1.75 var(--f-mono);
+}
+.lib-home-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 610px;
+  margin-top: 32px;
+  padding: 6px 8px 6px 16px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: 3px;
+  transition: border-color .2s, background .2s;
+}
+.lib-home-search:focus-within { border-color: #df7654; background: rgba(255,255,255,.09); }
+.lib-home-search svg { flex: 0 0 auto; color: #df7654; }
+.lib-home-search input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 0;
+  color: #fffaf5;
+  font: 600 .7rem var(--f-mono);
+  letter-spacing: .025em;
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+.lib-home-search input::placeholder { color: rgba(245,239,233,.42); }
+.lib-home-search span {
+  flex: 0 0 auto;
+  padding: 5px 7px;
+  color: rgba(245,239,233,.48);
+  font: 600 .51rem var(--f-mono);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 2px;
+}
+.lib-home-stats { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 30px; }
+.lib-home-stats span { color: rgba(245,239,233,.54); font: 500 .57rem var(--f-mono); letter-spacing: .06em; text-transform: uppercase; }
+.lib-home-stats strong { color: #f5efe9; font-size: .68rem; }
+.lib-home-visual { position: relative; min-height: 320px; align-self: stretch; overflow: hidden; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.025); }
+.lib-visual-grid { position: absolute; inset: 0; opacity: .34; background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px); background-size: 18px 18px; mask-image: linear-gradient(to bottom, black, transparent); }
+.lib-visual-line { position: absolute; right: -10%; width: 112%; height: 38%; border: 1px solid rgba(223,118,84,.7); border-radius: 50%; transform: rotate(-24deg) skewX(-10deg); }
+.lib-visual-line-a { top: 23%; box-shadow: 0 -7px 0 rgba(223,118,84,.42), 0 -14px 0 rgba(223,118,84,.24), 0 -21px 0 rgba(223,118,84,.13); }
+.lib-visual-line-b { top: 37%; border-color: rgba(231,176,126,.5); box-shadow: 0 7px 0 rgba(223,118,84,.36), 0 14px 0 rgba(223,118,84,.2), 0 21px 0 rgba(223,118,84,.1); }
+.lib-visual-line-c { top: 50%; border-color: rgba(223,118,84,.3); }
+.lib-visual-orbit { position: absolute; border: 1px solid rgba(255,255,255,.15); border-radius: 50%; }
+.lib-visual-orbit-a { width: 220px; height: 220px; top: -80px; right: -40px; }
+.lib-visual-orbit-b { width: 80px; height: 80px; bottom: 25px; left: 25px; border-color: rgba(223,118,84,.75); }
+.lib-home-visual > span { position: absolute; right: 18px; bottom: 16px; color: rgba(245,239,233,.54); font: 700 .5rem var(--f-mono); letter-spacing: .16em; }
+
+/* The hero owns search; the filter rail only handles catalogue refinement. */
+.lib-sidebar-search,
+.lib-main > .lib-hero { display: none; }
+.lib-layout { grid-template-columns: 250px minmax(0, 1fr); max-width: 1600px; }
+.lib-sidebar { top: 68px; height: calc(100vh - 68px); padding: 30px 22px; background: color-mix(in srgb, var(--bg) 88%, transparent); }
+.lib-main { padding: 32px clamp(1.25rem, 3vw, 3.25rem) 88px; }
+.lib-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; background: transparent; border: 0; }
+.lib-card { min-height: 382px; padding: 20px; overflow: hidden; background: var(--surface); border: 1px solid var(--border); border-radius: 3px; }
+.lib-card:hover { border-color: color-mix(in srgb, var(--accent) 55%, var(--border)); transform: translateY(-3px); box-shadow: 0 16px 32px rgba(0,0,0,.12); }
+.lib-card-cover { height: 150px; margin: -20px -20px 20px; border: 0; border-bottom: 1px solid rgba(255,255,255,.09); }
+.lib-card-cover strong { font-size: 3rem; }
+.lib-card-title { font-size: 1.34rem; line-height: 1.1; }
+.lib-card-meta { gap: 10px; flex-wrap: wrap; }
+.lib-card-tags { margin-top: 4px; }
+.lib-card-cta { margin-top: auto; padding-top: 16px; }
+
+@media (max-width: 900px) {
+  .lib-home-hero { grid-template-columns: 1fr; min-height: 0; width: calc(100% - 32px); padding: 34px 28px; }
+  .lib-home-visual { min-height: 220px; }
+}
+@media (max-width: 560px) {
+  .lib-home-hero { width: calc(100% - 24px); margin-top: 12px; padding: 30px 20px; }
+  .lib-home-hero h1 { font-size: clamp(3rem, 15vw, 4.3rem); }
+  .lib-home-search span { display: none; }
+  .lib-home-stats { gap: 12px; }
+  .lib-home-visual { min-height: 170px; }
+  .lib-visual-line { width: 125%; }
+}
+
 /* Keyboard users get the same clear navigation cues as mouse users. */
 .lib-root a:focus-visible,
 .lib-root button:focus-visible,

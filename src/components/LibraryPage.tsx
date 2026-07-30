@@ -327,11 +327,53 @@ export default function LibraryPage() {
         </div>
       </nav>
 
+      <section className="lib-home-hero" aria-label="Pustakam Library introduction">
+        <div className="lib-home-hero-copy">
+          <span className="lib-home-kicker">Pustakam · Open learning archive</span>
+          {routeCategory ? (
+            <>
+              <h1>{getCategoryLabel(routeCategory)}<em> learning hub.</em></h1>
+              <p>A focused set of practical guides to help you build momentum one chapter at a time.</p>
+            </>
+          ) : (
+            <>
+              <h1>Find your next<br /><em>useful skill.</em></h1>
+              <p>Free, structured guides for curious people who want to make steady progress on work and life.</p>
+            </>
+          )}
+          <div className="lib-home-search">
+            <Search size={17} aria-hidden="true" />
+            <input
+              type="search"
+              value={search}
+              onChange={event => setSearch(event.target.value)}
+              placeholder="Search guides, skills, or topics"
+              aria-label="Search the Pustakam library"
+            />
+            <span>⌘ K</span>
+          </div>
+          <div className="lib-home-stats" aria-label="Library statistics">
+            <span><strong>{index?.total?.toLocaleString() || '700+'}</strong> free guides</span>
+            <span><strong>{index ? Math.round(index.books.reduce((total, book) => total + (book.readingTimeMins || 0), 0) / 60).toLocaleString() + '+' : '1,000+'}</strong> hours to explore</span>
+            <span><strong>0</strong> paywalls</span>
+          </div>
+        </div>
+        <div className="lib-home-visual" aria-hidden="true">
+          <div className="lib-visual-grid" />
+          <div className="lib-visual-line lib-visual-line-a" />
+          <div className="lib-visual-line lib-visual-line-b" />
+          <div className="lib-visual-line lib-visual-line-c" />
+          <div className="lib-visual-orbit lib-visual-orbit-a" />
+          <div className="lib-visual-orbit lib-visual-orbit-b" />
+          <span>READ / BUILD / REPEAT</span>
+        </div>
+      </section>
+
       {/* Main Split Layout */}
       <div className="lib-layout">
         {/* Left Sidebar */}
         <aside className={`lib-sidebar ${showAllCategories ? 'expanded' : ''}`}>
-          <div className="lib-sidebar-section">
+          <div className="lib-sidebar-section lib-sidebar-search">
             <h3>Search Library</h3>
             <div className="lib-search-wrap">
               <Search size={14} className="lib-search-icon" />
