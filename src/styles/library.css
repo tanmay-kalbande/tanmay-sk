@@ -3914,11 +3914,25 @@ html[data-theme="light"] .lib-card-new-badge {
 }
 
 .lib-card-cover::before {
-  display: none;
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  top: -58px;
+  right: -34px;
+  background: rgba(255, 255, 255, .12);
+  border-radius: 50%;
+  content: '';
 }
 
 .lib-card-cover::after {
-  display: none;
+  position: absolute;
+  width: 58px;
+  height: 58px;
+  bottom: -30px;
+  left: 32%;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 50%;
+  content: '';
 }
 
 .lib-card-cover em {
@@ -5120,32 +5134,9 @@ html[data-theme="light"] .lib-card-new-badge {
   }
 }
 
-/* Cover em repositioned for cleaner layout (no graphic bars). */
+/* Cover em positioning */
 .lib-card-cover em {
   right: 16px;
-}
-
-/* AI model icon badge — pinned cleanly to top-right of book cover header */
-.lib-cover-ai-badge {
-  position: absolute;
-  top: 12px;
-  right: 14px;
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.35);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(4px);
-}
-
-.lib-cover-ai-badge svg {
-  width: 11px;
-  height: 11px;
 }
 
 @media (max-width: 720px) {
