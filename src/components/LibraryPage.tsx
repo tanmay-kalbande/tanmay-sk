@@ -4,6 +4,7 @@ import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, Sparkle
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import { AboutModal } from './AboutModal';
+import { LibraryHeroVisual } from './LibraryHeroVisual';
 import { getCompletedBooks, getReadingPosition, ReadingPosition } from '../lib/learning';
 import '../styles/landing.css';
 import '../styles/library.css';
@@ -369,109 +370,7 @@ export default function LibraryPage() {
             <span><strong>0</strong> paywalls</span>
           </div>
         </div>
-        <div className="lib-home-visual" aria-hidden="true">
-          {/* ── 2D Orthographic Technical Grid Overlay ── */}
-          <div className="lib-visual-grid" />
-
-          {/* Corner Crosshair Ticks */}
-          <span className="lib-visual-corner lib-visual-corner--tl">+</span>
-          <span className="lib-visual-corner lib-visual-corner--tr">+</span>
-          <span className="lib-visual-corner lib-visual-corner--bl">+</span>
-          <span className="lib-visual-corner lib-visual-corner--br">+</span>
-
-          {/* Central Technical Radar Diagram SVG */}
-          <svg className="lib-visual-blueprint" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* Concentric Radar Rings */}
-            <circle cx="200" cy="160" r="130" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="1" strokeDasharray="4 4" />
-            <circle cx="200" cy="160" r="95" stroke="rgba(255, 255, 255, 0.09)" strokeWidth="1" />
-            <circle cx="200" cy="160" r="55" stroke="rgba(224, 90, 53, 0.25)" strokeWidth="1" strokeDasharray="3 3" />
-            <circle cx="200" cy="160" r="22" stroke="rgba(224, 90, 53, 0.4)" strokeWidth="1.2" />
-
-            {/* Axis Lines & Degree Hash Marks */}
-            <line x1="200" y1="20" x2="200" y2="300" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="1" />
-            <line x1="40" y1="160" x2="360" y2="160" stroke="rgba(255, 255, 255, 0.06)" strokeWidth="1" />
-            <line x1="80" y1="40" x2="320" y2="280" stroke="rgba(255, 255, 255, 0.035)" strokeWidth="1" strokeDasharray="2 4" />
-            <line x1="80" y1="280" x2="320" y2="40" stroke="rgba(255, 255, 255, 0.035)" strokeWidth="1" strokeDasharray="2 4" />
-
-            {/* Rotating Radar Sweep Line */}
-            <g className="lib-visual-sweep-group">
-              <line x1="200" y1="160" x2="310" y2="80" stroke="url(#sweepGrad)" strokeWidth="1.5" />
-              <path d="M 200 160 L 310 80 A 130 130 0 0 0 200 30 Z" fill="url(#sweepSector)" opacity="0.15" />
-            </g>
-
-            {/* Gradients for Radar Sweep */}
-            <defs>
-              <linearGradient id="sweepGrad" x1="200" y1="160" x2="310" y2="80" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#e05a35" stopOpacity="1" />
-                <stop offset="100%" stopColor="#e05a35" stopOpacity="0.2" />
-              </linearGradient>
-              <radialGradient id="sweepSector" cx="200" cy="160" r="130" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#e05a35" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#e05a35" stopOpacity="0" />
-              </radialGradient>
-            </defs>
-
-            {/* Center Book Node Symbol */}
-            <g transform="translate(186, 148)">
-              {/* Book outline */}
-              <path d="M 2 4 C 8 2 12 5 14 6 C 16 5 20 2 26 4 L 26 22 C 20 20 16 22 14 23 C 12 22 8 20 2 22 Z" fill="#0e0e10" stroke="#e05a35" strokeWidth="1.5" />
-              <line x1="14" y1="6" x2="14" y2="23" stroke="#e05a35" strokeWidth="1.5" />
-              {/* Internal page detail lines */}
-              <line x1="6" y1="9" x2="10" y2="8" stroke="rgba(240, 237, 232, 0.4)" strokeWidth="1" />
-              <line x1="6" y1="13" x2="10" y2="12" stroke="rgba(240, 237, 232, 0.4)" strokeWidth="1" />
-              <line x1="18" y1="8" x2="22" y2="9" stroke="rgba(240, 237, 232, 0.4)" strokeWidth="1" />
-              <line x1="18" y1="12" x2="22" y2="13" stroke="rgba(240, 237, 232, 0.4)" strokeWidth="1" />
-            </g>
-
-            {/* Center Glowing Core Dot */}
-            <circle cx="200" cy="160" r="3" fill="#e05a35" />
-
-            {/* Network Node Lines to Outer Floating Cards */}
-            <path d="M 200 160 L 90 75" stroke="rgba(224, 90, 53, 0.3)" strokeWidth="1" />
-            <path d="M 200 160 L 310 75" stroke="rgba(224, 90, 53, 0.3)" strokeWidth="1" />
-            <path d="M 200 160 L 85 245" stroke="rgba(224, 90, 53, 0.25)" strokeWidth="1" />
-            <path d="M 200 160 L 315 245" stroke="rgba(224, 90, 53, 0.25)" strokeWidth="1" />
-
-            {/* Node Dots at Intersections */}
-            <circle cx="90" cy="75" r="4" fill="#e05a35" stroke="#0e0e10" strokeWidth="1.5" />
-            <circle cx="310" cy="75" r="4" fill="#e05a35" stroke="#0e0e10" strokeWidth="1.5" />
-            <circle cx="85" cy="245" r="3.5" fill="#e05a35" stroke="#0e0e10" strokeWidth="1.5" opacity="0.8" />
-            <circle cx="315" cy="245" r="3.5" fill="#e05a35" stroke="#0e0e10" strokeWidth="1.5" opacity="0.8" />
-          </svg>
-
-          {/* Floating Chapter Page Cards (Blueprint Nodes) */}
-          <div className="lib-visual-card lib-visual-card--tl">
-            <span className="lib-visual-card-tag">GUIDE.01</span>
-            <div className="lib-visual-card-lines">
-              <span />
-              <span />
-            </div>
-          </div>
-
-          <div className="lib-visual-card lib-visual-card--tr">
-            <span className="lib-visual-card-tag">GUIDE.02</span>
-            <div className="lib-visual-card-lines">
-              <span />
-              <span />
-            </div>
-          </div>
-
-          <div className="lib-visual-card lib-visual-card--bl">
-            <span className="lib-visual-card-tag">GUIDE.03</span>
-            <div className="lib-visual-card-lines">
-              <span />
-            </div>
-          </div>
-
-          <div className="lib-visual-card lib-visual-card--br">
-            <span className="lib-visual-card-tag">GUIDE.04</span>
-            <div className="lib-visual-card-lines">
-              <span />
-            </div>
-          </div>
-
-          <span className="lib-visual-tag">LEARN / BUILD / GROW</span>
-        </div>
+        <LibraryHeroVisual />
       </section>
 
       {/* Main Split Layout */}

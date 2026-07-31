@@ -5342,17 +5342,23 @@ html[data-theme="light"] .lib-card-new-badge {
   content: none;
 }
 
-/* ── 2D Orthographic Grid Background (Single solid surface + grid) ── */
-.lib-visual-grid {
+/* ── Interactive Terrain Hero Visual ── */
+.lib-home-visual {
+  position: relative;
+  min-height: 320px;
+  background: #0e0e10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.lib-visual-canvas {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  opacity: 0.55;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-position: center center;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 
 /* ── Technical Corner Crosshair Ticks ── */
@@ -5363,11 +5369,13 @@ html[data-theme="light"] .lib-card-new-badge {
   user-select: none;
   pointer-events: none;
   z-index: 4;
+  transition: color 0.4s ease;
 }
 .lib-visual-corner--tl { top: 8px; left: 10px; }
 .lib-visual-corner--tr { top: 8px; right: 10px; }
 .lib-visual-corner--bl { bottom: 8px; left: 10px; }
 .lib-visual-corner--br { bottom: 8px; right: 10px; }
+.lib-home-visual:hover .lib-visual-corner { color: rgba(240, 237, 232, 0.75); }
 
 /* ── SVG Blueprint Diagram Canvas ── */
 .lib-visual-blueprint {
