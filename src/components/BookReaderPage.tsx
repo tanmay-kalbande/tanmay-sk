@@ -990,7 +990,6 @@ export default function BookReaderPage() {
     return window.localStorage.getItem('pustakam_user_name') || '';
   });
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
-  const [certTheme, setCertTheme] = useState<'dark' | 'parchment'>('dark');
 
   useEffect(() => {
     window.localStorage.setItem('pustakam_user_name', userName);
@@ -1318,21 +1317,9 @@ export default function BookReaderPage() {
     }[char] || char));
     const issueDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const certId = 'PK-' + Date.now().toString(36).toUpperCase().slice(-6);
-    const isDark = certTheme === 'dark';
 
     const certificateWindow = window.open('', '_blank');
     if (!certificateWindow) return;
-
-    const bgGradient = isDark 
-      ? 'linear-gradient(145deg, #0e0e11 0%, #17161b 45%, #0d0c0f 100%)' 
-      : 'linear-gradient(145deg, #fdfbf7 0%, #f7f3eb 50%, #f4eee2 100%)';
-    const textColor = isDark ? '#f5efe9' : '#1a1917';
-    const subtextColor = isDark ? 'rgba(245,239,233,0.65)' : 'rgba(26,25,23,0.7)';
-    const goldAccent = isDark ? '#e05a35' : '#c8451a';
-    const goldText = isDark ? '#f0805a' : '#b83b14';
-    const borderCol = isDark ? 'rgba(224, 90, 53, 0.28)' : 'rgba(200, 69, 26, 0.3)';
-    const innerBorderCol = isDark ? 'rgba(224, 90, 53, 0.12)' : 'rgba(200, 69, 26, 0.15)';
-    const cardBg = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.025)';
 
     certificateWindow.document.write(
       `<!doctype html><html><head><title>Certificate of Completion — ${safeRecipientName}</title>`
@@ -1342,49 +1329,49 @@ export default function BookReaderPage() {
       + `<style>`
       + `@page{size:A4 landscape;margin:0}`
       + `*{box-sizing:border-box;margin:0;padding:0}`
-      + `body{display:grid;place-items:center;min-height:100vh;background:${isDark ? '#08080a' : '#ede8e0'};color:${textColor};font-family:'Inter',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}`
-      + `.cert{position:relative;width:min(1100px,96vw);min-height:720px;padding:0;text-align:center;overflow:hidden;background:${bgGradient};border:1.5px solid ${borderCol};box-shadow:0 40px 100px rgba(0,0,0,${isDark ? '0.7' : '0.15'})}`
+      + `body{display:grid;place-items:center;min-height:100vh;background:#f5efe6;color:#1a1917;font-family:'Inter',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}`
+      + `.cert{position:relative;width:min(1100px,96vw);min-height:720px;padding:0;text-align:center;overflow:hidden;background:linear-gradient(145deg,#ffffff 0%,#faf6f0 50%,#f5efe6 100%);border:2px solid rgba(200,69,26,0.3);box-shadow:0 30px 80px rgba(0,0,0,0.08)}`
       + `.cert-inner{position:relative;z-index:2;padding:52px 76px 44px}`
-      + `.cert::before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 65% 55% at 50% 30%,${isDark ? 'rgba(224,90,53,0.09)' : 'rgba(200,69,26,0.05)'},transparent 70%)}`
-      + `.cert-top-line{position:absolute;top:0;left:8%;right:8%;height:3px;background:linear-gradient(90deg,transparent,${goldAccent} 30%,#ffd700 50%,${goldAccent} 70%,transparent);z-index:3}`
-      + `.corner-svg{position:absolute;width:80px;height:80px;z-index:3;opacity:${isDark ? '0.45' : '0.6'}}`
+      + `.cert::before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 65% 55% at 50% 30%,rgba(200,69,26,0.04),transparent 70%)}`
+      + `.cert-top-line{position:absolute;top:0;left:8%;right:8%;height:4px;background:linear-gradient(90deg,transparent,#c8451a 30%,#e29d38 50%,#c8451a 70%,transparent);z-index:3}`
+      + `.corner-svg{position:absolute;width:80px;height:80px;z-index:3;opacity:0.65}`
       + `.corner-tl{top:20px;left:20px}`
       + `.corner-tr{top:20px;right:20px;transform:scaleX(-1)}`
       + `.corner-bl{bottom:20px;left:20px;transform:scaleY(-1)}`
       + `.corner-br{bottom:20px;right:20px;transform:scale(-1)}`
-      + `.corner-svg path{fill:none;stroke:${goldAccent};stroke-width:1.5}`
-      + `.cert-border{position:absolute;inset:16px;border:1px solid ${borderCol};z-index:1;pointer-events:none}`
-      + `.cert-border::after{content:'';position:absolute;inset:6px;border:1px solid ${innerBorderCol}}`
-      + `.brand{color:${goldText};font:600 10px/1 'Roboto Mono',monospace;letter-spacing:.35em;text-transform:uppercase}`
-      + `.kicker{margin:28px 0 6px;color:${goldAccent};font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.28em;text-transform:uppercase}`
-      + `.main-title{font:400 clamp(42px,5vw,64px)/1 'Cormorant Garamond',serif;color:${textColor};letter-spacing:-.02em}`
-      + `.main-title em{font-style:italic;color:${goldText}}`
+      + `.corner-svg path{fill:none;stroke:#c8451a;stroke-width:1.5}`
+      + `.cert-border{position:absolute;inset:16px;border:1px solid rgba(200,69,26,0.25);z-index:1;pointer-events:none}`
+      + `.cert-border::after{content:'';position:absolute;inset:6px;border:1px solid rgba(200,69,26,0.12)}`
+      + `.brand{color:#b83b14;font:600 10px/1 'Roboto Mono',monospace;letter-spacing:.35em;text-transform:uppercase}`
+      + `.kicker{margin:28px 0 6px;color:#c8451a;font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.28em;text-transform:uppercase}`
+      + `.main-title{font:400 clamp(44px,5.2vw,66px)/1 'Cormorant Garamond',serif;color:#1a1917;letter-spacing:-.02em}`
+      + `.main-title em{font-style:italic;color:#b83b14}`
       + `.divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px auto;width:240px}`
-      + `.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,${borderCol},transparent)}`
-      + `.divider-diamond{width:7px;height:7px;background:${goldAccent};transform:rotate(45deg);flex-shrink:0}`
-      + `.certify-lead{color:${subtextColor};font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.24em;text-transform:uppercase;margin-top:10px}`
-      + `.recipient-name{margin:10px auto 4px;font:700 clamp(36px,4.5vw,52px)/1.1 'Cormorant Garamond',serif;color:${textColor};letter-spacing:-.01em;max-width:850px}`
-      + `.recipient-rule{width:160px;height:2px;background:linear-gradient(90deg,transparent,${goldAccent},transparent);margin:8px auto 16px}`
-      + `.certify-body{color:${subtextColor};font:400 15px/1.6 'Inter',sans-serif;max-width:720px;margin:0 auto}`
-      + `.book-title{max-width:820px;margin:8px auto 22px;font:600 clamp(22px,2.8vw,30px)/1.25 'Cormorant Garamond',serif;color:${goldText}}`
+      + `.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,69,26,0.3),transparent)}`
+      + `.divider-diamond{width:7px;height:7px;background:#c8451a;transform:rotate(45deg);flex-shrink:0}`
+      + `.certify-lead{color:#666;font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.24em;text-transform:uppercase;margin-top:12px}`
+      + `.recipient-name{margin:10px auto 4px;font:700 clamp(38px,4.8vw,56px)/1.1 'Cormorant Garamond',serif;color:#111111;letter-spacing:-.01em;max-width:850px}`
+      + `.recipient-rule{width:160px;height:2px;background:linear-gradient(90deg,transparent,#c8451a,transparent);margin:8px auto 16px}`
+      + `.certify-body{color:#444;font:400 15px/1.6 'Inter',sans-serif;max-width:720px;margin:0 auto}`
+      + `.book-title{max-width:820px;margin:8px auto 22px;font:600 clamp(22px,2.8vw,30px)/1.25 'Cormorant Garamond',serif;color:#b83b14}`
       + `.seal-wrapper{display:flex;justify-content:center;align-items:center;margin:16px 0 20px}`
       + `.seal{position:relative;width:74px;height:74px}`
-      + `.seal-ring{position:absolute;inset:0;border:2px solid ${goldAccent};border-radius:50%}`
-      + `.seal-ring-outer{position:absolute;inset:-7px;border:1px dashed ${borderCol};border-radius:50%}`
-      + `.seal-check{position:absolute;inset:0;display:grid;place-items:center;font:700 24px 'Inter',sans-serif;color:${goldAccent}}`
-      + `.seal-glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,${isDark ? 'rgba(224,90,53,0.14)' : 'rgba(200,69,26,0.1)'},transparent 68%)}`
+      + `.seal-ring{position:absolute;inset:0;border:2px solid #c8451a;border-radius:50%}`
+      + `.seal-ring-outer{position:absolute;inset:-7px;border:1px dashed rgba(200,69,26,0.3);border-radius:50%}`
+      + `.seal-check{position:absolute;inset:0;display:grid;place-items:center;font:700 24px 'Inter',sans-serif;color:#c8451a}`
+      + `.seal-glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(200,69,26,0.08),transparent 68%)}`
       + `.details{display:flex;justify-content:center;gap:36px;margin:18px 0 22px}`
-      + `.details>div{background:${cardBg};border:1px solid ${innerBorderCol};padding:12px 18px;border-radius:4px;min-width:130px}`
-      + `.details span{display:block;color:${subtextColor};font:600 9px/1 'Roboto Mono',monospace;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px}`
-      + `.details strong{display:block;color:${textColor};font:600 13px/1 'Inter',sans-serif;letter-spacing:.01em}`
-      + `.signature-row{display:flex;justify-content:space-between;align-items:flex-end;max-width:780px;margin:20px auto 0;padding-top:14px;border-top:1px solid ${innerBorderCol}}`
+      + `.details>div{background:rgba(255,255,255,0.7);border:1px solid rgba(200,69,26,0.18);padding:12px 18px;border-radius:4px;min-width:130px}`
+      + `.details span{display:block;color:#777;font:600 9px/1 'Roboto Mono',monospace;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px}`
+      + `.details strong{display:block;color:#111;font:600 13px/1 'Inter',sans-serif;letter-spacing:.01em}`
+      + `.signature-row{display:flex;justify-content:space-between;align-items:flex-end;max-width:780px;margin:20px auto 0;padding-top:14px;border-top:1px solid rgba(200,69,26,0.15)}`
       + `.sig-block{text-align:left}`
-      + `.sig-line{display:block;font:600 13px/1 'Cormorant Garamond',serif;color:${textColor};letter-spacing:.05em;margin-bottom:4px}`
-      + `.sig-label{display:block;font:600 8px/1 'Roboto Mono',monospace;color:${subtextColor};letter-spacing:.2em;text-transform:uppercase}`
-      + `.signature-quote{font:italic 13px/1.4 'Cormorant Garamond',serif;color:${subtextColor};text-align:right;max-width:340px}`
-      + `.cert-id{position:absolute;bottom:18px;right:28px;color:${subtextColor};font:600 9px 'Roboto Mono',monospace;letter-spacing:.15em;z-index:3}`
-      + `.watermark{position:absolute;bottom:18px;left:28px;color:${subtextColor};font:700 9px 'Roboto Mono',monospace;letter-spacing:.25em;text-transform:uppercase;z-index:3}`
-      + `@media print{body{background:${isDark ? '#08080a' : '#ffffff'}}.cert{width:100vw;min-height:100vh;border-width:0;box-shadow:none}}`
+      + `.sig-line{display:block;font:600 13px/1 'Cormorant Garamond',serif;color:#111;letter-spacing:.05em;margin-bottom:4px}`
+      + `.sig-label{display:block;font:600 8px/1 'Roboto Mono',monospace;color:#777;letter-spacing:.2em;text-transform:uppercase}`
+      + `.signature-quote{font:italic 13px/1.4 'Cormorant Garamond',serif;color:#666;text-align:right;max-width:340px}`
+      + `.cert-id{position:absolute;bottom:18px;right:28px;color:#888;font:600 9px 'Roboto Mono',monospace;letter-spacing:.15em;z-index:3}`
+      + `.watermark{position:absolute;bottom:18px;left:28px;color:#888;font:700 9px 'Roboto Mono',monospace;letter-spacing:.25em;text-transform:uppercase;z-index:3}`
+      + `@media print{body{background:#ffffff}.cert{width:100vw;min-height:100vh;border-width:0;box-shadow:none}}`
       + `</style></head><body>`
       + `<main class="cert">`
       + `<div class="cert-top-line"></div>`
@@ -2123,10 +2110,10 @@ export default function BookReaderPage() {
             </div>
 
             <div className="cert-modal-body">
-              <div className="cert-controls-panel">
+              <div className="cert-top-bar">
                 <div className="cert-input-group">
                   <label htmlFor="cert-user-name">
-                    <User size={14} /> Recipient Full Name
+                    <User size={13} /> Certificate Recipient Name
                   </label>
                   <input
                     id="cert-user-name"
@@ -2137,27 +2124,6 @@ export default function BookReaderPage() {
                     onChange={(e) => setUserName(e.target.value)}
                     autoFocus
                   />
-                  <span className="cert-input-hint">Your name updates live on the certificate preview.</span>
-                </div>
-
-                <div className="cert-theme-group">
-                  <label>Certificate Theme</label>
-                  <div className="cert-theme-toggles">
-                    <button
-                      type="button"
-                      className={`cert-theme-btn ${certTheme === 'dark' ? 'active' : ''}`}
-                      onClick={() => setCertTheme('dark')}
-                    >
-                      <Moon size={13} /> Obsidian Luxury
-                    </button>
-                    <button
-                      type="button"
-                      className={`cert-theme-btn ${certTheme === 'parchment' ? 'active' : ''}`}
-                      onClick={() => setCertTheme('parchment')}
-                    >
-                      <Sun size={13} /> Parchment Light
-                    </button>
-                  </div>
                 </div>
 
                 <div className="cert-modal-actions">
@@ -2165,14 +2131,14 @@ export default function BookReaderPage() {
                     <Printer size={15} /> Print / Save PDF
                   </button>
                   <button className="btn-secondary cert-share-btn" onClick={shareCompletion}>
-                    <Share2 size={14} /> {copied ? 'Copied Link' : 'Share Achievement'}
+                    <Share2 size={14} /> {copied ? 'Copied' : 'Share'}
                   </button>
                 </div>
               </div>
 
-              {/* Live Scaled Preview */}
+              {/* Live Scaled Light Certificate Preview */}
               <div className="cert-preview-wrapper">
-                <div className={`cert-preview-card cert-style-${certTheme}`}>
+                <div className="cert-preview-card cert-style-light">
                   <div className="cert-top-line"></div>
                   <div className="cert-border"></div>
 
