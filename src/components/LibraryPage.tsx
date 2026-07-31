@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, Sparkles, GraduationCap } from 'lucide-react';
+import { Search, Clock, FileText, ArrowRight, Calendar, Sun, Moon, Info, Sparkles, GraduationCap, Bot } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import { AboutModal } from './AboutModal';
@@ -435,6 +435,11 @@ export default function LibraryPage() {
                   <span className="lib-sidebar-stat-label">Access</span>
                   <span className="lib-sidebar-stat-value">Free</span>
                 </div>
+              </div>
+              {/* Model indicator */}
+              <div className="lib-sidebar-model-tag" title="Generated with AI models">
+                <Bot size={10} />
+                <span>AI-Generated</span>
               </div>
             </div>
           )}

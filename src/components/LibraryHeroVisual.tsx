@@ -127,6 +127,9 @@ export function LibraryHeroVisual() {
     let raf = 0;
     let t = 0;
     let hoverAmt = 0;
+    let lastFrameTime = 0;
+    const TARGET_FPS = 40; // cap at 40fps for smooth performance on any machine
+    const FRAME_MS = 1000 / TARGET_FPS;
     // staggered start so the four pulses don't move in lockstep
     const phases = DOMAINS.map((_, i) => i / DOMAINS.length);
 
@@ -347,12 +350,18 @@ export function LibraryHeroVisual() {
       const hp = project(HUB.nx, HUB.ny, hubHH);
       const hubGlow = Math.max(hoverAmt, breathe * 0.3);
       drawBookIcon(hp.x, hp.y, 0.9, hubGlow);
+    }
 
-      raf = requestAnimationFrame(draw);
+    function animLoop(ts: number) {
+      raf = requestAnimationFrame(animLoop);
+      // skip frames to maintain target FPS
+      if (ts - lastFrameTime < FRAME_MS) return;
+      lastFrameTime = ts;
+      draw();
     }
 
     resize();
-    draw();
+    raf = requestAnimationFrame(animLoop);
     const ro = new ResizeObserver(resize);
     ro.observe(container);
 
