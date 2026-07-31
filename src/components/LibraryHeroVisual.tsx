@@ -3,6 +3,8 @@ import { useEffect, useRef } from "react";
 const COLS = 48;
 const ROWS = 30;
 
+type MarkerShape = "circle" | "square" | "diamond" | "triangle";
+
 type Anchor = {
   nx: number;
   ny: number;
@@ -10,21 +12,27 @@ type Anchor = {
   r: number;
   label?: string;
   isHub?: boolean;
+  shape?: MarkerShape;
   cx?: number;
   cy?: number;
 };
 
 const ANCHORS: Anchor[] = [
-  { nx: 0.5, ny: 0.56, amp: 0.42, r: 0.085, isHub: true },
-  { nx: 0.2, ny: 0.24, amp: 0.9, r: 0.06, label: "TECH" },
-  { nx: 0.8, ny: 0.21, amp: 1.0, r: 0.055, label: "AI" },
-  { nx: 0.17, ny: 0.8, amp: 0.78, r: 0.06, label: "FINANCE" },
-  { nx: 0.83, ny: 0.8, amp: 0.84, r: 0.06, label: "ENG" },
+  { nx: 0.5, ny: 0.5, amp: 0.42, r: 0.085, isHub: true },
+  { nx: 0.2, ny: 0.24, amp: 0.9, r: 0.06, label: "TECH", shape: "diamond" },
+  { nx: 0.8, ny: 0.21, amp: 1.0, r: 0.055, label: "AI", shape: "square" },
+  { nx: 0.17, ny: 0.8, amp: 0.78, r: 0.06, label: "FINANCE", shape: "triangle" },
+  { nx: 0.83, ny: 0.8, amp: 0.84, r: 0.06, label: "ENG", shape: "circle" },
 ];
+// HUB sits at the geometric center (nx=ny=0.5): the isometric projection
+// always resolves it to the horizontal middle of the canvas AND it's the
+// pivot the whole scene rotates around, so the book never moves off-center.
 const HUB = ANCHORS[0];
 const DOMAINS = ANCHORS.slice(1);
+// Whole scene rotated 30° around the hub -- this is what actually keeps
+// ENG's tall peak clear of the book icon (see ROT_DEG in project()).
+const ROT_DEG = 30;
 
-// precompute bezier control points (hub -> each domain), gentle alternating bend
 DOMAINS.forEach((d, i) => {
   const mx = (HUB.nx + d.nx) / 2;
   const my = (HUB.ny + d.ny) / 2;
@@ -78,6 +86,9 @@ function terrainHeight(nx: number, ny: number, t: number) {
     h += a.amp * Math.exp(-(dx * dx + dy * dy) / (2 * a.r * a.r));
   }
   h += fbm(nx * 3.2 + t * 6, ny * 3.2 + t * 4.6) * 0.14;
+  // slow traveling wave running through the wireframe so every line
+  // gently ripples as part of the main design, not just on hover
+  h += Math.sin(nx * 9 - t * 46) * 0.03 + Math.sin(ny * 7 + t * 33) * 0.02;
   return h;
 }
 function lerp(a: number, b: number, u: number) {
@@ -116,6 +127,8 @@ export function LibraryHeroVisual() {
     let raf = 0;
     let t = 0;
     let hoverAmt = 0;
+    // staggered start so the four pulses don't move in lockstep
+    const phases = DOMAINS.map((_, i) => i / DOMAINS.length);
 
     function resize() {
       const rect = container!.getBoundingClientRect();
@@ -140,14 +153,14 @@ export function LibraryHeroVisual() {
       ctx!.closePath();
       ctx!.fillStyle = "#0e0e10";
       ctx!.fill();
-      ctx!.strokeStyle = `rgba(224,90,53,${0.75 + glow * 0.25})`;
+      ctx!.strokeStyle = `rgba(224,90,53,${0.7 + glow * 0.3})`;
       ctx!.lineWidth = 1.5;
       ctx!.stroke();
       ctx!.beginPath();
       ctx!.moveTo(14, 6);
       ctx!.lineTo(14, 23);
       ctx!.stroke();
-      ctx!.strokeStyle = `rgba(240,237,232,${0.35 + glow * 0.25})`;
+      ctx!.strokeStyle = `rgba(240,237,232,${0.3 + glow * 0.3})`;
       ctx!.lineWidth = 1;
       ([
         [6, 9, 10, 8],
@@ -163,6 +176,35 @@ export function LibraryHeroVisual() {
       ctx!.restore();
     }
 
+    function drawMarker(x: number, y: number, size: number, shape: MarkerShape | undefined, alpha: number) {
+      ctx!.save();
+      ctx!.translate(x, y);
+      ctx!.fillStyle = `rgba(224,90,53,${alpha})`;
+      ctx!.beginPath();
+      switch (shape) {
+        case "square":
+          ctx!.rect(-size, -size, size * 2, size * 2);
+          break;
+        case "diamond":
+          ctx!.moveTo(0, -size * 1.35);
+          ctx!.lineTo(size * 1.35, 0);
+          ctx!.lineTo(0, size * 1.35);
+          ctx!.lineTo(-size * 1.35, 0);
+          ctx!.closePath();
+          break;
+        case "triangle":
+          ctx!.moveTo(0, -size * 1.3);
+          ctx!.lineTo(size * 1.2, size * 0.9);
+          ctx!.lineTo(-size * 1.2, size * 0.9);
+          ctx!.closePath();
+          break;
+        default:
+          ctx!.arc(0, 0, size, 0, Math.PI * 2);
+      }
+      ctx!.fill();
+      ctx!.restore();
+    }
+
     function draw() {
       const w = canvas!.width / dpr;
       const h = canvas!.height / dpr;
@@ -173,32 +215,51 @@ export function LibraryHeroVisual() {
       ctx!.fillStyle = "#0e0e10";
       ctx!.fillRect(0, 0, w, h);
 
+      const breathe = 0.5 + 0.5 * Math.sin(t * 120);
+
       ctx!.save();
       ctx!.strokeStyle = `rgba(255,255,255,${0.05 + hoverAmt * 0.02})`;
       ctx!.lineWidth = 1;
       const gap = 24;
       const shear = h * 0.32;
-      for (let x = -h; x < w + h; x += gap) {
+      const streakOffset = (t * 900) % gap;
+      for (let x = -h - gap; x < w + h; x += gap) {
+        const sx = x + streakOffset;
         ctx!.beginPath();
-        ctx!.moveTo(x, 0);
-        ctx!.lineTo(x + shear, h);
+        ctx!.moveTo(sx, 0);
+        ctx!.lineTo(sx + shear, h);
         ctx!.stroke();
       }
       ctx!.restore();
 
       t += 0.00022 + hoverAmt * 0.00035;
 
-      const tiltX = hoverAmt * (mouse.y - 0.5) * 0.4;
-      const tiltY = hoverAmt * (mouse.x - 0.5) * 0.4;
+      const ambientTiltX = Math.sin(t * 42) * 0.05;
+      const ambientTiltY = Math.cos(t * 35) * 0.05;
+      const userTiltX = (mouse.y - 0.5) * 0.5;
+      const userTiltY = (mouse.x - 0.5) * 0.5;
+      const tiltX = ambientTiltX + (userTiltX - ambientTiltX) * hoverAmt;
+      const tiltY = ambientTiltY + (userTiltY - ambientTiltY) * hoverAmt;
+
       const originX = w * 0.5;
-      const originY = h * 0.22;
+      const originY = h * 0.28;
       const spanX = w * 0.86;
       const spanY = h * 0.62;
-      const amp = h * 0.3;
+      const amp = h * 0.26;
+      const ROT = (ROT_DEG * Math.PI) / 180;
+      const cosR = Math.cos(ROT);
+      const sinR = Math.sin(ROT);
 
       function project(nx: number, ny: number, hh: number) {
-        const x = originX + (nx - ny) * spanX * 0.5 + tiltY * 40;
-        const y = originY + (nx + ny) * spanY * 0.5 - hh * amp + tiltX * 40;
+        // rotate the whole nx/ny plane around the hub (0.5,0.5) before laying
+        // it out isometrically -- this is what keeps ENG's peak clear of the book
+        const dx0 = nx - 0.5;
+        const dy0 = ny - 0.5;
+        const rx = 0.5 + dx0 * cosR - dy0 * sinR;
+        const ry = 0.5 + dx0 * sinR + dy0 * cosR;
+        const depth = 0.55 + Math.max(0, Math.min(1, hh)) * 0.45;
+        const x = originX + (rx - ry) * spanX * 0.5 + tiltY * 46 * depth;
+        const y = originY + (rx + ry) * spanY * 0.5 - hh * amp + tiltX * 46 * depth;
         return { x, y };
       }
 
@@ -245,20 +306,18 @@ export function LibraryHeroVisual() {
           const b = bezier(HUB.nx, HUB.ny, d.cx!, d.cy!, d.nx, d.ny, u);
           const hh = terrainHeight(b.x, b.y, t) + 0.05;
           const p = project(b.x, b.y, hh);
-          ctx!.beginPath();
-          ctx!.arc(p.x, p.y, 2, 0, Math.PI * 2);
-          ctx!.fillStyle = `rgba(224,90,53,${0.5 + hoverAmt * 0.4})`;
-          ctx!.fill();
+          drawMarker(p.x, p.y, 2, d.shape, 0.5 + hoverAmt * 0.4);
         }
 
-        const u = (((t * 90 + i * 0.27) % 1) + 1) % 1;
+        // independent, hover-reactive progress clock per domain
+        const baseSpeed = 0.0022;
+        const hoverBoost = 0.006;
+        phases[i] = (phases[i] + baseSpeed + hoverAmt * hoverBoost) % 1;
+        const u = phases[i];
         const b = bezier(HUB.nx, HUB.ny, d.cx!, d.cy!, d.nx, d.ny, u);
         const hh = terrainHeight(b.x, b.y, t) + 0.06;
         const p = project(b.x, b.y, hh);
-        ctx!.beginPath();
-        ctx!.fillStyle = "rgba(224,90,53,0.85)";
-        ctx!.arc(p.x, p.y, 2.4, 0, Math.PI * 2);
-        ctx!.fill();
+        drawMarker(p.x, p.y, 2.4, d.shape, 0.85);
         if (hoverAmt > 0.02) {
           ctx!.beginPath();
           ctx!.strokeStyle = `rgba(224,90,53,${hoverAmt * 0.4})`;
@@ -266,17 +325,29 @@ export function LibraryHeroVisual() {
           ctx!.stroke();
         }
 
+        // brief arrival glow as the pulse completes a lap at its peak
+        const arrival = Math.max(0, (u - 0.82) / 0.18);
+        const arrivalGlow = arrival * arrival;
+
         const peakHH = terrainHeight(d.nx, d.ny, t);
         const pp = project(d.nx, d.ny, peakHH);
+        if (arrivalGlow > 0.02) {
+          ctx!.beginPath();
+          ctx!.strokeStyle = `rgba(224,90,53,${arrivalGlow * 0.5})`;
+          ctx!.lineWidth = 1;
+          ctx!.arc(pp.x, pp.y, 6 + arrivalGlow * 10, 0, Math.PI * 2);
+          ctx!.stroke();
+        }
         ctx!.font = "600 9px 'Roboto Mono', monospace";
-        ctx!.fillStyle = `rgba(240,237,232,${0.4 + hoverAmt * 0.4})`;
+        ctx!.fillStyle = `rgba(240,237,232,${0.4 + hoverAmt * 0.4 + arrivalGlow * 0.3})`;
         ctx!.textAlign = "center";
         ctx!.fillText(d.label ?? "", pp.x, pp.y - 12);
       });
 
       const hubHH = terrainHeight(HUB.nx, HUB.ny, t);
       const hp = project(HUB.nx, HUB.ny, hubHH);
-      drawBookIcon(hp.x, hp.y, 0.9, hoverAmt);
+      const hubGlow = Math.max(hoverAmt, breathe * 0.3);
+      drawBookIcon(hp.x, hp.y, 0.9, hubGlow);
 
       raf = requestAnimationFrame(draw);
     }

@@ -5352,30 +5352,27 @@ html[data-theme="light"] .lib-card-new-badge {
   overflow: hidden;
   cursor: crosshair;
 }
-
 .lib-visual-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block;
 }
-
-/* ── Technical Corner Crosshair Ticks ── */
 .lib-visual-corner {
   position: absolute;
-  font: 400 12px var(--f-mono, 'Roboto Mono', monospace);
+  font: 400 12px 'Roboto Mono', monospace;
   color: rgba(224, 90, 53, 0.5);
-  user-select: none;
-  pointer-events: none;
-  z-index: 4;
-  transition: color 0.4s ease;
+  user-select: none; pointer-events: none; z-index: 4;
+  transition: color 0.4s ease, opacity 0.4s ease;
+  animation: cornerBreathe 4s ease-in-out infinite;
 }
+@keyframes cornerBreathe { 0%, 100% { opacity: 0.6; } 50% { opacity: 0.95; } }
 .lib-visual-corner--tl { top: 8px; left: 10px; }
 .lib-visual-corner--tr { top: 8px; right: 10px; }
 .lib-visual-corner--bl { bottom: 8px; left: 10px; }
 .lib-visual-corner--br { bottom: 8px; right: 10px; }
-.lib-home-visual:hover .lib-visual-corner { color: rgba(240, 237, 232, 0.75); }
+.lib-home-visual:hover .lib-visual-corner {
+  color: rgba(240, 237, 232, 0.85);
+  animation: none;
+  opacity: 1;
+}
 
 /* ── SVG Blueprint Diagram Canvas ── */
 .lib-visual-blueprint {
