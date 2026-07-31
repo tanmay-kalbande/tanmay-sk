@@ -361,7 +361,7 @@ html[data-theme="light"] .lib-nav-brand span {
 .lib-category-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
 }
 
 .lib-sidebar-cat-btn {
@@ -369,53 +369,51 @@ html[data-theme="light"] .lib-nav-brand span {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 7px 14px;
-  font-family: var(--f-mono, 'Roboto Mono', monospace);
-  font-size: 0.68rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
+  padding: 6px 12px;
+  font-family: var(--f-mono);
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #333333;
-  background: #f4f4f4;
+  color: var(--ink-2);
+  background: transparent;
   border: 1px solid transparent;
-  border-radius: 3px;
+  border-radius: 2px;
   cursor: pointer;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.15s ease;
   text-align: left;
 }
 
-html[data-theme="dark"] .lib-sidebar-cat-btn {
-  color: #d0d0d0;
-  background: rgba(255, 255, 255, 0.06);
-}
-
 .lib-sidebar-cat-btn:hover {
-  background: #eaeaea;
-}
-
-html[data-theme="dark"] .lib-sidebar-cat-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--border);
 }
 
 .lib-sidebar-cat-btn.active {
-  color: #111111;
-  background: #ffffff;
-  border-color: #333333;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  color: var(--ink);
+  background: var(--surface);
+  border-color: var(--ink);
+  font-weight: 700;
 }
 
-html[data-theme="dark"] .lib-sidebar-cat-btn.active {
-  background: #1c1c1b;
-  border-color: rgba(255, 255, 255, 0.7);
-  color: #f0ede8;
+html[data-theme="light"] .lib-sidebar-cat-btn.active {
+  border-color: #1a1a1a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
 .lib-sidebar-cat-count {
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: inherit;
-  opacity: 0.85;
-  margin-left: 8px;
+  font-size: 0.58rem;
+  font-weight: 400;
+  color: var(--ink-3);
+  opacity: 0.8;
+  margin-left: 6px;
+}
+
+.lib-sidebar-cat-btn.active .lib-sidebar-cat-count {
+  font-weight: 700;
+  opacity: 1;
+  color: var(--ink-2);
 }
 
 .lib-sidebar-stats {
@@ -719,94 +717,21 @@ html[data-theme="light"] .lib-hero {
   display: none;
 }
 
-/* ── Horizontal Category Filter Tab Bar (matches screenshot) ───────────────── */
+/* ── Sort Controls ──────────────────────────────────────────────────────────── */
 
-.lib-filter-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-}
-
-.lib-filter-tabs {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.lib-filter-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  font-family: var(--f-mono);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--ink-2);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-  white-space: nowrap;
-}
-
-.lib-filter-tab:hover {
-  color: var(--ink);
-  border-color: var(--border);
-  background: var(--surface);
-}
-
-.lib-filter-tab.active {
-  color: var(--ink);
-  background: var(--surface);
-  border: 1.5px solid var(--ink);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
-}
-
-html[data-theme="dark"] .lib-filter-tab.active {
-  border-color: rgba(240, 237, 232, 0.75);
-  box-shadow: none;
-}
-
-.lib-filter-tab-count {
-  font-size: 0.55rem;
-  font-weight: 400;
-  opacity: 0.7;
-  margin-left: 1px;
-}
-
-.lib-filter-tab.active .lib-filter-tab-count {
-  opacity: 1;
-  font-weight: 700;
-}
-
-.lib-filter-more {
-  color: var(--ink-3);
-  font-weight: 500;
-  border-style: dashed;
-  border-color: var(--border);
-}
-
-.lib-filter-more:hover {
-  color: var(--accent);
-  border-color: var(--accent);
-  background: transparent;
-}
-
-/* Sort controls row */
 .lib-sort-controls {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 16px;
   gap: 12px;
+}
+
+.lib-sort-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
 }
 
 .lib-sort-label {
@@ -834,13 +759,6 @@ html[data-theme="dark"] .lib-filter-tab.active {
 
 .lib-sort-select:focus {
   border-color: var(--accent);
-}
-
-.lib-filter-bar-right {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-shrink: 0;
 }
 
 /* ── Book Grid ─────────────────────────────────────────────────────────────── */

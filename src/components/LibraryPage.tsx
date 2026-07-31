@@ -587,32 +587,14 @@ export default function LibraryPage() {
 
             {!loading && !error && (
               <>
-                {/* Horizontal category filter tab bar — matches the screenshot pill row */}
-                <div className="lib-filter-bar">
-                  <div className="lib-filter-tabs">
-                    {categoriesWithCounts.slice(0, showAllCategories ? undefined : 8).map(cat => (
-                      <button
-                        key={cat.id}
-                        type="button"
-                        className={`lib-filter-tab ${activeCategory === cat.id ? 'active' : ''}`}
-                        onClick={() => setActiveCategory(cat.id)}
-                      >
-                        {cat.label.toUpperCase()}
-                        <span className="lib-filter-tab-count">{cat.count}</span>
-                      </button>
-                    ))}
-                    {!showAllCategories && categoriesWithCounts.length > 8 && (
-                      <button
-                        type="button"
-                        className="lib-filter-tab lib-filter-more"
-                        onClick={() => setShowAllCategories(true)}
-                      >
-                        +{categoriesWithCounts.length - 8} more
-                      </button>
-                    )}
+                <div className="lib-sort-controls">
+                  <div className="lib-results-count" style={{ marginBottom: 0 }}>
+                    {filtered.length === index?.total
+                      ? `${filtered.length} books`
+                      : `${filtered.length} of ${index?.total} books`}
                   </div>
-                  <div className="lib-filter-bar-right">
-                    <span className="lib-sort-label">Sort: </span>
+                  <div className="lib-sort-right">
+                    <span className="lib-sort-label">Sort:</span>
                     <select
                       className="lib-sort-select"
                       value={sortMode}
@@ -622,14 +604,6 @@ export default function LibraryPage() {
                       <option value="longest">Longest</option>
                       <option value="chapters">Chapters</option>
                     </select>
-                  </div>
-                </div>
-
-                <div className="lib-sort-controls">
-                  <div className="lib-results-count" style={{ marginBottom: 0 }}>
-                    {filtered.length === index?.total
-                      ? `${filtered.length} books`
-                      : `${filtered.length} of ${index?.total} books`}
                   </div>
                 </div>
 
