@@ -6,7 +6,8 @@ import {
   ArrowLeft, Clock, FileText, BookOpen, Bookmark,
   Download, ExternalLink, Check, Calendar, Sun, Moon,
   Type, Minus, Plus, ArrowUp, ChevronLeft, ChevronRight,
-  PanelLeftOpen, PanelLeftClose, Info, X
+  PanelLeftOpen, PanelLeftClose, Info, X, Award, Printer,
+  User, Share2, Edit3
 } from 'lucide-react';
 import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
@@ -984,6 +985,17 @@ export default function BookReaderPage() {
   const [savedProgress, setSavedProgress] = useState(getReadingPosition);
   const [courseProgress, setCourseProgress] = useState<CourseProgress>(() => getCourseProgress(slug || ''));
 
+  // ── Certificate recipient name & modal state ──
+  const [userName, setUserName] = useState<string>(() => {
+    return window.localStorage.getItem('pustakam_user_name') || '';
+  });
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
+  const [certTheme, setCertTheme] = useState<'dark' | 'parchment'>('dark');
+
+  useEffect(() => {
+    window.localStorage.setItem('pustakam_user_name', userName);
+  }, [userName]);
+
   useEffect(() => {
     setFavicon('/favicon_final.svg');
     document.documentElement.setAttribute('data-theme', theme);
@@ -1292,103 +1304,118 @@ export default function BookReaderPage() {
       completedChapters: book.modules.map((_, index) => index),
       updatedAt: new Date().toISOString(),
     }));
+    setIsCertModalOpen(true);
   };
 
-  const printCertificate = () => {
+  const printCertificate = (overrideName?: string) => {
     if (!book) return;
+    const recipientName = (overrideName !== undefined ? overrideName : userName).trim() || 'Learner';
+    const safeRecipientName = recipientName.replace(/[&<>"']/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[char] || char));
     const safeTitle = book.title.replace(/[&<>"']/g, char => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[char] || char));
-    const issueDate = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+    const issueDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const certId = 'PK-' + Date.now().toString(36).toUpperCase().slice(-6);
+    const isDark = certTheme === 'dark';
+
     const certificateWindow = window.open('', '_blank');
     if (!certificateWindow) return;
+
+    const bgGradient = isDark 
+      ? 'linear-gradient(145deg, #0e0e11 0%, #17161b 45%, #0d0c0f 100%)' 
+      : 'linear-gradient(145deg, #fdfbf7 0%, #f7f3eb 50%, #f4eee2 100%)';
+    const textColor = isDark ? '#f5efe9' : '#1a1917';
+    const subtextColor = isDark ? 'rgba(245,239,233,0.65)' : 'rgba(26,25,23,0.7)';
+    const goldAccent = isDark ? '#e05a35' : '#c8451a';
+    const goldText = isDark ? '#f0805a' : '#b83b14';
+    const borderCol = isDark ? 'rgba(224, 90, 53, 0.28)' : 'rgba(200, 69, 26, 0.3)';
+    const innerBorderCol = isDark ? 'rgba(224, 90, 53, 0.12)' : 'rgba(200, 69, 26, 0.15)';
+    const cardBg = isDark ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.025)';
+
     certificateWindow.document.write(
-      `<!doctype html><html><head><title>Certificate of Completion — ${safeTitle}</title>`
+      `<!doctype html><html><head><title>Certificate of Completion — ${safeRecipientName}</title>`
       + `<link rel="preconnect" href="https://fonts.googleapis.com">`
       + `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`
-      + `<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">`
+      + `<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">`
       + `<style>`
       + `@page{size:A4 landscape;margin:0}`
       + `*{box-sizing:border-box;margin:0;padding:0}`
-      + `body{display:grid;place-items:center;min-height:100vh;background:#0a0a0c;color:#f5efe9;font-family:'Inter',sans-serif}`
-      + `.cert{position:relative;width:min(1080px,94vw);min-height:700px;padding:0;text-align:center;overflow:hidden;background:linear-gradient(145deg,#12110f 0%,#1a1816 40%,#0f0e0c 100%);border:1px solid rgba(200,160,100,.15);box-shadow:0 40px 100px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.04)}`
-      + `.cert-inner{position:relative;z-index:2;padding:56px 80px 48px}`
-      /* ambient glow */
-      + `.cert::before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 60% 50% at 50% 35%,rgba(200,130,60,.08),transparent 65%),radial-gradient(ellipse 40% 40% at 80% 80%,rgba(160,120,80,.04),transparent)}`
-      /* accent top line */
-      + `.cert-top-line{position:absolute;top:0;left:10%;right:10%;height:2px;background:linear-gradient(90deg,transparent,rgba(200,160,100,.6) 30%,rgba(220,180,120,.8) 50%,rgba(200,160,100,.6) 70%,transparent);z-index:3}`
-      /* decorative corners */
-      + `.corner-svg{position:absolute;width:72px;height:72px;z-index:3;opacity:.35}`
+      + `body{display:grid;place-items:center;min-height:100vh;background:${isDark ? '#08080a' : '#ede8e0'};color:${textColor};font-family:'Inter',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}`
+      + `.cert{position:relative;width:min(1100px,96vw);min-height:720px;padding:0;text-align:center;overflow:hidden;background:${bgGradient};border:1.5px solid ${borderCol};box-shadow:0 40px 100px rgba(0,0,0,${isDark ? '0.7' : '0.15'})}`
+      + `.cert-inner{position:relative;z-index:2;padding:52px 76px 44px}`
+      + `.cert::before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 65% 55% at 50% 30%,${isDark ? 'rgba(224,90,53,0.09)' : 'rgba(200,69,26,0.05)'},transparent 70%)}`
+      + `.cert-top-line{position:absolute;top:0;left:8%;right:8%;height:3px;background:linear-gradient(90deg,transparent,${goldAccent} 30%,#ffd700 50%,${goldAccent} 70%,transparent);z-index:3}`
+      + `.corner-svg{position:absolute;width:80px;height:80px;z-index:3;opacity:${isDark ? '0.45' : '0.6'}}`
       + `.corner-tl{top:20px;left:20px}`
       + `.corner-tr{top:20px;right:20px;transform:scaleX(-1)}`
       + `.corner-bl{bottom:20px;left:20px;transform:scaleY(-1)}`
       + `.corner-br{bottom:20px;right:20px;transform:scale(-1)}`
-      + `.corner-svg path{fill:none;stroke:rgba(200,160,100,.7);stroke-width:1.2}`
-      /* border inset */
-      + `.cert-border{position:absolute;inset:14px;border:1px solid rgba(200,160,100,.12);z-index:1;pointer-events:none}`
-      + `.cert-border::after{content:'';position:absolute;inset:6px;border:1px solid rgba(200,160,100,.06)}`
-      /* brand */
-      + `.brand{color:rgba(200,160,100,.55);font:600 10px 'Inter',sans-serif;letter-spacing:.35em;text-transform:uppercase}`
-      /* kicker */
-      + `.kicker{margin:36px 0 6px;color:rgba(200,160,100,.7);font:600 11px 'Inter',sans-serif;letter-spacing:.22em;text-transform:uppercase}`
-      /* main title */
-      + `.main-title{font:400 clamp(48px,5.5vw,72px)/1 'Cormorant Garamond',serif;color:#f5efe9;letter-spacing:-.03em}`
-      + `.main-title em{font-style:italic;color:rgba(200,160,100,.85)}`
-      /* decorative divider */
-      + `.divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:22px auto;width:200px}`
-      + `.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,160,100,.4),transparent)}`
-      + `.divider-diamond{width:6px;height:6px;background:rgba(200,160,100,.5);transform:rotate(45deg);flex-shrink:0}`
-      /* copy text */
-      + `.copy{color:rgba(245,239,233,.5);font:400 15px/1.7 'Inter',sans-serif}`
-      /* book title */
-      + `.book-title{max-width:780px;margin:14px auto 28px;font:600 clamp(26px,3vw,34px)/1.2 'Cormorant Garamond',serif;color:#f5efe9}`
-      /* seal */
-      + `.seal{position:relative;width:80px;height:80px;margin:0 auto 18px}`
-      + `.seal-ring{position:absolute;inset:0;border:2px solid rgba(200,160,100,.5);border-radius:50%}`
-      + `.seal-ring-outer{position:absolute;inset:-8px;border:1px solid rgba(200,160,100,.15);border-radius:50%}`
-      + `.seal-check{position:absolute;inset:0;display:grid;place-items:center;font:700 28px 'Inter',sans-serif;color:rgba(200,160,100,.8)}`
-      + `.seal-glow{position:absolute;inset:-16px;border-radius:50%;background:radial-gradient(circle,rgba(200,160,100,.08),transparent 65%)}`
-      /* details row */
-      + `.details{display:flex;justify-content:center;gap:48px;margin:28px 0 0}`
-      + `.details>div{min-width:100px}`
-      + `.details span{display:block;color:rgba(200,160,100,.45);font:600 9px 'Inter',sans-serif;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px}`
-      + `.details strong{display:block;color:rgba(245,239,233,.8);font:600 13px 'Inter',sans-serif;letter-spacing:.02em}`
-      /* signature */
-      + `.signature{margin-top:32px;color:rgba(245,239,233,.3);font:italic 14px 'Cormorant Garamond',serif;letter-spacing:.04em}`
-      /* cert id */
-      + `.cert-id{position:absolute;bottom:22px;right:32px;color:rgba(200,160,100,.2);font:600 8px 'Inter',sans-serif;letter-spacing:.15em;z-index:3}`
-      /* watermark */
-      + `.watermark{position:absolute;bottom:22px;left:32px;color:rgba(200,160,100,.12);font:700 8px 'Inter',sans-serif;letter-spacing:.3em;text-transform:uppercase;z-index:3}`
-      /* print */
-      + `@media print{body{background:#0a0a0c}.cert{width:100vw;min-height:100vh;border-width:0;box-shadow:none}}`
+      + `.corner-svg path{fill:none;stroke:${goldAccent};stroke-width:1.5}`
+      + `.cert-border{position:absolute;inset:16px;border:1px solid ${borderCol};z-index:1;pointer-events:none}`
+      + `.cert-border::after{content:'';position:absolute;inset:6px;border:1px solid ${innerBorderCol}}`
+      + `.brand{color:${goldText};font:600 10px/1 'Roboto Mono',monospace;letter-spacing:.35em;text-transform:uppercase}`
+      + `.kicker{margin:28px 0 6px;color:${goldAccent};font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.28em;text-transform:uppercase}`
+      + `.main-title{font:400 clamp(42px,5vw,64px)/1 'Cormorant Garamond',serif;color:${textColor};letter-spacing:-.02em}`
+      + `.main-title em{font-style:italic;color:${goldText}}`
+      + `.divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px auto;width:240px}`
+      + `.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,${borderCol},transparent)}`
+      + `.divider-diamond{width:7px;height:7px;background:${goldAccent};transform:rotate(45deg);flex-shrink:0}`
+      + `.certify-lead{color:${subtextColor};font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.24em;text-transform:uppercase;margin-top:10px}`
+      + `.recipient-name{margin:10px auto 4px;font:700 clamp(36px,4.5vw,52px)/1.1 'Cormorant Garamond',serif;color:${textColor};letter-spacing:-.01em;max-width:850px}`
+      + `.recipient-rule{width:160px;height:2px;background:linear-gradient(90deg,transparent,${goldAccent},transparent);margin:8px auto 16px}`
+      + `.certify-body{color:${subtextColor};font:400 15px/1.6 'Inter',sans-serif;max-width:720px;margin:0 auto}`
+      + `.book-title{max-width:820px;margin:8px auto 22px;font:600 clamp(22px,2.8vw,30px)/1.25 'Cormorant Garamond',serif;color:${goldText}}`
+      + `.seal-wrapper{display:flex;justify-content:center;align-items:center;margin:16px 0 20px}`
+      + `.seal{position:relative;width:74px;height:74px}`
+      + `.seal-ring{position:absolute;inset:0;border:2px solid ${goldAccent};border-radius:50%}`
+      + `.seal-ring-outer{position:absolute;inset:-7px;border:1px dashed ${borderCol};border-radius:50%}`
+      + `.seal-check{position:absolute;inset:0;display:grid;place-items:center;font:700 24px 'Inter',sans-serif;color:${goldAccent}}`
+      + `.seal-glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,${isDark ? 'rgba(224,90,53,0.14)' : 'rgba(200,69,26,0.1)'},transparent 68%)}`
+      + `.details{display:flex;justify-content:center;gap:36px;margin:18px 0 22px}`
+      + `.details>div{background:${cardBg};border:1px solid ${innerBorderCol};padding:12px 18px;border-radius:4px;min-width:130px}`
+      + `.details span{display:block;color:${subtextColor};font:600 9px/1 'Roboto Mono',monospace;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px}`
+      + `.details strong{display:block;color:${textColor};font:600 13px/1 'Inter',sans-serif;letter-spacing:.01em}`
+      + `.signature-row{display:flex;justify-content:space-between;align-items:flex-end;max-width:780px;margin:20px auto 0;padding-top:14px;border-top:1px solid ${innerBorderCol}}`
+      + `.sig-block{text-align:left}`
+      + `.sig-line{display:block;font:600 13px/1 'Cormorant Garamond',serif;color:${textColor};letter-spacing:.05em;margin-bottom:4px}`
+      + `.sig-label{display:block;font:600 8px/1 'Roboto Mono',monospace;color:${subtextColor};letter-spacing:.2em;text-transform:uppercase}`
+      + `.signature-quote{font:italic 13px/1.4 'Cormorant Garamond',serif;color:${subtextColor};text-align:right;max-width:340px}`
+      + `.cert-id{position:absolute;bottom:18px;right:28px;color:${subtextColor};font:600 9px 'Roboto Mono',monospace;letter-spacing:.15em;z-index:3}`
+      + `.watermark{position:absolute;bottom:18px;left:28px;color:${subtextColor};font:700 9px 'Roboto Mono',monospace;letter-spacing:.25em;text-transform:uppercase;z-index:3}`
+      + `@media print{body{background:${isDark ? '#08080a' : '#ffffff'}}.cert{width:100vw;min-height:100vh;border-width:0;box-shadow:none}}`
       + `</style></head><body>`
       + `<main class="cert">`
       + `<div class="cert-top-line"></div>`
       + `<div class="cert-border"></div>`
-      /* corner ornaments */
       + `<svg class="corner-svg corner-tl" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>`
       + `<svg class="corner-svg corner-tr" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>`
       + `<svg class="corner-svg corner-bl" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>`
       + `<svg class="corner-svg corner-br" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>`
       + `<div class="cert-inner">`
-      + `<p class="brand">Pustakam Library · tanmaysk.in</p>`
-      + `<p class="kicker">Certificate of Completion</p>`
+      + `<p class="brand">PUSTAKAM LIBRARY · TANMAYSK.IN</p>`
+      + `<p class="kicker">Official Certificate of Completion</p>`
       + `<h1 class="main-title">Well <em>read.</em></h1>`
       + `<div class="divider"><span class="divider-line"></span><span class="divider-diamond"></span><span class="divider-line"></span></div>`
-      + `<p class="copy">This certifies the successful completion of</p>`
-      + `<p class="book-title">${safeTitle}</p>`
-      + `<div class="seal"><div class="seal-glow"></div><div class="seal-ring-outer"></div><div class="seal-ring"></div><div class="seal-check">✓</div></div>`
-      + `<p class="copy">Awarded to a committed learner for completing every chapter of this guide.</p>`
+      + `<p class="certify-lead">THIS CERTIFIES THAT</p>`
+      + `<h2 class="recipient-name">${safeRecipientName}</h2>`
+      + `<div class="recipient-rule"></div>`
+      + `<p class="certify-body">has successfully completed every chapter and mastered the material for</p>`
+      + `<h3 class="book-title">“${safeTitle}”</h3>`
+      + `<div class="seal-wrapper"><div class="seal"><div class="seal-glow"></div><div class="seal-ring-outer"></div><div class="seal-ring"></div><div class="seal-check">✓</div></div></div>`
       + `<div class="details">`
-      + `<div><span>Chapters</span><strong>${book.modules.length} completed</strong></div>`
-      + `<div><span>Reading Time</span><strong>${book.readingTimeMins} minutes</strong></div>`
-      + `<div><span>Words Read</span><strong>${(book.wordCount / 1000).toFixed(1)}K words</strong></div>`
+      + `<div><span>Chapters</span><strong>${book.modules.length} Completed</strong></div>`
+      + `<div><span>Reading Time</span><strong>${book.readingTimeMins} Minutes</strong></div>`
+      + `<div><span>Words Read</span><strong>${(book.wordCount / 1000).toFixed(1)}K Words</strong></div>`
       + `<div><span>Issued</span><strong>${issueDate}</strong></div>`
       + `</div>`
-      + `<p class="signature">"The more that you read, the more things you will know."</p>`
+      + `<div class="signature-row">`
+      + `<div class="sig-block"><span class="sig-line">Pustakam Editorial Board</span><span class="sig-label">OFFICIAL VERIFICATION</span></div>`
+      + `<p class="signature-quote">"The more that you read, the more things you will know."</p>`
       + `</div>`
-      + `<span class="watermark">Pustakam</span>`
+      + `</div>`
+      + `<span class="watermark">PUSTAKAM VERIFIED</span>`
       + `<span class="cert-id">${certId}</span>`
       + `</main></body></html>`
     );
@@ -1999,8 +2026,8 @@ export default function BookReaderPage() {
               <div className="reader-completion-actions">
                 {isCourseComplete ? (
                   <>
-                    <button className="btn-primary" onClick={printCertificate}>
-                      <Download size={13} /> Print certificate
+                    <button className="btn-primary" onClick={() => setIsCertModalOpen(true)}>
+                      <Award size={15} /> View &amp; Customize Certificate
                     </button>
                     <button className="btn-secondary" onClick={shareCompletion}>
                       <ExternalLink size={13} /> {copied ? 'Copied' : 'Share completion'}
@@ -2077,6 +2104,128 @@ export default function BookReaderPage() {
 
       {/* About Project Modal */}
       <AboutModal isOpen={infoOpen} onClose={() => setInfoOpen(false)} />
+
+      {/* Certificate Customization & Preview Modal */}
+      {isCertModalOpen && book && (
+        <div className="cert-modal-overlay" onClick={() => setIsCertModalOpen(false)}>
+          <div className="cert-modal-dialog" onClick={(e) => e.stopPropagation()}>
+            <div className="cert-modal-header">
+              <div className="cert-modal-title">
+                <Award size={20} className="cert-modal-icon" />
+                <div>
+                  <h3>Certificate of Completion</h3>
+                  <p>Personalize your name and download your official certificate</p>
+                </div>
+              </div>
+              <button className="cert-modal-close" onClick={() => setIsCertModalOpen(false)} aria-label="Close modal">
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="cert-modal-body">
+              <div className="cert-controls-panel">
+                <div className="cert-input-group">
+                  <label htmlFor="cert-user-name">
+                    <User size={14} /> Recipient Full Name
+                  </label>
+                  <input
+                    id="cert-user-name"
+                    type="text"
+                    className="cert-name-input"
+                    placeholder="Enter your name (e.g. Tanmay Kalbande)"
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    autoFocus
+                  />
+                  <span className="cert-input-hint">Your name updates live on the certificate preview.</span>
+                </div>
+
+                <div className="cert-theme-group">
+                  <label>Certificate Theme</label>
+                  <div className="cert-theme-toggles">
+                    <button
+                      type="button"
+                      className={`cert-theme-btn ${certTheme === 'dark' ? 'active' : ''}`}
+                      onClick={() => setCertTheme('dark')}
+                    >
+                      <Moon size={13} /> Obsidian Luxury
+                    </button>
+                    <button
+                      type="button"
+                      className={`cert-theme-btn ${certTheme === 'parchment' ? 'active' : ''}`}
+                      onClick={() => setCertTheme('parchment')}
+                    >
+                      <Sun size={13} /> Parchment Light
+                    </button>
+                  </div>
+                </div>
+
+                <div className="cert-modal-actions">
+                  <button className="btn-primary cert-print-btn" onClick={() => printCertificate(userName)}>
+                    <Printer size={15} /> Print / Save PDF
+                  </button>
+                  <button className="btn-secondary cert-share-btn" onClick={shareCompletion}>
+                    <Share2 size={14} /> {copied ? 'Copied Link' : 'Share Achievement'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Live Scaled Preview */}
+              <div className="cert-preview-wrapper">
+                <div className={`cert-preview-card cert-style-${certTheme}`}>
+                  <div className="cert-top-line"></div>
+                  <div className="cert-border"></div>
+
+                  <svg className="corner-svg corner-tl" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>
+                  <svg className="corner-svg corner-tr" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>
+                  <svg className="corner-svg corner-bl" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>
+                  <svg className="corner-svg corner-br" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>
+
+                  <div className="cert-inner">
+                    <p className="brand">PUSTAKAM LIBRARY · TANMAYSK.IN</p>
+                    <p className="kicker">Official Certificate of Completion</p>
+                    <h1 className="main-title">Well <em>read.</em></h1>
+                    <div className="divider"><span class="divider-line"></span><span class="divider-diamond"></span><span class="divider-line"></span></div>
+
+                    <p className="certify-lead">THIS CERTIFIES THAT</p>
+                    <h2 className="recipient-name">{userName.trim() || 'Learner Name'}</h2>
+                    <div className="recipient-rule"></div>
+                    <p className="certify-body">has successfully completed every chapter and mastered the material for</p>
+                    <h3 className="book-title">“{book.title}”</h3>
+
+                    <div className="seal-wrapper">
+                      <div className="seal">
+                        <div className="seal-glow"></div>
+                        <div className="seal-ring-outer"></div>
+                        <div className="seal-ring"></div>
+                        <div className="seal-check">✓</div>
+                      </div>
+                    </div>
+
+                    <div className="details">
+                      <div><span>Chapters</span><strong>{book.modules.length} Completed</strong></div>
+                      <div><span>Reading Time</span><strong>{book.readingTimeMins} Minutes</strong></div>
+                      <div><span>Words Read</span><strong>{(book.wordCount / 1000).toFixed(1)}K Words</strong></div>
+                      <div><span>Issued</span><strong>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</strong></div>
+                    </div>
+
+                    <div className="signature-row">
+                      <div className="sig-block">
+                        <span className="sig-line">Pustakam Editorial Board</span>
+                        <span className="sig-label">OFFICIAL VERIFICATION</span>
+                      </div>
+                      <p className="signature-quote">"The more that you read, the more things you will know."</p>
+                    </div>
+                  </div>
+
+                  <span className="watermark">PUSTAKAM VERIFIED</span>
+                  <span className="cert-id">PK-VERIFIED</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
