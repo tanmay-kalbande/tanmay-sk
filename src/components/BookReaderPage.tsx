@@ -989,11 +989,33 @@ export default function BookReaderPage() {
   const [userName, setUserName] = useState<string>(() => {
     return window.localStorage.getItem('pustakam_user_name') || '';
   });
+  const [tempName, setTempName] = useState<string>('');
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
+  const [certStep, setCertStep] = useState<'input' | 'view'>('input');
 
   useEffect(() => {
     window.localStorage.setItem('pustakam_user_name', userName);
   }, [userName]);
+
+  const openCertModal = () => {
+    const savedName = window.localStorage.getItem('pustakam_user_name') || '';
+    const currentName = savedName || userName || '';
+    setTempName(currentName);
+    if (currentName) {
+      setCertStep('view');
+    } else {
+      setCertStep('input');
+    }
+    setIsCertModalOpen(true);
+  };
+
+  const handleNameSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const finalName = tempName.trim() || 'Learner';
+    setUserName(finalName);
+    window.localStorage.setItem('pustakam_user_name', finalName);
+    setCertStep('view');
+  };
 
   useEffect(() => {
     setFavicon('/favicon_final.svg');
@@ -1303,7 +1325,7 @@ export default function BookReaderPage() {
       completedChapters: book.modules.map((_, index) => index),
       updatedAt: new Date().toISOString(),
     }));
-    setIsCertModalOpen(true);
+    openCertModal();
   };
 
   const printCertificate = (overrideName?: string) => {
@@ -1318,6 +1340,14 @@ export default function BookReaderPage() {
     const issueDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     const certId = 'PK-' + Date.now().toString(36).toUpperCase().slice(-6);
 
+    const isDarkTheme = theme === 'dark';
+    const bg = isDarkTheme ? '#0e0e10' : '#f5f5f3';
+    const surface = isDarkTheme ? '#1c1c1b' : '#ffffff';
+    const ink = isDarkTheme ? '#f0ede8' : '#1a1a1a';
+    const inkMuted = isDarkTheme ? '#999999' : '#666666';
+    const accent = isDarkTheme ? '#e05a35' : '#c8451a';
+    const border = isDarkTheme ? 'rgba(255, 255, 255, 0.08)' : 'rgba(0, 0, 0, 0.09)';
+
     const certificateWindow = window.open('', '_blank');
     if (!certificateWindow) return;
 
@@ -1329,81 +1359,48 @@ export default function BookReaderPage() {
       + `<style>`
       + `@page{size:A4 landscape;margin:0}`
       + `*{box-sizing:border-box;margin:0;padding:0}`
-      + `body{display:grid;place-items:center;min-height:100vh;background:#f5efe6;color:#1a1917;font-family:'Inter',sans-serif;-webkit-print-color-adjust:exact;print-color-adjust:exact}`
-      + `.cert{position:relative;width:min(1100px,96vw);min-height:720px;padding:0;text-align:center;overflow:hidden;background:linear-gradient(145deg,#ffffff 0%,#faf6f0 50%,#f5efe6 100%);border:2px solid rgba(200,69,26,0.3);box-shadow:0 30px 80px rgba(0,0,0,0.08)}`
-      + `.cert-inner{position:relative;z-index:2;padding:52px 76px 44px}`
-      + `.cert::before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse 65% 55% at 50% 30%,rgba(200,69,26,0.04),transparent 70%)}`
-      + `.cert-top-line{position:absolute;top:0;left:8%;right:8%;height:4px;background:linear-gradient(90deg,transparent,#c8451a 30%,#e29d38 50%,#c8451a 70%,transparent);z-index:3}`
-      + `.corner-svg{position:absolute;width:80px;height:80px;z-index:3;opacity:0.65}`
-      + `.corner-tl{top:20px;left:20px}`
-      + `.corner-tr{top:20px;right:20px;transform:scaleX(-1)}`
-      + `.corner-bl{bottom:20px;left:20px;transform:scaleY(-1)}`
-      + `.corner-br{bottom:20px;right:20px;transform:scale(-1)}`
-      + `.corner-svg path{fill:none;stroke:#c8451a;stroke-width:1.5}`
-      + `.cert-border{position:absolute;inset:16px;border:1px solid rgba(200,69,26,0.25);z-index:1;pointer-events:none}`
-      + `.cert-border::after{content:'';position:absolute;inset:6px;border:1px solid rgba(200,69,26,0.12)}`
-      + `.brand{color:#b83b14;font:600 10px/1 'Roboto Mono',monospace;letter-spacing:.35em;text-transform:uppercase}`
-      + `.kicker{margin:28px 0 6px;color:#c8451a;font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.28em;text-transform:uppercase}`
-      + `.main-title{font:400 clamp(44px,5.2vw,66px)/1 'Cormorant Garamond',serif;color:#1a1917;letter-spacing:-.02em}`
-      + `.main-title em{font-style:italic;color:#b83b14}`
-      + `.divider{display:flex;align-items:center;justify-content:center;gap:12px;margin:18px auto;width:240px}`
-      + `.divider-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(200,69,26,0.3),transparent)}`
-      + `.divider-diamond{width:7px;height:7px;background:#c8451a;transform:rotate(45deg);flex-shrink:0}`
-      + `.certify-lead{color:#666;font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.24em;text-transform:uppercase;margin-top:12px}`
-      + `.recipient-name{margin:10px auto 4px;font:700 clamp(38px,4.8vw,56px)/1.1 'Cormorant Garamond',serif;color:#111111;letter-spacing:-.01em;max-width:850px}`
-      + `.recipient-rule{width:160px;height:2px;background:linear-gradient(90deg,transparent,#c8451a,transparent);margin:8px auto 16px}`
-      + `.certify-body{color:#444;font:400 15px/1.6 'Inter',sans-serif;max-width:720px;margin:0 auto}`
-      + `.book-title{max-width:820px;margin:8px auto 22px;font:600 clamp(22px,2.8vw,30px)/1.25 'Cormorant Garamond',serif;color:#b83b14}`
-      + `.seal-wrapper{display:flex;justify-content:center;align-items:center;margin:16px 0 20px}`
-      + `.seal{position:relative;width:74px;height:74px}`
-      + `.seal-ring{position:absolute;inset:0;border:2px solid #c8451a;border-radius:50%}`
-      + `.seal-ring-outer{position:absolute;inset:-7px;border:1px dashed rgba(200,69,26,0.3);border-radius:50%}`
-      + `.seal-check{position:absolute;inset:0;display:grid;place-items:center;font:700 24px 'Inter',sans-serif;color:#c8451a}`
-      + `.seal-glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(200,69,26,0.08),transparent 68%)}`
-      + `.details{display:flex;justify-content:center;gap:36px;margin:18px 0 22px}`
-      + `.details>div{background:rgba(255,255,255,0.7);border:1px solid rgba(200,69,26,0.18);padding:12px 18px;border-radius:4px;min-width:130px}`
-      + `.details span{display:block;color:#777;font:600 9px/1 'Roboto Mono',monospace;letter-spacing:.18em;text-transform:uppercase;margin-bottom:6px}`
-      + `.details strong{display:block;color:#111;font:600 13px/1 'Inter',sans-serif;letter-spacing:.01em}`
-      + `.signature-row{display:flex;justify-content:space-between;align-items:flex-end;max-width:780px;margin:20px auto 0;padding-top:14px;border-top:1px solid rgba(200,69,26,0.15)}`
-      + `.sig-block{text-align:left}`
-      + `.sig-line{display:block;font:600 13px/1 'Cormorant Garamond',serif;color:#111;letter-spacing:.05em;margin-bottom:4px}`
-      + `.sig-label{display:block;font:600 8px/1 'Roboto Mono',monospace;color:#777;letter-spacing:.2em;text-transform:uppercase}`
-      + `.signature-quote{font:italic 13px/1.4 'Cormorant Garamond',serif;color:#666;text-align:right;max-width:340px}`
-      + `.cert-id{position:absolute;bottom:18px;right:28px;color:#888;font:600 9px 'Roboto Mono',monospace;letter-spacing:.15em;z-index:3}`
-      + `.watermark{position:absolute;bottom:18px;left:28px;color:#888;font:700 9px 'Roboto Mono',monospace;letter-spacing:.25em;text-transform:uppercase;z-index:3}`
-      + `@media print{body{background:#ffffff}.cert{width:100vw;min-height:100vh;border-width:0;box-shadow:none}}`
+      + `body{display:grid;place-items:center;min-height:100vh;background:${bg};color:${ink};font-family:'Roboto Mono',monospace;-webkit-print-color-adjust:exact;print-color-adjust:exact}`
+      + `.cert{position:relative;width:min(1100px,96vw);min-height:720px;padding:48px 56px;text-align:center;overflow:hidden;background:${surface};border:1px solid ${border};box-shadow:0 30px 80px rgba(0,0,0,0.15)}`
+      + `.cert-top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid ${border}}`
+      + `.cert-brand{color:${accent};font:700 11px/1 'Roboto Mono',monospace;letter-spacing:.25em;text-transform:uppercase}`
+      + `.cert-badge{display:inline-flex;align-items:center;gap:6px;color:${inkMuted};font:500 10px/1 'Roboto Mono',monospace;letter-spacing:.15em;text-transform:uppercase}`
+      + `.cert-badge-dot{width:6px;height:6px;background:${accent};border-radius:50%}`
+      + `.cert-header{margin:18px 0 28px}`
+      + `.cert-kicker{color:${accent};font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.3em;text-transform:uppercase;margin-bottom:8px}`
+      + `.cert-title{font:400 clamp(42px,5vw,64px)/1 'Cormorant Garamond',serif;color:${ink};letter-spacing:-.02em}`
+      + `.cert-title em{font-style:italic;color:${accent}}`
+      + `.cert-certify-lead{color:${inkMuted};font:600 11px/1 'Roboto Mono',monospace;letter-spacing:.25em;text-transform:uppercase;margin-top:20px}`
+      + `.cert-recipient-name{margin:10px auto 4px;font:700 clamp(36px,4.5vw,52px)/1.1 'Cormorant Garamond',serif;color:${ink};letter-spacing:-.01em;max-width:850px}`
+      + `.cert-recipient-line{width:140px;height:2px;background:${accent};margin:8px auto 18px}`
+      + `.cert-body{color:${inkMuted};font:400 14px/1.6 'Inter',sans-serif;max-width:700px;margin:0 auto}`
+      + `.cert-book-title{max-width:800px;margin:8px auto 26px;font:600 clamp(22px,2.8vw,30px)/1.25 'Cormorant Garamond',serif;color:${accent}}`
+      + `.cert-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:26px 0;padding:18px;background:${bg};border:1px solid ${border};border-radius:4px}`
+      + `.cert-stat-label{display:block;color:${inkMuted};font:600 9px/1 'Roboto Mono',monospace;letter-spacing:.2em;text-transform:uppercase;margin-bottom:6px}`
+      + `.cert-stat-value{display:block;color:${ink};font:600 13px/1 'Inter',sans-serif}`
+      + `.cert-footer{display:flex;justify-content:space-between;align-items:flex-end;margin-top:30px;padding-top:16px;border-top:1px solid ${border}}`
+      + `.cert-sig-line{font:600 13px/1 'Cormorant Garamond',serif;color:${ink};letter-spacing:.05em;margin-bottom:4px}`
+      + `.cert-sig-label{font:600 8px/1 'Roboto Mono',monospace;color:${inkMuted};letter-spacing:.2em;text-transform:uppercase}`
+      + `.cert-id-tag{font:600 9px 'Roboto Mono',monospace;color:${inkMuted};letter-spacing:.15em}`
+      + `@media print{body{background:${surface}}.cert{width:100vw;min-height:100vh;border:0;box-shadow:none}}`
       + `</style></head><body>`
       + `<main class="cert">`
-      + `<div class="cert-top-line"></div>`
-      + `<div class="cert-border"></div>`
-      + `<svg class="corner-svg corner-tl" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>`
-      + `<svg class="corner-svg corner-tr" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>`
-      + `<svg class="corner-svg corner-bl" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>`
-      + `<svg class="corner-svg corner-br" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>`
-      + `<div class="cert-inner">`
-      + `<p class="brand">PUSTAKAM LIBRARY · TANMAYSK.IN</p>`
-      + `<p class="kicker">Official Certificate of Completion</p>`
-      + `<h1 class="main-title">Well <em>read.</em></h1>`
-      + `<div class="divider"><span class="divider-line"></span><span class="divider-diamond"></span><span class="divider-line"></span></div>`
-      + `<p class="certify-lead">THIS CERTIFIES THAT</p>`
-      + `<h2 class="recipient-name">${safeRecipientName}</h2>`
-      + `<div class="recipient-rule"></div>`
-      + `<p class="certify-body">has successfully completed every chapter and mastered the material for</p>`
-      + `<h3 class="book-title">“${safeTitle}”</h3>`
-      + `<div class="seal-wrapper"><div class="seal"><div class="seal-glow"></div><div class="seal-ring-outer"></div><div class="seal-ring"></div><div class="seal-check">✓</div></div></div>`
-      + `<div class="details">`
-      + `<div><span>Chapters</span><strong>${book.modules.length} Completed</strong></div>`
-      + `<div><span>Reading Time</span><strong>${book.readingTimeMins} Minutes</strong></div>`
-      + `<div><span>Words Read</span><strong>${(book.wordCount / 1000).toFixed(1)}K Words</strong></div>`
-      + `<div><span>Issued</span><strong>${issueDate}</strong></div>`
+      + `<div class="cert-top-bar"><span class="cert-brand">PUSTAKAM LIBRARY · TANMAYSK.IN</span><span class="cert-badge"><span class="cert-badge-dot"></span> VERIFIED COMPLETION</span></div>`
+      + `<div class="cert-header"><p class="cert-kicker">OFFICIAL CERTIFICATE</p><h1 class="cert-title">Well <em>read.</em></h1></div>`
+      + `<p class="cert-certify-lead">THIS IS PROUDLY PRESENTED TO</p>`
+      + `<h2 class="cert-recipient-name">${safeRecipientName}</h2>`
+      + `<div class="cert-recipient-line"></div>`
+      + `<p class="cert-body">for successfully completing every chapter and mastering the curriculum of</p>`
+      + `<h3 class="cert-book-title">“${safeTitle}”</h3>`
+      + `<div class="cert-stats-grid">`
+      + `<div><span class="cert-stat-label">CHAPTERS</span><strong class="cert-stat-value">${book.modules.length} / ${book.modules.length} Completed</strong></div>`
+      + `<div><span class="cert-stat-label">READING TIME</span><strong class="cert-stat-value">${book.readingTimeMins} Minutes</strong></div>`
+      + `<div><span class="cert-stat-label">WORDS READ</span><strong class="cert-stat-value">${(book.wordCount / 1000).toFixed(1)}K Words</strong></div>`
+      + `<div><span class="cert-stat-label">DATE ISSUED</span><strong class="cert-stat-value">${issueDate}</strong></div>`
       + `</div>`
-      + `<div class="signature-row">`
-      + `<div class="sig-block"><span class="sig-line">Pustakam Editorial Board</span><span class="sig-label">OFFICIAL VERIFICATION</span></div>`
-      + `<p class="signature-quote">"The more that you read, the more things you will know."</p>`
+      + `<div class="cert-footer">`
+      + `<div><p class="cert-sig-line">Pustakam Editorial Board</p><span class="cert-sig-label">AUTHORIZED VERIFICATION</span></div>`
+      + `<span class="cert-id-tag">ID: ${certId}</span>`
       + `</div>`
-      + `</div>`
-      + `<span class="watermark">PUSTAKAM VERIFIED</span>`
-      + `<span class="cert-id">${certId}</span>`
       + `</main></body></html>`
     );
     certificateWindow.document.close();
@@ -2013,8 +2010,8 @@ export default function BookReaderPage() {
               <div className="reader-completion-actions">
                 {isCourseComplete ? (
                   <>
-                    <button className="btn-primary" onClick={() => setIsCertModalOpen(true)}>
-                      <Award size={15} /> View &amp; Customize Certificate
+                    <button className="btn-primary" onClick={openCertModal}>
+                      <Award size={15} /> View Certificate
                     </button>
                     <button className="btn-secondary" onClick={shareCompletion}>
                       <ExternalLink size={13} /> {copied ? 'Copied' : 'Share completion'}
@@ -2095,101 +2092,114 @@ export default function BookReaderPage() {
       {/* Certificate Customization & Preview Modal */}
       {isCertModalOpen && book && (
         <div className="cert-modal-overlay" onClick={() => setIsCertModalOpen(false)}>
-          <div className="cert-modal-dialog" onClick={(e) => e.stopPropagation()}>
-            <div className="cert-modal-header">
-              <div className="cert-modal-title">
-                <Award size={20} className="cert-modal-icon" />
-                <div>
-                  <h3>Certificate of Completion</h3>
-                  <p>Personalize your name and download your official certificate</p>
-                </div>
+          {certStep === 'input' ? (
+            <div className="cert-modal-dialog cert-modal-dialog--small" onClick={(e) => e.stopPropagation()}>
+              <div className="cert-modal-header">
+                <span className="cert-eyebrow-tag">// PUSTAKAM LIBRARY</span>
+                <button className="cert-modal-close" onClick={() => setIsCertModalOpen(false)} aria-label="Close modal">
+                  <X size={18} />
+                </button>
               </div>
-              <button className="cert-modal-close" onClick={() => setIsCertModalOpen(false)} aria-label="Close modal">
-                <X size={18} />
-              </button>
+              <div className="cert-modal-body cert-modal-body--input">
+                <div className="cert-prompt-icon">
+                  <Award size={28} />
+                </div>
+                <h3>Who is this certificate for?</h3>
+                <p>Enter your full name to generate your official completion certificate.</p>
+                <form onSubmit={handleNameSubmit} className="cert-name-form">
+                  <div className="cert-input-wrapper">
+                    <User size={15} className="cert-input-icon" />
+                    <input
+                      type="text"
+                      className="cert-name-field"
+                      placeholder="e.g. Tanmay Kalbande"
+                      value={tempName}
+                      onChange={(e) => setTempName(e.target.value)}
+                      autoFocus
+                      required
+                    />
+                  </div>
+                  <button type="submit" className="btn-primary cert-generate-btn">
+                    Generate Certificate →
+                  </button>
+                </form>
+              </div>
             </div>
-
-            <div className="cert-modal-body">
-              <div className="cert-top-bar">
-                <div className="cert-input-group">
-                  <label htmlFor="cert-user-name">
-                    <User size={13} /> Certificate Recipient Name
-                  </label>
-                  <input
-                    id="cert-user-name"
-                    type="text"
-                    className="cert-name-input"
-                    placeholder="Enter your name (e.g. Tanmay Kalbande)"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
-                    autoFocus
-                  />
+          ) : (
+            <div className="cert-modal-dialog cert-modal-dialog--view" onClick={(e) => e.stopPropagation()}>
+              <div className="cert-modal-header">
+                <div className="cert-modal-title-group">
+                  <Award size={18} className="cert-modal-icon" />
+                  <h3>Certificate of Completion</h3>
                 </div>
-
-                <div className="cert-modal-actions">
-                  <button className="btn-primary cert-print-btn" onClick={() => printCertificate(userName)}>
-                    <Printer size={15} /> Print / Save PDF
+                <div className="cert-modal-top-actions">
+                  <button className="btn-primary cert-btn-sm" onClick={() => printCertificate(userName)}>
+                    <Printer size={14} /> Print / Save PDF
                   </button>
-                  <button className="btn-secondary cert-share-btn" onClick={shareCompletion}>
-                    <Share2 size={14} /> {copied ? 'Copied' : 'Share'}
+                  <button className="btn-secondary cert-btn-sm" onClick={() => setCertStep('input')}>
+                    <Edit3 size={13} /> Edit Name
+                  </button>
+                  <button className="btn-secondary cert-btn-sm" onClick={shareCompletion}>
+                    <Share2 size={13} /> {copied ? 'Copied' : 'Share'}
+                  </button>
+                  <button className="cert-modal-close" onClick={() => setIsCertModalOpen(false)} aria-label="Close modal">
+                    <X size={18} />
                   </button>
                 </div>
               </div>
 
-              {/* Live Scaled Light Certificate Preview */}
-              <div className="cert-preview-wrapper">
-                <div className="cert-preview-card cert-style-light">
-                  <div className="cert-top-line"></div>
-                  <div className="cert-border"></div>
+              <div className="cert-modal-body cert-modal-body--view">
+                {/* V5 Matched Certificate Card */}
+                <div className="cert-v5-card">
+                  <div className="cert-v5-top">
+                    <span className="cert-v5-brand">PUSTAKAM LIBRARY · TANMAYSK.IN</span>
+                    <span className="cert-v5-badge">
+                      <span className="cert-v5-badge-dot"></span> VERIFIED COMPLETION
+                    </span>
+                  </div>
 
-                  <svg className="corner-svg corner-tl" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>
-                  <svg className="corner-svg corner-tr" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>
-                  <svg className="corner-svg corner-bl" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>
-                  <svg className="corner-svg corner-br" viewBox="0 0 72 72"><path d="M4 68 L4 4 L68 4" /><path d="M4 52 C4 28 28 4 52 4" /><path d="M12 24 L12 12 L24 12" /></svg>
+                  <div className="cert-v5-header">
+                    <p className="cert-v5-kicker">OFFICIAL CERTIFICATE</p>
+                    <h1 className="cert-v5-title">Well <em>read.</em></h1>
+                  </div>
 
-                  <div className="cert-inner">
-                    <p className="brand">PUSTAKAM LIBRARY · TANMAYSK.IN</p>
-                    <p className="kicker">Official Certificate of Completion</p>
-                    <h1 className="main-title">Well <em>read.</em></h1>
-                    <div className="divider"><span class="divider-line"></span><span class="divider-diamond"></span><span class="divider-line"></span></div>
+                  <p className="cert-v5-lead">THIS IS PROUDLY PRESENTED TO</p>
+                  <h2 className="cert-v5-recipient">{userName || 'Learner Name'}</h2>
+                  <div className="cert-v5-line"></div>
 
-                    <p className="certify-lead">THIS CERTIFIES THAT</p>
-                    <h2 className="recipient-name">{userName.trim() || 'Learner Name'}</h2>
-                    <div className="recipient-rule"></div>
-                    <p className="certify-body">has successfully completed every chapter and mastered the material for</p>
-                    <h3 className="book-title">“{book.title}”</h3>
+                  <p className="cert-v5-body">for successfully completing every chapter and mastering the curriculum of</p>
+                  <h3 className="cert-v5-book">“{book.title}”</h3>
 
-                    <div className="seal-wrapper">
-                      <div className="seal">
-                        <div className="seal-glow"></div>
-                        <div className="seal-ring-outer"></div>
-                        <div className="seal-ring"></div>
-                        <div className="seal-check">✓</div>
-                      </div>
+                  <div className="cert-v5-stats">
+                    <div>
+                      <span className="cert-v5-stat-lbl">CHAPTERS</span>
+                      <strong className="cert-v5-stat-val">{book.modules.length} / {book.modules.length} Completed</strong>
                     </div>
-
-                    <div className="details">
-                      <div><span>Chapters</span><strong>{book.modules.length} Completed</strong></div>
-                      <div><span>Reading Time</span><strong>{book.readingTimeMins} Minutes</strong></div>
-                      <div><span>Words Read</span><strong>{(book.wordCount / 1000).toFixed(1)}K Words</strong></div>
-                      <div><span>Issued</span><strong>{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</strong></div>
+                    <div>
+                      <span className="cert-v5-stat-lbl">READING TIME</span>
+                      <strong className="cert-v5-stat-val">{book.readingTimeMins} Minutes</strong>
                     </div>
-
-                    <div className="signature-row">
-                      <div className="sig-block">
-                        <span className="sig-line">Pustakam Editorial Board</span>
-                        <span className="sig-label">OFFICIAL VERIFICATION</span>
-                      </div>
-                      <p className="signature-quote">"The more that you read, the more things you will know."</p>
+                    <div>
+                      <span className="cert-v5-stat-lbl">WORDS READ</span>
+                      <strong className="cert-v5-stat-val">{(book.wordCount / 1000).toFixed(1)}K Words</strong>
+                    </div>
+                    <div>
+                      <span className="cert-v5-stat-lbl">DATE ISSUED</span>
+                      <strong className="cert-v5-stat-val">{new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</strong>
                     </div>
                   </div>
 
-                  <span className="watermark">PUSTAKAM VERIFIED</span>
-                  <span className="cert-id">PK-VERIFIED</span>
+                  <div className="cert-v5-footer">
+                    <div>
+                      <p className="cert-v5-sig-line">Pustakam Editorial Board</p>
+                      <span className="cert-v5-sig-lbl">AUTHORIZED VERIFICATION</span>
+                    </div>
+                    <span className="cert-v5-id">ID: PK-VERIFIED</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
