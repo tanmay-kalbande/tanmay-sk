@@ -97,11 +97,11 @@ function lerp(a: number, b: number, u: number) {
 function lerpColor(a: [number, number, number], b: [number, number, number], u: number) {
   return [0, 1, 2].map((i) => Math.round(lerp(a[i], b[i], u)));
 }
-function heightColor(n: number, near: boolean) {
+function heightColor(n: number) {
   n = Math.max(0, Math.min(1, n));
   const [r, g, b] =
     n < 0.55 ? lerpColor(COL_DEEP, COL_MID, n / 0.55) : lerpColor(COL_MID, COL_PEAK, (n - 0.55) / 0.45);
-  return `rgba(${r},${g},${b},${near ? 1 : 0.85})`;
+  return `rgba(${r},${g},${b},0.92)`;
 }
 function bezier(p0x: number, p0y: number, cx: number, cy: number, p1x: number, p1y: number, s: number) {
   const u = 1 - s;
@@ -215,14 +215,14 @@ export function LibraryHeroVisual() {
       ctx!.fillStyle = "#0e0e10";
       ctx!.fillRect(0, 0, w, h);
 
-      const breathe = 0.5 + 0.5 * Math.sin(t * 120);
+      const breathe = 0.5 + 0.5 * Math.sin(t * 80);
 
       ctx!.save();
-      ctx!.strokeStyle = `rgba(255,255,255,${0.05 + hoverAmt * 0.02})`;
+      ctx!.strokeStyle = `rgba(255,255,255,${0.06 + hoverAmt * 0.02})`;
       ctx!.lineWidth = 1;
       const gap = 24;
       const shear = h * 0.32;
-      const streakOffset = (t * 900) % gap;
+      const streakOffset = (t * 600) % gap;
       for (let x = -h - gap; x < w + h; x += gap) {
         const sx = x + streakOffset;
         ctx!.beginPath();
@@ -232,7 +232,7 @@ export function LibraryHeroVisual() {
       }
       ctx!.restore();
 
-      t += 0.00022 + hoverAmt * 0.00035;
+      t += 0.00018 + hoverAmt * 0.00028;
 
       const ambientTiltX = Math.sin(t * 42) * 0.05;
       const ambientTiltY = Math.cos(t * 35) * 0.05;
@@ -276,10 +276,9 @@ export function LibraryHeroVisual() {
           else ctx!.lineTo(p.x, p.y);
         }
         avg /= COLS;
-        const near = r / (ROWS - 1);
-        ctx!.strokeStyle = heightColor(avg / 1.1, near > 0.55);
-        ctx!.lineWidth = near > 0.55 ? 1.3 : 1;
-        ctx!.globalAlpha = 0.5 + near * 0.5;
+        ctx!.strokeStyle = heightColor(avg / 1.1);
+        ctx!.lineWidth = 1.1;
+        ctx!.globalAlpha = 1;
         ctx!.stroke();
       }
       ctx!.globalAlpha = 1;
