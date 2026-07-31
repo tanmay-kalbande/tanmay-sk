@@ -3999,15 +3999,15 @@ html[data-theme="light"] .lib-card-new-badge {
 .lib-card-cover {
   position: relative;
   display: flex;
-  height: 104px;
+  height: 52px;
   align-items: flex-end;
   justify-content: space-between;
   overflow: hidden;
   margin: -1px -1px 15px;
-  padding: 12px;
+  padding: 8px 12px;
   background: linear-gradient(135deg, #76351f, #241712);
   border: 1px solid rgba(255, 255, 255, .08);
-  box-shadow: inset 0 -28px 42px rgba(0, 0, 0, .18);
+  box-shadow: inset 0 -16px 24px rgba(0, 0, 0, .18);
 }
 
 .lib-card-cover::before {
@@ -4144,9 +4144,9 @@ html[data-theme="light"] .lib-card-new-badge {
 /* A fixed cover hierarchy prevents metadata, initials, and reading time from colliding. */
 .lib-card-cover {
   display: block;
-  height: 132px;
+  height: 66px;
   margin: -20px -20px 17px;
-  padding: 14px 16px;
+  padding: 10px 16px;
 }
 
 .lib-card-cover span {
@@ -4190,7 +4190,7 @@ html[data-theme="light"] .lib-card-new-badge {
   }
 
   .lib-card-cover {
-    height: 118px;
+    height: 56px;
   }
 }
 
@@ -4433,8 +4433,8 @@ html[data-theme="light"] .lib-card-new-badge {
 }
 
 .lib-card {
-  min-height: 382px;
-  padding: 20px;
+  min-height: 190px;
+  padding: 16px;
   overflow: hidden;
   background: var(--surface);
   border: 1px solid var(--border);
@@ -4448,10 +4448,12 @@ html[data-theme="light"] .lib-card-new-badge {
 }
 
 .lib-card-cover {
-  height: 150px;
-  margin: -20px -20px 20px;
+  height: 70px;
+  margin: -16px -16px 16px;
   border: 0;
   border-bottom: 1px solid rgba(255, 255, 255, .09);
+  border-radius: 3px 3px 0 0;
+  overflow: hidden;
 }
 
 .lib-card-cover strong {
@@ -4459,8 +4461,8 @@ html[data-theme="light"] .lib-card-new-badge {
 }
 
 .lib-card-title {
-  font-size: 1.34rem;
-  line-height: 1.1;
+  font-size: 1.1rem;
+  line-height: 1.15;
 }
 
 .lib-card-meta {
