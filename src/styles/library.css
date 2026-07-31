@@ -374,7 +374,7 @@ html[data-theme="light"] .lib-nav-brand span {
 .lib-category-list {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 4px;
 }
 
 .lib-sidebar-cat-btn {
@@ -382,54 +382,32 @@ html[data-theme="light"] .lib-nav-brand span {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 7px 10px 7px 12px;
+  padding: 8px 12px;
   font-family: var(--f-mono);
   font-size: 0.6rem;
   font-weight: 400;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-2);
-  background: transparent;
-  border: none;
-  border-left: 2px solid transparent;
-  border-radius: 0;
+  background: var(--surface-2);
+  border: 1px solid transparent;
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.15s ease;
   text-align: left;
   position: relative;
 }
 
-.lib-sidebar-cat-btn > span:first-child::before {
-  content: '';
-  display: inline-block;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--ink-3);
-  margin-right: 8px;
-  vertical-align: middle;
-  opacity: 0.5;
-}
-
 .lib-sidebar-cat-btn:hover {
   color: var(--ink);
-  background: rgba(0, 0, 0, 0.02);
-}
-
-html[data-theme="dark"] .lib-sidebar-cat-btn:hover {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--border-s);
 }
 
 .lib-sidebar-cat-btn.active {
   color: var(--ink);
   font-weight: 700;
-  border-left-color: var(--accent);
-  background: transparent;
-}
-
-.lib-sidebar-cat-btn.active > span:first-child::before {
-  background: var(--accent);
-  opacity: 1;
+  background: var(--surface);
+  border: 1px solid var(--ink);
 }
 
 .lib-sidebar-cat-count {
@@ -830,7 +808,7 @@ html[data-theme="light"] .lib-hero {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 18px 20px 14px;
+  padding: 12px 14px 10px;
   background: var(--surface);
   border-radius: 0;
   text-decoration: none;
@@ -893,7 +871,7 @@ html[data-theme="light"] .lib-card-badge--advanced .lib-card-dot { background: #
   font-weight: 500;
   line-height: 1.25;
   color: var(--ink);
-  margin: 6px 0 16px;
+  margin: 4px 0 10px;
 }
 
 .lib-card-stats {
@@ -903,7 +881,7 @@ html[data-theme="light"] .lib-card-badge--advanced .lib-card-dot { background: #
   font-family: var(--f-mono);
   font-size: 0.6rem;
   color: var(--ink-3);
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   flex-wrap: wrap;
   letter-spacing: 0.02em;
 }
