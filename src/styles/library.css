@@ -5282,7 +5282,8 @@ html[data-theme="light"] .lib-card-new-badge {
   display: block;
   width: 100%;
   max-height: calc(100vh - 90px);
-  padding: 0 14px 0 0;
+  /* 2px left padding ensures the left border of active buttons is never clipped */
+  padding: 4px 14px 0 2px;
   overflow-y: auto;
   background: transparent;
   border: 0;
@@ -5340,7 +5341,8 @@ html[data-theme="light"] .lib-card-new-badge {
 
 .lib-main {
   width: 100%;
-  padding-top: 0;
+  /* Small top padding so the first row of card borders is never clipped */
+  padding-top: 4px;
 }
 
 /* Refined version of the reading visual: editorial, precise, and intentionally quiet. */
