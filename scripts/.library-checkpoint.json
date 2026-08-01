@@ -1480,7 +1480,6 @@
     "learn-to-drive-a-manual-car-beginners-stepbystep-g",
     "learn-to-mix-and-master-professional-podcasts",
     "learn-to-play-keyboard-for-beginners-a-stepbystep",
-    "portuguese-conversation-basics-for-beginners-begin",
     "advanced-jazz-improvisation-techniques-for-saxopho",
     "how-to-install-a-water-heater-intermediate",
     "advanced-chess-openings-and-gambits-advanced",
@@ -1490,7 +1489,30 @@
     "how-to-survive-in-the-wilderness-intermediate",
     "learn-to-surf-for-absolute-beginners-beginner",
     "learn-to-swim-for-adults-beginners-beginner",
-    "learn-basic-yoga-for-seniors-beginner"
+    "learn-basic-yoga-for-seniors-beginner",
+    "advanced-b2b-sales-closing-techniques",
+    "advanced-jazz-saxophone-improvisation-techniques",
+    "how-adults-can-learn-to-swim-a-beginners-stepbyste",
+    "how-to-install-a-water-heater-stepbystep-guide",
+    "how-to-start-a-beehive-at-home-for-beginners",
+    "how-to-surf-a-complete-beginners-guide-to-surfing",
+    "intermediate-vinyasa-flow-yoga-sequences-mastery",
+    "wilderness-survival-skills-master-the-essentials",
+    "yoga-for-seniors-a-beginners-guide-to-gentle-movem",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "advanced-face-yoga-for-natural-lifting-advanced",
+    "learn-to-meditate-for-sleep-and-insomnia-beginner",
+    "learn-basic-wing-chun-for-self-defense-beginner",
+    "how-to-start-capoeira-for-beginners-beginner",
+    "intermediate-judo-throwing-techniques-intermediate",
+    "learn-to-identify-moon-phases-and-craters-beginner",
+    "learn-to-write-a-captivating-short-story-beginner",
+    "advanced-plot-twisting-techniques-for-novelists-ad",
+    "iphone-photography-tips-for-beginners-beginner",
+    "how-to-take-professional-headshots-at-home-interme",
+    "learn-how-to-pickle-vegetables-at-home-beginner",
+    "learn-basic-cabinetry-for-beginners-beginner",
+    "beginners-guide-to-changing-spark-plugs-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2100,8 +2122,10 @@
     "how-to-create-digital-stickers-for-goodnotes-begin",
     "how-to-start-windsurfing-for-beginners-beginner",
     "advanced-zen-meditation-practices-advanced",
-    "how-to-use-obsidian-for-knowledge-management-begin"
+    "how-to-use-obsidian-for-knowledge-management-begin",
+    "how-to-stop-panic-attacks-fast-beginner",
+    "advanced-solar-system-observation-techniques-advan"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-01T09:02:58.551Z"
+  "lastUpdated": "2026-08-01T11:30:37.341Z"
 }
