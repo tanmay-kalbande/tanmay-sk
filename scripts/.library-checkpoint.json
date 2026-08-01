@@ -1499,7 +1499,6 @@
     "intermediate-vinyasa-flow-yoga-sequences-mastery",
     "wilderness-survival-skills-master-the-essentials",
     "yoga-for-seniors-a-beginners-guide-to-gentle-movem",
-    "portuguese-conversation-basics-for-beginners-begin",
     "advanced-face-yoga-for-natural-lifting-advanced",
     "learn-to-meditate-for-sleep-and-insomnia-beginner",
     "learn-basic-wing-chun-for-self-defense-beginner",
@@ -1512,7 +1511,31 @@
     "how-to-take-professional-headshots-at-home-interme",
     "learn-how-to-pickle-vegetables-at-home-beginner",
     "learn-basic-cabinetry-for-beginners-beginner",
-    "beginners-guide-to-changing-spark-plugs-beginner"
+    "beginners-guide-to-changing-spark-plugs-beginner",
+    "advanced-face-yoga-for-natural-lifting",
+    "advanced-plot-twisting-techniques-for-novelists",
+    "beginners-guide-to-iphone-photography-tips-tricks",
+    "how-to-change-spark-plugs-beginners-stepbystep-gui",
+    "how-to-start-capoeira-beginner-stepbystep-guide",
+    "how-to-take-professional-headshots-at-home",
+    "identify-moon-phases-major-craters-beginner-guide",
+    "intermediate-judo-throwing-techniques-mastery-guid",
+    "learn-basic-cabinetry-for-beginners-stepbystep-gui",
+    "learn-basic-wing-chun-for-self-defense-beginners-g",
+    "learn-to-pickle-vegetables-at-home",
+    "learn-to-write-a-captivating-short-story",
+    "meditation-for-sleep-and-insomnia-a-beginners-guid",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "learn-to-draw-for-absolute-beginners-beginner",
+    "how-to-start-a-garden-in-pots-beginner",
+    "how-to-start-meal-prepping-for-beginners-beginner",
+    "how-to-use-mondaycom-for-beginners-beginner",
+    "how-to-use-clickup-for-beginners-beginner",
+    "advanced-synthesis-in-serum-for-producers-advanced",
+    "learn-to-use-miro-for-brainstorming-beginner",
+    "how-to-use-zoom-for-business-beginners-beginner",
+    "how-to-learn-turkish-for-beginners-beginner",
+    "how-to-use-discord-for-community-management-beginn"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2124,8 +2147,9 @@
     "advanced-zen-meditation-practices-advanced",
     "how-to-use-obsidian-for-knowledge-management-begin",
     "how-to-stop-panic-attacks-fast-beginner",
-    "advanced-solar-system-observation-techniques-advan"
+    "advanced-solar-system-observation-techniques-advan",
+    "learn-to-use-obsidian-for-knowledge-management-beg"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-01T11:30:37.341Z"
+  "lastUpdated": "2026-08-01T14:02:59.016Z"
 }
