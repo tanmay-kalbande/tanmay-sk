@@ -310,6 +310,7 @@ html[data-theme="light"] .lib-nav-brand span {
   flex: 1;
   position: relative;
   z-index: 1;
+  overflow: visible;
 }
 
 /* ── Left Sidebar (Sticky) ─────────────────────────────────────────────────── */
@@ -320,6 +321,7 @@ html[data-theme="light"] .lib-nav-brand span {
   height: calc(100vh - 52px);
   padding: 32px 24px;
   border-right: 1px solid var(--border);
+  border-left: 1px solid var(--border);
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
@@ -810,7 +812,9 @@ html[data-theme="light"] .lib-hero {
   background: var(--border);
   border: 1px solid var(--border);
   border-radius: 2px;
-  overflow: hidden;
+  overflow: visible;
+  /* Prevent top border from being clipped by sort controls */
+  margin-top: 1px;
 }
 
 /* ── Book Cards — Pustakam Editorial Style ─────────────────────────────────── */
@@ -1786,6 +1790,25 @@ html[data-theme="light"] .reader-header::after {
   border-radius: 2px;
 }
 
+/* lib-tag — for inline book tags in reader header (e.g. clay ceramics) */
+.lib-tag {
+  font-family: var(--f-mono);
+  font-size: 0.47rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding: 3px 9px;
+  border: 1px dashed var(--border);
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+html[data-theme="light"] .lib-tag {
+  color: #555555;
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
 .reader-edition-tag {
   font-family: var(--f-mono);
   font-size: 0.47rem;
@@ -1832,15 +1855,15 @@ html[data-theme="light"] .reader-title {
 
 .reader-goal {
   position: relative;
-  font-family: var(--f-body);
-  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
   color: var(--ink-2);
-  line-height: 1.65;
+  line-height: 1.75;
   margin: 0 0 28px;
   max-width: 720px;
   z-index: 1;
-  font-style: italic;
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 /* Glassmorphic Stats bar */
