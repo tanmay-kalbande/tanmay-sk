@@ -1808,7 +1808,6 @@
     "master-autotune-melodyne-intermediate-guide",
     "mastering-zendesk-beginner-guide-to-customer-suppo",
     "ski-cross-mastery-a-guide-for-intermediate-skiers",
-    "portuguese-conversation-basics-for-beginners-begin",
     "advanced-hydroponic-nutrient-mixing-for-high-yield",
     "how-to-start-a-pollinator-garden-for-bees-beginner",
     "learn-to-make-a-wooden-cutting-board-beginner",
@@ -1819,7 +1818,24 @@
     "how-to-solder-copper-pipes-for-beginners-intermedi",
     "advanced-leather-tooling-and-carving-techniques-ad",
     "how-to-make-a-dreamcatcher-for-beginners-beginner",
-    "how-to-make-natural-lip-balm-beginner"
+    "how-to-make-natural-lip-balm-beginner",
+    "advanced-handcarving-techniques-for-woodworkers",
+    "advanced-leather-tooling-carving-mastery",
+    "beginners-guide-to-changing-car-oil",
+    "how-to-fix-a-car-radiator-leak-stepbystep-guide",
+    "how-to-make-a-dreamcatcher-a-beginners-stepbystep",
+    "how-to-make-a-wooden-cutting-board-beginner-guide",
+    "how-to-solder-copper-pipes-like-a-pro-beginner-to",
+    "how-to-start-a-pollinator-garden-for-bees-a-beginn",
+    "learn-wood-router-basics-for-beginners",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-build-a-wooden-garden-planter-beginner",
+    "advanced-plumbing-pipe-fitting-techniques-advanced",
+    "how-to-make-your-own-pottery-glaze-intermediate",
+    "learn-to-throw-pots-on-a-wheel-beginner",
+    "learn-to-weld-with-a-mig-welder-beginner",
+    "how-to-make-a-homemade-pizza-oven-intermediate",
+    "learn-to-make-homemade-jam-and-jelly-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2457,5 +2473,5 @@
     "advanced-swimming-techniques-for-competitive-athle"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-03T20:26:34.440Z"
+  "lastUpdated": "2026-08-03T22:32:25.414Z"
 }
