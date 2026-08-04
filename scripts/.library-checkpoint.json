@@ -1920,7 +1920,6 @@
     "learn-how-to-learn-indonesian-for-beginners-a-comp",
     "learn-to-tie-sailing-knots-beginners-guide-to-esse",
     "professional-cake-baking-mastery-from-scratch",
-    "portuguese-conversation-basics-for-beginners-begin",
     "learn-to-paint-with-acrylics-for-beginners-beginne",
     "how-to-build-a-workbench-for-your-garage-beginner",
     "how-to-repair-a-drywall-ceiling-for-beginners-begi",
@@ -1930,7 +1929,24 @@
     "how-to-start-skateboarding-for-beginners-beginner",
     "learn-to-play-volleyball-for-beginners-beginner",
     "how-to-use-trello-for-personal-productivity-beginn",
-    "advanced-telescope-techniques-for-deep-space-advan"
+    "advanced-telescope-techniques-for-deep-space-advan",
+    "advanced-deep-space-astrophotography-and-observati",
+    "advanced-engine-rebuilding-precision-machining-and",
+    "how-to-build-a-garage-workbench-a-beginners-guide",
+    "how-to-diagnose-and-replace-a-car-fuel-pump",
+    "how-to-repair-a-drywall-ceiling-for-beginners",
+    "how-to-start-skateboarding-for-beginners",
+    "how-to-use-trello-for-personal-productivity",
+    "learn-to-play-volleyball-beginners-guide-to-master",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "beginners-guide-to-home-workout-beginner",
+    "how-to-make-natural-skincare-products-at-home-begi",
+    "how-to-carve-wood-for-beginners-beginner",
+    "how-to-restore-old-furniture-for-beginners-beginne",
+    "how-to-start-a-flower-garden-for-beginners-beginne",
+    "advanced-surfboard-shaping-and-repair-advanced",
+    "learn-to-speak-portuguese-for-beginners-beginner",
+    "learn-how-to-paint-with-watercolors-for-beginners"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2572,5 +2588,5 @@
     "intermediate-guide-to-acrylic-pouring-art-intermed"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-04T17:20:08.676Z"
+  "lastUpdated": "2026-08-04T20:07:58.542Z"
 }
