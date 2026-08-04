@@ -1869,7 +1869,6 @@
     "advanced-taekwondo-sparring-elite-strategy-and-tec",
     "beginners-guide-to-stock-trading-stepbystep-basics",
     "wire-jewelry-making-for-beginners-a-stepbystep-gui",
-    "portuguese-conversation-basics-for-beginners-begin",
     "beginners-guide-to-bird-watching-beginner",
     "learn-basic-house-wiring-for-beginners-beginner",
     "advanced-sourdough-hydration-and-crumb-control-adv",
@@ -1878,7 +1877,24 @@
     "how-to-solder-electrical-wires-for-beginners-begin",
     "how-to-tune-a-car-engine-for-performance-advanced",
     "how-to-create-3d-models-in-zbrush-intermediate",
-    "how-to-learn-persian-for-beginners-beginner"
+    "how-to-learn-persian-for-beginners-beginner",
+    "advanced-sourdough-hydration-and-crumb-control",
+    "birdwatching-for-beginners-stepbystep-guide",
+    "how-to-build-a-wooden-deck-beginner-stepbystep-gui",
+    "how-to-solder-electrical-wires-a-complete-beginner",
+    "learn-persian-fast-beginners-stepbystep-guide",
+    "zbrush-3d-modeling-mastery-an-intermediate-guide",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "advanced-seo-for-ecommerce-websites-advanced",
+    "advanced-hvac-ductwork-design-and-installation-adv",
+    "how-to-carve-a-wooden-spoon-beginner",
+    "intermediate-guide-to-tempering-chocolate-intermed",
+    "advanced-brake-caliper-rebuilding-guide-advanced",
+    "advanced-tile-grouting-and-sealing-techniques-adva",
+    "advanced-soil-nutrient-testing-and-correction-adva",
+    "intermediate-guide-to-wood-staining-and-finishing",
+    "intermediate-guide-to-car-suspension-tuning-interm",
+    "advanced-jira-workflows-for-project-managers-advan"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2514,8 +2530,9 @@
     "how-to-use-chatgpt-for-productivity-beginner",
     "beginners-guide-to-playing-rugby-beginner",
     "advanced-swimming-techniques-for-competitive-athle",
-    "learn-how-to-tile-a-shower-wall-intermediate"
+    "learn-how-to-tile-a-shower-wall-intermediate",
+    "advanced-knife-skills-for-professional-chefs-advan"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-04T09:08:45.053Z"
+  "lastUpdated": "2026-08-04T11:57:30.021Z"
 }
