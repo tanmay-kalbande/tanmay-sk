@@ -96,6 +96,7 @@ export const technicalSummary = [
   "Built an ETL pipeline that cut manual entry errors by 40% and saved 10+ hours per week.",
   "Created 8+ Power BI dashboards across 3 units, delivering real-time KPI visibility.",
   "Developed K-Means segmentation and Tableau dashboards for stakeholder-ready insights.",
+  "Published the Pustakam Educational Corpus on HuggingFace — 1,091 AI-generated books, 23.7M words, 8 LLMs, built for NLP and model-comparison research (CC-BY-4.0).",
   "Open to relocate anywhere in India.",
 ] as const;
 
@@ -197,6 +198,32 @@ export const professionalProjects = [
 ] as const;
 
 export const personalProjects = [
+  {
+    id: "project_hf_dataset",
+    label: "Pustakam Edu Corpus [HuggingFace]",
+    icon: "fas fa-database",
+    description:
+      "Published a large-scale synthetic educational corpus on HuggingFace: 1,091 AI-generated books, 23.7M+ words across 70 categories, comparing 8 LLMs on structured educational content generation.",
+    features: [
+      "1,091 books · 23.7M words · 10,892 chapters",
+      "8 LLMs compared (GLM-5.2, Mistral, GPT-OSS-120B, Gemma-4-31B…)",
+      "Rich metadata: Flesch-Kincaid, Type-Token Ratio, model provenance",
+      "3 configs: book_metadata · chapters · books_full (Parquet)",
+      "CC-BY-4.0 licensed · Open for NLP & readability research",
+    ],
+    links: [
+      {
+        label: "HuggingFace Dataset",
+        href: "https://huggingface.co/datasets/tanmay-kalbande/pustakam-edu-corpus",
+        icon: "fas fa-database",
+      },
+      {
+        label: "GitHub",
+        href: "https://github.com/tanmay-kalbande",
+        icon: "fab fa-github",
+      },
+    ],
+  },
   {
     id: "project0",
     label: "Pustakam AI [Flagship]",
