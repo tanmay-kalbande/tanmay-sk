@@ -1903,7 +1903,6 @@
     "intermediate-car-suspension-tuning-guide",
     "intermediate-guide-to-tempering-chocolate",
     "intermediate-wood-staining-and-finishing-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "advanced-strategies-for-winning-at-chess-advanced",
     "how-to-tie-knots-for-sailing-beginners-beginner",
     "how-to-bake-a-professional-cake-from-scratch-inter",
@@ -1913,7 +1912,25 @@
     "learn-how-to-learn-indonesian-for-beginners-beginn",
     "beginners-guide-to-paddleboarding-and-sup-beginner",
     "learn-how-to-use-cinema-4d-for-beginners-beginner",
-    "learn-how-to-play-the-oboe-for-beginners-beginner"
+    "learn-how-to-play-the-oboe-for-beginners-beginner",
+    "advanced-kitesurfing-mastery-of-freestyle-big-air",
+    "how-to-play-the-oboe-a-complete-beginners-guide",
+    "how-to-use-audacity-for-audio-editing-a-beginners",
+    "learn-cinema-4d-beginners-stepbystep-guide",
+    "learn-how-to-learn-indonesian-for-beginners-a-comp",
+    "learn-to-tie-sailing-knots-beginners-guide-to-esse",
+    "professional-cake-baking-mastery-from-scratch",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "learn-to-paint-with-acrylics-for-beginners-beginne",
+    "how-to-build-a-workbench-for-your-garage-beginner",
+    "how-to-repair-a-drywall-ceiling-for-beginners-begi",
+    "advanced-pastry-techniques-for-professional-bakers",
+    "how-to-fix-a-car-fuel-pump-intermediate",
+    "advanced-engine-rebuilding-for-beginners-advanced",
+    "how-to-start-skateboarding-for-beginners-beginner",
+    "learn-to-play-volleyball-for-beginners-beginner",
+    "how-to-use-trello-for-personal-productivity-beginn",
+    "advanced-telescope-techniques-for-deep-space-advan"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2555,5 +2572,5 @@
     "intermediate-guide-to-acrylic-pouring-art-intermed"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-04T14:50:40.530Z"
+  "lastUpdated": "2026-08-04T17:20:08.676Z"
 }
