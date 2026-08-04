@@ -184,6 +184,8 @@ export default function LandingPage() {
                   <div className="lv5-vr" />
                   <AnimStat target={8} suffix="+" label="DASHBOARDS" />
                   <div className="lv5-vr" />
+                  <AnimStat target={23} suffix="M+" label="WORDS CORPUS" />
+                  <div className="lv5-vr" />
                   <div className="lv5-stat lv5-stat--role">
                     <span className="lv5-stat__n">{role.company}</span>
                     <span className="lv5-stat__l">SINCE {role.duration.split(" ")[1]}</span>
@@ -205,6 +207,16 @@ export default function LandingPage() {
                       <i className={l.icon} />
                     </a>
                   ))}
+                  <a
+                    href="https://huggingface.co/datasets/tanmay-kalbande/pustakam-edu-corpus"
+                    className="lv5-social"
+                    aria-label="HuggingFace Dataset"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="Pustakam Educational Corpus on HuggingFace"
+                  >
+                    🤗
+                  </a>
                 </motion.div>
               </motion.div>
             ) : (
