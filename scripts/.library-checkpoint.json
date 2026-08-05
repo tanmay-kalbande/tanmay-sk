@@ -1960,7 +1960,6 @@
     "beginners-guide-to-kayaking-and-canoeing-learn-bas",
     "beginners-guide-to-owning-a-hamster-everything-you",
     "how-to-start-a-jewelry-business-stepbystep-guide-f",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-do-water-coloring-for-beginners-beginner",
     "how-to-start-a-terrarium-for-beginners-beginner",
     "advanced-chess-openings-and-strategies-advanced",
@@ -1968,7 +1967,17 @@
     "learn-thai-language-for-beginners-beginner",
     "learn-to-play-pickleball-for-beginners-beginner",
     "advanced-tennis-footwork-and-movement-drills-advan",
-    "beginners-guide-to-paddleboarding-sup-beginner"
+    "beginners-guide-to-paddleboarding-sup-beginner",
+    "advanced-tennis-footwork-and-movement-mastery-guid",
+    "c-for-beginners-a-comprehensive-stepbystep-guide",
+    "how-to-play-pickleball-a-complete-beginners-guide",
+    "how-to-start-a-terrarium-a-stepbystep-beginners-gu",
+    "learn-thai-language-for-beginners-stepbystep-guide",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-read-a-telescope-for-beginners-beginner",
+    "how-to-make-your-own-soap-beginner",
+    "learn-to-play-racquetball-for-beginners-beginner",
+    "how-to-use-obsidian-for-personal-knowledge-managem"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2608,8 +2617,10 @@
     "advanced-knife-skills-for-professional-chefs-advan",
     "how-to-do-a-headstand-for-beginners-beginner",
     "intermediate-guide-to-acrylic-pouring-art-intermed",
-    "how-to-learn-to-code-for-free-beginner"
+    "how-to-learn-to-code-for-free-beginner",
+    "learn-adobe-xd-for-ui-ux-beginners-beginner",
+    "advanced-sketch-for-macos-ui-design-advanced"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-05T03:07:02.430Z"
+  "lastUpdated": "2026-08-05T06:04:32.647Z"
 }
