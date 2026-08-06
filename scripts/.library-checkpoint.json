@@ -2104,9 +2104,18 @@
     "how-to-record-professional-vocals-at-home-a-beginn",
     "how-to-start-a-candle-business-beginners-stepbyste",
     "intermediate-kayaking-skills-and-safety-mastery",
-    "portuguese-conversation-basics-for-beginners-begin",
     "beginners-guide-to-personal-finance-beginner",
-    "how-to-learn-c-for-beginners-beginner"
+    "c-for-beginners-a-complete-stepbystep-guide",
+    "personal-finance-basics-a-beginners-guide-to-money",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "beginners-guide-to-organic-composting-beginner",
+    "how-to-learn-to-code-in-python-beginner",
+    "master-the-art-of-french-macarons-advanced",
+    "how-to-build-a-wooden-pergola-advanced",
+    "learn-how-to-roast-a-whole-chicken-beginner",
+    "how-to-make-authentic-thai-curry-intermediate",
+    "learn-how-to-compost-at-home-beginner",
+    "advanced-zbrush-sculpting-for-game-assets-advanced"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2756,5 +2765,5 @@
     "advanced-cpr-and-aed-training-guide-advanced"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-06T06:04:39.493Z"
+  "lastUpdated": "2026-08-06T09:06:38.987Z"
 }
