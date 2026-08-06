@@ -2121,7 +2121,6 @@
     "master-french-macarons-advanced-techniques-perfect",
     "mastering-authentic-thai-curry-from-paste-to-plate",
     "organic-composting-for-beginners-stepbystep-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-make-homemade-candles-for-beginners-beginne",
     "how-to-use-sketchup-for-beginners-beginner",
     "intermediate-turkish-language-for-beginners-interm",
@@ -2129,7 +2128,19 @@
     "intermediate-skiing-techniques-for-slopes-intermed",
     "advanced-pilates-for-core-strength-advanced",
     "how-to-start-a-workout-plan-for-beginners-beginner",
-    "how-to-start-a-collection-of-vintage-watches-inter"
+    "how-to-start-a-collection-of-vintage-watches-inter",
+    "advanced-pilates-for-core-strength-masterclass-roa",
+    "how-to-make-homemade-candles-beginner-stepbystep-g",
+    "how-to-start-a-vintage-watch-collection-beginner-t",
+    "how-to-start-a-workout-plan-for-beginners",
+    "intermediate-soccer-skills-and-drills-master-the-g",
+    "learn-sketchup-fast-a-complete-beginners-guide",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-start-a-collection-of-comic-books-beginner",
+    "how-to-start-a-garden-on-a-balcony-beginner",
+    "learn-microsoft-powerpoint-for-beginners-beginner",
+    "learn-to-use-slack-for-teams-beginner",
+    "beginners-guide-to-playing-the-accordion-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2779,5 +2790,5 @@
     "advanced-cpr-and-aed-training-guide-advanced"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-06T11:45:47.763Z"
+  "lastUpdated": "2026-08-06T14:42:42.088Z"
 }
