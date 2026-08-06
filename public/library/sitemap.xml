@@ -6,6 +6,18 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/c-for-beginners-a-complete-stepbystep-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-08-06</lastmod>
+  </url>
+  <url>
+    <loc>https://tanmaysk.in/library/book/personal-finance-basics-a-beginners-guide-to-money</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-08-06</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/intermediate-kayaking-skills-and-safety-mastery</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
