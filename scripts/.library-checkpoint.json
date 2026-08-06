@@ -2107,7 +2107,6 @@
     "beginners-guide-to-personal-finance-beginner",
     "c-for-beginners-a-complete-stepbystep-guide",
     "personal-finance-basics-a-beginners-guide-to-money",
-    "portuguese-conversation-basics-for-beginners-begin",
     "beginners-guide-to-organic-composting-beginner",
     "how-to-learn-to-code-in-python-beginner",
     "master-the-art-of-french-macarons-advanced",
@@ -2115,7 +2114,22 @@
     "learn-how-to-roast-a-whole-chicken-beginner",
     "how-to-make-authentic-thai-curry-intermediate",
     "learn-how-to-compost-at-home-beginner",
-    "advanced-zbrush-sculpting-for-game-assets-advanced"
+    "advanced-zbrush-sculpting-for-game-assets-advanced",
+    "advanced-guide-to-engineering-and-building-custom",
+    "advanced-zbrush-sculpting-for-game-assets",
+    "how-to-roast-a-whole-chicken-a-beginners-stepbyste",
+    "master-french-macarons-advanced-techniques-perfect",
+    "mastering-authentic-thai-curry-from-paste-to-plate",
+    "organic-composting-for-beginners-stepbystep-guide",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-make-homemade-candles-for-beginners-beginne",
+    "how-to-use-sketchup-for-beginners-beginner",
+    "intermediate-turkish-language-for-beginners-interm",
+    "intermediate-soccer-skills-and-drills-intermediate",
+    "intermediate-skiing-techniques-for-slopes-intermed",
+    "advanced-pilates-for-core-strength-advanced",
+    "how-to-start-a-workout-plan-for-beginners-beginner",
+    "how-to-start-a-collection-of-vintage-watches-inter"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2765,5 +2779,5 @@
     "advanced-cpr-and-aed-training-guide-advanced"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-06T09:06:38.987Z"
+  "lastUpdated": "2026-08-06T11:45:47.763Z"
 }
