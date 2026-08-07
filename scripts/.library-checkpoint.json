@@ -2163,7 +2163,6 @@
     "advanced-wordpress-security-and-optimization-maste",
     "how-to-start-a-spice-garden-a-beginners-guide",
     "learn-how-to-kayak-a-beginners-guide-to-getting-st",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-start-a-koi-pond-for-beginners-beginner",
     "how-to-do-charcoal-sketching-for-beginners-beginne",
     "learn-to-play-the-bagpipes-for-beginners-beginner",
@@ -2172,7 +2171,25 @@
     "how-to-grow-peppers-for-beginners-beginner",
     "learn-conversational-portuguese-for-beginners-begi",
     "advanced-zbrush-sculpting-for-organic-characters-a",
-    "learn-how-to-use-revit-for-architecture-intermedia"
+    "learn-how-to-use-revit-for-architecture-intermedia",
+    "acrylic-pouring-for-beginners-a-stepbystep-guide",
+    "advanced-zbrush-sculpting-for-organic-characters",
+    "beginners-guide-to-learning-sitar-stepbystep-basic",
+    "charcoal-sketching-for-beginners-a-complete-stepby",
+    "how-to-grow-peppers-step-by-step-for-beginners",
+    "how-to-start-a-koi-pond-for-beginners",
+    "learn-revit-for-architecture-from-basics-to-profes",
+    "learn-to-play-the-bagpipes-beginners-stepbystep-gu",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "advanced-guide-to-organic-farming-advanced",
+    "intermediate-piano-chords-and-progression-mastery",
+    "how-to-make-techno-music-for-beginners-beginner",
+    "intermediate-sound-design-for-game-audio-intermedi",
+    "advanced-vfx-and-compositing-for-beginners-advance",
+    "learn-pixel-art-for-beginners-step-by-step-beginne",
+    "intermediate-concept-art-for-environment-design-in",
+    "advanced-skiing-techniques-for-steep-terrain-advan",
+    "learn-to-sail-a-boat-for-beginners-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2823,5 +2840,5 @@
     "how-to-start-a-succulents-garden-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-07T04:06:29.043Z"
+  "lastUpdated": "2026-08-07T05:28:10.446Z"
 }
