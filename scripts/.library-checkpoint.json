@@ -2145,12 +2145,22 @@
     "how-to-start-a-comic-book-collection-beginners-roa",
     "learn-microsoft-powerpoint-for-beginners-step-by-s",
     "learn-to-use-slack-for-teams-a-beginners-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "beginners-guide-to-playing-the-drums-beginner",
     "learn-how-to-use-shopify-for-ecommerce-beginner",
     "learn-how-to-play-billiards-for-beginners-beginner",
     "how-to-start-a-blog-on-wordpress-beginner",
-    "learn-how-to-use-instagram-for-business-beginner"
+    "learn-how-to-use-instagram-for-business-beginner",
+    "beginners-guide-to-playing-the-drums-stepbystep-ro",
+    "how-to-play-billiards-a-complete-beginners-guide",
+    "how-to-start-a-blog-on-wordpress-for-beginners",
+    "instagram-for-business-the-complete-beginners-guid",
+    "shopify-for-beginners-complete-ecommerce-guide",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-learn-c-for-beginners-beginner",
+    "how-to-start-a-spice-garden-beginner",
+    "learn-how-to-kayak-for-beginners-beginner",
+    "learn-adobe-xd-for-ui-design-beginners-beginner",
+    "advanced-wordpress-security-and-optimization-guide"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2801,5 +2811,5 @@
     "how-to-start-a-succulents-garden-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-07T00:25:40.787Z"
+  "lastUpdated": "2026-08-07T03:15:41.472Z"
 }
