@@ -2259,10 +2259,14 @@
     "how-to-use-miro-a-beginners-guide-to-digital-white",
     "learn-to-play-the-recorder-a-beginners-stepbystep",
     "learn-trumpet-from-scratch-a-complete-beginners-gu",
-    "portuguese-conversation-basics-for-beginners-begin",
-    "learn-to-code-in-python-for-beginners-beginner",
     "learn-hebrew-for-beginners-step-by-step-beginner",
-    "advanced-surfing-maneuvers-and-wave-reading-advanc"
+    "advanced-surfing-maneuvers-and-wave-reading-advanc",
+    "learn-hebrew-for-beginners-a-stepbystep-guide",
+    "master-advanced-surfing-maneuvers-wave-reading-tec",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "beginners-guide-to-baby-care-beginner",
+    "how-to-make-a-candle-from-soy-wax-beginner",
+    "how-to-make-traditional-kimchi-intermediate"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2917,5 +2921,5 @@
     "learn-basic-house-painting-techniques-for-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-07T19:12:24.862Z"
+  "lastUpdated": "2026-08-07T21:50:35.649Z"
 }
