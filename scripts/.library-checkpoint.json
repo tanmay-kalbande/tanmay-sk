@@ -2197,12 +2197,24 @@
     "intermediate-sound-design-for-game-audio",
     "learn-to-sail-complete-beginners-guide-to-sailing",
     "pixel-art-for-beginners-a-stepbystep-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-start-a-meditation-practice-beginner",
     "how-to-start-a-workout-routine-for-weight-loss-beg",
     "beginners-guide-to-spark-plug-replacement-beginner",
     "how-to-make-a-quilted-blanket-intermediate",
-    "how-to-start-playing-the-trumpet-beginner"
+    "how-to-start-playing-the-trumpet-beginner",
+    "beginners-guide-to-spark-plug-replacement",
+    "how-to-make-a-quilted-blanket-a-complete-guide",
+    "how-to-start-a-meditation-practice-a-beginners-gui",
+    "how-to-start-a-workout-routine-for-weight-loss",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "advanced-guide-to-keto-dieting-advanced",
+    "learn-how-to-carve-wood-for-beginners-beginner",
+    "how-to-make-a-professional-beef-stew-intermediate",
+    "learn-how-to-make-macarons-from-scratch-advanced",
+    "learn-how-to-make-homemade-sushi-intermediate",
+    "beginners-guide-to-growing-blueberries-beginner",
+    "learn-how-to-make-a-cheesecake-from-scratch-interm",
+    "learn-conversational-portuguese-for-beginners-begi"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2850,8 +2862,10 @@
     "advanced-sushi-making-and-fish-preparation-techniq",
     "advanced-roof-shingle-repair-and-installation-adva",
     "advanced-cpr-and-aed-training-guide-advanced",
-    "how-to-start-a-succulents-garden-beginner"
+    "how-to-start-a-succulents-garden-beginner",
+    "how-to-organize-your-home-for-beginners-beginner",
+    "advanced-piano-improvisation-techniques-advanced"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-07T07:37:50.715Z"
+  "lastUpdated": "2026-08-07T10:26:08.252Z"
 }
