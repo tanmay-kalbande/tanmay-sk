@@ -2219,7 +2219,6 @@
     "mastering-homemade-cheesecake-from-crust-to-garnis",
     "mastering-macarons-from-scratch-to-gourmet-flavors",
     "professional-beef-stew-mastery-classic-techniques",
-    "portuguese-conversation-basics-for-beginners-begin",
     "beginners-guide-to-managing-personal-finances-begi",
     "learn-to-make-traditional-french-pastries-intermed",
     "learn-to-make-a-wooden-picture-frame-beginner",
@@ -2230,7 +2229,20 @@
     "learn-to-make-custom-leather-wallets-intermediate",
     "how-to-fix-a-car-windshield-wiper-motor-intermedia",
     "how-to-play-basketball-for-beginners-beginner",
-    "beginners-guide-to-playing-baseball-beginner"
+    "beginners-guide-to-playing-baseball-beginner",
+    "baseball-for-beginners-a-complete-stepbystep-guide",
+    "homemade-granola-for-beginners-easy-stepbystep-gui",
+    "how-to-fix-a-car-windshield-wiper-motor",
+    "how-to-grow-garlic-in-your-garden-a-complete-begin",
+    "how-to-replace-an-electrical-outlet-a-beginners-gu",
+    "how-to-sharpen-woodworking-chisels-and-planes",
+    "learn-to-make-a-wooden-picture-frame-beginner-guid",
+    "mastering-traditional-french-pastry-a-professional",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "intermediate-chess-strategies-for-winning-games-in",
+    "mastering-the-art-of-sous-vide-cooking-intermediat",
+    "how-to-make-authentic-dim-sum-at-home-intermediate",
+    "intermediate-piano-techniques-and-scales-intermedi"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2885,5 +2897,5 @@
     "learn-basic-house-painting-techniques-for-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-07T11:12:13.478Z"
+  "lastUpdated": "2026-08-07T13:21:04.037Z"
 }
