@@ -2322,13 +2322,21 @@
     "learn-conversational-french-for-beginners",
     "learn-procreate-on-ipad-complete-beginners-guide",
     "learn-to-crochet-a-granny-square-for-beginners",
-    "portuguese-conversation-basics-for-beginners-begin",
     "learn-basic-calligraphic-lettering-for-beginners-b",
     "beginners-guide-to-sustainable-living-beginner",
     "learn-to-ski-beginners-guide-to-slopes-beginner",
     "beginners-guide-to-learning-the-banjo-beginner",
     "intermediate-surfing-techniques-for-better-waves-i",
-    "intermediate-chess-tactics-and-opening-strategies"
+    "intermediate-chess-tactics-and-opening-strategies",
+    "basic-calligraphic-lettering-for-beginners",
+    "beginners-guide-to-learning-the-banjo",
+    "beginners-guide-to-sustainable-living-simple-steps",
+    "intermediate-surfing-techniques-for-better-waves",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "beginners-guide-to-facial-yoga-for-skin-beginner",
+    "advanced-cabinet-making-and-joinery-techniques-adv",
+    "how-to-play-basketball-for-beginners-beginner",
+    "learn-how-to-use-obsidian-for-notetaking-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2990,5 +2998,5 @@
     "how-to-start-a-backyard-composting-system-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-08T15:47:19.415Z"
+  "lastUpdated": "2026-08-08T18:54:03.162Z"
 }
