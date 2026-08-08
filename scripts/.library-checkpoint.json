@@ -2283,7 +2283,6 @@
     "learn-to-knit-scarves-for-beginners-beginner",
     "advanced-powerlifting-programming-for-elite-streng",
     "learn-to-knit-scarves-complete-beginners-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-manage-chronic-fatigue-syndrome-intermediat",
     "how-to-treat-a-sinus-infection-naturally-beginner",
     "advanced-breathwork-techniques-for-deep-relaxation",
@@ -2294,7 +2293,20 @@
     "learn-about-the-different-types-of-galaxies-beginn",
     "how-to-track-a-solar-eclipse-intermediate",
     "selfdefense-moves-for-women-beginners-beginner",
-    "intermediate-portuguese-for-travelers-intermediate"
+    "intermediate-portuguese-for-travelers-intermediate",
+    "advanced-breathwork-mastery-for-deep-relaxation-ad",
+    "how-to-edit-photos-in-adobe-lightroom-beginners-st",
+    "how-to-manage-chronic-fatigue-syndrome-a-practical",
+    "how-to-take-great-photos-a-beginners-guide-to-comp",
+    "how-to-track-a-solar-eclipse-a-complete-guide",
+    "how-to-treat-a-sinus-infection-naturally",
+    "mastering-portrait-flash-photography-a-comprehensi",
+    "selfdefense-for-women-a-beginners-guide-to-persona",
+    "types-of-galaxies-explained-a-beginners-guide",
+    "learn-how-to-make-handmade-jewelry-beginner",
+    "learn-how-to-paint-with-watercolors-beginner",
+    "how-to-start-a-backyard-chicken-coop-beginner",
+    "how-to-carve-wood-for-beginners-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -2949,8 +2961,9 @@
     "learn-basic-house-painting-techniques-for-beginner",
     "beginners-guide-to-downhill-skiing-beginner",
     "how-to-cure-writers-block-beginner",
-    "advanced-techniques-for-writing-dialogue-advanced"
+    "advanced-techniques-for-writing-dialogue-advanced",
+    "portuguese-conversation-basics-for-beginners-begin"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-08T07:33:14.492Z"
+  "lastUpdated": "2026-08-08T09:51:01.612Z"
 }
