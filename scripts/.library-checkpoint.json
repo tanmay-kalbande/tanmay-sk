@@ -2377,14 +2377,20 @@
     "how-to-play-the-koto-a-complete-beginners-guide",
     "learn-to-play-steel-pan-for-beginners-a-stepbystep",
     "learn-to-play-the-theremin-for-beginners-stepbyste",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-make-a-professional-powerpoint-presentation",
     "how-to-do-a-pushup-with-proper-form-beginner",
     "learn-how-to-use-excel-for-budgeting-beginner",
     "how-to-get-rid-of-anxiety-and-panic-attacks-beginn",
     "how-to-make-a-diy-face-mask-for-acne-beginner",
     "how-to-learn-advanced-excel-for-business-advanced",
-    "advanced-mixing-and-mastering-for-producers-advanc"
+    "advanced-mixing-and-mastering-for-producers-advanc",
+    "advanced-excel-techniques-for-business-analysts",
+    "advanced-mixing-and-mastering-for-producers",
+    "diy-face-mask-for-acne-stepbystep-beginner-guide",
+    "excel-for-budgeting-a-complete-beginners-guide",
+    "how-to-get-rid-of-anxiety-and-panic-attacks-natura",
+    "professional-powerpoint-presentations-stepbystep-g",
+    "portuguese-conversation-basics-for-beginners-begin"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3053,5 +3059,5 @@
     "learn-to-rock-climb-for-beginners-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-09T10:12:27.698Z"
+  "lastUpdated": "2026-08-09T13:01:52.296Z"
 }
