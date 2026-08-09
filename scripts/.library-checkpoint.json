@@ -2402,11 +2402,26 @@
     "intermediate-portrait-sketching-mastering-form-and",
     "learn-drums-from-scratch-beginners-stepbystep-guid",
     "learn-mahjong-for-beginners-stepbystep-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
-    "learn-how-to-paint-with-watercolors-for-beginners",
     "learn-how-to-brew-coffee-with-a-french-press-begin",
     "learn-how-to-use-trello-for-organization-beginner",
-    "advanced-unreal-engine-lighting-and-rendering-adva"
+    "advanced-unreal-engine-lighting-and-rendering-adva",
+    "advanced-unreal-engine-lighting-and-rendering-mast",
+    "how-to-brew-coffee-with-a-french-press-a-beginners",
+    "how-to-use-trello-for-beginners-a-complete-guide-t",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "beginners-guide-to-learning-the-flute-beginner",
+    "beginners-guide-to-learning-the-clarinet-beginner",
+    "learn-to-play-the-trombone-for-beginners-beginner",
+    "beginners-guide-to-learning-the-mandolin-beginner",
+    "how-to-start-a-mushroom-garden-for-beginners-begin",
+    "how-to-make-homemade-nut-butter-for-beginners-begi",
+    "learn-to-play-the-kora-for-beginners-beginner",
+    "beginners-guide-to-learning-the-lute-beginner",
+    "how-to-make-homemade-tofu-for-beginners-beginner",
+    "learn-to-play-the-zither-for-beginners-beginner",
+    "how-to-do-basic-house-painting-for-beginners-begin",
+    "how-to-start-a-collection-of-trading-cards-beginne",
+    "beginners-guide-to-practicing-tai-chi-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3076,5 +3091,5 @@
     "how-to-do-a-pull-up-for-beginners-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-09T18:58:42.116Z"
+  "lastUpdated": "2026-08-09T22:20:07.520Z"
 }
