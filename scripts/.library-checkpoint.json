@@ -2408,7 +2408,6 @@
     "advanced-unreal-engine-lighting-and-rendering-mast",
     "how-to-brew-coffee-with-a-french-press-a-beginners",
     "how-to-use-trello-for-beginners-a-complete-guide-t",
-    "portuguese-conversation-basics-for-beginners-begin",
     "beginners-guide-to-learning-the-flute-beginner",
     "beginners-guide-to-learning-the-clarinet-beginner",
     "learn-to-play-the-trombone-for-beginners-beginner",
@@ -2421,7 +2420,26 @@
     "learn-to-play-the-zither-for-beginners-beginner",
     "how-to-do-basic-house-painting-for-beginners-begin",
     "how-to-start-a-collection-of-trading-cards-beginne",
-    "beginners-guide-to-practicing-tai-chi-beginner"
+    "beginners-guide-to-practicing-tai-chi-beginner",
+    "basic-house-painting-guide-for-beginners",
+    "beginners-guide-to-learning-the-clarinet-from-scra",
+    "beginners-guide-to-learning-the-flute",
+    "beginners-guide-to-learning-the-lute",
+    "beginners-guide-to-playing-the-trombone",
+    "beginners-guide-to-practicing-tai-chi",
+    "how-to-make-homemade-nut-butter-a-beginners-guide",
+    "how-to-make-homemade-tofu-from-scratch-for-beginne",
+    "how-to-play-the-kora-a-complete-beginners-guide",
+    "how-to-start-a-beginner-mushroom-garden",
+    "how-to-start-a-trading-card-collection-beginners-s",
+    "learn-mandolin-from-scratch-beginners-stepbystep-g",
+    "learn-to-play-the-zither-beginners-guide-from-zero",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "learn-to-code-in-python-for-beginners-beginner",
+    "learn-how-to-play-blackjack-for-beginners-beginner",
+    "how-to-use-houdini-for-beginners-beginner",
+    "learn-to-rock-climb-for-beginners-beginner",
+    "how-to-start-kite-surfing-for-beginners-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3088,8 +3106,9 @@
     "intermediate-guide-to-practicing-mindfulness-inter",
     "how-to-start-kite-surfing-for-beginners-beginner",
     "learn-to-rock-climb-for-beginners-beginner",
-    "how-to-do-a-pull-up-for-beginners-beginner"
+    "how-to-do-a-pull-up-for-beginners-beginner",
+    "advanced-latin-grammar-for-students-advanced"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-09T22:20:07.520Z"
+  "lastUpdated": "2026-08-10T02:14:42.653Z"
 }
