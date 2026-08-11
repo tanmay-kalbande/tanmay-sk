@@ -2499,13 +2499,23 @@
     "how-to-start-an-indoor-plant-collection-for-beginn",
     "learn-manual-camera-basics-for-beginners",
     "microsoft-word-for-beginners-a-stepbystep-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "learn-to-bake-cupcakes-for-beginners-beginner",
     "how-to-install-a-toilet-for-beginners-beginner",
     "how-to-replace-a-garbage-disposal-unit-beginner",
-    "learn-to-carve-wood-for-beginners-beginner",
     "how-to-fix-a-leaking-shower-head-beginner",
-    "advanced-midi-sequencing-for-music-producers-advan"
+    "advanced-midi-sequencing-for-music-producers-advan",
+    "advanced-midi-sequencing-mastery-for-producers",
+    "how-to-bake-cupcakes-for-beginners",
+    "how-to-fix-a-leaking-shower-head",
+    "how-to-install-a-toilet-for-beginners-stepbystep",
+    "how-to-replace-a-garbage-disposal-unit-stepbystep",
+    "learn-to-carve-wood-for-beginners-stepbystep-woodc",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "advanced-hiit-workouts-for-fat-loss-advanced",
+    "how-to-start-an-organic-chicken-farm-beginner",
+    "advanced-seo-for-high-traffic-blogs-advanced",
+    "advanced-tennis-strategies-for-competitive-players",
+    "learn-to-do-a-split-for-beginners-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3180,5 +3190,5 @@
     "how-to-start-an-indoor-plant-collection-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-11T02:18:59.611Z"
+  "lastUpdated": "2026-08-11T04:39:44.648Z"
 }
