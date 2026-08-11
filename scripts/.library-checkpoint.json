@@ -2549,12 +2549,22 @@
     "beginners-guide-to-astronomical-photography",
     "how-to-roast-coffee-beans-at-home-a-beginners-guid",
     "learn-cubase-for-beginners-stepbystep-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
-    "learn-to-paint-with-watercolors-for-beginners-begi",
     "how-to-start-a-backyard-apiary-for-honey-beginner",
     "learn-how-to-jump-start-a-car-beginner",
     "advanced-glaze-chemistry-for-ceramic-artists-advan",
-    "learn-to-mix-and-master-edm-tracks-intermediate"
+    "learn-to-mix-and-master-edm-tracks-intermediate",
+    "advanced-glaze-chemistry-for-ceramic-artists",
+    "how-to-jumpstart-a-car-stepbystep-guide",
+    "how-to-start-a-backyard-apiary-for-honey",
+    "learn-to-mix-and-master-edm-tracks-like-a-pro",
+    "learn-to-paint-with-watercolors-beginners-stepbyst",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "learn-to-make-a-quilted-pillow-beginner",
+    "how-to-build-a-dog-house-from-wood-beginner",
+    "how-to-make-a-friendship-bracelet-beginner",
+    "how-to-knit-a-simple-beanie-for-beginners-beginner",
+    "how-to-grow-herbs-in-a-window-box-beginner",
+    "how-to-start-a-clothing-line-for-beginners-beginne"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3232,5 +3242,5 @@
     "learn-to-play-the-tuba-for-beginners-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-11T19:24:27.174Z"
+  "lastUpdated": "2026-08-11T22:16:52.641Z"
 }
