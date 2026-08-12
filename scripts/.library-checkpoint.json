@@ -2623,7 +2623,6 @@
     "learn-hungarian-fast-complete-beginner-course",
     "synthesizer-basics-a-beginners-guide-to-sound-desi",
     "treating-anxiety-with-cognitive-behavioral-therapy",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-paint-with-acrylics-for-beginners-beginner",
     "how-to-grow-succulents-for-beginners-beginner",
     "learn-to-write-a-technical-manual-for-beginners-in",
@@ -2634,7 +2633,16 @@
     "how-to-build-a-computer-desk-from-scratch-beginner",
     "intermediate-guide-to-repairing-a-dishwasher-inter",
     "learn-how-to-paint-a-fence-beginner",
-    "learn-conversational-portuguese-for-beginners-begi"
+    "architectural-photography-for-beginners-a-complete",
+    "fashion-photography-for-beginners-stepbystep-guide",
+    "how-to-build-a-computer-desk-from-scratch-for-begi",
+    "how-to-paint-a-fence-stepbystep-guide-for-beginner",
+    "how-to-write-a-technical-manual-stepbystep-guide-f",
+    "how-to-write-an-academic-essay-beginners-guide",
+    "intermediate-dishwasher-repair-handson-troubleshoo",
+    "succulents-for-beginners-a-complete-guide-to-growi",
+    "wildlife-photography-for-beginners-a-complete-guid",
+    "portuguese-conversation-basics-for-beginners-begin"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3316,5 +3324,5 @@
     "learn-to-write-a-white-paper-for-beginners-interme"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-12T13:53:12.691Z"
+  "lastUpdated": "2026-08-12T16:04:06.981Z"
 }
