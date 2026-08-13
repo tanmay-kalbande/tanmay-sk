@@ -2673,15 +2673,21 @@
     "learn-to-paint-with-acrylics-a-beginners-roadmap",
     "learn-to-scuba-dive-for-beginners-a-stepbystep-gui",
     "photoshop-basics-for-absolute-beginners-stepbystep",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-do-a-pushup-for-absolute-beginners-beginner",
-    "learn-to-code-in-python-for-beginners-beginner",
     "advanced-dressmaking-and-pattern-drafting-advanced",
     "learn-to-make-leather-sandals-intermediate",
     "learn-conversational-arabic-for-beginners-beginner",
-    "intermediate-portuguese-for-brazilian-travel-inter",
-    "advanced-skiing-techniques-for-steep-terrain-advan",
-    "learn-to-use-slack-for-business-beginner"
+    "learn-to-use-slack-for-business-beginner",
+    "advanced-dressmaking-pattern-drafting-mastery",
+    "beginners-guide-to-perfect-pushups-stepbystep",
+    "how-to-make-custom-leather-sandals-a-professional",
+    "learn-to-use-slack-for-business-a-beginners-guide",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-learn-c-for-beginners-beginner",
+    "how-to-make-homemade-mayonnaise-beginner",
+    "conversational-portuguese-for-beginners-beginner",
+    "learn-to-grill-steaks-for-beginners-beginner",
+    "learn-to-paint-with-oils-for-beginners-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3363,5 +3369,5 @@
     "learn-to-write-a-white-paper-for-beginners-interme"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-13T02:27:11.031Z"
+  "lastUpdated": "2026-08-13T05:01:17.104Z"
 }
