@@ -2682,12 +2682,18 @@
     "beginners-guide-to-perfect-pushups-stepbystep",
     "how-to-make-custom-leather-sandals-a-professional",
     "learn-to-use-slack-for-business-a-beginners-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
-    "how-to-learn-c-for-beginners-beginner",
     "how-to-make-homemade-mayonnaise-beginner",
     "conversational-portuguese-for-beginners-beginner",
     "learn-to-grill-steaks-for-beginners-beginner",
-    "learn-to-paint-with-oils-for-beginners-beginner"
+    "learn-to-paint-with-oils-for-beginners-beginner",
+    "how-to-make-homemade-mayonnaise-a-beginners-guide",
+    "how-to-paint-with-oils-beginner-stepbystep-guide",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-make-traditional-ramen-from-scratch-interme",
+    "learn-to-grill-steaks-for-beginners-beginner",
+    "learn-to-make-wooden-toys-for-kids-beginner",
+    "learn-to-troubleshoot-car-engine-noises-intermedia",
+    "how-to-make-beaded-bracelets-for-beginners-beginne"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3369,5 +3375,5 @@
     "learn-to-write-a-white-paper-for-beginners-interme"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-13T05:01:17.104Z"
+  "lastUpdated": "2026-08-13T07:50:34.664Z"
 }
