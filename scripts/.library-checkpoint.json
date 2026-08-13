@@ -2729,7 +2729,6 @@
     "clay-sculpting-for-beginners-a-stepbystep-guide",
     "how-to-make-authentic-macarons-beginners-stepbyste",
     "learn-to-water-ski-beginners-stepbystep-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "advanced-plumbing-for-bathroom-renovations-advance",
     "intermediate-embroidery-and-stitching-patterns-int",
     "advanced-piano-compositions-and-performance-advanc",
@@ -2737,7 +2736,21 @@
     "intermediate-piano-chords-and-music-theory-interme",
     "advanced-drums-and-percussion-techniques-advanced",
     "how-to-make-digital-stickers-for-beginners-beginne",
-    "learn-basic-gymnastics-for-beginners-beginner"
+    "learn-basic-gymnastics-for-beginners-beginner",
+    "advanced-drums-and-percussion-techniques-mastercla",
+    "advanced-plumbing-for-bathroom-renovations",
+    "gymnastics-for-beginners-a-stepbystep-guide",
+    "how-to-make-digital-stickers-for-beginners-stepbys",
+    "intermediate-embroidery-and-advanced-stitching-pat",
+    "intermediate-volleyball-techniques-and-drills",
+    "master-advanced-piano-compositions-performance-tec",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "intermediate-python-automation-scripts-for-beginne",
+    "beginners-guide-to-practicing-mindfulness-at-work",
+    "advanced-furniture-finishing-and-polishing-techniq",
+    "beginners-guide-to-making-fresh-cheese-at-home-beg",
+    "how-to-fix-a-hole-in-drywall-beginner",
+    "how-to-start-a-blog-for-making-money-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3420,5 +3433,5 @@
     "intermediate-piano-chords-and-music-theory-interme"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-13T19:30:39.705Z"
+  "lastUpdated": "2026-08-13T22:11:44.904Z"
 }
