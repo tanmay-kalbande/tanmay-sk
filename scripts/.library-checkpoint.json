@@ -2688,12 +2688,21 @@
     "learn-to-paint-with-oils-for-beginners-beginner",
     "how-to-make-homemade-mayonnaise-a-beginners-guide",
     "how-to-paint-with-oils-beginner-stepbystep-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-make-traditional-ramen-from-scratch-interme",
-    "learn-to-grill-steaks-for-beginners-beginner",
     "learn-to-make-wooden-toys-for-kids-beginner",
     "learn-to-troubleshoot-car-engine-noises-intermedia",
-    "how-to-make-beaded-bracelets-for-beginners-beginne"
+    "how-to-make-beaded-bracelets-for-beginners-beginne",
+    "how-to-grill-the-perfect-steak-a-beginners-guide",
+    "how-to-make-beaded-bracelets-a-beginners-stepbyste",
+    "how-to-make-safe-wooden-toys-for-kids-beginner-gui",
+    "how-to-make-traditional-ramen-from-scratch",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-make-a-beef-wellington-from-scratch-advance",
+    "intermediate-badminton-techniques-and-drills-inter",
+    "advanced-soccer-tactical-analysis-for-coaches-adva",
+    "how-to-use-kontakt-for-beginners-beginner",
+    "how-to-do-a-pull-up-for-beginners-beginner",
+    "how-to-do-a-backflip-for-beginners-intermediate"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3375,5 +3384,5 @@
     "learn-to-write-a-white-paper-for-beginners-interme"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-13T07:50:34.664Z"
+  "lastUpdated": "2026-08-13T10:29:53.305Z"
 }
