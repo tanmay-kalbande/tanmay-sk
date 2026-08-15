@@ -2848,10 +2848,15 @@
     "beginners-guide-to-playing-the-banjo",
     "how-to-make-a-clay-vase-a-beginners-stepbystep-gui",
     "how-to-start-a-personal-blog-stepbystep-beginner-g",
-    "portuguese-conversation-basics-for-beginners-begin",
     "advanced-zbrush-sculpting-for-hard-surface-advance",
     "learn-to-use-hubspot-for-crm-intermediate",
-    "how-to-use-xero-for-bookkeeping-beginner"
+    "how-to-use-xero-for-bookkeeping-beginner",
+    "advanced-zbrush-hard-surface-sculpting",
+    "how-to-use-hubspot-crm-for-sales-and-marketing-suc",
+    "how-to-use-xero-for-bookkeeping-beginner-roadmap",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "learn-basic-arabic-for-travelers-beginner",
+    "learn-conversational-portuguese-for-beginners-begi"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3539,5 +3544,5 @@
     "intermediate-guide-to-playing-the-trumpet-intermed"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-15T15:34:57.689Z"
+  "lastUpdated": "2026-08-15T18:41:28.288Z"
 }
