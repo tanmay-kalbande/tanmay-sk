@@ -2821,14 +2821,24 @@
     "beginners-guide-to-city-composting",
     "beginners-guide-to-rekordbox-dj-software",
     "how-to-build-a-garden-bench-stepbystep-for-beginne",
-    "portuguese-conversation-basics-for-beginners-begin",
     "beginners-guide-to-learning-the-harmonica-beginner",
     "learn-how-to-weave-for-beginners-beginner",
     "advanced-techniques-for-sourdough-starters-advance",
     "how-to-start-a-mushroom-grow-kit-beginner",
     "learn-how-to-make-pottery-at-home-beginner",
     "how-to-make-candle-wax-for-beginners-beginner",
-    "learn-conversational-mandarin-for-beginners-beginn"
+    "learn-conversational-mandarin-for-beginners-beginn",
+    "conversational-mandarin-for-beginners-a-stepbystep",
+    "how-to-make-candle-wax-for-beginners-stepbystep-gu",
+    "how-to-make-pottery-at-home-a-beginners-guide",
+    "how-to-start-a-mushroom-grow-kit-beginners-guide",
+    "weaving-for-beginners-a-stepbystep-guide-to-handwe",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "advanced-tig-welding-techniques-for-professionals",
+    "learn-how-to-install-drywall-for-beginners-beginne",
+    "how-to-build-a-bookshelves-for-beginners-beginner",
+    "how-to-make-a-resin-coaster-beginner",
+    "how-to-play-a-basic-drum-beat-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3516,5 +3526,5 @@
     "intermediate-guide-to-playing-the-trumpet-intermed"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-15T06:58:43.383Z"
+  "lastUpdated": "2026-08-15T09:41:20.438Z"
 }
