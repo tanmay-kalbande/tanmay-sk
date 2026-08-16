@@ -2909,13 +2909,23 @@
     "how-to-take-a-great-headshot-at-home",
     "how-to-use-an-oscilloscope-a-practical-guide-for-b",
     "learn-basic-volleyball-skills-for-beginners",
-    "portuguese-conversation-basics-for-beginners-begin",
     "how-to-start-a-garden-for-vegetables-beginner",
     "how-to-treat-an-insect-bite-at-home-beginner",
     "how-to-treat-a-sore-throat-naturally-beginner",
     "learn-how-to-trade-crypto-for-beginners-beginner",
     "how-to-start-a-skin-care-routine-beginner",
-    "how-to-make-your-own-perfume-intermediate"
+    "how-to-make-your-own-perfume-intermediate",
+    "how-to-make-your-own-perfume-a-complete-guide",
+    "how-to-start-a-skin-care-routine-beginners-stepbys",
+    "how-to-treat-insect-bites-and-stings-at-home",
+    "learn-how-to-trade-cryptocurrency-for-beginners",
+    "natural-remedies-for-sore-throat-relief",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-start-a-consulting-business-for-beginners-b",
+    "how-to-start-a-coaching-business-for-beginners-beg",
+    "learn-to-play-the-tuba-for-beginners-beginner",
+    "learn-basic-sketching-and-drawing-for-beginners-be",
+    "learn-basic-asl-signs-for-beginners-beginner"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3606,5 +3616,5 @@
     "how-to-use-squarespace-for-beginners-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-16T18:57:23.450Z"
+  "lastUpdated": "2026-08-16T21:41:33.745Z"
 }
