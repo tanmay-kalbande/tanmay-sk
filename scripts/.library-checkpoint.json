@@ -2858,12 +2858,21 @@
     "basic-arabic-for-travelers-essential-phrases-and-t",
     "advanced-woodworking-joint-techniques-advanced",
     "advanced-woodworking-joints-precise-cuts-strong-bo",
-    "portuguese-conversation-basics-for-beginners-begin",
     "beginners-guide-to-owning-a-saltwater-fish-tank-be",
     "advanced-car-detailing-and-paint-correction-advanc",
-    "how-to-build-a-bookshelves-for-beginners-beginner",
     "how-to-reupholster-a-chair-for-beginners-beginner",
-    "advanced-french-pronunciation-and-accent-training"
+    "advanced-french-pronunciation-and-accent-training",
+    "advanced-car-detailing-paint-correction-mastery",
+    "beginners-guide-to-owning-a-saltwater-fish-tank",
+    "how-to-build-bookshelves-for-beginners-a-stepbyste",
+    "how-to-reupholster-a-chair-a-beginners-stepbystep",
+    "master-advanced-french-pronunciation-accent-traini",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-make-your-own-jewelry-for-beginners-beginne",
+    "beginners-guide-to-houseplant-care-beginner",
+    "beginners-guide-to-making-candles-beginner",
+    "learn-conversational-portuguese-for-beginners-begi",
+    "how-to-start-a-succulents-garden-for-beginners-beg"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3552,5 +3561,5 @@
     "learn-to-write-melodies-for-beginners-beginner"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-16T01:55:07.144Z"
+  "lastUpdated": "2026-08-16T04:03:42.111Z"
 }
