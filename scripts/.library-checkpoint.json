@@ -2937,9 +2937,14 @@
     "learn-basic-turkish-for-travelers-beginner",
     "advanced-mindfulness-and-focus-mastery-guide",
     "learn-basic-turkish-for-travelers-easy-key-phrases",
-    "portuguese-conversation-basics-for-beginners-begin",
     "learn-basic-french-for-travelers-beginner",
-    "how-to-make-a-knitted-scarf-for-beginners-beginner"
+    "how-to-make-a-knitted-scarf-for-beginners-beginner",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "beginners-guide-to-learning-the-harmonica-beginner",
+    "how-to-start-a-tea-business-beginner",
+    "advanced-skiing-techniques-for-steep-terrain-advan",
+    "how-to-start-wakeboarding-for-beginners-beginner",
+    "advanced-jira-workflows-for-agile-teams-advanced"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3631,5 +3636,5 @@
     "advanced-electrical-circuit-troubleshooting-for-ho"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-17T07:04:16.597Z"
+  "lastUpdated": "2026-08-17T09:59:11.908Z"
 }
