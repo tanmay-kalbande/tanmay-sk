@@ -2953,7 +2953,6 @@
     "beginners-guide-to-playing-the-harp-beginner",
     "how-to-make-polymer-clay-earrings-beginners-stepby",
     "how-to-start-a-fitness-blog-for-beginners-stepbyst",
-    "portuguese-conversation-basics-for-beginners-begin",
     "learn-to-grow-roses-for-beginners-beginner",
     "learn-how-to-manage-insomnia-for-beginners-beginne",
     "how-to-manage-seasonal-allergies-for-beginners-beg",
@@ -2965,7 +2964,19 @@
     "how-to-do-a-deadlift-for-beginners-beginner",
     "learn-how-to-do-a-bench-press-for-beginners-beginn",
     "how-to-build-a-retaining-wall-for-beginners-beginn",
-    "how-to-solder-circuit-boards-for-beginners-beginne"
+    "how-to-solder-circuit-boards-for-beginners-beginne",
+    "bench-press-for-beginners-a-complete-stepbystep-gu",
+    "how-to-build-a-retaining-wall-stepbystep-guide-for",
+    "how-to-deadlift-beginners-stepbystep-guide",
+    "how-to-do-a-burpee-for-beginners-stepbystep-guide",
+    "how-to-do-a-plank-for-beginners-stepbystep-guide",
+    "how-to-do-dips-for-beginners-stepbystep-training-g",
+    "how-to-do-mountain-climbers-for-beginners-step-by",
+    "how-to-grow-roses-a-beginners-stepbystep-guide",
+    "how-to-manage-insomnia-a-beginners-guide-to-better",
+    "how-to-manage-seasonal-allergies-a-beginners-guide",
+    "master-the-pistol-squat-a-stepbystep-training-guid",
+    "portuguese-conversation-basics-for-beginners-begin"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3657,5 +3668,5 @@
     "advanced-electrical-circuit-troubleshooting-for-ho"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-17T19:22:02.818Z"
+  "lastUpdated": "2026-08-17T21:31:43.132Z"
 }
