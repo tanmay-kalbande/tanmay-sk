@@ -2945,9 +2945,14 @@
     "advanced-jira-workflows-for-agile-teams-mastery-gu",
     "beginner-wakeboarding-guide-learn-to-ride-in-10-st",
     "how-to-start-a-tea-business-a-stepbystep-guide",
-    "portuguese-conversation-basics-for-beginners-begin",
     "advanced-skiing-techniques-for-slopes-advanced",
-    "learn-to-use-sketchup-for-3d-beginner"
+    "learn-to-use-sketchup-for-3d-beginner",
+    "sketchup-for-beginners-a-complete-guide-to-3d-mode",
+    "portuguese-conversation-basics-for-beginners-begin",
+    "how-to-start-a-fitness-blog-for-beginners-beginner",
+    "how-to-make-polymer-clay-earrings-beginner",
+    "beginners-guide-to-playing-the-harp-beginner",
+    "intermediate-skiing-techniques-for-better-control"
   ],
   "failedSlugs": [
     "learn-python-programming-from-zero-to-real-project",
@@ -3639,5 +3644,5 @@
     "advanced-electrical-circuit-troubleshooting-for-ho"
   ],
   "startedAt": "2026-07-24T03:19:36.282Z",
-  "lastUpdated": "2026-08-17T12:54:58.088Z"
+  "lastUpdated": "2026-08-17T15:41:32.560Z"
 }
