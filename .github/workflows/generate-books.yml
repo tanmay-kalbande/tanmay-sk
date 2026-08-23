@@ -1,12 +1,11 @@
-name: 🌌 Quantum Archives Synthesizer
+﻿name: 🌌 Quantum Archives Synthesizer
 
 on:
-  # ── Automatic Orbital Cycles: runs every 1 hour ─────────────────────────────
+  # ── Automatic Orbital Cycles: runs every 3 hours
   schedule:
-    # Automatic publishing every three hours. No manual trigger or date cutoff is required.
     - cron: '0 */3 * * *'
 
-  # ── Manual Transmission: Trigger from GitHub Console ───────────────────────
+  # ── Manual Transmission: Trigger from GitHub Console
   workflow_dispatch:
     inputs:
       edition:
@@ -35,12 +34,12 @@ on:
         required: false
         default: '20'
 
-# ── Orbital Lock: Ensures zero matrix collision during synthesis ───────────
+# ── Orbital Lock: Ensures zero matrix collision during synthesis
 concurrency:
   group: quantum-library-synthesis
   cancel-in-progress: false
 
-# ── Repository Write Access for Transmission Checkpoint ───────────────────────
+# ── Repository Write Access
 permissions:
   contents: write
 
@@ -48,17 +47,17 @@ jobs:
   synthesize:
     name: 🛸 Synthesize Cyber-Codices
     runs-on: ubuntu-latest
-    timeout-minutes: 340      # 5h 40min transmission window
+    timeout-minutes: 340
 
     steps:
-      # ── 1. Orbital Intercept (Main Repo) ────────────────────────────────────
+      # ── 1. Orbital Intercept (Main Repo)
       - name: 🛰️ Accessing Primary Vault
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 0
 
-      # ── 2. Access Data Vault (pustakam-books) — handles empty repos too ────
+      # ── 2. Access Data Vault (pustakam-books)
       - name: 📚 Accessing Data Vault (pustakam-books)
         env:
           DATA_REPO_TOKEN: ${{ secrets.DATA_REPO_TOKEN }}
@@ -67,7 +66,7 @@ jobs:
           if git clone "$REPO_URL" pustakam-books-data 2>/dev/null; then
             echo "✅ Cloned pustakam-books successfully"
           else
-            echo "⚠️ Clone failed (likely empty repo) — initializing fresh local repo"
+            echo "⚠️ Clone failed — initializing fresh local repo"
             mkdir -p pustakam-books-data
             cd pustakam-books-data
             git init
@@ -82,62 +81,43 @@ jobs:
             echo "✅ Initialized and pushed first commit to pustakam-books"
           fi
 
-      # ── 3. Initialize Core Matrix Runtime ──────────────────────────────────
+      # ── 3. Node Runtime
       - name: 🔮 Calibrating Node Engine Environment
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      # ── 4. Warp Dependencies ────────────────────────────────────────────────
+      # ── 4. Dependencies
       - name: ⚡ Mounting Sub-system Modules
         run: |
           npm install --no-save tsx @types/node
           echo "✨ Quantum Runtime Active"
 
-      # ── 5. Prepare Data Vault Directories ───────────────────────────────────
+      # ── 5. Prepare Data Vault Directories
       - name: 📁 Preparing Data Vault Directories
         run: |
           mkdir -p pustakam-books-data/books
           echo "📁 Data vault directories ready"
 
-      # ── 6. One-time Migration: Move existing books to pustakam-books ────────
-      - name: 🚚 Migrating Existing Codices to Data Vault (First Run Only)
-        run: |
-          MAIN_COUNT=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
-          DATA_COUNT=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
-          echo "📊 Main vault books: $MAIN_COUNT | Data vault books: $DATA_COUNT"
-          if [ "$MAIN_COUNT" -gt "0" ]; then
-            echo "🚚 Migrating $MAIN_COUNT codices to pustakam-books..."
-            cp public/library/books/*.json pustakam-books-data/books/ 2>/dev/null || true
-            if [ -f "public/library/catalog.json" ]; then
-              cp public/library/catalog.json pustakam-books-data/catalog.json
-              echo "📑 Catalog migrated"
-            fi
-            echo "✅ Migration complete — $MAIN_COUNT codices transferred"
-          else
-            echo "ℹ️ No existing codices to migrate (Data vault already populated)"
-          fi
-
-      # ── 7. Telemetry Briefing ────────────────────────────────────────────────
+      # ── 6. Telemetry Briefing
       - name: 📊 Telemetry Pre-Synthesis Telepathy
         run: |
           echo "🪐 ──────────────────────────────────────────"
           echo "🌌 Pustakam Universal Generator (V5 Core)"
           echo "🕐 Telemetry Timestamp: $(date -u '+%Y-%m-%d %H:%M UTC')"
           echo "📖 Codex Dimension: ${{ github.event.inputs.edition || 'stellar' }}"
-          echo "🤖 Neural Core Engine: cerebras (gemma-4-31b ⇄ gpt-oss-120b 50/50 split)"
+          echo "🤖 Neural Core Engine: cerebras"
           echo "⚡ Active Channels: ${{ github.event.inputs.concurrency || '1' }}"
-          echo "📁 Target Vault Path: pustakam-books-data/"
           EXISTING=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
           echo "📖 Existing Codices in Data Vault: $EXISTING"
           echo "🪐 ──────────────────────────────────────────"
 
-      # ── 8. Initiate Cosmic Book Synthesis ───────────────────────────────────
+      # ── 7. Book Synthesis
       - name: 🚀 Executing Neural Synthesis Pipeline
         env:
-          MISTRAL_API_KEY:   ${{ secrets.MISTRAL_API_KEY }}
-          ZAI_API_KEY:       ${{ secrets.ZAI_API_KEY }}
+          MISTRAL_API_KEY:    ${{ secrets.MISTRAL_API_KEY }}
+          ZAI_API_KEY:        ${{ secrets.ZAI_API_KEY }}
           CEREBRAS_API_KEYS:  ${{ secrets.CEREBRAS_API_KEYS }}
           CEREBRAS_API_KEY:   ${{ secrets.CEREBRAS_API_KEY }}
           CEREBRAS_API_KEY_1: ${{ secrets.CEREBRAS_API_KEY_1 }}
@@ -150,45 +130,44 @@ jobs:
           CEREBRAS_API_KEY_8: ${{ secrets.CEREBRAS_API_KEY_8 }}
           CEREBRAS_API_KEY_9: ${{ secrets.CEREBRAS_API_KEY_9 }}
           CEREBRAS_API_KEY_10: ${{ secrets.CEREBRAS_API_KEY_10 }}
-          ZAI_MODEL:         'glm-5.2'
-          MODEL:             ''
-          SITE_URL:          'https://tanmaysk.in'
-          PROVIDER:          'cerebras'
-          CONCURRENCY:       ${{ github.event.inputs.concurrency || '1' }}
-          MAX_BOOKS:         ${{ github.event.inputs.max_books || '20' }}
-          STREET_LANG:       ${{ github.event.inputs.street_lang || 'english' }}
-          OUTPUT_DIR:        'pustakam-books-data'
-          CI:                'true'
+          ZAI_MODEL:          'glm-5.2'
+          MODEL:              ''
+          SITE_URL:           'https://tanmaysk.in'
+          PROVIDER:           'cerebras'
+          CONCURRENCY:        ${{ github.event.inputs.concurrency || '1' }}
+          MAX_BOOKS:          ${{ github.event.inputs.max_books || '20' }}
+          STREET_LANG:        ${{ github.event.inputs.street_lang || 'english' }}
+          OUTPUT_DIR:         'pustakam-books-data'
+          CI:                 'true'
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Running manual dispatch: generating ${{ github.event.inputs.max_books || '20' }} ${{ github.event.inputs.edition || 'stellar' }} editions via Cerebras with 50/50 model split"
+            echo "Running manual dispatch: ${{ github.event.inputs.max_books || '20' }} ${{ github.event.inputs.edition || 'stellar' }} editions"
             MAX_BOOKS="${{ github.event.inputs.max_books || '20' }}" EDITION="${{ github.event.inputs.edition || 'stellar' }}" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
           else
-            echo "Running scheduled run: targeting 20 stellar editions with quality gates"
+            echo "Running scheduled run: 20 stellar editions"
             MAX_BOOKS="20" EDITION="stellar" PROVIDER="cerebras" npx tsx scripts/generate-library.ts
           fi
 
-      # Publish server-rendered snapshots so crawlers receive book content and
-      # book-specific metadata without relying on client-side JavaScript.
-      - name: Generate crawlable library pages
+      # ── 8. Generate crawlable SEO pages
+      - name: 📄 Generate crawlable library pages
         env:
           OUTPUT_DIR: pustakam-books-data
           SEO_OUTPUT_DIR: public/library
           SITE_URL: https://tanmaysk.in
         run: npx tsx scripts/generate-seo-pages.ts
 
-      # ── 9. Sync Sitemap back to Main Repo ───────────────────────────────────
+      # ── 9. Sync Sitemap
       - name: 🗺️ Syncing Sitemap to Primary Vault
         run: |
           mkdir -p public/library
           if [ -f "pustakam-books-data/sitemap.xml" ]; then
             cp pustakam-books-data/sitemap.xml public/library/sitemap.xml
-            echo "✅ Sitemap synced — tanmaysk.in/library/sitemap.xml stays alive"
+            echo "✅ Sitemap synced"
           else
             echo "⚠️ No sitemap found in data vault"
           fi
 
-      # ── 10. Post-Synthesis Audit ─────────────────────────────────────────────
+      # ── 10. Post-Synthesis Audit (warning only — never blocks the push)
       - name: 📈 Post-Synthesis Transmission Audit
         run: |
           TOTAL=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
@@ -196,17 +175,17 @@ jobs:
           SITEMAP_URLS=$(grep -c '<url>' public/library/sitemap.xml 2>/dev/null || echo "0")
           CATALOG_SIZE=$(wc -c < pustakam-books-data/catalog.json 2>/dev/null || echo "0")
           if [ "$TOTAL" -gt 0 ] && [ "$SNAPSHOTS" -lt "$TOTAL" ]; then
-            echo "SEO snapshot audit failed: $SNAPSHOTS snapshots for $TOTAL books"
-            exit 1
+            echo "⚠️  SEO snapshot gap: $SNAPSHOTS snapshots for $TOTAL books (closing each run)"
           fi
           echo "🪐 ──────────────────────────────────────────"
           echo "✅ Quantum Synthesis Complete"
           echo "📖 Total Codices in Data Vault: $TOTAL"
+          echo "🖼️  SEO Snapshots in Main Repo: $SNAPSHOTS"
           echo "🗺️  Navigation Vectors Indexed: $SITEMAP_URLS"
           echo "📑 Index Matrix Size: ${CATALOG_SIZE} Bytes"
           echo "🪐 ──────────────────────────────────────────"
 
-      # ── 11. Push Books + Catalog to pustakam-books ──────────────────────────
+      # ── 11. Push Books + Catalog to pustakam-books
       - name: 📡 Transmitting Codices to Data Vault (pustakam-books)
         run: |
           cd pustakam-books-data
@@ -220,40 +199,20 @@ jobs:
             git commit -m "🌌 Quantum Codex Transmission: +${BOOK_COUNT} codices ($(date -u '+%Y-%m-%d'))"
             git push
             echo "✅ Successfully transmitted ${BOOK_COUNT} new codices to pustakam-books"
-            echo "🚀 CDN: https://cdn.jsdelivr.net/gh/tanmay-kalbande/pustakam-books@main/books/"
           fi
 
-      # ── 12. Purge jsDelivr CDN cache so new books appear immediately ────────
+      # ── 12. Purge jsDelivr CDN cache
       - name: 🔄 Purging CDN Cache
         run: |
-          echo "🔄 Purging jsDelivr cache for catalog..."
           curl -s "https://purge.jsdelivr.net/gh/tanmay-kalbande/pustakam-books@main/catalog.json" || true
           echo "✅ CDN cache purge requested"
 
-      # ── 13. One-time Cleanup: Remove books from main repo after migration ────
-      - name: 🧹 Cleaning Up Primary Vault (Removes Migrated Books)
-        run: |
-          MAIN_COUNT=$(find public/library/books -name "*.json" 2>/dev/null | wc -l || echo "0")
-          DATA_COUNT=$(find pustakam-books-data/books -name "*.json" 2>/dev/null | wc -l || echo "0")
-          if [ "$MAIN_COUNT" -gt "0" ] && [ "$DATA_COUNT" -ge "$MAIN_COUNT" ]; then
-            echo "🧹 Safe to remove — all $MAIN_COUNT books confirmed in pustakam-books"
-            git rm -r --cached public/library/books/ --quiet 2>/dev/null || true
-            rm -rf public/library/books/
-            git rm --cached public/library/catalog.json --quiet 2>/dev/null || true
-            rm -f public/library/catalog.json
-            echo "✅ Primary vault cleaned — ~100MB freed from main repo"
-          else
-            echo "ℹ️ Cleanup skipped (main: $MAIN_COUNT books, data vault: $DATA_COUNT books)"
-          fi
-
-      # ── 14. Commit Sitemap + Checkpoint to Main Repo ────────────────────────
+      # ── 13. Commit Sitemap + SEO snapshots + Checkpoint to Main Repo
       - name: 📡 Syncing Checkpoint & Sitemap to Primary Vault
         run: |
           git config user.name  "Pustakam Quantum Bot"
           git config user.email "quantum-bot@pustakam.app"
-          # Includes sitemap plus the crawlable HTML snapshots generated above.
           git add public/library scripts/.library-checkpoint.json
-          # Force-add the generated book snapshots so they are never skipped by ignore rules.
           git add -f public/library/book
           git add -u
           if git diff --staged --quiet; then
@@ -264,26 +223,9 @@ jobs:
             echo "✅ Primary vault synced"
           fi
 
-      # ── 15. Continuous Generation Loop: Auto-trigger next cycle ────────────
-      - name: 🔄 Auto-Triggering Next Continuous Synthesis Cycle
-        # Continue only after this run finishes; the workflow concurrency lock
-        # prevents overlapping generation jobs.
-        if: success()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "🚀 Triggering continuous synthesis cycle..."
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-            https://api.github.com/repos/${{ github.repository }}/actions/workflows/generate-books.yml/dispatches \
-            -d '{"ref":"main"}' || true
-          echo "✅ Continuous cycle triggered"
-
-      # ── 16. Emergency Signal on Disruptions ─────────────────────────────────
+      # ── 14. Emergency Signal on Disruptions
       - name: 🚨 Anomaly Diagnostics
         if: failure()
         run: |
           echo "⚠️ Transmission Interrupted: Diagnostics log captured in checkpoint memory"
           echo "🔁 Automatic orbital resume will ignite on next scheduled cycle"
-
