@@ -4269,7 +4269,7 @@ html[data-theme="light"] .lib-card-new-badge {
   max-width: 720px;
   margin: 0;
   color: #f5efe9;
-  font: 700 clamp(3.1rem, 6.2vw, 6.8rem)/.86 var(--f-display);
+  font: 700 clamp(3.1rem, 6.2vw, 6.8rem)/1.05 var(--f-display);
   letter-spacing: -.055em;
 }
 
@@ -5013,7 +5013,7 @@ html[data-theme="light"] .lib-card-new-badge {
 
 /* Keep the original abstract reading visual; only motion is added. */
 .lib-home-hero h1 {
-  line-height: .95;
+  line-height: 1.05;
 }
 
 .lib-home-hero h1 em {
