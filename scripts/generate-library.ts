@@ -1,6 +1,6 @@
 /**
- * Pustakam Library Generator Ã¢â‚¬â€ Full-Fledged Pipeline (File-Based)
- * Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+ * Pustakam Library Generator  Full-Fledged Pipeline (File-Based)
+ * 
  * Generates books locally as JSON files using the same pipeline
  * as the Pustakam app: dynamic module count, AI-generated
  * introduction/summary/glossary, deep chapter continuity via
@@ -8,10 +8,10 @@
  *
  * Output structure:
  *   public/library/
- *     catalog.json            Ã¢â€ Â all book metadata (for directory page)
- *     sitemap.xml             Ã¢â€ Â submit this to Google Search Console
+ *     catalog.json             all book metadata (for directory page)
+ *     sitemap.xml              submit this to Google Search Console
  *     books/
- *       learn-python.json     Ã¢â€ Â individual book (content + metadata)
+ *       learn-python.json      individual book (content + metadata)
  *       stock-market.json
  *       ...
  *
@@ -23,8 +23,8 @@
  * After running:
  *   git add public/library
  *   git push
- *   Ã¢â€ â€™ Vercel auto-deploys, Google indexes via sitemap
- * Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+ *    Vercel auto-deploys, Google indexes via sitemap
+ * 
  */
 
 import * as fs from 'fs';
@@ -34,7 +34,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Config Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Config 
 
 const EDITION = (process.env.EDITION || 'stellar') as 'stellar' | 'street' | 'desi';
 const STREET_LANG = (process.env.STREET_LANG || (EDITION === 'desi' ? 'hinglish' : 'english')) as 'english' | 'hinglish';
@@ -97,7 +97,7 @@ const CONFIG = {
   MAX_BOOKS:             Number(process.env.MAX_BOOKS   || 0), // 0 = no limit
 
   // Cerebras real rate limit: 30,000 tokens/minute per key
-  // (was incorrectly set to 450,000 Ã¢â‚¬â€ which let all requests through and caused 429s)
+  // (was incorrectly set to 450,000  which let all requests through and caused 429s)
   TOKENS_PER_MIN_LIMIT:  30_000,
 
   // Match Pustakam's word targets (1800-3200 per module)
@@ -129,7 +129,7 @@ const CONFIG = {
   RETRY_MAX:             5,
 };
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Types Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Types 
 
 interface BookMeta {
   slug: string;
@@ -162,7 +162,7 @@ interface TopicSeed {
   language?: string;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Keyword-based similarity detection Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Keyword-based similarity detection 
 
 /** Extract meaningful keywords from a goal/title string (strips stop words). */
 function extractKeywords(text: string): Set<string> {
@@ -186,7 +186,7 @@ function extractKeywords(text: string): Set<string> {
 
 /** Returns the Jaccard similarity between two keyword sets (union denominator).
  *  Prevents short 2-word topics scoring 1.0 against long titles just by sharing
- *  2 keywords â€” which caused massive over-rejection of genuinely new topics.
+ *  2 keywords  which caused massive over-rejection of genuinely new topics.
  */
 function keywordSimilarity(a: string, b: string): number {
   const kA = extractKeywords(a);
@@ -203,13 +203,13 @@ function keywordSimilarity(a: string, b: string): number {
 function filterSimilarSeeds(
   seeds: TopicSeed[],
   existing: Array<{ title: string; goal?: string }>,
-  threshold = 0.75  // raised from 0.6 â€” true Jaccard is lower, threshold must compensate
+  threshold = 0.75  // raised from 0.6  true Jaccard is lower, threshold must compensate
 ): TopicSeed[] {
   const existingTexts = existing.map(b => b.title + ' ' + (b.goal || ''));
   return seeds.filter(seed => {
     for (const existing of existingTexts) {
       if (keywordSimilarity(seed.goal, existing) >= threshold) {
-        console.log(`  Ã°Å¸â€Â Skipping duplicate seed: "${seed.goal}" (too similar to existing book)`);
+        console.log(`   Skipping duplicate seed: "${seed.goal}" (too similar to existing book)`);
         return false;
       }
     }
@@ -225,7 +225,7 @@ function deduplicateSeedBatch(seeds: TopicSeed[], threshold = 0.72): TopicSeed[]
   for (const seed of seeds) {
     const isDupe = kept.some(k => keywordSimilarity(seed.goal, k.goal) >= threshold);
     if (isDupe) {
-      console.log(`  Ã°Å¸â€Â Removing intra-batch duplicate: "${seed.goal}"`);
+      console.log(`   Removing intra-batch duplicate: "${seed.goal}"`);
     } else {
       kept.push(seed);
     }
@@ -233,9 +233,9 @@ function deduplicateSeedBatch(seeds: TopicSeed[], threshold = 0.72): TopicSeed[]
   return kept;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Category normalizer Ã¢â‚¬â€ minimal cleanup only, AI has full freedom Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Category normalizer  minimal cleanup only, AI has full freedom 
 function normalizeCategory(raw: string): string {
-  // Only deduplicate obvious plural/synonym collisions Ã¢â‚¬â€ never collapse
+  // Only deduplicate obvious plural/synonym collisions  never collapse
   // distinct topics into a generic parent. The AI picks whatever category
   // it wants; we just clean up the slug.
   const DEDUP_MAP: Record<string, string> = {
@@ -268,7 +268,7 @@ interface Checkpoint {
   lastUpdated: string;
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ File system helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  File system helpers 
 
 function ensureDirs() {
   fs.mkdirSync(path.join(CONFIG.OUTPUT_DIR, 'books'), { recursive: true });
@@ -309,7 +309,7 @@ function rebuildIndex(): void {
     'utf8'
   );
 
-  console.log(`\nÃ°Å¸â€œâ€˜ catalog.json rebuilt: ${index.length} books`);
+  console.log(`\n catalog.json rebuilt: ${index.length} books`);
 }
 
 function generateSitemap(books: BookMeta[]): void {
@@ -335,18 +335,18 @@ ${urls}
 </urlset>`;
 
   fs.writeFileSync(path.join(CONFIG.OUTPUT_DIR, 'sitemap.xml'), xml, 'utf8');
-  console.log(`Ã°Å¸â€”ÂºÃ¯Â¸Â  sitemap.xml written: ${books.length + 1} URLs`);
-  console.log(`   Ã¢â€ â€™ Submit to: https://search.google.com/search-console`);
-  console.log(`   Ã¢â€ â€™ URL: ${CONFIG.SITE_URL}/library/sitemap.xml`);
+  console.log(`  sitemap.xml written: ${books.length + 1} URLs`);
+  console.log(`    Submit to: https://search.google.com/search-console`);
+  console.log(`    URL: ${CONFIG.SITE_URL}/library/sitemap.xml`);
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Checkpoint Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Checkpoint 
 
 function loadCheckpoint(): Checkpoint {
   try {
     if (fs.existsSync(CONFIG.CHECKPOINT_FILE)) {
       const data: Checkpoint = JSON.parse(fs.readFileSync(CONFIG.CHECKPOINT_FILE, 'utf8'));
-      console.log(`Ã°Å¸â€œâ€š Resuming: ${data.completedSlugs.length} done, ${data.failedSlugs.length} failed`);
+      console.log(` Resuming: ${data.completedSlugs.length} done, ${data.failedSlugs.length} failed`);
       return data;
     }
   } catch {}
@@ -358,7 +358,7 @@ function saveCheckpoint(cp: Checkpoint) {
   fs.writeFileSync(CONFIG.CHECKPOINT_FILE, JSON.stringify(cp, null, 2), 'utf8');
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Rate limiter Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Rate limiter 
 
 class TokenBudget {
   private window: { tokens: number; ts: number }[] = [];
@@ -375,7 +375,7 @@ class TokenBudget {
     while (this.used() + tokens > this.limitPerMin) {
       const oldest = this.window[0];
       const waitMs = oldest ? oldest.ts + 60_000 - Date.now() + 200 : 2000;
-      console.log(`  Ã¢ÂÂ³ Rate limit: waiting ${Math.ceil(waitMs / 1000)}s (${this.used().toLocaleString()} tokens used this minute)`);
+      console.log(`   Rate limit: waiting ${Math.ceil(waitMs / 1000)}s (${this.used().toLocaleString()} tokens used this minute)`);
       await sleep(Math.max(waitMs, 500));
       this.sweep();
     }
@@ -386,7 +386,7 @@ class TokenBudget {
 
 const tokenBudget = new TokenBudget(CONFIG.TOKENS_PER_MIN_LIMIT);
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Worker pool Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Worker pool 
 
 function pLimit(concurrency: number) {
   let running = 0;
@@ -399,9 +399,9 @@ function pLimit(concurrency: number) {
     });
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Retry Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Retry 
 
-/** Throw this to skip all retries Ã¢â‚¬â€ for permanent errors like 402 Payment Required. */
+/** Throw this to skip all retries  for permanent errors like 402 Payment Required. */
 class NonRetryableError extends Error {
   constructor(msg: string) { super(msg); this.name = 'NonRetryableError'; }
 }
@@ -414,14 +414,14 @@ async function withRetry<T>(fn: () => Promise<T>, label: string): Promise<T> {
       if (e instanceof NonRetryableError) throw e;
       if (attempt === CONFIG.RETRY_MAX) throw e;
       const delay = delays[attempt - 1] || 120000;
-      console.warn(`  Ã¢Å¡Â Ã¯Â¸Â  ${label} retry ${attempt}/${CONFIG.RETRY_MAX} in ${Math.ceil(delay/1000)}s`);
+      console.warn(`    ${label} retry ${attempt}/${CONFIG.RETRY_MAX} in ${Math.ceil(delay/1000)}s`);
       await sleep(delay);
     }
   }
   throw new Error(`${label} failed all retries`);
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ AI caller (Z.ai primary, Mistral fallback) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  AI caller (Z.ai primary, Mistral fallback) 
 type RequestKind = 'roadmap' | 'chapter' | 'assemble' | 'glossary' | 'seeds-generator';
 type Completion = { text: string; model: string };
 
@@ -472,10 +472,10 @@ async function callAI(
         CONFIG.PRIMARY_API_KEY = nextKey;
       }
       if (res.status === 404 && model === 'gemma-4-31b') {
-        // gemma-4-31b is a Preview model Ã¢â‚¬â€ this key may not have access.
+        // gemma-4-31b is a Preview model  this key may not have access.
         // Switch BOTH the global config AND the local model variable so
         // withRetry's next attempt actually sends gpt-oss-120b, not gemma-4-31b.
-        console.log(`  Ã°Å¸â€â€ž gemma-4-31b returned 404 on Cerebras (Preview access denied), switching to gpt-oss-120b...`);
+        console.log(`   gemma-4-31b returned 404 on Cerebras (Preview access denied), switching to gpt-oss-120b...`);
         if (CONFIG.PRIMARY_MODEL === 'gemma-4-31b') CONFIG.PRIMARY_MODEL = 'gpt-oss-120b';
         model = 'gpt-oss-120b';
       }
@@ -488,8 +488,8 @@ async function callAI(
   }
 
   if (res.status === 402) {
-    // Payment Required Ã¢â‚¬â€ free quota exhausted on this key; rotate and fail immediately
-    // (retrying with the same key won't help Ã¢â‚¬â€ quota resets on a monthly cycle)
+    // Payment Required  free quota exhausted on this key; rotate and fail immediately
+    // (retrying with the same key won't help  quota resets on a monthly cycle)
     if (provider === 'cerebras') {
       rotateCerebrasKey();
     }
@@ -508,7 +508,7 @@ async function callAI(
     throw new Error(`${provider} ${res.status}: ${(await res.text()).slice(0, 200)}`);
   }
 
-  // Success Ã¢â‚¬â€ reset failure counter
+  // Success  reset failure counter
   if (!useFallback) primaryConsecutiveFailures = 0;
 
   const data = await res.json() as any;
@@ -518,7 +518,7 @@ async function callAI(
   return { text, model };
 }
 
-// Convenience wrapper Ã¢â‚¬â€ always tries primary first
+// Convenience wrapper  always tries primary first
 async function callWriter(
   prompt: string,
   estInputTokens = 500,
@@ -529,7 +529,7 @@ async function callWriter(
   return callAI(prompt, estInputTokens, kind, false, systemPrompt, modelOverride);
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ ZAI GLM-4.7-Flash fallback Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  ZAI GLM-4.7-Flash fallback 
 // Fallback model caller used when Cerebras quota (402) is exhausted mid-book.
 // Order: Mistral Small (mistral-small-2506) FIRST (rock-solid, high rate limits),
 // then ZAI GLM-4.7-Flash SECOND (with retries for 429 overload errors).
@@ -550,7 +550,7 @@ async function callFallback(
   if (mistralKey) {
     try {
       const mistralModel = modelOverride || 'mistral-small-2506';
-      console.log(`  Ã°Å¸â€â€ž Cerebras quota exhausted Ã¢â‚¬â€ using Mistral (${mistralModel})...`);
+      console.log(`   Cerebras quota exhausted  using Mistral (${mistralModel})...`);
       const mistralRes = await fetch('https://api.mistral.ai/v1/chat/completions', {
         method: 'POST',
         headers: { Authorization: `Bearer ${mistralKey}`, 'Content-Type': 'application/json' },
@@ -568,10 +568,10 @@ async function callFallback(
         if (text) return { text, model: mistralModel };
       } else {
         const body = (await mistralRes.text()).slice(0, 150);
-        console.warn(`  Ã¢Å¡Â Ã¯Â¸Â  Mistral ${mistralRes.status}: ${body}`);
+        console.warn(`    Mistral ${mistralRes.status}: ${body}`);
       }
     } catch (e: any) {
-      console.warn(`  Ã¢Å¡Â Ã¯Â¸Â  Mistral fallback error: ${String(e?.message || e).slice(0, 100)}`);
+      console.warn(`    Mistral fallback error: ${String(e?.message || e).slice(0, 100)}`);
     }
   }
 
@@ -579,7 +579,7 @@ async function callFallback(
   const glmApiKey = process.env.ZAI_API_KEY || '';
   if (glmApiKey) {
     const glmModel = 'glm-4.7-flash';
-    console.log(`  Ã°Å¸â€â€ž Trying ZAI ${glmModel} secondary fallback...`);
+    console.log(`   Trying ZAI ${glmModel} secondary fallback...`);
     const maxRetries = 5;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
@@ -598,7 +598,7 @@ async function callFallback(
         if (res.status === 429 || res.status === 503 || res.status === 500) {
           const body = (await res.text()).slice(0, 150);
           const delaySec = attempt * 5; // 5s, 10s, 15s, 20s, 25s
-          console.warn(`  Ã¢Å¡Â Ã¯Â¸Â  ZAI ${glmModel} ${res.status} (${body}) Ã¢â‚¬â€ retry ${attempt}/${maxRetries} in ${delaySec}s...`);
+          console.warn(`    ZAI ${glmModel} ${res.status} (${body})  retry ${attempt}/${maxRetries} in ${delaySec}s...`);
           await sleep(delaySec * 1000);
           continue;
         }
@@ -615,7 +615,7 @@ async function callFallback(
         return { text, model: `zai-${glmModel}` };
       } catch (err: any) {
         if (attempt === maxRetries || err.message?.includes('401') || err.message?.includes('403')) {
-          console.warn(`  Ã¢Å¡Â Ã¯Â¸Â  ZAI fallback failed after ${attempt} attempts: ${String(err?.message || err).slice(0, 100)}`);
+          console.warn(`    ZAI fallback failed after ${attempt} attempts: ${String(err?.message || err).slice(0, 100)}`);
           break;
         }
       }
@@ -628,7 +628,7 @@ async function callFallback(
 // Alias for backwards compatibility across call sites
 const callGLMFallback = callFallback;
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Prompts Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Prompts 
 
 /** Concrete, content-shaping definition of what each complexity level means.
  *  Ported from Pustakam bookService.ts getComplexityGuide() */
@@ -647,7 +647,7 @@ function buildRoadmapPrompt(seed: TopicSeed): string {
   const isMarathi = seed.language === 'mr';
 
   if (EDITION === 'desi') {
-    // Ã¢â€â‚¬Ã¢â€â‚¬ Ported from pustakam-main/src/services/desiPromptService.ts Ã¢â€â‚¬Ã¢â€â‚¬
+    //  Ported from pustakam-main/src/services/desiPromptService.ts 
     const languageInstruction = isMarathi
       ? `LANGUAGE: Primarily "Marthienglish" (Marathi + English mix) with natural urban slang. Allow light Hinglish if it flows better in explanations (e.g., "Kya bolta hai" okay if context fits, but prioritize Marathi like "Kay bolto bhava"). Keywords: "Bhava", "Rao", "Vishay hard aahe", "Dokyat ghal". Use Marathi slang sparingly and naturally. Mix English words seamlessly. Avoid over-repetition - vary slang for freshness.`
       : `LANGUAGE: Raw conversational Hinglish (Hindi + English mix). "Bhai", "Boss", "Sahi hai". Vary phrases to keep it fresh - no repeating the same slang every sentence.`;
@@ -680,7 +680,7 @@ REQUIREMENTS FOR THE ROADMAP:
 
 ROADMAP OUTPUT (JSON ONLY):
 {
-  "title": "SEO-friendly book title (max 60 chars, what a user would Google, e.g. 'Python Programming for Beginners' Ã¢â‚¬â€ NOT creative/poetic titles)",
+  "title": "SEO-friendly book title (max 60 chars, what a user would Google, e.g. 'Python Programming for Beginners'  NOT creative/poetic titles)",
   "modules": [
     {
       "title": "Module ka title (Style: ${languageLabel}, Punchy, Light Slang)",
@@ -695,7 +695,7 @@ ROADMAP OUTPUT (JSON ONLY):
   }
 
   if (EDITION === 'street') {
-    // Ã¢â€â‚¬Ã¢â€â‚¬ Ported from pustakam-main/src/services/streetPromptService.ts Ã¢â€â‚¬Ã¢â€â‚¬
+    //  Ported from pustakam-main/src/services/streetPromptService.ts 
     return `Boss, we're building a blackhole roadmap for: "${seed.goal}". No hand-holding. No shortcuts. Just raw strategy.
 
 PERSONA:
@@ -720,7 +720,7 @@ MISSION SPECS:
 
 Return ONLY valid JSON:
 {
-  "title": "SEO-friendly book title (max 60 chars, what a real person would Google Ã¢â‚¬â€ NOT hype/creative titles like 'BLACKHOLE ROADMAP'. Example: 'Stock Market Trading for Beginners')",
+  "title": "SEO-friendly book title (max 60 chars, what a real person would Google  NOT hype/creative titles like 'BLACKHOLE ROADMAP'. Example: 'Stock Market Trading for Beginners')",
   "modules": [
     {
       "title": "Module Title That Slaps Hard",
@@ -734,7 +734,7 @@ Return ONLY valid JSON:
 }`;
   }
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬ Stellar edition Ã¢â‚¬â€ ported from pustakam-main/src/services/bookService.ts buildRoadmapPrompt() Ã¢â€â‚¬Ã¢â€â‚¬
+  //  Stellar edition  ported from pustakam-main/src/services/bookService.ts buildRoadmapPrompt() 
   const complexityGuide = getComplexityGuide(seed.complexity);
   return `Create a comprehensive learning roadmap for: "${seed.goal}"
 
@@ -761,7 +761,7 @@ function buildModulePrompt(
   previousModules: Array<{ title: string; content: string; wordCount: number }>
 ): { systemPrompt: string; userPrompt: string } {
   const complexity = seed.complexity || 'beginner';
-  // Ã¢â€â‚¬Ã¢â€â‚¬ Positional outline Ã¢â‚¬â€ ported from pustakam-main bookService.ts buildModulePrompt() Ã¢â€â‚¬Ã¢â€â‚¬
+  //  Positional outline  ported from pustakam-main bookService.ts buildModulePrompt() 
   // Each module gets a positional marker so the AI knows what's before/after the current chapter.
   const bookOutline = roadmap.modules.map((item, i) => {
     const position = i + 1 === index + 1
@@ -786,7 +786,7 @@ function buildModulePrompt(
   const focusLine = mod.focus ? `\n- Chapter focus: ${mod.focus}` : '';
   const isFirstModule = index === 0;
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬ Desi / Hinglish edition Ã¢â€â‚¬Ã¢â€â‚¬
+  //  Desi / Hinglish edition 
   // Ported from pustakam-main/src/services/desiPromptService.ts buildModulePrompt()
   if (EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) {
     const isMarathi = seed.language === 'mr';
@@ -817,10 +817,10 @@ ${languageInstruction}
 
 STYLE GUIDELINES:
 - Chapter start seedha point se kar. No "Welcome to this chapter" bakchodi.
-- Make every hook and ending fresh and varied, in "playful roast" zone: funny, direct, street-energy motivation Ã¢â‚¬â€ no crude references, no extreme shaming.
-- End har section ka ek 'Takeaway' ya 'Punchline' se kar Ã¢â‚¬â€ but vary wording/style to avoid repetition.
+- Make every hook and ending fresh and varied, in "playful roast" zone: funny, direct, street-energy motivation  no crude references, no extreme shaming.
+- End har section ka ek 'Takeaway' ya 'Punchline' se kar  but vary wording/style to avoid repetition.
 - Paragraphs short rakh.
-- RHETORICAL QUESTIONS use kar: "Samjha kya?" "Are you getting this?" Ã¢â‚¬â€ vary them too.
+- RHETORICAL QUESTIONS use kar: "Samjha kya?" "Are you getting this?"  vary them too.
 - EXAMPLES: Desi life ke examples use kar (Traffic, Vada pav, Local train, Gali cricket, Dating apps). Vary examples for freshness.
 - Agar kisi fact ya number ka pakka nahi pata, toh bana mat - seedha bol "pakka confirm kar lena" ya usko chhod de. Fake stats maar ke smart mat ban.
 
@@ -850,7 +850,7 @@ REQUIREMENTS:
     return { systemPrompt: '', userPrompt: prompt };
   }
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬ Street / English edition Ã¢â€â‚¬Ã¢â€â‚¬
+  //  Street / English edition 
   // Ported from pustakam-main/src/services/streetPromptService.ts buildModulePrompt()
   if (EDITION === 'street') {
     const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
@@ -902,7 +902,7 @@ LAYOUT BLUEPRINT:
     return { systemPrompt: '', userPrompt: prompt };
   }
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬ Stellar edition Ã¢â€â‚¬Ã¢â€â‚¬
+  //  Stellar edition 
   // Ported from pustakam-main/src/services/bookService.ts buildModulePrompt() stellar path
   const complexityGuide = getComplexityGuide(seed.complexity);
   const exampleInstruction = ['programming', 'data-science', 'ai'].includes(seed.category)
@@ -929,7 +929,7 @@ ${exampleInstruction}
 - If you're not confident about a specific fact, figure, or citation, say so plainly or leave it out - don't invent statistics, studies, or quotes to sound authoritative.
 
 DO NOT:
-- Start with "In this chapter" or "In this module" Ã¢â‚¬â€ dive straight into the content
+- Start with "In this chapter" or "In this module"  dive straight into the content
 - Use filler phrases like "In conclusion", "As we have seen", "It is worth noting"
 - Redefine or re-explain concepts already covered in earlier chapters (see ALREADY INTRODUCED above)
 - Pad the chapter with repetition or restated points just to add length
@@ -940,7 +940,7 @@ Close with a "## Key Takeaways" section.`;
   return { systemPrompt: '', userPrompt: prompt };
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Pustakam pipeline functions (ported from bookService.ts) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Pustakam pipeline functions (ported from bookService.ts) 
 
 /**
  * Extracts key concepts/terms from completed modules by scanning
@@ -1050,7 +1050,7 @@ CATEGORY: ${seed.category}
 
 Write 800-1200 words covering: welcome and purpose, what readers will learn, book structure, motivation. Use ### markdown headers for internal sections (this is already wrapped in its own "## Introduction" heading, so don't title any of your own sections "Introduction" - start with something like "### Welcome and Purpose" instead).
 
-${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ? 'TONE: Hardcore Hinglish tapori style Ã¢â‚¬â€ gaali + gyaan combo, savage but loving. Same persona as the rest of the book. Vary your opening hook wildly based on the topic. Do NOT repeat generic lines like "Abe sun, ye introduction hai". Make it unique and directly tied to the subject matter.' : EDITION === 'street' ? 'TONE: Raw, unfiltered, street-prophet style Ã¢â‚¬â€ curse when it hits, roast the reader for even thinking about skipping the intro. Same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, knowledgeable, mentor-like. Make the reader excited about what they\'re about to learn.'}`;
+${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ? 'TONE: Hardcore Hinglish tapori style  gaali + gyaan combo, savage but loving. Same persona as the rest of the book. Vary your opening hook wildly based on the topic. Do NOT repeat generic lines like "Abe sun, ye introduction hai". Make it unique and directly tied to the subject matter.' : EDITION === 'street' ? 'TONE: Raw, unfiltered, street-prophet style  curse when it hits, roast the reader for even thinking about skipping the intro. Same persona as the rest of the book. Pure English, no Hindi/Hinglish.' : 'TONE: Warm, knowledgeable, mentor-like. Make the reader excited about what they\'re about to learn.'}`;
 
   const result = await withRetry(
     () => callWriter(prompt, 800, 'assemble', undefined, modelOverride),
@@ -1075,7 +1075,7 @@ ${modules.map(m => `- ${m.title}`).join('\n')}
 
 Write 600-900 words covering: key learning outcomes, important concepts recap, next steps, congratulations. Use ### markdown headers for internal sections (this is already wrapped in its own "## Summary" heading, so don't title any of your own sections "Summary" - start with something like "### Key Learning Outcomes" instead).
 
-${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ? 'TONE: Hinglish tapori wrap-up Ã¢â‚¬â€ "Bas bhai, itna seekh liya toh tu set hai. Ab jaake duniya hila." Same savage-but-proud persona.' : EDITION === 'street' ? 'TONE: Raw, street-smart, wrap-up Ã¢â‚¬â€ celebrate the reader like a psychotic coach. "You beautiful disaster, you actually made it through. Now go destroy mediocrity." Pure English, no Hindi/Hinglish.' : 'TONE: Warm, encouraging, forward-looking. Celebrate their progress and point them to next steps.'}`;
+${(EDITION === 'desi' || (EDITION === 'street' && STREET_LANG === 'hinglish')) ? 'TONE: Hinglish tapori wrap-up  "Bas bhai, itna seekh liya toh tu set hai. Ab jaake duniya hila." Same savage-but-proud persona.' : EDITION === 'street' ? 'TONE: Raw, street-smart, wrap-up  celebrate the reader like a psychotic coach. "You beautiful disaster, you actually made it through. Now go destroy mediocrity." Pure English, no Hindi/Hinglish.' : 'TONE: Warm, encouraging, forward-looking. Celebrate their progress and point them to next steps.'}`;
 
   const result = await withRetry(
     () => callWriter(prompt, 600, 'assemble', undefined, modelOverride),
@@ -1125,10 +1125,10 @@ Format:
     const result = await callWriter(primaryPrompt, 1200, 'glossary', undefined, modelOverride);
     return result.text;
   } catch (primaryError) {
-    console.warn('  Ã¢Å¡Â Ã¯Â¸Â  Primary glossary prompt failed, retrying with smaller seed set...');
+    console.warn('    Primary glossary prompt failed, retrying with smaller seed set...');
   }
 
-  // Fallback prompt Ã¢â‚¬â€ simpler
+  // Fallback prompt  simpler
   const fallbackPrompt = `Create a concise glossary for this book using only the strongest topic signals.
 
 MODULE TITLES:
@@ -1150,7 +1150,7 @@ Format:
     const result = await callWriter(fallbackPrompt, 800, 'glossary', undefined, modelOverride);
     return result.text;
   } catch (fallbackError) {
-    console.warn('  Ã¢Å¡Â Ã¯Â¸Â  Fallback glossary prompt also failed, building local glossary...');
+    console.warn('    Fallback glossary prompt also failed, building local glossary...');
     // Local fallback: just list the extracted terms
     return glossaryTerms
       .slice(0, 14)
@@ -1160,7 +1160,7 @@ Format:
   }
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Helpers Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Helpers 
 
 function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)); }
 function countWords(t: string) { return t.trim().split(/\s+/).filter(Boolean).length; }
@@ -1168,7 +1168,7 @@ function countWords(t: string) { return t.trim().split(/\s+/).filter(Boolean).le
 /**
  * Validates and normalises a parsed roadmap object.
  * Accepts both "focus" (Pustakam format) and "description" field names,
- * maps focus Ã¢â€ â€™ description when description is absent, and adds
+ * maps focus  description when description is absent, and adds
  * estimatedTime when missing. Ported from pustakam-main bookService.ts
  * parseRoadmapResponse().
  */
@@ -1180,7 +1180,7 @@ function assertAndNormalizeRoadmap(roadmap: any): void {
     const focusVal = typeof m.focus === 'string' ? m.focus.trim() : undefined;
     const descVal  = typeof m.description === 'string' ? m.description.trim() : (focusVal || '');
     if (!m?.title || !descVal || !Array.isArray(m?.objectives) || m.objectives.length < 2) {
-      throw new Error(`Roadmap module ${i + 1} is incomplete (needs title, focus/description, and Ã¢â€°Â¥2 objectives)`);
+      throw new Error(`Roadmap module ${i + 1} is incomplete (needs title, focus/description, and 2 objectives)`);
     }
     return { ...m, description: descVal, focus: focusVal, estimatedTime: m.estimatedTime || '1-2 hours' };
   });
@@ -1193,7 +1193,7 @@ function assertChapter(content: string): void {
   if (words < CONFIG.MIN_MODULE_WORD_COUNT) throw new Error(`Chapter too short (${words} words, min ${CONFIG.MIN_MODULE_WORD_COUNT})`);
   if (!/^##\s+/m.test(content)) throw new Error('Chapter is missing section headings');
   if (EDITION === 'stellar') {
-    // Pustakam stellar closes with Key Takeaways Ã¢â‚¬â€ Practice is optional
+    // Pustakam stellar closes with Key Takeaways  Practice is optional
     if (!/##\s+Key Takeaways\b/i.test(content)) throw new Error('Chapter is missing ## Key Takeaways');
   }
   if (EDITION === 'street' || EDITION === 'desi') {
@@ -1232,7 +1232,7 @@ function assertBookQuality(book: BookFile): void {
 
 function makeMetaDescription(title: string, seed: TopicSeed): string {
   const complexity = seed.complexity || 'beginner';
-  const desc = `${title} Ã¢â‚¬â€ a free ${complexity}-level guide covering ${seed.goal.toLowerCase()}. Learn with clear explanations, real examples, and hands-on exercises.`;
+  const desc = `${title}  a free ${complexity}-level guide covering ${seed.goal.toLowerCase()}. Learn with clear explanations, real examples, and hands-on exercises.`;
   // Ensure we never truncate mid-word
   if (desc.length <= 155) return desc;
   const truncated = desc.substring(0, 152).replace(/\s+\S*$/, '');
@@ -1250,7 +1250,7 @@ function parseJSON(raw: string): any {
   return JSON.parse(match[1].replace(/,\s*([}\]])/g, '$1'));
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Core generator Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Core generator 
 
 async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles: string[]): Promise<'ok' | 'fail'> {
   // Determine model for this book (50/50 split between gemma-4-31b and gpt-oss-120b if Cerebras)
@@ -1264,7 +1264,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
   const getTag = () => `[W${workerIndex}]${targetModel ? ` [${targetModel}]` : ''}${getActiveCerebrasKeyTag()}`;
   const modelsUsed = new Set<string>();
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Step 1: Roadmap Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  //  Step 1: Roadmap 
   let roadmap: any;
   try {
     roadmap = await withRetry(
@@ -1272,14 +1272,14 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
         const result = await callWriter(buildRoadmapPrompt(seed), 500, 'roadmap', undefined, targetModel);
         modelsUsed.add(result.model);
         const parsed = parseJSON(result.text);
-        assertAndNormalizeRoadmap(parsed);  // normalises focusÃ¢â€ â€™description, adds estimatedTime
+        assertAndNormalizeRoadmap(parsed);  // normalises focusdescription, adds estimatedTime
         return parsed;
       },
       `${getTag()} roadmap`
     ).catch(async (e: any) => {
       // On Cerebras quota exhaustion, try GLM-4.7-Flash before abandoning
       if (e instanceof NonRetryableError && process.env.ZAI_API_KEY) {
-        console.log(`  Ã°Å¸â€â€ž ${getTag()} Cerebras quota exhausted Ã¢â‚¬â€ retrying roadmap with GLM-4.7-Flash...`);
+        console.log(`   ${getTag()} Cerebras quota exhausted  retrying roadmap with GLM-4.7-Flash...`);
         const result = await callGLMFallback(buildRoadmapPrompt(seed), 500, 'roadmap');
         modelsUsed.add(result.model);
         const parsed = parseJSON(result.text);
@@ -1288,7 +1288,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
       }
       throw e;
     });
-    console.log(`  Ã°Å¸â€œâ€¹ ${getTag()} Roadmap: "${roadmap.title}" Ã¢â‚¬â€ ${roadmap.modules.length} modules`);
+    console.log(`   ${getTag()} Roadmap: "${roadmap.title}"  ${roadmap.modules.length} modules`);
     // Regenerate slug from SEO-friendly roadmap title if available
     if (roadmap.title) {
       const editionPrefix = EDITION === 'desi' ? 'desi-' : EDITION === 'street' ? 'street-' : '';
@@ -1296,26 +1296,26 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
       // 1. Exact slug check (fast path)
       const existingBookPath = path.join(CONFIG.OUTPUT_DIR, 'books', `${newSlug}.json`);
       if (fs.existsSync(existingBookPath)) {
-        console.log(`  Ã¢ÂÂ­Ã¯Â¸Â  ${getTag()} Skipping Ã¢â‚¬â€ book with slug "${newSlug}" already exists`);
+        console.log(`    ${getTag()} Skipping  book with slug "${newSlug}" already exists`);
         return 'ok';
       }
       // 2. Keyword similarity check against ALL known titles (catches same topic with
-      //    different subtitle Ã¢â‚¬â€ e.g. "A Complete Guide" vs "A Comprehensive Guide")
+      //    different subtitle  e.g. "A Complete Guide" vs "A Comprehensive Guide")
       for (const existingTitle of existingTitles) {
         const sim = keywordSimilarity(roadmap.title, existingTitle);
         if (sim >= 0.75) {
-          console.log(`  Ã¢ÂÂ­Ã¯Â¸Â  ${getTag()} Skipping Ã¢â‚¬â€ "${roadmap.title}" is ${(sim * 100).toFixed(0)}% similar to existing "${existingTitle}"`);
-          return 'fail'; // was 'ok' — slot was counted as done but nothing was written
+          console.log(`    ${getTag()} Skipping  "${roadmap.title}" is ${(sim * 100).toFixed(0)}% similar to existing "${existingTitle}"`);
+          return 'fail'; // was 'ok'  slot was counted as done but nothing was written
         }
       }
       slug = newSlug;
     }
   } catch (e: any) {
-    console.error(`\nÃ¢ÂÅ’ ${getTag()} roadmap failed: ${slug} Ã¢â‚¬â€ ${String(e.message).slice(0, 80)}`);
+    console.error(`\n ${getTag()} roadmap failed: ${slug}  ${String(e.message).slice(0, 80)}`);
     return 'fail';
   }
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Step 2: Generate chapters sequentially with deep continuity Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  //  Step 2: Generate chapters sequentially with deep continuity 
   const modules: Array<{ title: string; content: string; wordCount: number }> = [];
   for (let i = 0; i < roadmap.modules.length; i++) {
     const mod = roadmap.modules[i];
@@ -1335,12 +1335,12 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
         },
         `${getTag()} module ${i + 1}/${roadmap.modules.length}`
       ).catch(async (e: any) => {
-        // Cerebras quota exhausted Ã¢â‚¬â€ rescue already-written chapters by switching to GLM
+        // Cerebras quota exhausted  rescue already-written chapters by switching to GLM
         if (e instanceof NonRetryableError && process.env.ZAI_API_KEY) {
-          console.log(`  Ã°Å¸â€â€ž ${getTag()} Cerebras quota Ã¢â‚¬â€ rescuing chapter ${i + 1}/${roadmap.modules.length} with GLM-4.7-Flash...`);
+          console.log(`   ${getTag()} Cerebras quota  rescuing chapter ${i + 1}/${roadmap.modules.length} with GLM-4.7-Flash...`);
           const promptObj = buildModulePrompt(seed, roadmap, mod, i, roadmap.modules.length, modules);
           const completion = await callGLMFallback(promptObj.userPrompt, 1500, 'chapter', promptObj.systemPrompt);
-          // Only check word count + headings for GLM chapters Ã¢â‚¬â€ skip Key Takeaways
+          // Only check word count + headings for GLM chapters  skip Key Takeaways
           // (GLM sometimes omits it; retrying just fails again with same result)
           const words = countWords(completion.text);
           if (words < CONFIG.MIN_MODULE_WORD_COUNT) throw new Error(`GLM chapter too short (${words} words)`);
@@ -1352,69 +1352,69 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
       modelsUsed.add(result.model);
       const content = stripLeadingDuplicateHeading(result.text, mod.title);
       modules.push({ title: mod.title, content, wordCount: countWords(content) });
-      process.stdout.write(`  Ã°Å¸â€œâ€“ ${getTag()} Chapter ${i + 1}/${roadmap.modules.length}: ${mod.title} (${countWords(content)} words)\n`);
+      process.stdout.write(`   ${getTag()} Chapter ${i + 1}/${roadmap.modules.length}: ${mod.title} (${countWords(content)} words)\n`);
 
       // Cooldown between modules to avoid rate limiting
       if (i < roadmap.modules.length - 1) {
         await sleep(CONFIG.MODULE_COOLDOWN);
       }
     } catch (error: any) {
-      console.error(`\nÃ¢ÂÅ’ ${getTag()} module ${i + 1} failed: ${String(error?.message || error).slice(0, 120)}`);
+      console.error(`\n ${getTag()} module ${i + 1} failed: ${String(error?.message || error).slice(0, 120)}`);
       return 'fail';
     }
   }
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Step 3: Assembly (Introduction + Summary + Glossary) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-  console.log(`  Ã°Å¸â€Â¨ ${getTag()} Assembling book...`);
+  //  Step 3: Assembly (Introduction + Summary + Glossary) 
+  console.log(`   ${getTag()} Assembling book...`);
 
   let introduction = '';
   let summary = '';
   let glossary = '';
 
   try {
-    console.log(`  Ã°Å¸â€œÂ ${getTag()} Generating introduction...`);
+    console.log(`   ${getTag()} Generating introduction...`);
     introduction = await generateIntroduction(seed, roadmap, targetModel);
     introduction = stripLeadingDuplicateHeading(introduction, 'Introduction');
     await sleep(CONFIG.MODULE_COOLDOWN);
 
-    console.log(`  Ã°Å¸â€œÂ ${getTag()} Generating summary...`);
+    console.log(`   ${getTag()} Generating summary...`);
     summary = await generateSummary(seed, modules, targetModel);
     summary = stripLeadingDuplicateHeading(summary, 'Summary');
     await sleep(CONFIG.MODULE_COOLDOWN);
 
-    console.log(`  Ã°Å¸â€œÂ ${getTag()} Generating glossary...`);
+    console.log(`   ${getTag()} Generating glossary...`);
     glossary = await generateGlossarySection(modules, targetModel);
   } catch (assemblyError: any) {
     const errMsg = String(assemblyError?.message || assemblyError);
-    console.warn(`  Ã¢Å¡Â Ã¯Â¸Â  ${getTag()} Assembly partially failed: ${errMsg.slice(0, 100)}`);
-    // Cerebras quota hit during assembly Ã¢â‚¬â€ rescue intro/summary/glossary via GLM-4.7-Flash
+    console.warn(`    ${getTag()} Assembly partially failed: ${errMsg.slice(0, 100)}`);
+    // Cerebras quota hit during assembly  rescue intro/summary/glossary via GLM-4.7-Flash
     if (process.env.ZAI_API_KEY && (errMsg.includes('402') || errMsg.includes('Payment'))) {
-      console.log(`  Ã°Å¸â€â€ž ${getTag()} Retrying assembly sections with GLM-4.7-Flash (free)...`);
+      console.log(`   ${getTag()} Retrying assembly sections with GLM-4.7-Flash (free)...`);
       try {
         if (!introduction) {
-          console.log(`  Ã°Å¸â€œÂ ${getTag()} Generating introduction (GLM)...`);
+          console.log(`   ${getTag()} Generating introduction (GLM)...`);
           const introPrompt = `Generate a compelling introduction for: "${seed.goal}"\nROADMAP:\n${roadmap.modules.map(m => `- ${m.title}`).join('\n')}\nTARGET: ${seed.complexity || 'beginner'} learners\nCATEGORY: ${seed.category}`;
           const res = await callGLMFallback(introPrompt, 300, 'chapter');
           introduction = stripLeadingDuplicateHeading(res.text.trim(), 'Introduction');
         }
         if (!summary) {
-          console.log(`  Ã°Å¸â€œÂ ${getTag()} Generating summary (GLM)...`);
+          console.log(`   ${getTag()} Generating summary (GLM)...`);
           const summaryPrompt = `Write a comprehensive summary of this book covering all key concepts:\n${modules.slice(0, 5).map(m => m.title).join(', ')}...`;
           const res = await callGLMFallback(summaryPrompt, 300, 'chapter');
           summary = stripLeadingDuplicateHeading(res.text.trim(), 'Summary');
         }
         if (!glossary) {
-          console.log(`  Ã°Å¸â€œÂ ${getTag()} Generating glossary (GLM)...`);
+          console.log(`   ${getTag()} Generating glossary (GLM)...`);
           const glossaryPrompt = `Create a glossary of 10-15 key terms with definitions from a book about: ${seed.goal}.`;
           const res = await callGLMFallback(glossaryPrompt, 300, 'chapter');
           glossary = res.text.trim();
         }
-        console.log(`  Ã¢Å“â€¦ ${getTag()} Assembly rescued via GLM-4.7-Flash`);
+        console.log(`   ${getTag()} Assembly rescued via GLM-4.7-Flash`);
       } catch (glmAssemblyErr: any) {
-        console.warn(`  Ã¢Å¡Â Ã¯Â¸Â  ${getTag()} GLM assembly rescue also failed: ${String(glmAssemblyErr?.message || '').slice(0, 80)}`);
+        console.warn(`    ${getTag()} GLM assembly rescue also failed: ${String(glmAssemblyErr?.message || '').slice(0, 80)}`);
       }
     }
-    // Continue with whatever we have Ã¢â‚¬â€ the book still has all its chapters
+    // Continue with whatever we have  the book still has all its chapters
   }
 
   const totalWords = modules.reduce((s, m) => s + m.wordCount, 0)
@@ -1443,7 +1443,7 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
     glossary ? `---\n\n## Glossary\n\n${glossary}` : '',
   ].join('');
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Step 4: Save to LOCAL FILE Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  //  Step 4: Save to LOCAL FILE 
   const bookFile: BookFile = {
     slug,
     title: roadmap.title || seed.goal,
@@ -1467,16 +1467,16 @@ async function generateBook(seed: TopicSeed, workerIndex: number, existingTitles
   try {
     assertBookQuality(bookFile);
   } catch (error: any) {
-    console.error('Ã¢ÂÅ’ Quality gate rejected ' + slug + ': ' + String(error?.message || error));
+    console.error(' Quality gate rejected ' + slug + ': ' + String(error?.message || error));
     return 'fail';
   }
 
   saveBook(bookFile);
-  console.log(`\nÃ¢Å“â€¦ ${getTag()} ${slug} Ã¢â‚¬â€ ${totalWords.toLocaleString()} words, ${modules.length} chapters Ã¢â€ â€™ public/library/books/${slug}.json`);
+  console.log(`\n ${getTag()} ${slug}  ${totalWords.toLocaleString()} words, ${modules.length} chapters  public/library/books/${slug}.json`);
   return 'ok';
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Topic seeds (Fallback pool Ã¢â‚¬â€ 140+ diverse seeds across global + India-specific) Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Topic seeds (Fallback pool  140+ diverse seeds across global + India-specific) 
 // Used when AI seed generation fails. Large enough that even with 700+ books in library,
 // there are always fresh, non-duplicate seeds available after filterSimilarSeeds().
 
@@ -1662,7 +1662,7 @@ function buildCategorySummaryMap(existing: BookMeta[]): string {
   for (const [cat, titles] of Object.entries(byCategory)) {
     const sample = titles.slice(0, 10).map(t => `"${t}"`).join(', ');
     const more = titles.length > 10 ? ` (+${titles.length - 10} more)` : '';
-    lines.push(`Ã¢â‚¬Â¢ Category "${cat}" (${titles.length} books): ${sample}${more}`);
+    lines.push(` Category "${cat}" (${titles.length} books): ${sample}${more}`);
   }
   return lines.join('\n');
 }
@@ -1693,7 +1693,7 @@ async function generateSeedsViaAI(
 
   const prompt = `You are a curriculum curator for a free online book library. Generate exactly ${count} completely new learning guide topics.
 
-CRITICAL Ã¢â‚¬â€ SEO & USER SEARCH INTENT:
+CRITICAL  SEO & USER SEARCH INTENT:
 Every goal MUST be something a real person would type into Google when they want to learn something. Think like an actual user searching, not an academic.
 
 GOOD goals (real search queries):
@@ -1721,11 +1721,11 @@ CURRENT LIBRARY SUMMARY BY CATEGORY (DO NOT duplicate, overlap, or rephrase any 
 ${compactCategoryMap || 'None yet.'}
 ${avoidBlock}${focusBlock}
 Rules:
-1. Goals must be 5-10 words max Ã¢â‚¬â€ short, clear, reads like a Google search query.
-2. YOU CHOOSE THE CATEGORY Ã¢â‚¬â€ pick under-represented or brand new categories (e.g., "trades", "crafts", "culinary", "gardening", "woodworking", "mechanics", "music", "pottery", "sports", "martial-arts", "languages", "health", "astronomy", "hobbies", "software-tools").
+1. Goals must be 5-10 words max  short, clear, reads like a Google search query.
+2. YOU CHOOSE THE CATEGORY  pick under-represented or brand new categories (e.g., "trades", "crafts", "culinary", "gardening", "woodworking", "mechanics", "music", "pottery", "sports", "martial-arts", "languages", "health", "astronomy", "hobbies", "software-tools").
 3. Mix complexities: 'beginner', 'intermediate', 'advanced'.
 4. Every goal must pass this test: "Would at least 1000 people per month search for this on Google?"
-5. ZERO TOLERANCE FOR DUPLICATES Ã¢â‚¬â€ check the existing catalog above carefully!
+5. ZERO TOLERANCE FOR DUPLICATES  check the existing catalog above carefully!
 6. Return ONLY a valid JSON array (no markdown, no wrap):
 [
   {
@@ -1759,24 +1759,24 @@ Rules:
     return null;
   };
 
-  // Attempt 1: Cerebras Ã¢â‚¬â€ same primary model as the rest of the pipeline
+  // Attempt 1: Cerebras  same primary model as the rest of the pipeline
   if (CONFIG.PRIMARY_API_KEY) {
     try {
       const result = await callWriter(prompt, 500, 'seeds-generator');
       const seeds = trySeedParse(result.text);
       if (seeds && seeds.length > 0) {
-        console.log(`  Ã¢Å“â€¦ ${seeds.length} unique seeds via Cerebras`);
+        console.log(`   ${seeds.length} unique seeds via Cerebras`);
         return seeds;
       }
     } catch (e: any) {
-      console.log(`  Ã¢Å¡Â Ã¯Â¸Â  Cerebras seed call failed: ${String(e?.message || e).slice(0, 80)}`);
+      console.log(`    Cerebras seed call failed: ${String(e?.message || e).slice(0, 80)}`);
     }
   }
 
-  // Attempt 2: ZAI glm-4.7-flash (free, 200K context) Ã¢â‚¬â€ fallback if Cerebras 402s
+  // Attempt 2: ZAI glm-4.7-flash (free, 200K context)  fallback if Cerebras 402s
   if (process.env.ZAI_API_KEY) {
     try {
-      console.log('  Ã°Å¸â€â€ž Cerebras unavailable Ã¢â‚¬â€ trying ZAI glm-4.7-flash for seeds...');
+      console.log('   Cerebras unavailable  trying ZAI glm-4.7-flash for seeds...');
       const res = await fetch('https://api.z.ai/api/paas/v4/chat/completions', {
         method: 'POST',
         headers: { Authorization: `Bearer ${process.env.ZAI_API_KEY}`, 'Content-Type': 'application/json' },
@@ -1787,23 +1787,23 @@ Rules:
         const text = data.choices?.[0]?.message?.content?.trim() || '';
         const seeds = text ? trySeedParse(text) : null;
         if (seeds && seeds.length > 0) {
-          console.log(`  Ã¢Å“â€¦ ${seeds.length} unique seeds via ZAI glm-4.7-flash`);
+          console.log(`   ${seeds.length} unique seeds via ZAI glm-4.7-flash`);
           return seeds;
         }
       }
     } catch (e: any) {
-      console.log(`  Ã¢Å¡Â Ã¯Â¸Â  ZAI seed call failed: ${String(e?.message || e).slice(0, 80)}`);
+      console.log(`    ZAI seed call failed: ${String(e?.message || e).slice(0, 80)}`);
     }
   }
 
-  console.log('  Ã¢Å¡Â Ã¯Â¸Â  All AI seed sources failed Ã¢â‚¬â€ using fallback seed pool...');
+  console.log('    All AI seed sources failed  using fallback seed pool...');
 
   let bootstrapSeeds = filterSimilarSeeds(BOOTSTRAP_SEEDS, existing, 0.6);
   bootstrapSeeds = deduplicateSeedBatch(bootstrapSeeds);
   return bootstrapSeeds.slice(0, count);
 }
 
-// Ã¢â€â‚¬Ã¢â€â‚¬ Main Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+//  Main 
 
 async function main() {
   if (!CONFIG.PRIMARY_API_KEY && !CONFIG.FALLBACK_API_KEY) {
@@ -1825,9 +1825,9 @@ async function main() {
 
   const countToGenerate = CONFIG.MAX_BOOKS > 0 ? CONFIG.MAX_BOOKS : 20;
 
-  console.log('\nÃ°Å¸Å¡â‚¬ Pustakam Library Generator Ã¢â‚¬â€ Full Pipeline (Sequential)');
-  console.log(`Ã°Å¸Â¤â€“ Target books to generate this run: ${countToGenerate}`);
-  console.log(`Ã¢Å“â€¦ Already done in library: ${getExistingSlugs().length} books on disk`);
+  console.log('\n Pustakam Library Generator  Full Pipeline (Sequential)');
+  console.log(` Target books to generate this run: ${countToGenerate}`);
+  console.log(` Already done in library: ${getExistingSlugs().length} books on disk`);
   
   // Multi-pass seed generation loop to collect countToGenerate guaranteed fresh, unique seeds
   const existingSlugsOnDisk = new Set(getExistingSlugs());
@@ -1845,13 +1845,13 @@ async function main() {
     const hint = domainHints[hintIndex % domainHints.length];
     hintIndex++;
     const needed = Math.min((countToGenerate - pending.length) * 2, 40);
-    console.log(`Ã°Å¸Â¤â€“ Seed Attempt ${hintIndex}: requesting ${needed} candidates (need ${countToGenerate - pending.length} more)...`);
+    console.log(` Seed Attempt ${hintIndex}: requesting ${needed} candidates (need ${countToGenerate - pending.length} more)...`);
     const rawSeeds = await generateSeedsViaAI(needed, existingBooks, hint);
 
     if (rawSeeds.length === 0) {
       consecutiveEmpty++;
-      if (consecutiveEmpty >= 4) { // raised from 2 â€” more hint passes before giving up
-        console.log('  Ã¢Å¡Â Ã¯Â¸Â  Two consecutive empty seed batches Ã¢â‚¬â€ stopping seed loop to avoid waste.');
+      if (consecutiveEmpty >= 4) { // raised from 2  more hint passes before giving up
+        console.log('    Two consecutive empty seed batches  stopping seed loop to avoid waste.');
         break;
       }
     } else {
@@ -1869,47 +1869,47 @@ async function main() {
       if (!isDiskDupe && !isPendingDupe) {
         pending.push(seed);
       } else {
-        console.log(`  Ã°Å¸â€Â Pre-filtered: "${seed.goal}"`);
+        console.log(`   Pre-filtered: "${seed.goal}"`);
       }
     }
   }
 
   if (pending.length === 0) {
-    console.log('Ã¢â€žÂ¹Ã¯Â¸Â  No new topics generated or all topics exhausted. Exiting.');
+    console.log('  No new topics generated or all topics exhausted. Exiting.');
     return;
   }
 
-  console.log(`Ã¢ÂÂ­Ã¯Â¸Â  Topics selected for generation:\n${pending.map((p, idx) => `   ${idx + 1}. ${p.goal} (${p.complexity})`).join('\n')}`);
+  console.log(`  Topics selected for generation:\n${pending.map((p, idx) => `   ${idx + 1}. ${p.goal} (${p.complexity})`).join('\n')}`);
 
   // Estimate: ~10-17 API calls per book, sequential
   const avgCalls = 13; // roadmap + ~8 chapters + intro + summary + glossary
   const estMinutes = (pending.length * avgCalls * 15) / 60; // ~15s per call average
-  console.log(`Ã¢Å¡â„¢Ã¯Â¸Â  Mode: Sequential (1 book at a time)`);
-  console.log(`Ã°Å¸â€œÂ Output: ${CONFIG.OUTPUT_DIR}`);
-  console.log(`Ã°Å¸Â¤â€“ Primary: ${CONFIG.PRIMARY_MODEL}  |  Fallback: ${CONFIG.FALLBACK_MODEL}`);
-  console.log(`Ã°Å¸â€œâ€“ Edition: ${EDITION.toUpperCase()} ${EDITION === 'street' ? 'Ã°Å¸â€Â¥ (Street Oracle Mode)' : 'Ã¢Å“Â¨ (Premium)'}`);
-  console.log(`Ã°Å¸â€Â§ Pipeline: Full (Intro + Chapters + Summary + Glossary)`);
-  console.log(`Ã°Å¸â€œÂ Word target: ${CONFIG.MODULE_WORD_TARGET} per chapter | max_tokens: ${CONFIG.MAX_TOKENS}`);
-  console.log(`Ã¢ÂÂ±Ã¯Â¸Â  Estimated: ~${estMinutes.toFixed(0)} minutes`);
-  console.log(`Ã°Å¸â€™Â¾ Storage: ~${(pending.length * 0.04).toFixed(0)}MB (${pending.length} books Ãƒâ€” ~40KB each)`);
-  console.log('Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬\n');
+  console.log(`  Mode: Sequential (1 book at a time)`);
+  console.log(` Output: ${CONFIG.OUTPUT_DIR}`);
+  console.log(` Primary: ${CONFIG.PRIMARY_MODEL}  |  Fallback: ${CONFIG.FALLBACK_MODEL}`);
+  console.log(` Edition: ${EDITION.toUpperCase()} ${EDITION === 'street' ? ' (Street Oracle Mode)' : ' (Premium)'}`);
+  console.log(` Pipeline: Full (Intro + Chapters + Summary + Glossary)`);
+  console.log(` Word target: ${CONFIG.MODULE_WORD_TARGET} per chapter | max_tokens: ${CONFIG.MAX_TOKENS}`);
+  console.log(`  Estimated: ~${estMinutes.toFixed(0)} minutes`);
+  console.log(` Storage: ~${(pending.length * 0.04).toFixed(0)}MB (${pending.length} books  ~40KB each)`);
+  console.log('\n');
 
   // Apply MAX_BOOKS limit if set (useful for test runs or CI time limits)
   if (CONFIG.MAX_BOOKS > 0) pending.splice(CONFIG.MAX_BOOKS);
 
-  // Build a live title list Ã¢â‚¬â€ seeded from catalog, updated as new books are generated
+  // Build a live title list  seeded from catalog, updated as new books are generated
   // within the same run so intra-run duplicates are also caught.
   const liveTitles: string[] = existingBooks.map(b => b.title);
 
-  // Strictly sequential: process one book at a time Ã¢â‚¬â€ no worker pool, no concurrency
+  // Strictly sequential: process one book at a time  no worker pool, no concurrency
   let done = 0; let failed = 0;
   const startTime = Date.now();
 
   for (let i = 0; i < pending.length; i++) {
     const seed = pending[i];
-    console.log(`\nÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â`);
-    console.log(`Ã°Å¸â€œÅ¡ Book ${i + 1}/${pending.length}: "${seed.goal}" (${seed.complexity})`);
-    console.log(`Ã¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€ÂÃ¢â€Â\n`);
+    console.log(`\n`);
+    console.log(` Book ${i + 1}/${pending.length}: "${seed.goal}" (${seed.complexity})`);
+    console.log(`\n`);
 
     const result = await generateBook(seed, i + 1, liveTitles);
     const slug = toSlug(`${EDITION === 'desi' ? 'desi ' : EDITION === 'street' ? 'street ' : ''}${seed.goal} ${seed.complexity || 'beginner'}`);
@@ -1922,7 +1922,7 @@ async function main() {
       try {
         const saved = JSON.parse(fs.readFileSync(bookPath, 'utf8'));
         if (saved.title) liveTitles.push(saved.title);
-      } catch { /* slug may differ from roadmap title Ã¢â‚¬â€ just skip */ }
+      } catch { /* slug may differ from roadmap title  just skip */ }
     } else {
       checkpoint.failedSlugs.push(slug);
       failed++;
@@ -1931,7 +1931,7 @@ async function main() {
     saveCheckpoint(checkpoint);
     const elapsed = (Date.now() - startTime) / 60000;
     const rate = done / Math.max(elapsed, 0.01);
-    console.log(`\nÃ°Å¸â€œÅ  Progress: ${done + failed}/${pending.length} | Ã¢Å“â€¦${done} Ã¢ÂÅ’${failed} | ${rate.toFixed(1)} books/min | ~${((pending.length - done - failed) / Math.max(rate, 0.01)).toFixed(0)}min left\n`);
+    console.log(`\n Progress: ${done + failed}/${pending.length} | ${done} ${failed} | ${rate.toFixed(1)} books/min | ~${((pending.length - done - failed) / Math.max(rate, 0.01)).toFixed(0)}min left\n`);
   }
   saveCheckpoint(checkpoint);
 
@@ -1943,18 +1943,18 @@ async function main() {
   const totalMin = (Date.now() - startTime) / 60000;
   const totalSize = done * 0.04;
 
-  console.log('\nÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â');
-  console.log(`Ã¢Å“â€¦ ${done} books generated in ${totalMin.toFixed(1)} minutes`);
-  console.log(`Ã¢ÂÅ’ Failed: ${failed} (re-run to retry)`);
-  console.log(`Ã°Å¸â€œÂ Files saved to: ${CONFIG.OUTPUT_DIR}`);
-  console.log(`Ã°Å¸â€™Â¾ Approx size: ~${totalSize.toFixed(0)}MB`);
+  console.log('\n');
+  console.log(` ${done} books generated in ${totalMin.toFixed(1)} minutes`);
+  console.log(` Failed: ${failed} (re-run to retry)`);
+  console.log(` Files saved to: ${CONFIG.OUTPUT_DIR}`);
+  console.log(` Approx size: ~${totalSize.toFixed(0)}MB`);
   console.log('');
   console.log('Next steps:');
   console.log('  1. git add public/library && git push');
   console.log('  2. Vercel auto-deploys (your static files are now on CDN)');
   console.log(`  3. Submit sitemap: ${CONFIG.SITE_URL}/library/sitemap.xml`);
-  console.log('     Ã¢â€ â€™ https://search.google.com/search-console');
-  console.log('Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â\n');
+  console.log('      https://search.google.com/search-console');
+  console.log('\n');
 }
 
 main().catch(e => { console.error('Fatal:', e); process.exit(1); });
