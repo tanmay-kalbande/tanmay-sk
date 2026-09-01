@@ -49,10 +49,11 @@ function uid() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const SKILLS = [
-  "Python", "SQL", "R", "Pandas", "Scikit-learn", "XGBoost",
-  "Regression", "K-Means Clustering", "Cohort Analysis",
-  "Tableau", "Power BI", "Matplotlib", "ETL Pipelines",
-  "KPI Dashboards", "Customer Segmentation",
+  "Python", "SQL", "R", "JavaScript", "Pandas", "NumPy", "Scikit-learn", "XGBoost",
+  "Random Forest", "K-Means Clustering", "Statistical Testing", "A/B Testing", "Cohort Analysis",
+  "Power BI (DAX, Power Query)", "Tableau", "Matplotlib", "Seaborn",
+  "GenAI & LLM Orchestration", "Prompt Engineering", "Streaming (SSE)", "Rate-Limit Fallback Routing",
+  "API Proxy Design", "ETL Pipelines", "SQL Server", "PostgreSQL", "Supabase", "AWS", "FastAPI",
 ];
 
 type ProjectEntry = {
@@ -64,41 +65,38 @@ type ProjectEntry = {
 };
 
 const PROJECTS: ProjectEntry[] = [
-  { name: "Lead Quality Prediction",     desc: "End-to-end ML pipeline — **85% accuracy** — boosting sales conversion by 23%.", tags: ["rubixe","lead","scoring","prediction","ml","model"] },
-  { name: "K-Means Customer Segmentation", desc: "K-Means segmentation from transaction data; drove marketing strategy decisions.", tags: ["rubixe","segmentation","clustering","k-means","customer"] },
-  { name: "SQL Cohort Analysis",         desc: "SQL-driven cohort analysis revealing 35% higher 6-month retention for Q4 acquisitions.", tags: ["sql","cohort","retention","analysis"] },
-  { name: "ETL & Power BI Dashboards",   desc: "ETL pipeline cut manual entry errors by 40%, saved 10+ hrs/week, and powered 8+ dashboards.", tags: ["etl","power bi","dashboard","kpi","capgemini"] },
-  { name: "Pustakam AI",                  desc: "AI-powered book generation engine with sequential memory and multi-model LLM routing. Accepted into Z.ai Startup Program.", live: "https://pustakamai.tanmaysk.in", tags: ["pustakam","ai","book","llm","startup","z.ai"] },
-  { name: "AI-Tutor",                     desc: "Personalized Gemma-powered tutoring platform with teaching personas, quizzes, and learning flowcharts.", tags: ["ai tutor","tutor","gemma","quiz","learning"] },
-  { name: "AI Data Structurer",           desc: "Converts raw unstructured data into clean formats using Gemma + Flask.", tags: ["ai data structurer","structurer","unstructured","gemma"] },
-  { name: "Expense Tracker",              desc: "Personal finance web app — CSV I/O, data visualisation, responsive UI.", live: "https://expense-tail.vercel.app/", gh: "https://github.com/tanmay-kalbande/Expense-Tracker", tags: ["expense","tracker","finance","csv"] },
-  { name: "Bias & Fairness Checker",      desc: "AI-powered text bias detector built with Flask + Gemma. Structured report output.", live: "https://bias-checker.onrender.com/", gh: "https://github.com/tanmay-kalbande/bias-fairness-checker", tags: ["bias","fairness","checker","ai","gemma"] },
-  { name: "Table Extractor",              desc: "Flask app that scrapes and exports HTML tables from any URL via BeautifulSoup.", live: "https://table-extractor.onrender.com/", gh: "https://github.com/tanmay-kalbande/table-extractor-app", tags: ["table","extractor","scraper","beautifulsoup","flask"] },
-  { name: "Enhanced macOS Notes",         desc: "macOS-inspired note-taking PWA — dark mode, rich text, local storage.", live: "https://enhanced-mac-os-notes.vercel.app/", gh: "https://github.com/tanmay-kalbande/Enhanced-macOS-Notes", tags: ["notes","macos","pwa","note"] },
-  { name: "Life Loops",                   desc: "Gamified habit-tracking app with retro point system.", live: "https://life-loops-game-edition.vercel.app/", gh: "https://github.com/tanmay-kalbande/Life-Loops---Game-Edition", tags: ["life loops","habit","game","gamified"] },
-  { name: "Goal Tracker",                 desc: "Daily goal tracking with progress visualisation and shareable progress.", live: "https://tanmay-kalbande.github.io/Goal-Tracker/", gh: "https://github.com/tanmay-kalbande/Goal-Tracker", tags: ["goal","tracker","goals"] },
-  { name: "Incident Tracker",             desc: "Company incident management — search, filter, paginate, CSV export.", live: "https://tanmay-kalbande.github.io/Incident-Tracker/", gh: "https://github.com/tanmay-kalbande/Incident-Tracker", tags: ["incident","tracker","itsm"] },
-  { name: "Mindfulness App",              desc: "Yoga & meditation guides. Minimalist PWA with offline support.", live: "https://breathewell.vercel.app/", gh: "https://github.com/tanmay-kalbande/Mindfulness-App", tags: ["mindfulness","yoga","meditation","breathe"] },
-  { name: "Village Directory / Jawala Vyapar", desc: "AI-powered village/local phone directory with admin maintenance, search, and multi-language support.", tags: ["jawala","vyapar","village","directory","local","business"] },
-  { name: "The Scam Master Podcast",      desc: "Website for a podcast exposing fraud and scams.", live: "https://the-scam-master.vercel.app/", gh: "https://github.com/the-scam-master/podcast_webpage", tags: ["scam","master","podcast"] },
-  { name: "AI Data Assistant",            desc: "Conversational analytics system — interrogate datasets in plain English.", tags: ["ai data assistant","assistant","analytics","conversational"] },
+  { name: "Pustakam AI", desc: "Live GenAI platform generating ~22M words (~30M tokens) across 7 LLM providers with multi-stage orchestration & serverless proxy. Accepted into Z.ai Startup Program.", live: "https://pustakamai.tanmaysk.in", tags: ["pustakam","ai","genai","llm","startup","z.ai","featured","flagship"] },
+  { name: "Customer Churn Prediction", desc: "Churn prediction pipeline (Logistic Regression, RF, XGBoost). Chi-square + t-tests for validation. **AUC 0.82**: identified 3 high-risk segments driving 60% of churn.", tags: ["churn","customer churn","prediction","xgboost","ml","model","auc"] },
+  { name: "Lead Quality Prediction", desc: "End-to-end ML pipeline with Random Forest achieving **85% accuracy**, +23% sales conversion, and saving 15 hrs/week outreach.", tags: ["rubixe","lead","scoring","prediction","ml","model","random forest"] },
+  { name: "SQL Cohort Analysis", desc: "Pure-SQL cohort analysis using DATE_TRUNC, LAG(), and self-joins: revealed 35% higher 6-month retention for Q4 acquisitions.", tags: ["sql","cohort","retention","analysis","window functions"] },
+  { name: "ETL & Power BI Dashboards", desc: "Python ETL cleaning pipeline cut manual entry errors by 40% & saved 10+ hrs/week; created 8+ Power BI dashboards across 3 business units.", tags: ["etl","power bi","dashboard","kpi","capgemini","dax","power query"] },
+  { name: "Pustakam Educational Corpus", desc: "Large-scale synthetic educational corpus on HuggingFace: 1,091 AI-generated books, 23.7M+ words across 70 categories comparing 8 LLMs.", live: "https://huggingface.co/datasets/tanmay-kalbande/pustakam-edu-corpus", gh: "https://github.com/tanmay-kalbande", tags: ["huggingface","dataset","nlp","corpus","research"] },
+  { name: "Bias & Fairness Checker", desc: "AI-powered text bias detector built with Flask + Gemma. Structured markdown report output.", live: "https://bias-checker.onrender.com/", gh: "https://github.com/tanmay-kalbande/bias-fairness-checker", tags: ["bias","fairness","checker","ai","gemma"] },
+  { name: "Expense Tracker", desc: "Personal finance web app — CSV I/O, data visualisation, responsive UI.", live: "https://expense-tail.vercel.app/", gh: "https://github.com/tanmay-kalbande/Expense-Tracker", tags: ["expense","tracker","finance","csv"] },
+  { name: "Table Extractor", desc: "Flask app that scrapes and exports HTML tables from any URL via BeautifulSoup.", live: "https://table-extractor.onrender.com/", gh: "https://github.com/tanmay-kalbande/table-extractor-app", tags: ["table","extractor","scraper","beautifulsoup","flask"] },
+  { name: "Enhanced macOS Notes", desc: "macOS-inspired note-taking PWA — dark mode, rich text, local storage.", live: "https://enhanced-mac-os-notes.vercel.app/", gh: "https://github.com/tanmay-kalbande/Enhanced-macOS-Notes", tags: ["notes","macos","pwa","note"] },
+  { name: "Life Loops", desc: "Gamified habit-tracking app with retro point system.", live: "https://life-loops-game-edition.vercel.app/", gh: "https://github.com/tanmay-kalbande/Life-Loops---Game-Edition", tags: ["life loops","habit","game","gamified"] },
+  { name: "Goal Tracker", desc: "Daily goal tracking with progress visualisation and shareable progress.", live: "https://tanmay-kalbande.github.io/Goal-Tracker/", gh: "https://github.com/tanmay-kalbande/Goal-Tracker", tags: ["goal","tracker","goals"] },
+  { name: "Incident Tracker", desc: "Company incident management — search, filter, paginate, CSV export.", live: "https://tanmay-kalbande.github.io/Incident-Tracker/", gh: "https://github.com/tanmay-kalbande/Incident-Tracker", tags: ["incident","tracker","itsm"] },
+  { name: "Mindfulness App", desc: "Yoga & meditation guides. Minimalist PWA with offline support.", live: "https://breathewell.vercel.app/", gh: "https://github.com/tanmay-kalbande/Mindfulness-App", tags: ["mindfulness","yoga","meditation","breathe"] },
+  { name: "The Scam Master Podcast", desc: "Website for a podcast exposing fraud and scams.", live: "https://the-scam-master.vercel.app/", gh: "https://github.com/the-scam-master/podcast_webpage", tags: ["scam","master","podcast"] },
 ];
 
 // Best 4 projects to feature in the ProjectsCard — flagship first
 const FEATURED_PROJECTS: ProjectEntry[] = [
   PROJECTS.find((p) => p.name === "Pustakam AI")!,
-  PROJECTS.find((p) => p.name === "Bias & Fairness Checker")!,
-  PROJECTS.find((p) => p.name === "Expense Tracker")!,
-  PROJECTS.find((p) => p.name === "Table Extractor")!,
+  PROJECTS.find((p) => p.name === "Customer Churn Prediction")!,
+  PROJECTS.find((p) => p.name === "Lead Quality Prediction")!,
+  PROJECTS.find((p) => p.name === "ETL & Power BI Dashboards")!,
 ].filter(Boolean) as ProjectEntry[];
 
 const PROJECT_ALIASES: Record<string, string[]> = {
-  "Lead Quality Prediction": ["lead quality prediction", "lead scoring"],
-  "K-Means Customer Segmentation": ["k-means customer segmentation", "k-means segmentation", "customer segmentation"],
-  "SQL Cohort Analysis": ["sql cohort analysis", "cohort analysis"],
-  "ETL & Power BI Dashboards": ["etl", "power bi dashboards", "dashboards", "kpi dashboards"],
-  "Pustakam AI": ["pustakam ai", "pustakam", "pustakam injin"],
-  "AI Data Structurer": ["ai data structurer"],
+  "Pustakam AI": ["pustakam ai", "pustakam", "pustakam injin", "genai platform", "book generator"],
+  "Customer Churn Prediction": ["customer churn prediction", "churn prediction", "churn model", "churn"],
+  "Lead Quality Prediction": ["lead quality prediction", "lead scoring", "lead scoring model"],
+  "SQL Cohort Analysis": ["sql cohort analysis", "cohort analysis", "cohort retention"],
+  "ETL & Power BI Dashboards": ["etl", "power bi dashboards", "dashboards", "kpi dashboards", "power bi"],
+  "Pustakam Educational Corpus": ["pustakam educational corpus", "huggingface dataset", "corpus"],
   "Expense Tracker": ["expense tracker"],
   "Bias & Fairness Checker": ["bias and fairness checker", "bias fairness checker"],
   "Table Extractor": ["table extractor"],
@@ -107,10 +105,7 @@ const PROJECT_ALIASES: Record<string, string[]> = {
   "Goal Tracker": ["goal tracker"],
   "Incident Tracker": ["incident tracker"],
   "Mindfulness App": ["mindfulness app", "breathewell"],
-  "AI-Tutor": ["ai tutor", "ai-tutor", "tutor"],
-  "Village Directory / Jawala Vyapar": ["jawala vyapar", "village directory"],
   "The Scam Master Podcast": ["the scam master podcast", "scam master podcast"],
-  "AI Data Assistant": ["ai data assistant"],
 };
 
 const CONTACTS = [

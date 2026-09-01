@@ -77,7 +77,7 @@ export default function LandingPage() {
   useEffect(() => {
     setFavicon('/favicon.svg');
     document.documentElement.setAttribute("data-app-page", "landing-v5");
-    document.title = "Tanmay Kalbande — Data Analyst";
+    document.title = "Tanmay Kalbande — Data Analyst & GenAI Engineer";
     const saved = window.localStorage.getItem("theme");
     const preferDark = saved === "dark" || (!saved && window.matchMedia("(prefers-color-scheme: dark)").matches);
     const t = preferDark ? "dark" : "light";
@@ -157,9 +157,9 @@ export default function LandingPage() {
                 </motion.div>
 
                 <motion.div variants={line} className="lv5-identity">
-                  <span>Data Analyst</span>
+                  <span>Data Analyst · ML &amp; GenAI</span>
                   <span className="lv5-sep" aria-hidden="true">·</span>
-                  <span>Noida, IN</span>
+                  <span>Bengaluru / Pune</span>
                   <span className="lv5-sep" aria-hidden="true">·</span>
                   <span className="lv5-open">
                     <span className="lv5-open__dot" />
