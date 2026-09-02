@@ -6,6 +6,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://tanmaysk.in/library/book/how-to-prune-fruit-trees-correctly-a-practical-guide-for-healthy-trees</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <lastmod>2026-09-02</lastmod>
+  </url>
+  <url>
     <loc>https://tanmaysk.in/library/book/learn-react-js-build-web-apps-from-scratch</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
