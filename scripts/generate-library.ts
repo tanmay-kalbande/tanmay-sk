@@ -174,7 +174,7 @@ function extractKeywords(text: string): Set<string> {
     'beginners', 'beginner', 'intermediate', 'advanced', 'basics', 'basic',
     'introduction', 'intro', 'start', 'started', 'getting', 'comprehensive',
     'roadmap', 'practical', 'tips', 'strategies', 'techniques', 'mastering',
-    'master', 'build', 'create', 'make', 'using', 'use',
+    'master', 'using', 'use',
   ]);
   return new Set(
     text.toLowerCase()
@@ -186,7 +186,12 @@ function extractKeywords(text: string): Set<string> {
 
 /** Returns the Jaccard similarity between two keyword sets (union denominator).
  *  Prevents short 2-word topics scoring 1.0 against long titles just by sharing
- *  2 keywords  which caused massive over-rejection of genuinely new topics.
+ *  2 keywords — which caused massive over-rejection of genuinely new topics.
+ *  
+ *  Guard: when either keyword set has ≤2 words after stop-word stripping, Jaccard
+ *  is unreliable (e.g. {basket, weaving} vs {basket, weaving, home} = 0.67).
+ *  In that case, require ALL keywords of the smaller set to appear in the larger
+ *  set AND the size ratio to be close (within 2x) before reporting a high score.
  */
 function keywordSimilarity(a: string, b: string): number {
   const kA = extractKeywords(a);
@@ -194,7 +199,21 @@ function keywordSimilarity(a: string, b: string): number {
   if (kA.size === 0 || kB.size === 0) return 0;
   let overlap = 0;
   for (const w of kA) if (kB.has(w)) overlap++;
-  // True Jaccard: overlap / union (was: min-set denominator which over-rejected)
+
+  const minSize = Math.min(kA.size, kB.size);
+  const maxSize = Math.max(kA.size, kB.size);
+
+  // Guard for tiny keyword sets: require near-exact match to count as similar
+  if (minSize <= 2) {
+    // All keywords of the smaller set must appear in the larger set
+    if (overlap < minSize) return 0;
+    // And the sets must be close in size (within 2x) — otherwise it's just a
+    // topic name embedded inside a much broader title, not a true duplicate
+    if (maxSize > minSize * 2) return 0;
+    return overlap / Math.max(maxSize, 1);
+  }
+
+  // True Jaccard: overlap / union
   const union = new Set([...kA, ...kB]).size;
   return overlap / union;
 }
@@ -203,12 +222,18 @@ function keywordSimilarity(a: string, b: string): number {
 function filterSimilarSeeds(
   seeds: TopicSeed[],
   existing: Array<{ title: string; goal?: string }>,
-  threshold = 0.75  // raised from 0.6  true Jaccard is lower, threshold must compensate
+  threshold = 0.75  // raised from 0.6 — true Jaccard is lower, threshold must compensate
 ): TopicSeed[] {
-  const existingTexts = existing.map(b => b.title + ' ' + (b.goal || ''));
+  // Compare against title and goal SEPARATELY and take the max similarity.
+  // Concatenating them inflated keyword sets and caused false-positive matches
+  // (e.g. "Learn X for Beginners: A Complete Guide" + "Learn X for beginners"
+  // doubled keyword overlap vs a seed about X).
   return seeds.filter(seed => {
-    for (const existing of existingTexts) {
-      if (keywordSimilarity(seed.goal, existing) >= threshold) {
+    for (const book of existing) {
+      const simTitle = keywordSimilarity(seed.goal, book.title);
+      const simGoal = book.goal ? keywordSimilarity(seed.goal, book.goal) : 0;
+      const maxSim = Math.max(simTitle, simGoal);
+      if (maxSim >= threshold) {
         console.log(`   Skipping duplicate seed: "${seed.goal}" (too similar to existing book)`);
         return false;
       }
@@ -1648,6 +1673,84 @@ const BOOTSTRAP_SEEDS: TopicSeed[] = [
   { goal: 'How to grow tulsi and medicinal herbs at home', category: 'gardening', tags: ['tulsi', 'herbs'], complexity: 'beginner' },
   { goal: 'Learn mehendi henna art for beginners', category: 'crafts', tags: ['mehendi', 'henna'], complexity: 'beginner' },
   { goal: 'Trekking in Himalayas beginner preparation guide', category: 'outdoor', tags: ['himalaya', 'trekking'], complexity: 'intermediate' },
+  // Astronomy & Space
+  { goal: 'Stargazing and identifying constellations at night', category: 'astronomy', tags: ['stars', 'constellations'], complexity: 'beginner' },
+  { goal: 'How to set up and use a telescope at home', category: 'astronomy', tags: ['telescope', 'observation'], complexity: 'beginner' },
+  { goal: 'Astrophotography with a DSLR camera for beginners', category: 'astronomy', tags: ['astrophotography', 'camera'], complexity: 'intermediate' },
+  { goal: 'Understanding the solar system planets and moons', category: 'astronomy', tags: ['planets', 'solar-system'], complexity: 'beginner' },
+  // Board Games & Puzzles
+  { goal: 'Chess opening strategies and tactics explained', category: 'board-games', tags: ['chess', 'openings'], complexity: 'intermediate' },
+  { goal: 'How to solve a Rubiks cube step by step', category: 'puzzles', tags: ['rubiks', 'cube'], complexity: 'beginner' },
+  { goal: 'Learn to play Go game strategy for beginners', category: 'board-games', tags: ['go', 'strategy'], complexity: 'beginner' },
+  { goal: 'Bridge card game bidding and play for beginners', category: 'board-games', tags: ['bridge', 'cards'], complexity: 'intermediate' },
+  { goal: 'Sudoku solving strategies and advanced techniques', category: 'puzzles', tags: ['sudoku', 'logic'], complexity: 'intermediate' },
+  // Interior Design & Decor
+  { goal: 'Interior design color theory and room styling', category: 'interior-design', tags: ['color', 'styling'], complexity: 'beginner' },
+  { goal: 'How to arrange furniture in small apartments', category: 'interior-design', tags: ['furniture', 'small-space'], complexity: 'beginner' },
+  { goal: 'DIY home staging to sell your house faster', category: 'interior-design', tags: ['staging', 'real-estate'], complexity: 'intermediate' },
+  // Calligraphy & Lettering
+  { goal: 'Modern brush calligraphy for absolute beginners', category: 'calligraphy', tags: ['brush-pen', 'lettering'], complexity: 'beginner' },
+  { goal: 'Gothic blackletter calligraphy step by step', category: 'calligraphy', tags: ['gothic', 'blackletter'], complexity: 'intermediate' },
+  { goal: 'Hand lettering for greeting cards and journals', category: 'calligraphy', tags: ['lettering', 'journals'], complexity: 'beginner' },
+  // Woodworking & Trades
+  { goal: 'Woodworking joints dovetail and mortise tenon', category: 'woodworking', tags: ['joints', 'joinery'], complexity: 'intermediate' },
+  { goal: 'How to build a workbench for woodworking', category: 'woodworking', tags: ['workbench', 'shop'], complexity: 'beginner' },
+  { goal: 'Wood carving whittling projects for beginners', category: 'woodworking', tags: ['carving', 'whittling'], complexity: 'beginner' },
+  { goal: 'Basic welding MIG and stick for home projects', category: 'trades', tags: ['welding', 'mig'], complexity: 'intermediate' },
+  { goal: 'How to solder electronics circuits for beginners', category: 'electronics', tags: ['soldering', 'circuits'], complexity: 'beginner' },
+  { goal: 'Small engine repair lawnmowers and generators', category: 'trades', tags: ['engines', 'repair'], complexity: 'intermediate' },
+  // Science & Education
+  { goal: 'Chemistry experiments safe to do at home', category: 'science', tags: ['chemistry', 'experiments'], complexity: 'beginner' },
+  { goal: 'How electricity works circuits and wiring basics', category: 'science', tags: ['electricity', 'physics'], complexity: 'beginner' },
+  { goal: 'Understanding weather forecasting and meteorology', category: 'science', tags: ['weather', 'meteorology'], complexity: 'beginner' },
+  { goal: 'Geology rocks minerals identification field guide', category: 'science', tags: ['geology', 'minerals'], complexity: 'beginner' },
+  { goal: 'How to read and understand scientific papers', category: 'education', tags: ['research', 'papers'], complexity: 'intermediate' },
+  // Sewing & Textiles
+  { goal: 'How to use a sewing machine for beginners', category: 'sewing', tags: ['sewing-machine', 'stitching'], complexity: 'beginner' },
+  { goal: 'Pattern drafting and garment construction basics', category: 'sewing', tags: ['patterns', 'garments'], complexity: 'intermediate' },
+  { goal: 'Embroidery stitches and floral patterns for beginners', category: 'sewing', tags: ['embroidery', 'floral'], complexity: 'beginner' },
+  { goal: 'How to alter and hem clothing at home', category: 'sewing', tags: ['alterations', 'hemming'], complexity: 'beginner' },
+  // Survival & Preparedness
+  { goal: 'Emergency preparedness 72 hour survival kit', category: 'survival', tags: ['emergency', 'prepping'], complexity: 'beginner' },
+  { goal: 'Foraging wild edible plants identification guide', category: 'survival', tags: ['foraging', 'plants'], complexity: 'intermediate' },
+  { goal: 'Knot tying essential knots for camping and sailing', category: 'survival', tags: ['knots', 'rope'], complexity: 'beginner' },
+  // Parenting & Family
+  { goal: 'Montessori activities for toddlers at home', category: 'parenting', tags: ['montessori', 'toddler'], complexity: 'beginner' },
+  { goal: 'How to teach kids to read phonics method', category: 'parenting', tags: ['phonics', 'reading'], complexity: 'beginner' },
+  { goal: 'Baby sleep training methods and schedules', category: 'parenting', tags: ['sleep', 'baby'], complexity: 'beginner' },
+  // Mindfulness & Spirituality
+  { goal: 'Meditation for focus and concentration at work', category: 'mindfulness', tags: ['meditation', 'focus'], complexity: 'beginner' },
+  { goal: 'Yoga nidra guided relaxation for deep sleep', category: 'mindfulness', tags: ['yoga-nidra', 'relaxation'], complexity: 'beginner' },
+  { goal: 'Breathing exercises pranayama for stress relief', category: 'mindfulness', tags: ['pranayama', 'breathing'], complexity: 'beginner' },
+  // Data & Analytics
+  { goal: 'Excel pivot tables and data analysis for beginners', category: 'data', tags: ['excel', 'pivot-tables'], complexity: 'beginner' },
+  { goal: 'Google Sheets formulas and automation tips', category: 'data', tags: ['google-sheets', 'formulas'], complexity: 'beginner' },
+  { goal: 'Data visualization with Tableau for beginners', category: 'data', tags: ['tableau', 'visualization'], complexity: 'intermediate' },
+  // Real Estate
+  { goal: 'How to buy your first house step by step', category: 'real-estate', tags: ['home-buying', 'mortgage'], complexity: 'beginner' },
+  { goal: 'Rental property investing for beginners', category: 'real-estate', tags: ['rental', 'investing'], complexity: 'intermediate' },
+  // Ceramics & Pottery
+  { goal: 'Wheel throwing pottery for complete beginners', category: 'pottery', tags: ['wheel', 'clay'], complexity: 'beginner' },
+  { goal: 'Hand built pottery pinch coil slab techniques', category: 'pottery', tags: ['hand-building', 'coil'], complexity: 'beginner' },
+  { goal: 'Glazing ceramics and kiln firing for beginners', category: 'pottery', tags: ['glazing', 'kiln'], complexity: 'intermediate' },
+  // Magic & Performance
+  { goal: 'Card magic tricks sleight of hand for beginners', category: 'magic', tags: ['card-tricks', 'sleight'], complexity: 'beginner' },
+  { goal: 'Close up magic coin tricks for beginners', category: 'magic', tags: ['coins', 'close-up'], complexity: 'beginner' },
+  // Networking & Career
+  { goal: 'LinkedIn profile optimization and networking tips', category: 'career', tags: ['linkedin', 'networking'], complexity: 'beginner' },
+  { goal: 'How to negotiate salary and job offers', category: 'career', tags: ['negotiation', 'salary'], complexity: 'intermediate' },
+  { goal: 'Remote work productivity and home office setup', category: 'career', tags: ['remote-work', 'productivity'], complexity: 'beginner' },
+  // Model Building & Miniatures
+  { goal: 'Scale model building and painting miniatures', category: 'hobbies', tags: ['models', 'miniatures'], complexity: 'beginner' },
+  { goal: 'Terrain building for tabletop wargaming', category: 'hobbies', tags: ['terrain', 'wargaming'], complexity: 'intermediate' },
+  // Fermentation & Preservation
+  { goal: 'Home cheese making from milk step by step', category: 'cooking', tags: ['cheese', 'dairy'], complexity: 'intermediate' },
+  { goal: 'Sourdough bread baking from starter to loaf', category: 'cooking', tags: ['sourdough', 'bread'], complexity: 'intermediate' },
+  { goal: 'Home canning and preserving fruits vegetables', category: 'cooking', tags: ['canning', 'preserving'], complexity: 'beginner' },
+  // Mechanical & Engineering
+  { goal: 'How 3D printers work FDM printing for beginners', category: 'technology', tags: ['3d-printing', 'fdm'], complexity: 'beginner' },
+  { goal: 'Arduino projects and programming for beginners', category: 'electronics', tags: ['arduino', 'microcontroller'], complexity: 'beginner' },
+  { goal: 'PCB design and circuit board layout basics', category: 'electronics', tags: ['pcb', 'circuit-design'], complexity: 'intermediate' },
 ];
 
 function buildCategorySummaryMap(existing: BookMeta[]): string {
