@@ -199,6 +199,26 @@ export const professionalProjects = [
 
 export const personalProjects = [
   {
+    id: "project_dashlint",
+    label: "DashLint MCP",
+    icon: "fas fa-server",
+    description:
+      "Model Context Protocol (MCP) server that orchestrates dashboard creation for AI coding assistants, supplying detailed workflows and design instructions.",
+    features: [
+      "Schema-aware blueprint tool",
+      "Generates downloadable HTML apps",
+      "Domain-agnostic visualization",
+      "Next.js MCP endpoint deployment"
+    ],
+    links: [
+      {
+        label: "Live Demo",
+        href: "https://dashlint.tanmaysk.in/",
+        icon: "fas fa-desktop",
+      },
+    ],
+  },
+  {
     id: "project_hf_dataset",
     label: "Pustakam Edu Corpus [HuggingFace]",
     icon: "fas fa-database",
