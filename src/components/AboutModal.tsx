@@ -81,6 +81,26 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
             </p>
           </div>
 
+          {/* Status & Contact Notice */}
+          <div className="lib-info-section" style={{ background: 'rgba(224, 90, 53, 0.07)', border: '1px solid rgba(224, 90, 53, 0.25)', borderRadius: '6px', padding: '14px' }}>
+            <div className="lib-info-section-title">
+              <Sparkles size={14} className="section-icon accent" />
+              <h3>Status: Automated Synthesis Concluded</h3>
+            </div>
+            <p style={{ margin: 0, color: 'var(--ink)' }}>
+              The automated book generation workflow has been stopped. The entire archive of 1,000+ books remains <strong>open-access, free to read, and free to download as PDF</strong> for anyone who wants to study or learn.
+            </p>
+            <p style={{ marginTop: '10px', marginBottom: 0, color: 'var(--ink-2)' }}>
+              Want to connect, collaborate, or share feedback? Reach out directly via:
+              <br />
+              📫 <a href="mailto:kalbandetanmay@gmail.com" className="lib-info-link">kalbandetanmay@gmail.com</a>
+              {' · '}
+              💼 <a href="https://linkedin.com/in/tanmay-kalbande" target="_blank" rel="noopener noreferrer" className="lib-info-link">LinkedIn</a>
+              {' · '}
+              🐙 <a href="https://github.com/tanmay-kalbande" target="_blank" rel="noopener noreferrer" className="lib-info-link">GitHub</a>
+            </p>
+          </div>
+
           {/* Disclaimer & Usage Terms */}
           <div className="lib-info-section disclaimer-box">
             <div className="lib-info-section-title">

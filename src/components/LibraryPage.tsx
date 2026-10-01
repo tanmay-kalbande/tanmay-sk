@@ -336,6 +336,27 @@ export default function LibraryPage() {
         </div>
       </nav>
 
+      {/* Notice: Automated book generation concluded & library is open-access & free to download */}
+      <aside className="lib-announcement-bar" aria-label="Library Archive Notice">
+        <div className="lib-announcement-container">
+          <div className="lib-announcement-badge">
+            <span className="lib-announcement-pulse" />
+            <span>Archive Notice</span>
+          </div>
+          <div className="lib-announcement-text">
+            <span>Automated book synthesis has concluded. The entire library of 1,000+ curated guides is <strong>100% free to read, study, and download</strong>.</span>
+            <span className="lib-announcement-cta">
+              Want to connect or collaborate?{' '}
+              <a href="mailto:kalbandetanmay@gmail.com" className="lib-announcement-link">Email me</a>
+              {' · '}
+              <a href="https://linkedin.com/in/tanmay-kalbande" target="_blank" rel="noopener noreferrer" className="lib-announcement-link">LinkedIn</a>
+              {' · '}
+              <a href="https://github.com/tanmay-kalbande" target="_blank" rel="noopener noreferrer" className="lib-announcement-link">GitHub</a>
+            </span>
+          </div>
+        </div>
+      </aside>
+
       <section className={`lib-home-hero ${(heroSearchActive || search.trim()) ? 'is-condensed' : ''}`} aria-label="Pustakam Library introduction">
         <div className="lib-home-hero-copy">
           <span className="lib-home-kicker">Pustakam · Open learning archive</span>

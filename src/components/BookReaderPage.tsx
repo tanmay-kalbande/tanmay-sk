@@ -1667,6 +1667,27 @@ export default function BookReaderPage() {
         </div>
       </nav>
 
+      {/* Notice: Free to read and download as PDF */}
+      <aside className="lib-announcement-bar" aria-label="Book Reader Notice">
+        <div className="lib-announcement-container">
+          <div className="lib-announcement-badge">
+            <span className="lib-announcement-pulse" />
+            <span>Open Access</span>
+          </div>
+          <div className="lib-announcement-text">
+            <span>Automated synthesis has concluded. This guide and the full library remain <strong>free to study and download as PDF</strong>.</span>
+            <span className="lib-announcement-cta">
+              Connect with Tanmay:{' '}
+              <a href="mailto:kalbandetanmay@gmail.com" className="lib-announcement-link">Email</a>
+              {' · '}
+              <a href="https://linkedin.com/in/tanmay-kalbande" target="_blank" rel="noopener noreferrer" className="lib-announcement-link">LinkedIn</a>
+              {' · '}
+              <a href="https://github.com/tanmay-kalbande" target="_blank" rel="noopener noreferrer" className="lib-announcement-link">GitHub</a>
+            </span>
+          </div>
+        </div>
+      </aside>
+
       {/* Layout */}
       <div className="reader-layout">
         {/* TOC Sidebar */}

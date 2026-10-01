@@ -6232,4 +6232,122 @@ html[data-theme="light"] .lib-sidebar-cat-btn.active::before {
 html[data-theme="light"] .lib-sidebar-cat-btn.active .lib-sidebar-cat-count {
   color: #444444 !important;
 }
+
+/* ── Archive Notice Announcement Bar ── */
+.lib-announcement-bar {
+  background: rgba(224, 90, 53, 0.08);
+  border-bottom: 1px solid rgba(224, 90, 53, 0.22);
+  padding: 10px clamp(1.25rem, 5vw, 4rem);
+  font-family: var(--f-mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink);
+  position: relative;
+  z-index: 10;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.lib-announcement-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 12px 18px;
+  flex-wrap: wrap;
+}
+
+.lib-announcement-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(224, 90, 53, 0.16);
+  border: 1px solid rgba(224, 90, 53, 0.35);
+  color: #ff8a65;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.lib-announcement-pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ff7043;
+  box-shadow: 0 0 6px #ff7043;
+}
+
+.lib-announcement-text {
+  flex: 1 1 500px;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 0.8rem;
+}
+
+.lib-announcement-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.lib-announcement-cta {
+  display: inline-block;
+  margin-left: 8px;
+  color: var(--ink-2);
+}
+
+.lib-announcement-link {
+  color: #ff8a65;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.lib-announcement-link:hover {
+  color: #ffab91;
+}
+
+html[data-theme="light"] .lib-announcement-bar {
+  background: rgba(224, 90, 53, 0.06);
+  border-bottom-color: rgba(224, 90, 53, 0.2);
+  color: #222222;
+}
+
+html[data-theme="light"] .lib-announcement-text {
+  color: #444444;
+}
+
+html[data-theme="light"] .lib-announcement-text strong {
+  color: #111111;
+}
+
+html[data-theme="light"] .lib-announcement-cta {
+  color: #555555;
+}
+
+html[data-theme="light"] .lib-announcement-link {
+  color: #c8451a;
+}
+
+html[data-theme="light"] .lib-announcement-link:hover {
+  color: #a3320f;
+}
+
+@media (max-width: 768px) {
+  .lib-announcement-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .lib-announcement-cta {
+    display: block;
+    margin-left: 0;
+    margin-top: 4px;
+  }
+}
+
 
