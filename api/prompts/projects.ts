@@ -14,6 +14,7 @@ Professional / Resume Projects (always mention these first):
 - Operational KPI Dashboard | End-to-end BI dashboard tracking operational KPIs with automated data refresh, drill-through capability, and period-over-period DAX measures. Star schema in Power Query. Stack: Power BI, DAX, Power Query, SQL Server.
 
 Also built independently (differentiator, not centrepiece):
+- DashLint MCP | Latest Project. Model Context Protocol (MCP) server that orchestrates dashboard creation for AI coding assistants. Supplies structured workflows, schema-aware blueprints, domain-agnostic visualization playbooks, and interactive UI composition guides. Generates downloadable HTML applications. Live Demo: https://dashlint.tanmaysk.in/ | GitHub: https://github.com/tanmay-kalbande/dashlint-mcp
 - Pustakam AI | AI-powered book generation engine that creates structured, context-aware books on any topic. Uses sequential generation with memory retention and multi-model LLM routing for speed and quality. Accepted into the Z.ai Startup Program. Stack: Python, Flask, React, Supabase. Live: https://pustakamai.tanmaysk.in
 
 Open-Source / Research:

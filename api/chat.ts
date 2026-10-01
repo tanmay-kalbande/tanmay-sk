@@ -446,10 +446,11 @@ function buildRateLimitFallbackReply(userMessage: string): string | null {
     ].join("\n");
   }
 
-  if (/\b(pustakam|project|projects)\b/.test(text)) {
+  if (/\b(dashlint|mcp|pustakam|project|projects)\b/.test(text)) {
     return [
       "I'm rate-limited for a moment, but here's the short version:",
       "",
+      "- **DashLint MCP:** Model Context Protocol server that orchestrates dashboard creation for AI assistants (https://dashlint.tanmaysk.in/)",
       "- **Pustakam AI:** Multi-model book-generation platform, accepted into the Z.ai Startup Program",
       "- **Lead Scoring:** 85% accurate ML pipeline that boosted sales conversion by 23%",
       "- **SQL Cohort Analysis:** Revealed 35% higher 6-month retention for Q4 acquisitions",

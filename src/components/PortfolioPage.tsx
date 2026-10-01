@@ -157,7 +157,7 @@ export default function PortfolioPage() {
         </div>
 
         <div className="section">
-          <h2>Fun Projects</h2>
+          <h2>Featured &amp; Personal Projects</h2>
           <div className="tabs">
             {personalProjects.map((project) => (
               <button
@@ -167,14 +167,51 @@ export default function PortfolioPage() {
                 onClick={() => setActiveProjectId(project.id)}
               >
                 {project.label}
+                {"badge" in project && project.badge ? (
+                  <span
+                    style={{
+                      marginLeft: "8px",
+                      fontSize: "0.62rem",
+                      padding: "2px 7px",
+                      borderRadius: "999px",
+                      background: "rgba(224, 90, 53, 0.2)",
+                      border: "1px solid rgba(224, 90, 53, 0.4)",
+                      color: "var(--accent, #e05a35)",
+                      fontWeight: 700,
+                      letterSpacing: "0.05em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {project.badge}
+                  </span>
+                ) : null}
               </button>
             ))}
           </div>
           <div className="tab-content active">
             <div className="project-card">
-              <h3>
-                <i className={activeProject.icon} /> {activeProject.label}
-              </h3>
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px", marginBottom: "8px" }}>
+                <h3 style={{ margin: 0 }}>
+                  <i className={activeProject.icon} /> {activeProject.label}
+                </h3>
+                {"badge" in activeProject && activeProject.badge ? (
+                  <span
+                    style={{
+                      fontSize: "0.7rem",
+                      padding: "3px 9px",
+                      borderRadius: "4px",
+                      background: "rgba(224, 90, 53, 0.15)",
+                      border: "1px solid rgba(224, 90, 53, 0.4)",
+                      color: "var(--accent, #e05a35)",
+                      fontWeight: 700,
+                      letterSpacing: "0.06em",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    ★ {activeProject.badge}
+                  </span>
+                ) : null}
+              </div>
               <p className="project-description">{activeProject.description}</p>
               <h4>Features:</h4>
               <ul>

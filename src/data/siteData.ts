@@ -90,7 +90,8 @@ export const assistantWelcomeMessage =
   "Sharp answers on Tanmay's projects, skills, experience, and contact - clean, fast, and easy to scan ⚡";
 
 export const technicalSummary = [
-  "Data Analyst based in Noida with 2+ years of experience in predictive modeling and SQL.",
+  "Data Analyst based in Noida with 2+ years of experience in predictive modeling, SQL, and AI tools.",
+  "Engineered DashLint MCP (https://dashlint.tanmaysk.in/) — an open Model Context Protocol server that orchestrates dashboard creation and UI blueprints for AI coding assistants.",
   "Built a lead scoring model with 85% accuracy, boosting sales conversion by 23% and cutting outreach effort by 15 hrs/week.",
   "Developed churn prediction pipeline (AUC 0.82) identifying high-risk segments driving 60% of total churn.",
   "Built an ETL pipeline that cut manual entry errors by 40% and saved 10+ hours per week.",
@@ -201,20 +202,26 @@ export const personalProjects = [
   {
     id: "project_dashlint",
     label: "DashLint MCP",
+    badge: "Latest Release",
     icon: "fas fa-server",
     description:
-      "Model Context Protocol (MCP) server that orchestrates dashboard creation for AI coding assistants, supplying detailed workflows and design instructions.",
+      "Model Context Protocol (MCP) server that orchestrates dashboard creation for AI coding assistants, supplying detailed workflows, domain-agnostic blueprints, and interactive UI playbooks.",
     features: [
-      "Schema-aware blueprint tool",
-      "Generates downloadable HTML apps",
-      "Domain-agnostic visualization",
-      "Next.js MCP endpoint deployment"
+      "Schema-aware blueprint tool for rapid dashboard authoring",
+      "Generates downloadable, fully interactive HTML applications",
+      "Domain-agnostic visualization playbooks and composition guides",
+      "Next.js MCP endpoint deployed live with open protocol integration"
     ],
     links: [
       {
         label: "Live Demo",
         href: "https://dashlint.tanmaysk.in/",
         icon: "fas fa-desktop",
+      },
+      {
+        label: "GitHub Repo",
+        href: "https://github.com/tanmay-kalbande/dashlint-mcp",
+        icon: "fab fa-github",
       },
     ],
   },
