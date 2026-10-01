@@ -744,3 +744,117 @@ html[data-theme="dark"] .lv5-shell {
   .lv5-name__first { font-size: 1.9rem; }
   .lv5-name__last  { font-size: 2.1rem; }
 }
+
+/* ── Featured Project (DashLint MCP) Highlights ── */
+.lv5-nav__link--featured {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #ff8a65 !important;
+  border-color: rgba(224, 90, 53, 0.35) !important;
+  background: rgba(224, 90, 53, 0.08);
+  font-weight: 700 !important;
+}
+
+.lv5-nav__link--featured:hover {
+  background: rgba(224, 90, 53, 0.18) !important;
+  border-color: #ff8a65 !important;
+  color: #ffffff !important;
+}
+
+.lv5-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ff7043;
+  box-shadow: 0 0 6px #ff7043;
+  animation: lv5-blink 1.8s ease-in-out infinite;
+}
+
+.lv5-project-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.85rem;
+  background: rgba(224, 90, 53, 0.08);
+  border: 1px solid rgba(224, 90, 53, 0.3);
+  border-radius: 999px;
+  font-family: var(--f-mono);
+  font-size: 0.72rem;
+  color: var(--ink);
+  text-decoration: none;
+  margin-bottom: clamp(0.9rem, 1.8vh, 1.3rem);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.22s ease;
+  max-width: 100%;
+}
+
+.lv5-project-pill:hover {
+  background: rgba(224, 90, 53, 0.16);
+  border-color: rgba(224, 90, 53, 0.65);
+  transform: translateY(-1px);
+}
+
+.lv5-project-pill__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #e05a35;
+  color: #ffffff;
+  padding: 2px 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+.lv5-project-pill__title {
+  font-weight: 700;
+  color: var(--ink);
+  flex-shrink: 0;
+}
+
+.lv5-project-pill__sep {
+  color: var(--ink-3);
+  flex-shrink: 0;
+}
+
+.lv5-project-pill__desc {
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lv5-project-pill__arrow {
+  color: #ff8a65;
+  font-weight: 700;
+  margin-left: 0.2rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.lv5-btn--highlight {
+  background: rgba(224, 90, 53, 0.12);
+  color: #ff8a65;
+  border-color: rgba(224, 90, 53, 0.45);
+}
+
+.lv5-btn--highlight:hover {
+  background: #e05a35;
+  color: #ffffff;
+  border-color: #e05a35;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(224, 90, 53, 0.3);
+}
+
+@media (max-width: 640px) {
+  .lv5-project-pill__desc,
+  .lv5-project-pill__sep {
+    display: none;
+  }
+}
+
