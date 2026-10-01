@@ -158,22 +158,6 @@ export default function LandingPage() {
           >
             {tab === "home" ? (
               <motion.div className="lv5-hero" variants={container} initial="hidden" animate="show">
-                {/* ── Featured Release Spotlight Pill ── */}
-                <motion.a
-                  variants={line}
-                  href="https://dashlint.tanmaysk.in/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="lv5-project-pill"
-                  title="Explore DashLint MCP live demo"
-                >
-                  <span className="lv5-project-pill__badge">LATEST LAUNCH</span>
-                  <span className="lv5-project-pill__title">DashLint MCP</span>
-                  <span className="lv5-project-pill__sep">·</span>
-                  <span className="lv5-project-pill__desc">AI Dashboard Orchestrator &amp; Blueprints</span>
-                  <span className="lv5-project-pill__arrow">Live Demo ↗</span>
-                </motion.a>
-
                 <motion.div variants={line} className="lv5-nameblock">
                   <h1 className="lv5-name">
                     <span className="lv5-name__first">TANMAY</span>
@@ -199,10 +183,7 @@ export default function LandingPage() {
 
                 <motion.div variants={line} className="lv5-cta">
                   <Link to="/portfolio" className="lv5-btn lv5-btn--fill">View Work</Link>
-                  <a href="https://dashlint.tanmaysk.in/" target="_blank" rel="noopener noreferrer" className="lv5-btn lv5-btn--highlight" title="Latest Project: DashLint MCP">
-                    ✦ DashLint MCP ↗
-                  </a>
-                  <button className="lv5-btn lv5-btn--ghost" onClick={() => switchTab("assistant")}>Ask AI ↗</button>
+                  <button className="lv5-btn lv5-btn--outline" onClick={() => switchTab("assistant")}>Ask AI ↗</button>
                   <a href={assetUrls.resumePdf} className="lv5-btn lv5-btn--ghost" target="_blank" rel="noopener noreferrer">Resume ↗</a>
                 </motion.div>
 

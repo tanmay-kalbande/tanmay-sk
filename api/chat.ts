@@ -46,7 +46,7 @@ interface ModelResult {
   streamStarted?: boolean;
 }
 
-type ModelProvider = "cerebras" | "gemini";
+type ModelProvider = "mistral" | "cerebras" | "gemini";
 type ModelRoute = {
   provider: ModelProvider;
   model: string;
@@ -69,10 +69,12 @@ type CerebrasPayload = {
   detail?: string;
 };
 
+const MISTRAL_MODEL = process.env.MISTRAL_MODEL ?? "zai-glm-5-3";
+const MISTRAL_CHAT_URL = "https://api.mistral.ai/v1/chat/completions";
 const CEREBRAS_MODEL = process.env.CEREBRAS_MODEL ?? "gpt-oss-120b";
 const GEMINI_MODEL_PRIMARY = process.env.GEMINI_MODEL ?? "gemma-3-27b-it";
 const GEMINI_MODEL_FALLBACK = process.env.GEMINI_MODEL_FALLBACK ?? "gemma-4-31b-it";
-const CHAT_CONFIG_VERSION = "cerebras-env-2026-05-30";
+const CHAT_CONFIG_VERSION = "mistral-zai-glm-5-3-2026-10-01";
 
 const CEREBRAS_CHAT_URL = "https://api.cerebras.ai/v1/chat/completions";
 
@@ -634,36 +636,50 @@ function openStreamResponse(response: VercelLikeResponse): void {
 }
 
 function buildModelQueue(
+  mistralApiKey: string | undefined,
   cerebrasApiKey: string | undefined,
   geminiApiKey: string | undefined,
 ): { queue: ModelRoute[]; skippedPrimaryNotice: string | null } {
   const queue: ModelRoute[] = [];
   let skippedPrimaryNotice: string | null = null;
 
-  if (CEREBRAS_MODEL && cerebrasApiKey) {
+  // Mistral zai-glm-5-3 is the default and only primary route
+  if (MISTRAL_MODEL && mistralApiKey) {
     queue.push({
-      provider: "cerebras",
-      model: CEREBRAS_MODEL,
-      apiKey: cerebrasApiKey,
-      displayName: "Cerebras",
+      provider: "mistral",
+      model: MISTRAL_MODEL,
+      apiKey: mistralApiKey,
+      displayName: "Mistral",
     });
-  } else if (CEREBRAS_MODEL) {
+  } else if (MISTRAL_MODEL) {
     skippedPrimaryNotice =
-      "Cerebras is not configured in this deployment, so this answer is coming from Gemma backup.";
+      "Mistral API key is not configured in this deployment; using backup response.";
   }
 
-  const geminiModels = [GEMINI_MODEL_PRIMARY, GEMINI_MODEL_FALLBACK].filter(
-    (model, index, models): model is string => Boolean(model) && models.indexOf(model) === index,
-  );
-
-  if (geminiApiKey) {
-    for (const model of geminiModels) {
+  // Only fall back to Cerebras / Gemini if Mistral is not configured
+  if (queue.length === 0) {
+    if (CEREBRAS_MODEL && cerebrasApiKey) {
       queue.push({
-        provider: "gemini",
-        model,
-        apiKey: geminiApiKey,
-        displayName: "Gemma",
+        provider: "cerebras",
+        model: CEREBRAS_MODEL,
+        apiKey: cerebrasApiKey,
+        displayName: "Cerebras",
       });
+    }
+
+    const geminiModels = [GEMINI_MODEL_PRIMARY, GEMINI_MODEL_FALLBACK].filter(
+      (model, index, models): model is string => Boolean(model) && models.indexOf(model) === index,
+    );
+
+    if (geminiApiKey) {
+      for (const model of geminiModels) {
+        queue.push({
+          provider: "gemini",
+          model,
+          apiKey: geminiApiKey,
+          displayName: "Gemma",
+        });
+      }
     }
   }
 
@@ -830,7 +846,72 @@ async function tryCerebrasModel(
   };
 }
 
+async function tryMistralModel(
+  apiKey: string,
+  model: string,
+  history: ConversationTurn[],
+  userMessage: string,
+): Promise<ModelResult> {
+  const body = buildCerebrasBody(history, model, false);
+
+  let response: Response;
+  try {
+    response = await fetch(MISTRAL_CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return { ok: false, text: "", status: 0, errorMsg: `Network error: ${String(error)}` };
+  }
+
+  let payload: CerebrasPayload;
+  try {
+    payload = (await response.json()) as CerebrasPayload;
+  } catch {
+    return { ok: false, text: "", status: response.status, errorMsg: "Failed to parse API response" };
+  }
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      text: "",
+      status: response.status,
+      errorMsg: typeof payload.error === "string" ? payload.error : payload.error?.message ?? `HTTP ${response.status}`,
+    };
+  }
+
+  const raw = extractCerebrasText(payload);
+  if (!raw) {
+    console.warn(`[chat] Mistral ${model} empty. finishReason=${payload.choices?.[0]?.finish_reason || "unknown"}`);
+
+    const fallback = buildFallbackReply(userMessage);
+    if (fallback) return { ok: true, text: fallback, status: response.status, errorMsg: "" };
+
+    return {
+      ok: false,
+      text: "",
+      status: 500,
+      errorMsg: "No content from model",
+    };
+  }
+
+  const cleaned = cleanText(raw);
+  return {
+    ok: true,
+    text: cleaned || raw.slice(0, 400).trim(),
+    status: response.status,
+    errorMsg: "",
+  };
+}
+
 async function tryModel(route: ModelRoute, history: ConversationTurn[], userMessage: string): Promise<ModelResult> {
+  if (route.provider === "mistral") {
+    return tryMistralModel(route.apiKey, route.model, history, userMessage);
+  }
   if (route.provider === "cerebras") {
     return tryCerebrasModel(route.apiKey, route.model, history, userMessage);
   }
@@ -1146,6 +1227,160 @@ async function tryCerebrasModelStream(
   return { ok: true, text: finalText, status: 200, errorMsg: "", streamStarted: true };
 }
 
+async function tryMistralModelStream(
+  apiKey: string,
+  model: string,
+  history: ConversationTurn[],
+  userMessage: string,
+  response: VercelLikeResponse,
+  notice?: string | null,
+): Promise<ModelResult> {
+  if (!response.write || !response.end) {
+    return { ok: false, text: "", status: 500, errorMsg: "Streaming not supported.", streamStarted: false };
+  }
+
+  const body = buildCerebrasBody(history, model, true);
+
+  let upstream: Response;
+  try {
+    upstream = await fetch(MISTRAL_CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    return {
+      ok: false,
+      text: "",
+      status: 0,
+      errorMsg: `Network error: ${String(error)}`,
+      streamStarted: false,
+    };
+  }
+
+  if (!upstream.ok) {
+    const rawError = await upstream.text();
+    return {
+      ok: false,
+      text: "",
+      status: upstream.status,
+      errorMsg: readApiError(rawError, upstream.status),
+      streamStarted: false,
+    };
+  }
+
+  if (!upstream.body) {
+    return { ok: false, text: "", status: upstream.status, errorMsg: "Empty stream body.", streamStarted: false };
+  }
+
+  openStreamResponse(response);
+  writeStreamEvent(response, "meta", { model, provider: "mistral", configVersion: CHAT_CONFIG_VERSION });
+  if (notice) writeStreamEvent(response, "notice", { notice, model, provider: "mistral" });
+
+  const reader = upstream.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  let rawText = "";
+  let visibleText = "";
+  let lastFinishReason = "";
+
+  const processBlock = (block: string) => {
+    const data = extractSseData(block);
+    if (!data || data === "[DONE]") return;
+
+    let payload: CerebrasPayload;
+    try {
+      payload = JSON.parse(data) as CerebrasPayload;
+    } catch {
+      return;
+    }
+
+    const choice = payload.choices?.[0];
+    if (choice?.finish_reason) lastFinishReason = choice.finish_reason;
+
+    const chunkText = choice?.delta?.content ?? "";
+    if (!chunkText) return;
+
+    rawText += chunkText;
+    const next = cleanText(rawText) || rawText.trim();
+    if (next && next !== visibleText) {
+      visibleText = next;
+      writeStreamEvent(response, "chunk", { text: visibleText, model, provider: "mistral" });
+    }
+  };
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      buffer += decoder.decode(value ?? new Uint8Array(), { stream: !done });
+
+      let boundary = findSseBoundary(buffer);
+      while (boundary) {
+        processBlock(buffer.slice(0, boundary.index));
+        buffer = buffer.slice(boundary.index + boundary.length);
+        boundary = findSseBoundary(buffer);
+      }
+
+      if (done) break;
+    }
+
+    if (buffer.trim()) processBlock(buffer);
+  } catch (error) {
+    writeStreamEvent(response, "error", { error: `Stream interrupted: ${String(error)}`, model });
+    response.end();
+    return {
+      ok: false,
+      text: visibleText,
+      status: 500,
+      errorMsg: String(error),
+      streamStarted: true,
+    };
+  }
+
+  if (!rawText) {
+    console.warn(`[chat] Mistral ${model} stream empty. finishReason=${lastFinishReason || "unknown"}`);
+
+    const recovered = await tryMistralModel(apiKey, model, history, userMessage);
+    if (recovered.ok && recovered.text) {
+      writeStreamEvent(response, "chunk", { text: recovered.text, model, provider: "mistral", recovered: "chat.completions" });
+      writeStreamEvent(response, "done", { text: recovered.text, model, provider: "mistral", recovered: "chat.completions" });
+      response.end();
+      return { ok: true, text: recovered.text, status: 200, errorMsg: "", streamStarted: true };
+    }
+
+    const fallback = buildFallbackReply(userMessage);
+    if (!fallback) {
+      const recoveryHint = lastFinishReason ? ` (finishReason: ${lastFinishReason})` : "";
+      writeStreamEvent(
+        response,
+        "error",
+        { error: `No content from model (finishReason=${lastFinishReason || "unknown"}${recoveryHint})`, model },
+      );
+      response.end();
+      return {
+        ok: false,
+        text: "",
+        status: 500,
+        errorMsg: `No content from model${recoveryHint}`,
+        streamStarted: true,
+      };
+    }
+
+    writeStreamEvent(response, "chunk", { text: fallback, model });
+    writeStreamEvent(response, "done", { text: fallback, model });
+    response.end();
+    return { ok: true, text: fallback, status: 200, errorMsg: "", streamStarted: true };
+  }
+
+  const finalText = cleanText(rawText) || visibleText.trim() || rawText.slice(0, 400).trim();
+  writeStreamEvent(response, "done", { text: finalText, model, provider: "mistral" });
+  response.end();
+  return { ok: true, text: finalText, status: 200, errorMsg: "", streamStarted: true };
+}
+
 async function tryModelStream(
   route: ModelRoute,
   history: ConversationTurn[],
@@ -1153,6 +1388,9 @@ async function tryModelStream(
   response: VercelLikeResponse,
   notice?: string | null,
 ): Promise<ModelResult> {
+  if (route.provider === "mistral") {
+    return tryMistralModelStream(route.apiKey, route.model, history, userMessage, response, notice);
+  }
   if (route.provider === "cerebras") {
     return tryCerebrasModelStream(route.apiKey, route.model, history, userMessage, response, notice);
   }
@@ -1167,6 +1405,12 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
     return;
   }
 
+  const mistralApiKey =
+    process.env.MISTRAL_API_KEY?.trim() ||
+    process.env.MISTRAL_KEY?.trim() ||
+    process.env.MISTRAL_TOKEN?.trim() ||
+    process.env.MISTRAL_API_TOKEN?.trim() ||
+    readEnv("MISTRAL_API_KEY", "MISTRAL_KEY", "MISTRAL_TOKEN", "MISTRAL_API_TOKEN");
   const cerebrasApiKey =
     process.env.CEREBRAS_API_KEY?.trim() ||
     process.env.CEREBRAS_KEY?.trim() ||
@@ -1178,11 +1422,11 @@ export default async function handler(req: VercelLikeRequest, res: VercelLikeRes
     process.env.GOOGLE_API_KEY?.trim() ||
     process.env.GOOGLE_GENERATIVE_AI_API_KEY?.trim() ||
     readEnv("GEMINI_API_KEY", "GOOGLE_API_KEY", "GOOGLE_GENERATIVE_AI_API_KEY");
-  const { queue, skippedPrimaryNotice } = buildModelQueue(cerebrasApiKey, geminiApiKey);
+  const { queue, skippedPrimaryNotice } = buildModelQueue(mistralApiKey, cerebrasApiKey, geminiApiKey);
 
   if (queue.length === 0) {
     res.setHeader("Content-Type", "application/json; charset=utf-8");
-    res.status(500).json({ error: "CEREBRAS_API_KEY or GEMINI_API_KEY is required." });
+    res.status(500).json({ error: "MISTRAL_API_KEY is required." });
     return;
   }
 
