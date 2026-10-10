@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, BookOpen, Layers, ShieldAlert, Sparkles, ExternalLink } from 'lucide-react';
+import { getCachedLibraryStats } from '../lib/learning';
 
 interface AboutModalProps {
   isOpen: boolean;
@@ -10,6 +11,8 @@ const PUSTAKAM_URL = 'https://pustakam.tanmaysk.in';
 
 export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+  const totalBooks = getCachedLibraryStats().totalBooks;
+  const volumesLabel = `${totalBooks > 0 ? totalBooks.toLocaleString() : '1,700'}+ VOLUMES`;
 
   return (
     <div className="lib-info-backdrop" onClick={onClose}>
@@ -19,7 +22,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
           <div className="lib-info-title-group">
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span className="lib-info-eyebrow">OPEN-ACCESS KNOWLEDGE REPOSITORY</span>
-              <span className="lib-info-badge">395+ VOLUMES</span>
+              <span className="lib-info-badge">{volumesLabel}</span>
             </div>
             <h2>About Free Library</h2>
           </div>
@@ -41,7 +44,7 @@ export const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               <h3>Mission & Architecture</h3>
             </div>
             <p>
-              <strong>Free Library</strong> is an open-access digital library containing over 395+ structured, chapter-by-chapter learning roadmaps across Computer Science, Artificial Intelligence, Quantitative Finance, Hardware Engineering, and Business Strategy.
+              <strong>Free Library</strong> is an open-access digital library containing over {totalBooks > 0 ? totalBooks.toLocaleString() : '1,700'}+ structured, chapter-by-chapter learning roadmaps across Computer Science, Artificial Intelligence, Quantitative Finance, Hardware Engineering, and Business Strategy.
             </p>
             <p>
               Every curriculum is designed as a self-contained textbook—featuring foundational principles, step-by-step technical modules, real-world case studies, architectural diagrams, and self-assessment quizzes.

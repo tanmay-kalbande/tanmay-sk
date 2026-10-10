@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import AssistantChat from "./AssistantChat";
 import { assetUrls, socialLinks, experiences, skills } from "../data/siteData";
+import { getCachedLibraryStats, fetchLiveLibraryStats, LibrarySummaryStats } from "../lib/learning";
 import { setFavicon } from "../utils/setFavicon";
 import "../styles/landing.css";
 
@@ -21,29 +22,50 @@ const line: import("framer-motion").Variants = {
 function useCounter(target: number, duration = 1400, decimals = 0) {
   const [value, setValue] = useState(0);
   const raf = useRef<number>(0);
-  const started = useRef(false);
+  const hasIntersected = useRef(false);
+  const currentValRef = useRef(0);
   const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+
+    const animateTo = (fromVal: number, toVal: number) => {
+      cancelAnimationFrame(raf.current);
+      const start = performance.now();
+      const tick = (now: number) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const nextVal = fromVal + (toVal - fromVal) * eased;
+        const formatted = parseFloat(nextVal.toFixed(decimals));
+        currentValRef.current = formatted;
+        setValue(formatted);
+        if (progress < 1) {
+          raf.current = requestAnimationFrame(tick);
+        } else {
+          const finalVal = parseFloat(toVal.toFixed(decimals));
+          setValue(finalVal);
+          currentValRef.current = finalVal;
+        }
+      };
+      raf.current = requestAnimationFrame(tick);
+    };
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !started.current) {
-          started.current = true;
-          const start = performance.now();
-          const tick = (now: number) => {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setValue(parseFloat((eased * target).toFixed(decimals)));
-            if (progress < 1) raf.current = requestAnimationFrame(tick);
-          };
-          raf.current = requestAnimationFrame(tick);
+        if (entry.isIntersecting && !hasIntersected.current) {
+          hasIntersected.current = true;
+          animateTo(currentValRef.current, target);
         }
       },
       { threshold: 0.3 },
     );
     observer.observe(el);
+
+    if (hasIntersected.current) {
+      animateTo(currentValRef.current, target);
+    }
+
     return () => {
       observer.disconnect();
       cancelAnimationFrame(raf.current);
@@ -60,7 +82,7 @@ function AnimStat({ target, suffix, label, decimals = 0 }: {
   return (
     <div className="lv5-stat">
       <span className="lv5-stat__n" ref={ref}>
-        {decimals ? value.toFixed(decimals) : Math.floor(value)}{suffix ?? ""}
+        {decimals ? value.toFixed(decimals) : Math.round(value)}{suffix ?? ""}
       </span>
       <span className="lv5-stat__l">{label}</span>
     </div>
@@ -73,6 +95,28 @@ export default function LandingPage() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [tab, setTab] = useState<Tab>("home");
   const [dir, setDir] = useState(1);
+  const [libStats, setLibStats] = useState<LibrarySummaryStats>(getCachedLibraryStats);
+
+  useEffect(() => {
+    let active = true;
+    fetchLiveLibraryStats().then((live) => {
+      if (active) {
+        setLibStats(live);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const corpusStat = useMemo(() => {
+    const totalWords = libStats.totalWords;
+    const inMillions = totalWords / 1_000_000;
+    const rounded = parseFloat(inMillions.toFixed(1));
+    const decimals = rounded % 1 === 0 ? 0 : 1;
+    return { target: rounded, decimals };
+  }, [libStats.totalWords]);
+
 
   useEffect(() => {
     setFavicon('/favicon.svg');
@@ -128,6 +172,14 @@ export default function LandingPage() {
             DASHLINT MCP ↗
           </a>
           <Link to="/portfolio" className="lv5-nav__link">WORK</Link>
+          <a
+            href="https://dashlint.tanmaysk.in/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="lv5-nav__link lv5-hide-sm"
+          >
+            DASHLINT MCP ↗
+          </a>
           <Link to="/dashboards" className="lv5-nav__link lv5-hide-sm">DASHBOARDS</Link>
           <Link to="/library" className="lv5-nav__link">LIBRARY</Link>
           <button
@@ -175,6 +227,18 @@ export default function LandingPage() {
                     <span className="lv5-open__dot" />
                     Open to Work
                   </span>
+                  <span className="lv5-sep lv5-hide-sm" aria-hidden="true">·</span>
+                  <a
+                    href="https://dashlint.tanmaysk.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="lv5-mcp-pill lv5-hide-sm"
+                    title="DashLint MCP Server — AI Dashboard Orchestration"
+                  >
+                    <span className="lv5-mcp-pill__pulse" />
+                    <span>MCP: DASHLINT</span>
+                    <span className="lv5-mcp-pill__arrow">↗</span>
+                  </a>
                 </motion.div>
 
                 <motion.p variants={line} className="lv5-tagline">
@@ -183,6 +247,14 @@ export default function LandingPage() {
 
                 <motion.div variants={line} className="lv5-cta">
                   <Link to="/portfolio" className="lv5-btn lv5-btn--fill">View Work</Link>
+                  <a
+                    href="https://dashlint.tanmaysk.in/"
+                    className="lv5-btn lv5-btn--accent"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <i className="fas fa-server" aria-hidden="true" /> DashLint MCP ↗
+                  </a>
                   <button className="lv5-btn lv5-btn--outline" onClick={() => switchTab("assistant")}>Ask AI ↗</button>
                   <a href={assetUrls.resumePdf} className="lv5-btn lv5-btn--ghost" target="_blank" rel="noopener noreferrer">Resume ↗</a>
                 </motion.div>
@@ -194,7 +266,7 @@ export default function LandingPage() {
                   <div className="lv5-vr" />
                   <AnimStat target={8} suffix="+" label="DASHBOARDS" />
                   <div className="lv5-vr" />
-                  <AnimStat target={23} suffix="M+" label="WORDS CORPUS" />
+                  <AnimStat target={corpusStat.target} suffix="M+" label="WORDS CORPUS" decimals={corpusStat.decimals} />
                   <div className="lv5-vr" />
                   <div className="lv5-stat lv5-stat--role">
                     <span className="lv5-stat__n">{role.company}</span>
@@ -217,6 +289,16 @@ export default function LandingPage() {
                       <i className={l.icon} />
                     </a>
                   ))}
+                  <a
+                    href="https://dashlint.tanmaysk.in/"
+                    className="lv5-social"
+                    aria-label="DashLint MCP Server"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    title="DashLint MCP — AI Dashboard Orchestration Server"
+                  >
+                    <i className="fas fa-server" />
+                  </a>
                   <a
                     href="https://huggingface.co/datasets/tanmay-kalbande/pustakam-edu-corpus"
                     className="lv5-social"
@@ -251,6 +333,16 @@ export default function LandingPage() {
                 <i className={l.icon} />
               </a>
             ))}
+            <a
+              href="https://dashlint.tanmaysk.in/"
+              className="lv5-footer__social"
+              aria-label="DashLint MCP Server"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="DashLint MCP Server"
+            >
+              <i className="fas fa-server" />
+            </a>
           </div>
         </div>
       </footer>
