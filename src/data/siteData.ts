@@ -202,7 +202,6 @@ export const personalProjects = [
   {
     id: "project_dashlint",
     label: "DashLint MCP",
-    badge: "Latest Release",
     icon: "fas fa-server",
     description:
       "Model Context Protocol (MCP) server that orchestrates dashboard creation for AI coding assistants, supplying detailed workflows, domain-agnostic blueprints, and interactive UI playbooks.",

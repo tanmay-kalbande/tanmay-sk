@@ -167,24 +167,6 @@ export default function PortfolioPage() {
                 onClick={() => setActiveProjectId(project.id)}
               >
                 {project.label}
-                {"badge" in project && project.badge ? (
-                  <span
-                    style={{
-                      marginLeft: "8px",
-                      fontSize: "0.62rem",
-                      padding: "2px 7px",
-                      borderRadius: "999px",
-                      background: "rgba(224, 90, 53, 0.2)",
-                      border: "1px solid rgba(224, 90, 53, 0.4)",
-                      color: "var(--accent, #e05a35)",
-                      fontWeight: 700,
-                      letterSpacing: "0.05em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {project.badge}
-                  </span>
-                ) : null}
               </button>
             ))}
           </div>

@@ -161,25 +161,7 @@ export default function LandingPage() {
           <span className="lv5-nav__descriptor">DATA &amp; AI</span>
         </div>
         <nav className="lv5-nav__links">
-          <a
-            href="https://dashlint.tanmaysk.in/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="lv5-nav__link lv5-nav__link--featured"
-            title="Latest Project: DashLint MCP"
-          >
-            <span className="lv5-live-dot" />
-            DASHLINT MCP ↗
-          </a>
           <Link to="/portfolio" className="lv5-nav__link">WORK</Link>
-          <a
-            href="https://dashlint.tanmaysk.in/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="lv5-nav__link lv5-hide-sm"
-          >
-            DASHLINT MCP ↗
-          </a>
           <Link to="/dashboards" className="lv5-nav__link lv5-hide-sm">DASHBOARDS</Link>
           <Link to="/library" className="lv5-nav__link">LIBRARY</Link>
           <button
@@ -227,18 +209,6 @@ export default function LandingPage() {
                     <span className="lv5-open__dot" />
                     Open to Work
                   </span>
-                  <span className="lv5-sep lv5-hide-sm" aria-hidden="true">·</span>
-                  <a
-                    href="https://dashlint.tanmaysk.in/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="lv5-mcp-pill lv5-hide-sm"
-                    title="DashLint MCP Server — AI Dashboard Orchestration"
-                  >
-                    <span className="lv5-mcp-pill__pulse" />
-                    <span>MCP: DASHLINT</span>
-                    <span className="lv5-mcp-pill__arrow">↗</span>
-                  </a>
                 </motion.div>
 
                 <motion.p variants={line} className="lv5-tagline">
@@ -247,14 +217,6 @@ export default function LandingPage() {
 
                 <motion.div variants={line} className="lv5-cta">
                   <Link to="/portfolio" className="lv5-btn lv5-btn--fill">View Work</Link>
-                  <a
-                    href="https://dashlint.tanmaysk.in/"
-                    className="lv5-btn lv5-btn--accent"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <i className="fas fa-server" aria-hidden="true" /> DashLint MCP ↗
-                  </a>
                   <button className="lv5-btn lv5-btn--outline" onClick={() => switchTab("assistant")}>Ask AI ↗</button>
                   <a href={assetUrls.resumePdf} className="lv5-btn lv5-btn--ghost" target="_blank" rel="noopener noreferrer">Resume ↗</a>
                 </motion.div>
@@ -290,16 +252,6 @@ export default function LandingPage() {
                     </a>
                   ))}
                   <a
-                    href="https://dashlint.tanmaysk.in/"
-                    className="lv5-social"
-                    aria-label="DashLint MCP Server"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    title="DashLint MCP — AI Dashboard Orchestration Server"
-                  >
-                    <i className="fas fa-server" />
-                  </a>
-                  <a
                     href="https://huggingface.co/datasets/tanmay-kalbande/pustakam-edu-corpus"
                     className="lv5-social"
                     aria-label="HuggingFace Dataset"
@@ -333,16 +285,6 @@ export default function LandingPage() {
                 <i className={l.icon} />
               </a>
             ))}
-            <a
-              href="https://dashlint.tanmaysk.in/"
-              className="lv5-footer__social"
-              aria-label="DashLint MCP Server"
-              target="_blank"
-              rel="noopener noreferrer"
-              title="DashLint MCP Server"
-            >
-              <i className="fas fa-server" />
-            </a>
           </div>
         </div>
       </footer>
