@@ -64,6 +64,7 @@ type ProjectEntry = {
 };
 
 const PROJECTS: ProjectEntry[] = [
+  { name: "DashLint MCP",                 desc: "Model Context Protocol (MCP) server that orchestrates dashboard creation for AI coding assistants, supplying detailed workflows and design instructions.", live: "https://dashlint.tanmaysk.in/", tags: ["dashlint","mcp","model context protocol","dashboard","server","orchestration","ai"] },
   { name: "Lead Quality Prediction",     desc: "End-to-end ML pipeline — **85% accuracy** — boosting sales conversion by 23%.", tags: ["rubixe","lead","scoring","prediction","ml","model"] },
   { name: "K-Means Customer Segmentation", desc: "K-Means segmentation from transaction data; drove marketing strategy decisions.", tags: ["rubixe","segmentation","clustering","k-means","customer"] },
   { name: "SQL Cohort Analysis",         desc: "SQL-driven cohort analysis revealing 35% higher 6-month retention for Q4 acquisitions.", tags: ["sql","cohort","retention","analysis"] },

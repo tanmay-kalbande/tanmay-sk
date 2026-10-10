@@ -157,7 +157,7 @@ export default function PortfolioPage() {
         </div>
 
         <div className="section">
-          <h2>Fun Projects</h2>
+          <h2>AI Systems &amp; Projects</h2>
           <div className="tabs">
             {personalProjects.map((project) => (
               <button

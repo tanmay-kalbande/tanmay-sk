@@ -2233,7 +2233,7 @@ html[data-theme="dark"] .portfolio-footer {
   color: #fff;
   background: #1a1a1a;
   border: 1px solid #1a1a1a;
-  border-radius: 4px;
+  border-radius: 2px;
   text-decoration: none;
   cursor: pointer;
   transition: background 0.18s, border-color 0.18s, transform 0.15s;
@@ -2253,8 +2253,8 @@ html[data-theme="dark"] .portfolio-shell .neo-button {
 }
 
 html[data-theme="dark"] .portfolio-shell .neo-button:hover {
-  background: #c8451a;
-  border-color: #c8451a;
+  background: #e05a35;
+  border-color: #e05a35;
 }
 
 .tabs {

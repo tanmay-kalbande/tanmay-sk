@@ -5,7 +5,7 @@ import { socialLinks } from '../data/siteData';
 import { setFavicon } from '../utils/setFavicon';
 import { AboutModal } from './AboutModal';
 import { LibraryHeroVisual } from './LibraryHeroVisual';
-import { getCompletedBooks, getReadingPosition, ReadingPosition } from '../lib/learning';
+import { getCompletedBooks, getReadingPosition, ReadingPosition, getCachedLibraryStats } from '../lib/learning';
 import '../styles/landing.css';
 import '../styles/library.css';
 
@@ -365,8 +365,8 @@ export default function LibraryPage() {
             <span>⌘ K</span>
           </div>
           <div className="lib-home-stats" aria-label="Library statistics">
-            <span><strong>{index?.total?.toLocaleString() || '700+'}</strong> free guides</span>
-            <span><strong>{index ? Math.round(index.books.reduce((total, book) => total + (book.readingTimeMins || 0), 0) / 60).toLocaleString() + '+' : '1,000+'}</strong> hours to explore</span>
+            <span><strong>{index?.total?.toLocaleString() || getCachedLibraryStats().totalBooks.toLocaleString() + '+'}</strong> free guides</span>
+            <span><strong>{index ? Math.round(index.books.reduce((total, book) => total + (book.readingTimeMins || 0), 0) / 60).toLocaleString() + '+' : getCachedLibraryStats().totalHours.toLocaleString() + '+'}</strong> hours to explore</span>
             <span><strong>0</strong> paywalls</span>
           </div>
         </div>
