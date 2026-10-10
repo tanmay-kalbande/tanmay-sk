@@ -469,7 +469,7 @@ html[data-theme="dark"] .lv5-mcp-pill:hover {
   font-weight: 700;
   color: var(--ink);
   letter-spacing: -0.01em;
-  line-height: 1;
+  line-height: 1.15;
   min-width: 2.5ch;
 }
 
@@ -811,14 +811,17 @@ html[data-theme="dark"] .lv5-mcp-pill:hover {
   font-size: clamp(0.72rem, 1vw, 0.85rem);
   letter-spacing: 0.04em;
   font-weight: 700;
+  line-height: 1.35;
+  padding-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 8rem;
+  max-width: 9rem;
 }
 
 .lv5-stat--role .lv5-stat__l {
   white-space: nowrap;
+  line-height: 1.2;
 }
 
 @media (max-width: 540px) {
