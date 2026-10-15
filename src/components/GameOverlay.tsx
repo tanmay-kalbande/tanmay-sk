@@ -49,7 +49,42 @@ export default function GameOverlay({ onClose }: Props) {
 
     const getEls = () => [...document.querySelectorAll(SEL)].filter((e) => shell.contains(e)) as HTMLElement[];
     let els = getEls();
-    const rectOf = (e: HTMLElement) => { if (TXT.test(e.className)) { rg.selectNodeContents(e); return rg.getBoundingClientRect(); } return e.getBoundingClientRect(); };
+    let textOffsets = new WeakMap<HTMLElement, number>();
+    const getTextTopOffset = (e: HTMLElement): number => {
+      if (textOffsets.has(e)) return textOffsets.get(e)!;
+      let delta = 0;
+      try {
+        const cs = getComputedStyle(e);
+        cx.font = `${cs.fontStyle || "normal"} ${cs.fontWeight || "400"} ${cs.fontSize || "16px"} ${cs.fontFamily || "sans-serif"}`;
+        const m = cx.measureText((e.textContent || "").trim());
+        if (m.actualBoundingBoxAscent) {
+          const fontAsc = m.fontBoundingBoxAscent || (parseFloat(cs.fontSize) * 0.95);
+          delta = Math.max(0, fontAsc - m.actualBoundingBoxAscent);
+        }
+      } catch {
+        delta = 0;
+      }
+      textOffsets.set(e, delta);
+      return delta;
+    };
+
+    const rectOf = (e: HTMLElement) => {
+      if (TXT.test(e.className)) {
+        rg.selectNodeContents(e);
+        const r = rg.getBoundingClientRect();
+        const delta = getTextTopOffset(e);
+        const top = r.top + delta;
+        return {
+          left: r.left,
+          right: r.right,
+          top,
+          bottom: r.bottom,
+          width: r.width,
+          height: Math.max(0, r.bottom - top)
+        };
+      }
+      return e.getBoundingClientRect();
+    };
     const labelOf = (e: HTMLElement) => (e.getAttribute("aria-label") || e.textContent || "").replace(/\s+/g, " ").trim().toUpperCase().slice(0, 30);
 
     function init() {
@@ -63,6 +98,7 @@ export default function GameOverlay({ onClose }: Props) {
       for (let n = 0; n < Math.min(4, a.length); n++) { const o = a.splice((Math.random() * a.length) | 0, 1)[0]; bugs.push({ i: o.i, f: Math.random(), d: 1, alive: 1, rt: 0, x: 0, y: 0, l: BUG_LABELS[n] }); }
     }
     function rs() {
+      textOffsets = new WeakMap<HTMLElement, number>();
       const d = devicePixelRatio || 1; W = innerWidth; H = innerHeight;
       cv.width = W * d; cv.height = H * d; cx.setTransform(d, 0, 0, d, 0, 0);
       init();
@@ -263,9 +299,10 @@ export default function GameOverlay({ onClose }: Props) {
     }
 
     document.fonts?.load('8px "Press Start 2P"');
+    document.fonts?.ready?.then(() => { textOffsets = new WeakMap<HTMLElement, number>(); init(); });
     rs(); mkBugs(); hud(); frame();
     addEventListener("resize", rs);
-    rzT = setTimeout(() => { init(); mkBugs(); }, 900); // after the page's intro animation settles
+    rzT = setTimeout(() => { textOffsets = new WeakMap<HTMLElement, number>(); init(); mkBugs(); }, 900); // after the page's intro animation settles
 
     return () => {
       cancelAnimationFrame(raf); clearTimeout(tt); clearTimeout(rzT); clearTimeout(winT); clearTimeout(depT);
