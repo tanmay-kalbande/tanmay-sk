@@ -145,6 +145,7 @@ html[data-theme="dark"] .lv5-shell {
 
 .lv5-nav__brand { display: flex; align-items: center; gap: 0.6rem; }
 .lv5-nav__initials { font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; color: var(--ink); }
+.lv5-nav__easter { background: none; border: 0; padding: 0; margin: 0; font: inherit; color: inherit; cursor: pointer; letter-spacing: inherit; }
 .lv5-nav__sep { color: var(--ink-3); }
 .lv5-nav__descriptor { font-size: 0.6rem; font-weight: 400; letter-spacing: 0.22em; color: var(--ink-2); }
 

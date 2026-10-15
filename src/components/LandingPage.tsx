@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import AssistantChat from "./AssistantChat";
@@ -6,6 +6,8 @@ import { assetUrls, socialLinks, experiences, skills } from "../data/siteData";
 import { getCachedLibraryStats, fetchLiveLibraryStats, LibrarySummaryStats } from "../lib/learning";
 import { setFavicon } from "../utils/setFavicon";
 import "../styles/landing.css";
+
+const GameOverlay = lazy(() => import("./GameOverlay"));
 
 type Tab = "home" | "assistant";
 
@@ -96,6 +98,7 @@ export default function LandingPage() {
   const [tab, setTab] = useState<Tab>("home");
   const [dir, setDir] = useState(1);
   const [libStats, setLibStats] = useState<LibrarySummaryStats>(getCachedLibraryStats);
+  const [gameOn, setGameOn] = useState(false);
 
   useEffect(() => {
     let active = true;
@@ -156,7 +159,7 @@ export default function LandingPage() {
       </div>
       <header className="lv5-nav">
         <div className="lv5-nav__brand">
-          <span className="lv5-nav__initials">TK</span>
+          <button type="button" className="lv5-nav__initials lv5-nav__easter" onClick={() => setGameOn(g => !g)} aria-label="Toggle game mode">TK</button>
           <span className="lv5-nav__sep" aria-hidden="true">·</span>
           <span className="lv5-nav__descriptor">DATA &amp; AI</span>
         </div>
@@ -328,6 +331,11 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+      {tab === "home" && gameOn && (
+        <Suspense fallback={null}>
+          <GameOverlay onClose={() => setGameOn(false)} />
+        </Suspense>
+      )}
     </div>
   );
 }
