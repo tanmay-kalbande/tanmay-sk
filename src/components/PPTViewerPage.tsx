@@ -90,11 +90,6 @@ export default function PPTViewerPage() {
 
   return (
     <div className="lv5-shell">
-      <div className="lp-bg-wrapper">
-        <div className="lp-grain" />
-        <div className="lp-orb lp-orb-a" />
-        <div className="lp-orb lp-orb-b" />
-      </div>
       <header className="lv5-nav">
         <div className="lv5-nav__brand">
           <Link

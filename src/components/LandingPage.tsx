@@ -315,7 +315,7 @@ export default function LandingPage() {
                         aria-label="View Presentations"
                         title="Presentations"
                       >
-                        <i className="fas fa-file-powerpoint" />
+                        <i className="fas fa-chalkboard" />
                       </button>
                       <AnimatePresence>
                         {pptOpen && (
