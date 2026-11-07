@@ -14,61 +14,40 @@ const SEL =
 const TXT = /lv5-name__|lv5-tagline|lv5-identity/;
 
 /* ══════════════════════════════════════════════════════════════════════
-   BEAUTIFUL CHARACTER SPRITES — 16×18 pixel "Data Scientist" avatar
-   Much more detailed and readable at any scale.
-   Color key: o=skin, b=hair, e=eye, w=white, f=face-shade, h=hoodie,
-              a=accent(hoodie-stripe), p=pants, s=shoe, t=tie/detail,
-              d=dark-shade, c=cheek-blush, n=nose
+   CHARACTER SPRITES — 12-wide pixel art, every row verified symmetric
+   Color key: b=hair, o=skin, w=eye-white, e=eye-pupil, m=mouth,
+              h=hoodie, a=accent-stripe, p=pants, s=shoes
    ══════════════════════════════════════════════════════════════════════ */
 const HEAD = [
-  "....bbbbbbbb....",
-  "...bbbbbbbbbb...",
-  "..bbbbbbbbbbbb..",
-  "..boooooooooob..",
-  "..oooooooooooo..",
-  "..ooewooooweooo.",
-  "..oooooonoooooo.",
-  "..ocooommooocooo",
-  "..ooooooooooooo.",
-  "...oooooooooo...",
+  "...bbbbbb...",  // hair crown
+  "..bbbbbbbb..",  // hair full
+  "..boooooob..",  // face + hair frame
+  "..oweooewo..",  // eyes: w=white e=pupil
+  "..oooooooo..",  // midface
+  "...oommoo...",  // mouth
+  "....oooo....",  // chin
 ];
-const BODY_IDLE = [
-  "......hhhh......",
-  "....hhhhhhhh....",
-  "...hhahhhhahh...",
-  "..fhhhhhhhhhhhf.",
-  "..f.hhhhhhhhh.f.",
-  "....hhhhhhhhh...",
-  "....hhtttthh....",
-  "....hhhhhhhh....",
-  ".....hhhhhh.....",
+const BODY = [
+  "....hhhh....",  // neck
+  "..hhhhhhhh..",  // chest
+  "..hhhaahhh..",  // accent stripe
+  "..hhhhhhhh..",  // torso
+  "...hhhhhh...",  // waist
 ];
-const BODY_RUN = [
-  "......hhhh......",
-  "....hhhhhhhh....",
-  "..fhhahhhhahh...",
-  "...hhhhhhhhhhhf.",
-  "....hhhhhhhhh.f.",
-  "....hhhhhhhhh...",
-  "....hhtttthh....",
-  "....hhhhhhhh....",
-  ".....hhhhhh.....",
-];
-const LEGS_IDLE  = [".....pp..pp.....", ".....pp..pp.....", ".....ss..ss....."];
-const LEGS_RUN_A = ["....pp....pp....", "....pp....pp....", "....ss.....ss..."];
-const LEGS_RUN_B = ["......pp..pp....", ".....pp....pp...", ".....ss....ss..."];
-const LEGS_JUMP  = ["....pp....pp....", "...pp......pp...", "...ss......ss..."];
+const LEGS_IDLE  = ["...pp..pp...", "...pp..pp...", "...ss..ss..."];
+const LEGS_RUN_A = ["..pp....pp..", "..pp....pp..", "..ss....ss.."];
+const LEGS_RUN_B = ["....pppp....", "....pppp....", "....ssss...."];
+const LEGS_JUMP  = ["..pp....pp..", "...pp..pp...", "...ss..ss..."];
 
-/* Bug sprite — cuter with antennae */
+/* Bug — 10 wide, rendered at fixed scale=4 */
 const BUG = [
-  ".d.d....d.d.",
-  "..d......d..",
-  "...gggggg...",
-  "..gggggggg..",
-  "..gwewgwewg.",
-  "..gggggggg..",
-  "...gggggg...",
-  "..d.d..d.d..",
+  ".d......d.",  // antennae
+  "..d....d..",
+  "..gggggg..",  // body
+  ".geggggeg.",  // dot eyes
+  ".gggggggg.",
+  "..gggggg..",
+  ".d.d..d.d.",  // legs
 ];
 const BUG_LABELS = ["NaN", "NULL", "DUP", "ERR"];
 
@@ -183,31 +162,26 @@ export default function GameOverlay({ onClose }: Props) {
     let tt: any, rzT: any, winT: any, depT: any;
     let ACC = "#e8542a", INK = "#f0ede8";
     let accR = 0.91, accG = 0.33, accB = 0.16;
-    // Color palette for sprites
+    // Color palette — vivid, clear at any scale
     const C: any = {
-      o: "#ffcc99",  // skin
-      b: "#4a3728",  // hair (dark brown)
-      e: "#1a1a2e",  // eyes
+      b: "#3e2723",  // hair (rich dark brown)
+      o: "#ffcc80",  // skin (warm peach)
       w: "#ffffff",  // eye whites
-      f: "#f0ede8",  // skin highlight / hands
-      h: "#3d5a80",  // hoodie (cool blue)
-      a: "#e05a35",  // accent stripe
-      p: "#2b2d42",  // pants (dark)
-      s: "#f0ede8",  // shoes (white sneakers)
-      t: "#e05a35",  // tie/logo detail
-      g: "#2f9e44",  // bug green
-      k: "#145a24",  // bug dark green
-      d: "#333",     // dark details
-      c: "#ff9999",  // cheek blush
-      m: "#e8c099",  // mouth area
-      n: "#d4a574",  // nose shade
+      e: "#1a1a2e",  // eye pupils (near-black)
+      m: "#c97b5a",  // mouth (warm terracotta)
+      h: "#4a90d9",  // hoodie (vivid blue — stands out on any bg)
+      a: "#e05a35",  // accent stripe (theme accent)
+      p: "#2d3142",  // pants (dark navy)
+      s: "#f5f5f0",  // shoes (clean white)
+      g: "#2f9e44",  // bug body green
+      d: "#333333",  // dark accents (antennae, legs)
     };
     const OUT: any = new Proxy({}, { get: () => "#0b0b0d" });
     const readTheme = () => {
       const cs = getComputedStyle(shell);
       ACC = cs.getPropertyValue("--accent").trim() || ACC;
       INK = cs.getPropertyValue("--ink").trim() || INK;
-      C.a = ACC; C.t = ACC;
+      C.a = ACC;
       const tmp = document.createElement("div");
       tmp.style.color = ACC; document.body.appendChild(tmp);
       const rgb = getComputedStyle(tmp).color.match(/\d+/g);
@@ -222,10 +196,10 @@ export default function GameOverlay({ onClose }: Props) {
     const k: any = { l: 0, r: 0, j: 0 };
     const got = new Set<number>(), ach = new Set<string>(), ps: any[] = [], ft: any[] = [], NC: number[] = [];
     let SCALE = getScale();
-    // Character is 16 wide × 22 tall in pixels, scaled by SCALE
-    const charW = () => 16 * SCALE;
-    const charH = () => 22 * SCALE;
-    const BW = 48, BH = 32;
+    // Character is 12 wide × 15 tall in pixels, scaled by SCALE
+    const charW = () => 12 * SCALE;
+    const charH = () => 15 * SCALE;
+    const BW = 40, BH = 28;
     const P: any = { x: 80, y: 0, vx: 0, vy: 0, on: 0, f: 1, j: 0, t: 0, co: 0, jb: 0, inv: 0, sq: 0, hp: 3, mag: 0, trail: [] as { x: number; y: number; a: number }[] };
 
     /* ── Element helpers ────────────────────────────────────────── */
@@ -577,7 +551,7 @@ export default function GameOverlay({ onClose }: Props) {
 
         // Build sprite
         const isRun = Math.abs(P.vx) > 0.8;
-        const body = isRun ? BODY_RUN : BODY_IDLE;
+        const body = BODY;
         const legs = P.on ? (isRun ? ((P.t | 0) % 2 ? LEGS_RUN_A : LEGS_RUN_B) : LEGS_IDLE) : LEGS_JUMP;
         const full = HEAD.concat(body, legs);
 
