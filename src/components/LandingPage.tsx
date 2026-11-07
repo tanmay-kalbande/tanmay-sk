@@ -310,6 +310,7 @@ export default function LandingPage() {
                   {presentations.length > 0 && (
                     <div className="lv5-ppt-wrap" ref={pptRef}>
                       <button
+                        type="button"
                         className={`lv5-social lv5-ppt-trigger${pptOpen ? " is-active" : ""}`}
                         onClick={() => setPptOpen((o) => !o)}
                         aria-label="View Presentations"
