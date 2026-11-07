@@ -2,7 +2,7 @@ import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import AssistantChat from "./AssistantChat";
-import { assetUrls, socialLinks, experiences, skills } from "../data/siteData";
+import { assetUrls, socialLinks, experiences, skills, presentations } from "../data/siteData";
 import { getCachedLibraryStats, fetchLiveLibraryStats, LibrarySummaryStats } from "../lib/learning";
 import { setFavicon } from "../utils/setFavicon";
 import "../styles/landing.css";
@@ -99,6 +99,8 @@ export default function LandingPage() {
   const [dir, setDir] = useState(1);
   const [libStats, setLibStats] = useState<LibrarySummaryStats>(getCachedLibraryStats);
   const [gameOn, setGameOn] = useState(false);
+  const [pptOpen, setPptOpen] = useState(false);
+  const pptRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let active = true;
@@ -140,6 +142,17 @@ export default function LandingPage() {
     document.documentElement.setAttribute("data-theme", theme);
     window.localStorage.setItem("theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    if (!pptOpen) return;
+    const onClickOutside = (e: MouseEvent) => {
+      if (pptRef.current && !pptRef.current.contains(e.target as Node)) {
+        setPptOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onClickOutside);
+    return () => document.removeEventListener("mousedown", onClickOutside);
+  }, [pptOpen]);
 
   const switchTab = (t: Tab) => {
     if (t === tab) return;
@@ -294,6 +307,52 @@ export default function LandingPage() {
                   >
                     🤗
                   </a>
+                  {presentations.length > 0 && (
+                    <div className="lv5-ppt-wrap" ref={pptRef}>
+                      <button
+                        className={`lv5-social lv5-ppt-trigger${pptOpen ? " is-active" : ""}`}
+                        onClick={() => setPptOpen((o) => !o)}
+                        aria-label="View Presentations"
+                        title="Presentations"
+                      >
+                        <i className="fas fa-file-powerpoint" />
+                      </button>
+                      <AnimatePresence>
+                        {pptOpen && (
+                          <motion.div
+                            className="lv5-ppt-popover"
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 8 }}
+                            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                          >
+                            <div className="lv5-ppt-popover__header">
+                              <span className="lv5-ppt-popover__title">PRESENTATIONS</span>
+                              <span className="lv5-ppt-popover__count">{presentations.length}</span>
+                            </div>
+                            {presentations.map((p) => (
+                              <Link
+                                key={p.slug}
+                                to={`/ppt/${p.slug}`}
+                                className="lv5-ppt-popover__card"
+                                onClick={() => setPptOpen(false)}
+                              >
+                                <div className="lv5-ppt-popover__card-icon">
+                                  <i className={p.icon} />
+                                </div>
+                                <div className="lv5-ppt-popover__info">
+                                  <span className="lv5-ppt-popover__name">{p.title}</span>
+                                  <span className="lv5-ppt-popover__desc">{p.subtitle}</span>
+                                </div>
+                                <span className="lv5-ppt-popover__arrow-icon">→</span>
+                              </Link>
+                            ))}
+                            <div className="lv5-ppt-popover__caret" />
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )}
                 </motion.div>
               </motion.div>
             ) : (

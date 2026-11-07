@@ -446,6 +446,18 @@ export const education = {
 } as const;
 
 
+export const presentations = [
+  {
+    slug: "dashlint-mcp-deck",
+    title: "DashLint MCP",
+    subtitle: "AI Dashboard Orchestration",
+    description:
+      "Deep-dive into DashLint — the Model Context Protocol server for AI-powered dashboard creation.",
+    file: "/assets/DashLint-MCP-Deck.pptx",
+    icon: "fas fa-server",
+  },
+] as const;
+
 export const dashboardProjects = [
   {
     title: "Power BI Dashboard: Data Wave Metrics in India",

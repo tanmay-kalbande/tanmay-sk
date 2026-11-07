@@ -8,6 +8,7 @@ import AssistantPage from "./components/AssistantPage";
 import MaintenancePage from "./components/MaintenancePage";
 import LibraryPage from "./components/LibraryPage";
 import BookReaderPage from "./components/BookReaderPage";
+import PPTViewerPage from "./components/PPTViewerPage";
 
 // HIDE PORTFOLIO FOR A FEW DAYS
 const MAINTENANCE_MODE = false;
@@ -39,6 +40,8 @@ export default function App() {
         <Route path="/library" element={<LibraryPage />} />
         <Route path="/library/category/:category" element={<LibraryPage />} />
         <Route path="/library/book/:slug" element={<BookReaderPage />} />
+        {/* ── Presentation Viewer ── */}
+        <Route path="/ppt/:slug" element={<PPTViewerPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Analytics />
